@@ -1,4 +1,4 @@
-package com.example.do_itapplication.activities
+package team.doit.do_it
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle

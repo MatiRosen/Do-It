@@ -1,4 +1,4 @@
-package com.example.do_itapplication
+package team.doit.do_it
 
 import org.junit.Test
 

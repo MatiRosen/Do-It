@@ -5,11 +5,11 @@ plugins {
 }
 
 android {
-    namespace = "com.example.recyclerviewapp"
+    namespace = "team.doit.do_it"
     compileSdk = 33
 
     defaultConfig {
-        applicationId = "com.example.recyclerviewapp"
+        applicationId = "team.doit.do_it"
         minSdk = 26
         targetSdk = 33
         versionCode = 1
