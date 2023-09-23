@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="main_title_size">30sp</dimen>
+    <dimen name="secondary_title_size">24sp</dimen>
+    <dimen name="description_size">20sp</dimen>
+    <dimen name="button_size">18sp</dimen>
+    <dimen name="input_size">18sp</dimen>
+    <dimen name="paragraph_size">16sp</dimen>
+
+    <dimen name="bottom_menu">0.9</dimen> <!-- 90% (Usar guideline) -->
+    <dimen name="top_padding">0.05</dimen> <!-- 10% (Usar guideline) -->
+    <dimen name="left_padding">0.05</dimen> <!-- 5% (Usar guideline) -->
+    <dimen name="right_padding">0.95</dimen> <!-- 95% (Usar guideline) -->
+</resources>

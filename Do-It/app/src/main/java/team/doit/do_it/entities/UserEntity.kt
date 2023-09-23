@@ -3,52 +3,52 @@ package team.doit.do_it.entities
 import android.os.Parcel
 import android.os.Parcelable
 
-class UserEntity(name: String?, surname: String?, mail: String?, documentNumber: Int?,
-                 birthdayDate: String?, gender: String?, telephoneNumber: Int?, direction: String?,
-                 password: String?) : Parcelable {
+class UserEntity(firstName: String, surname: String, email: String, documentNumber: String,
+                 birthDate: String, gender: String, telephoneNumber: String, address: String,
+                 password: String) : Parcelable {
 
-    var name: String = ""
-    var surname : String = ""
-    var mail : String = ""
-    var documentNumber : Int = 0
-    var birthdayDate : String = ""
-    var gender : String = ""
-    var telephoneNumber : Int = 0
-    var direction : String = ""
-    var password : String = ""
+    private var firstName: String
+    private var surname : String
+    private var email : String
+    private var documentNumber : String
+    private var birthDate : String // TODO: Change to Date data type
+    private var gender : String
+    private var telephoneNumber : String
+    private var address : String // TODO: Change to Address data type
+    private var password : String
 
     constructor(parcel: Parcel) : this(
-        parcel.readString(),
-        parcel.readString(),
-        parcel.readString(),
-        parcel.readInt(),
-        parcel.readString(),
-        parcel.readString(),
-        parcel.readInt(),
-        parcel.readString(),
-        parcel.readString()
+        parcel.readString().toString(),
+        parcel.readString().toString(),
+        parcel.readString().toString(),
+        parcel.readString().toString(),
+        parcel.readString().toString(),
+        parcel.readString().toString(),
+        parcel.readString().toString(),
+        parcel.readString().toString(),
+        parcel.readString().toString()
     )
 
     init {
-        this.name = name!!
-        this.surname = surname!!
-        this.mail = mail!!
-        this.documentNumber = documentNumber!!
-        this.birthdayDate = birthdayDate!!
-        this.gender = gender!!
-        this.telephoneNumber = telephoneNumber!!
-        this.direction = direction!!
-        this.password = password!!
+        this.firstName = firstName
+        this.surname = surname
+        this.email = email
+        this.documentNumber = documentNumber
+        this.birthDate = birthDate
+        this.gender = gender
+        this.telephoneNumber = telephoneNumber
+        this.address = address
+        this.password = password
     }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
-        parcel.writeString(name)
+        parcel.writeString(firstName)
         parcel.writeString(surname)
-        parcel.writeString(mail)
-        parcel.writeInt(documentNumber)
+        parcel.writeString(email)
+        parcel.writeString(documentNumber)
         parcel.writeString(gender)
-        parcel.writeInt(telephoneNumber)
-        parcel.writeString(direction)
+        parcel.writeString(telephoneNumber)
+        parcel.writeString(address)
         parcel.writeString(password)
     }
 
