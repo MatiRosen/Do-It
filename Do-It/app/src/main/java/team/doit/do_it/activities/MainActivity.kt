@@ -1,7 +1,8 @@
-package team.doit.do_it
+package team.doit.do_it.activities
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import team.doit.do_it.R
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

@@ -1,5 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
+    <!--Blanco y negro-->
+    <color name="black">#262626</color>
+    <color name="white">#FEFEFE</color>
+
+    <!--Grises-->
+    <color name="dark_gray">#373737</color>
+    <color name="medium_gray">#7f7f7d</color>
+    <color name="light_gray">#DBDBDB</color>
+
+    <!--Pantone-->
+    <color name="pantone">#BB2649</color>
+    <color name="pantone_oscuro">#78182E</color>
+
+    <!--Contraste-->
+    <color name="contraste">#2BA99D</color>
+    <color name="contraste_oscuro">#4C9685</color>
+
 </resources>
