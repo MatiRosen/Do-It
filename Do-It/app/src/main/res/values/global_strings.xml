@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Do-It</string>
+    <string name="home">Inicio</string>
+    <string name="profile">Perfil</string>
+</resources>

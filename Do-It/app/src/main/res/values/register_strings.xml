@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="register">Registro</string>
+    <string name="name">Nombre</string>
+    <string name="lastname">Apellido</string>
+    <string name="email">Correo electrónico</string>
+    <string name="id_number">Número de documento</string>
+    <string name="gender">Género</string>
+    <string name="phone">Teléfono</string>
+    <string name="birth_date">Fecha de nacimiento</string>
+    <string name="address">Dirección</string>
+    <string name="password">Contraseña</string>
+    <string name="confirm_password">Confirmar contraseña</string>
+    <string name="register_button">Registrarse</string>
+</resources>
