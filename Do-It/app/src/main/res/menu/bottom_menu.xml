@@ -1,20 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android">
+
     <item
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:title="Item" />
+        android:id="@+id/home_item"
+        android:icon="@drawable/icon_home"
+        android:checked="false"
+        android:title="@string/home" />
     <item
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:title="Item" />
+        android:id="@+id/user_item"
+        android:icon="@drawable/icon_user"
+        android:title="@string/profile" />
     <item
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:title="Item" />
+        android:id="@+id/chat_item"
+        android:icon="@drawable/icon_chat"
+        android:title="@string/chat" />
     <item
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:title="Item" />
+        android:id="@+id/menu_item"
+        android:icon="@drawable/icon_menu"
+        android:title="@string/menu" />
 </menu>

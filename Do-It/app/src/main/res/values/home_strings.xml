@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="login">Iniciar sesión</string>
-    <string name="email">Correo electrónico</string>
-    <string name="password">Contraseña</string>
-    <string name="login_button">Iniciar sesión</string>
+    <string name="home_login">Iniciar sesión</string>
+    <string name="home_email">Correo electrónico</string>
+    <string name="home_password">Contraseña</string>
+    <string name="home_login_button">Iniciar sesión</string>
 </resources>
