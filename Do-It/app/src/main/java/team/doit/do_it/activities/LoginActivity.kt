@@ -15,7 +15,7 @@ class LoginActivity : AppCompatActivity() {
     override fun onStart() {
         super.onStart()
 
-        val loginButton = findViewById<Button>(R.id.btnLogin)
+        val loginButton = findViewById<Button>(R.id.bnLogin)
 
         loginButton.setOnClickListener {
             val intent = Intent(this, MainActivity::class.java)

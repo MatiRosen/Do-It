@@ -4,4 +4,6 @@
     <string name="home_email">Correo electrónico</string>
     <string name="home_password">Contraseña</string>
     <string name="home_login_button">Iniciar sesión</string>
+    <string name="home_register">¿No tienes cuenta?</string>
+    <string name="home_register_button">Registrarse</string>
 </resources>
