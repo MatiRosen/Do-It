@@ -3,16 +3,15 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/home_item"
+        android:id="@+id/home_creator"
         android:icon="@drawable/icon_home"
-        android:checked="false"
         android:title="@string/home" />
     <item
-        android:id="@+id/user_item"
+        android:id="@+id/profile"
         android:icon="@drawable/icon_user"
         android:title="@string/profile" />
     <item
-        android:id="@+id/chat_item"
+        android:id="@+id/chat"
         android:icon="@drawable/icon_chat"
         android:title="@string/chat" />
     <item
