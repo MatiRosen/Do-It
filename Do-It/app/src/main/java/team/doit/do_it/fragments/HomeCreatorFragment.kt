@@ -44,7 +44,7 @@ class HomeCreatorFragment : Fragment(), OnViewItemClickedListener {
     }
 
     private fun addProjects() {
-        projectList.add(ProjectEntity("Proyecto 1", "Descripción 1", "Categoría 1", "", 10000.0, 99000.0))
+        projectList.add(ProjectEntity("Proyecto 1", "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation", "Categoría 1", "", 10000.0, 99000.0))
         projectList.add(ProjectEntity("Proyecto 2", "Descripción 2", "Categoría 2", "", 5000.0, 66000.0))
         projectList.add(ProjectEntity("Proyecto 3", "Descripción 3", "Categoría 3", "", 20000.0, 99000.0))
         projectList.add(ProjectEntity("Proyecto 4", "Descripción 4", "Categoría 4", "", 15000.0, 350000.0))

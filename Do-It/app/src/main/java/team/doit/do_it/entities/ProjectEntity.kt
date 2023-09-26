@@ -79,4 +79,8 @@ class ProjectEntity (title: String, description: String, category: String, image
     fun getTotalBudget(): Double {
         return this.totalBudget
     }
+
+    override fun toString(): String {
+        return "ProjectEntity(title='$title', description='$description', category='$category', image='$image', minBudget=$minBudget, totalBudget=$totalBudget)"
+    }
 }

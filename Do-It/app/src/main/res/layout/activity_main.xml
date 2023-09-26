@@ -10,17 +10,15 @@
         android:id="@+id/bottom_navigation_view"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:background="@color/light_gray"
-        app:menu="@menu/bottom_menu"
+        android:background="@drawable/style_bottom_nav"
+        app:itemIconSize="@dimen/icon_size"
+        app:itemIconTint="@drawable/style_navigation_view_colored"
+        app:labelVisibilityMode="unlabeled"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/bot_guideline"
-        app:labelVisibilityMode="unlabeled"
-        app:itemIconTint="@drawable/style_navigation_view_colored"
-        app:itemIconSize="@dimen/icon_size"
-        app:itemActiveIndicatorStyle="@android:color/transparent"
-        app:layout_constraintVertical_bias="1.0" />
+        app:menu="@menu/bottom_menu" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/bot_guideline"
@@ -60,7 +58,6 @@
         app:layout_constraintEnd_toStartOf="@+id/right_guideline"
         app:layout_constraintStart_toStartOf="@+id/left_guideline"
         app:layout_constraintTop_toTopOf="@+id/top_guideline"
-        app:layout_constraintVertical_bias="0.391"
         app:navGraph="@navigation/main_nav" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

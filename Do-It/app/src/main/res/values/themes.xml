@@ -4,6 +4,7 @@
         <!-- Customize your light theme here. -->
         <item name="colorPrimary">@color/pantone</item>
         <item name="colorSecondary">@color/dark_pantone</item>
+        <item name="android:statusBarColor">@color/pantone</item>
     </style>
 
     <style name="Theme.DoIt" parent="Base.Theme.DoIt" />
