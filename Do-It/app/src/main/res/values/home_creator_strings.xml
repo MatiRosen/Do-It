@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="home_creator_new_project">Crear nuevo proyecto</string>
+    <string name="home_creator_title">Mis proyectos</string>
+</resources>

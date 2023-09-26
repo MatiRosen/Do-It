@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_nav"
-    app:startDestination="@id/projectCreationFragment">
+    app:startDestination="@id/home_creator">
 
     <fragment
         android:id="@+id/example_fragment"
@@ -17,7 +17,10 @@
         tools:layout="@layout/fragment_home_creator" >
         <action
             android:id="@+id/action_home_creator_to_projectCreationFragment"
-            app:destination="@id/projectCreationFragment" />
+            app:destination="@id/project_creation" />
+        <action
+            android:id="@+id/action_home_creator_to_project_detail"
+            app:destination="@id/project_detail" />
     </fragment>
     <fragment
         android:id="@+id/chat"
@@ -29,14 +32,18 @@
         android:name="team.doit.do_it.fragments.ProfileFragment"
         android:label="ProfileFragment" />
     <fragment
-        android:id="@+id/projectCreationFragment"
+        android:id="@+id/project_creation"
         android:name="team.doit.do_it.fragments.ProjectCreationFragment"
         android:label="fragment_project_creation"
-        tools:layout="@layout/fragment_project_creation" >
-        <action
-            android:id="@+id/action_projectCreationFragment_to_home_creator"
-            app:destination="@id/home_creator"
-            app:popUpTo="@id/home_creator"
-            app:popUpToInclusive="true" />
+        tools:layout="@layout/fragment_project_creation" />
+    <!-- TODO: Preguntar si está bien construido... -->
+    <fragment
+        android:id="@+id/project_detail"
+        android:name="team.doit.do_it.fragments.ProjectDetailFragment"
+        android:label="fragment_project_detail"
+        tools:layout="@layout/fragment_project_detail" >
+        <argument
+            android:name="project"
+            app:argType="team.doit.do_it.entities.ProjectEntity" />
     </fragment>
 </navigation>

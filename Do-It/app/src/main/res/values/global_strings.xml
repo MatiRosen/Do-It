@@ -4,4 +4,5 @@
     <string name="profile">Perfil</string>
     <string name="menu">Menu</string>
     <string name="chat">Chat</string>
+    <string name="img_project_image">Imagen del Proyecto</string>
 </resources>
