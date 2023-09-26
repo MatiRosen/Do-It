@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".fragments.RegisterDataFragment">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/img_register_data_logo"
+            android:layout_width="@dimen/register_logo"
+            android:layout_height="@dimen/register_logo"
+            android:src="@drawable/img_do_it_logo"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/txt_register_data_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
+            android:text="@string/register_register_data"
+            android:textColor="@color/pantone"
+            android:textSize="@dimen/main_title_size"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/img_register_data_logo" />
+
+        <LinearLayout
+            android:id="@+id/linearLayoutFirst"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txt_register_data_title">
+
+            <EditText
+                android:id="@+id/txt_register_data_name"
+                android:layout_width="@dimen/register_input_width"
+                android:layout_height="@dimen/register_input_heigth"
+                android:layout_margin="10dip"
+                android:background="@drawable/style_edittext"
+                android:hint="@string/register_name"
+                android:inputType="text"
+                android:padding="5dip"
+                android:textColor="@color/black"
+                android:textSize="@dimen/input_size" />
+
+            <EditText
+                android:id="@+id/txt_register_data_surname"
+                android:layout_width="@dimen/register_input_width"
+                android:layout_height="@dimen/register_input_heigth"
+                android:layout_margin="10dip"
+                android:background="@drawable/style_edittext"
+                android:hint="@string/register_lastname"
+                android:inputType="text"
+                android:padding="5dip"
+                android:textColor="@color/black"
+                android:textSize="@dimen/input_size" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linearLayoutSecond"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayoutFirst">
+
+            <EditText
+                android:id="@+id/txt_register_data_date"
+                android:layout_width="@dimen/register_input_width"
+                android:layout_height="@dimen/register_input_heigth"
+                android:layout_margin="10dip"
+                android:background="@drawable/style_edittext"
+                android:hint="@string/register_birth_date"
+                android:inputType="date"
+                android:padding="5dip"
+                android:textColor="@color/black"
+                android:textSize="@dimen/input_size"/>
+
+            <Spinner
+                android:id="@+id/spn_register_data_gender"
+                android:layout_width="@dimen/register_input_width"
+                android:layout_height="@dimen/register_input_heigth"
+                android:layout_margin="10dip"
+                android:background="@drawable/style_edittext"
+                android:padding="5dip"
+                android:textColor="@color/black"
+                android:textSize="@dimen/input_size"
+                android:layout_weight="3" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linearLayoutThird"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayoutSecond">
+
+            <EditText
+                android:id="@+id/txt_register_data_phone"
+                android:layout_width="@dimen/register_input_width"
+                android:layout_height="@dimen/register_input_heigth"
+                android:layout_margin="10dip"
+                android:background="@drawable/style_edittext"
+                android:inputType="phone"
+                android:hint="@string/register_phone"
+                android:padding="5dip"
+                android:textColor="@color/black"
+                android:textSize="@dimen/input_size"/>
+
+            <EditText
+                android:id="@+id/txt_register_data_address"
+                android:layout_width="@dimen/register_input_width"
+                android:layout_height="@dimen/register_input_heigth"
+                android:layout_margin="10dip"
+                android:background="@drawable/style_edittext"
+                android:inputType="text"
+                android:hint="@string/register_address"
+                android:padding="5dip"
+                android:textColor="@color/black"
+                android:textSize="@dimen/input_size" />
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/btn_register_data_register"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:backgroundTint="@color/green"
+            android:text="@string/register_register_button"
+            android:textColor="@color/white"
+            android:textSize="@dimen/button_size"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayoutThird" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</FrameLayout>

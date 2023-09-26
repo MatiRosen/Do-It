@@ -4,24 +4,36 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragments.LoginFragment">
+    tools:context=".fragments.RegisterFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <ImageView
-            android:id="@+id/img_login_logo"
-            android:layout_width="@dimen/login_logo"
-            android:layout_height="@dimen/login_logo"
-            android:layout_marginTop="45dp"
+            android:id="@+id/img_register_logo"
+            android:layout_width="@dimen/register_logo"
+            android:layout_height="@dimen/register_logo"
             android:src="@drawable/img_do_it_logo"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <TextView
+            android:id="@+id/txt_register_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
+            android:text="@string/register_register"
+            android:textColor="@color/pantone"
+            android:textSize="@dimen/main_title_size"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/img_register_logo" />
+
         <EditText
-            android:id="@+id/edit_txt_login_email"
+            android:id="@+id/edit_txt_register_email"
             android:layout_width="@dimen/login_input_width"
             android:layout_height="@dimen/login_input_height"
             android:layout_marginTop="45dp"
@@ -33,10 +45,10 @@
             android:textSize="@dimen/input_size"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/img_login_logo" />
+            app:layout_constraintTop_toBottomOf="@+id/txt_register_title" />
 
         <EditText
-            android:id="@+id/edit_txt_login_password"
+            android:id="@+id/edit_txt_register_password"
             android:layout_width="@dimen/login_input_width"
             android:layout_height="@dimen/login_input_height"
             android:layout_marginTop="15dp"
@@ -48,57 +60,21 @@
             android:textSize="@dimen/input_size"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/edit_txt_login_email" />
+            app:layout_constraintTop_toBottomOf="@+id/edit_txt_register_email" />
 
         <Button
-            android:id="@+id/btn_login_login"
+            android:id="@+id/btn_register_continue"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:backgroundTint="@color/green"
-            android:text="@string/home_login"
+            android:text="@string/register_continue"
             android:textColor="@color/white"
             android:textSize="@dimen/button_size"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/edit_txt_login_password" />
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:orientation="horizontal"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/btn_login_login"
-            app:layout_constraintVertical_bias="0.0">
-
-            <TextView
-                android:id="@+id/txt_login_register"
-                android:layout_width="wrap_content"
-                android:layout_height="50dp"
-                android:layout_marginRight="5dp"
-                android:gravity="center"
-                android:text="@string/home_register"
-                android:textColor="@color/black"
-                android:textSize="@dimen/paragraph_size" />
-
-            <TextView
-                android:id="@+id/btn_txt_login_register"
-                android:layout_width="wrap_content"
-                android:layout_height="50dp"
-                android:layout_marginLeft="5dp"
-                android:backgroundTint="@color/white"
-                android:gravity="center"
-                android:onClick="register"
-                android:text="@string/home_register_button"
-                android:textColor="@color/black"
-                android:textSize="@dimen/paragraph_size" />
-        </LinearLayout>
-
+            app:layout_constraintTop_toBottomOf="@+id/edit_txt_register_password" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>
