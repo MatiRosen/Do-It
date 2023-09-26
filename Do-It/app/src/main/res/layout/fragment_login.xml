@@ -31,9 +31,6 @@
             android:background="@drawable/style_edittext"
             android:textColor="@color/black"
             android:textSize="@dimen/txt_input_size"
-            android:background="@drawable/rounded_edittext"
-            android:textSize="@dimen/input_size"
-
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/img_login_logo" />
@@ -48,12 +45,7 @@
             android:inputType="textPassword"
             android:background="@drawable/style_edittext"
             android:textColor="@color/black"
-<<<<<<< HEAD
             android:textSize="@dimen/txt_input_size"
-            android:background="@drawable/rounded_edittext"
-=======
-            android:textSize="@dimen/input_size"
->>>>>>> 679449fde397c26a1ecb30241d50f62948b6118c
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/edit_txt_login_email" />

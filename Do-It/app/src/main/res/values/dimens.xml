@@ -32,6 +32,7 @@
     <dimen name="project_creation_min_description_height">100dp</dimen>
 
 
+    <!-- Login -->
     <dimen name="login_logo">140dp</dimen>
     <dimen name="login_input_width">320dp</dimen>
     <dimen name="login_input_height">50dp</dimen>
