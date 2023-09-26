@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/frame_layout_project_creation"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".fragments.ProjectCreationFragment">
+
+
+    <TextView
+        android:id="@+id/txt_project_creation_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/project_creation_new_project"
+        android:textColor="@color/dark_pantone"
+        android:textSize="@dimen/txt_main_title_size"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_project_creation_top_padding"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_begin="@dimen/top_content_padding" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout_project_creation_form"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toTopOf="@+id/guideline2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/guideline_project_creation_top_padding">
+
+        <EditText
+            android:id="@+id/edit_txt_project_creation_title"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/input_txt_height"
+            android:autofillHints=""
+            android:hint="@string/project_creation_project_title"
+            android:inputType="text"
+            android:textColor="@color/black"
+            android:textSize="@dimen/txt_input_size" />
+
+        <View
+            android:id="@+id/divider_project_creation_1"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/divider_height"
+            android:layout_marginTop="@dimen/divider_top_distance"
+            android:layout_marginBottom="@dimen/divider_bottom_distance"
+            android:background="?android:attr/listDivider" />
+
+        <Spinner
+            android:id="@+id/spinner_project_creation_category"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <View
+            android:id="@+id/divider_project_creation_2"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/divider_height"
+            android:layout_marginTop="@dimen/divider_top_distance"
+            android:layout_marginBottom="@dimen/divider_bottom_distance"
+            android:background="?android:attr/listDivider" />
+
+        <!-- TODO: Cambiar aspecto del botón para que se vea como el de figma. -->
+        <Button
+            android:id="@+id/btn_project_creation_add_image"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/project_creation_project_image"
+            android:textColor="@color/white"
+            android:textSize="@dimen/txt_button_size" />
+
+        <View
+            android:id="@+id/divider_project_creation_3"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/divider_height"
+            android:layout_marginTop="@dimen/divider_top_distance"
+            android:layout_marginBottom="@dimen/divider_bottom_distance"
+            android:background="?android:attr/listDivider" />
+
+        <EditText
+            android:id="@+id/edit_txt_project_creation_description"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/project_creation_min_description_height"
+            android:autofillHints=""
+            android:ems="10"
+            android:gravity="start|top"
+            android:hint="@string/project_creation_project_description"
+            android:inputType="textMultiLine"
+            android:textColor="@color/black"
+            android:textSize="@dimen/txt_paragraph_size" />
+
+        <View
+            android:id="@+id/divider_project_creation_4"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/divider_height"
+            android:layout_marginTop="@dimen/divider_top_distance"
+            android:layout_marginBottom="@dimen/divider_bottom_distance"
+            android:background="?android:attr/listDivider" />
+
+        <EditText
+            android:id="@+id/edit_txt_project_creation_min_budget"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:autofillHints=""
+            android:ems="10"
+            android:hint="@string/project_creation_project_min_budget"
+            android:inputType="number"
+            android:textColor="@color/black"
+            android:textSize="@dimen/txt_input_size" />
+
+        <View
+            android:id="@+id/divider_project_creation_5"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/divider_height"
+            android:layout_marginTop="@dimen/divider_top_distance"
+            android:layout_marginBottom="@dimen/divider_bottom_distance"
+            android:background="?android:attr/listDivider" />
+
+        <EditText
+            android:id="@+id/edit_txt_project_creation_total_budget"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:autofillHints=""
+            android:ems="10"
+            android:hint="@string/project_creation_project_total_budget"
+            android:inputType="number"
+            android:textColor="@color/black"
+            android:textSize="@dimen/txt_input_size" />
+
+
+    </LinearLayout>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_end="142dp" />
+
+    <Button
+        android:id="@+id/btn_project_creation_save"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/project_creation_save"
+        android:textSize="@dimen/txt_button_size"
+        android:textColor="@color/white"
+        android:background="@drawable/style_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout_project_creation_form" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

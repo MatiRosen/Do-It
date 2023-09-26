@@ -29,7 +29,7 @@
             android:hint="@string/home_email"
             android:inputType="textEmailAddress"
             android:textColor="@color/black"
-            android:textSize="@dimen/input_size"
+            android:textSize="@dimen/txt_input_size"
             android:background="@drawable/rounded_edittext"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -44,7 +44,7 @@
             android:hint="@string/home_password"
             android:inputType="textPassword"
             android:textColor="@color/black"
-            android:textSize="@dimen/input_size"
+            android:textSize="@dimen/txt_input_size"
             android:background="@drawable/rounded_edittext"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -58,7 +58,7 @@
             android:backgroundTint="@color/green"
             android:text="@string/home_login"
             android:textColor="@color/white"
-            android:textSize="@dimen/button_size"
+            android:textSize="@dimen/txt_button_size"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -84,7 +84,7 @@
                 android:gravity="center"
                 android:text="@string/home_register"
                 android:textColor="@color/black"
-                android:textSize="@dimen/paragraph_size" />
+                android:textSize="@dimen/txt_paragraph_size" />
 
             <TextView
                 android:id="@+id/btnRegister"
@@ -96,7 +96,7 @@
                 android:onClick="register"
                 android:text="@string/home_register_button"
                 android:textColor="@color/black"
-                android:textSize="@dimen/paragraph_size" />
+                android:textSize="@dimen/txt_paragraph_size" />
         </LinearLayout>
 
 

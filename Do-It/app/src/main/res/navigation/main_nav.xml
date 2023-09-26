@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_nav"
-    app:startDestination="@id/home_creator">
+    app:startDestination="@id/projectCreationFragment">
 
     <fragment
         android:id="@+id/example_fragment"
@@ -14,7 +14,11 @@
         android:id="@+id/home_creator"
         android:name="team.doit.do_it.fragments.HomeCreatorFragment"
         android:label="fragment_home_creator"
-        tools:layout="@layout/fragment_home_creator" />
+        tools:layout="@layout/fragment_home_creator" >
+        <action
+            android:id="@+id/action_home_creator_to_projectCreationFragment"
+            app:destination="@id/projectCreationFragment" />
+    </fragment>
     <fragment
         android:id="@+id/chat"
         android:name="team.doit.do_it.fragments.ChatFragment"
@@ -24,4 +28,15 @@
         android:id="@+id/profile"
         android:name="team.doit.do_it.fragments.ProfileFragment"
         android:label="ProfileFragment" />
+    <fragment
+        android:id="@+id/projectCreationFragment"
+        android:name="team.doit.do_it.fragments.ProjectCreationFragment"
+        android:label="fragment_project_creation"
+        tools:layout="@layout/fragment_project_creation" >
+        <action
+            android:id="@+id/action_projectCreationFragment_to_home_creator"
+            app:destination="@id/home_creator"
+            app:popUpTo="@id/home_creator"
+            app:popUpToInclusive="true" />
+    </fragment>
 </navigation>

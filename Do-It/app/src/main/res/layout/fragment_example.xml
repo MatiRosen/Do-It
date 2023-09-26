@@ -42,7 +42,7 @@
         android:layout_marginTop="52dp"
         android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec euismod, nisl eget ultricies ultrices, nunc nisl ultricies nunc, vitae ultricies nisl nisl eget nisl. Donec euismod, nisl eget ultricies ultrices, nunc nisl ultricies nunc, vitae ultricies nisl nisl eget nisl."
         android:textColor="@color/black"
-        android:textSize="@dimen/paragraph_size"
+        android:textSize="@dimen/txt_paragraph_size"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editText" />
@@ -67,7 +67,7 @@
         android:layout_marginTop="72dp"
         android:text="BOTON"
         android:textColor="@color/white"
-        android:textSize="@dimen/button_size"
+        android:textSize="@dimen/txt_button_size"
         android:textStyle="bold"
         android:background="@drawable/style_button"
         app:layout_constraintEnd_toEndOf="parent"
@@ -81,7 +81,7 @@
         android:layout_marginTop="76dp"
         android:hint="Inputs"
         android:textColor="@color/black"
-        android:textSize="@dimen/input_size"
+        android:textSize="@dimen/txt_input_size"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/button" />
