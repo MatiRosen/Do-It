@@ -23,14 +23,21 @@
 
     <dimen name="top_content_padding">60dp</dimen>
 
-
     <!-- Forms -->
     <dimen name="input_txt_height">50dp</dimen>
     <dimen name="divider_top_distance">10dp</dimen>
     <dimen name="divider_bottom_distance">10dp</dimen>
 
-
     <!-- Project Creation -->
     <dimen name="project_creation_min_description_height">100dp</dimen>
+
+
+    <dimen name="login_logo">140dp</dimen>
+    <dimen name="login_input_width">320dp</dimen>
+    <dimen name="login_input_height">50dp</dimen>
+
+    <dimen name="register_logo">130dp</dimen>
+    <dimen name="register_input_width">180dp</dimen>
+    <dimen name="register_input_heigth">50dp</dimen>
 
 </resources>

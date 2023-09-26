@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="register_register">Registro</string>
+    <string name="register_register">Registrate</string>
+    <string name="register_register_data">Rellená tus datos</string>
     <string name="register_name">Nombre</string>
     <string name="register_lastname">Apellido</string>
     <string name="register_email">Correo electrónico</string>
@@ -12,4 +13,5 @@
     <string name="register_password">Contraseña</string>
     <string name="register_confirm_password">Confirmar contraseña</string>
     <string name="register_register_button">Registrarse</string>
+    <string name="register_continue">Continuar</string>
 </resources>

@@ -11,9 +11,9 @@
         android:layout_height="match_parent">
 
         <ImageView
-            android:id="@+id/imageViewLogo"
-            android:layout_width="140dp"
-            android:layout_height="140dp"
+            android:id="@+id/img_login_logo"
+            android:layout_width="@dimen/login_logo"
+            android:layout_height="@dimen/login_logo"
             android:layout_marginTop="45dp"
             android:src="@drawable/img_do_it_logo"
             app:layout_constraintEnd_toEndOf="parent"
@@ -21,37 +21,45 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <EditText
-            android:id="@+id/editTextTextEmailAddress"
-            android:layout_width="320dp"
-            android:layout_height="50dp"
+            android:id="@+id/edit_txt_login_email"
+            android:layout_width="@dimen/login_input_width"
+            android:layout_height="@dimen/login_input_height"
             android:layout_marginTop="45dp"
             android:padding="10dip"
             android:hint="@string/home_email"
             android:inputType="textEmailAddress"
+            android:background="@drawable/style_edittext"
             android:textColor="@color/black"
             android:textSize="@dimen/txt_input_size"
             android:background="@drawable/rounded_edittext"
+            android:textSize="@dimen/input_size"
+
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imageViewLogo" />
+            app:layout_constraintTop_toBottomOf="@+id/img_login_logo" />
 
         <EditText
-            android:id="@+id/editTextTextPassword"
-            android:layout_width="320dp"
-            android:layout_height="50dp"
+            android:id="@+id/edit_txt_login_password"
+            android:layout_width="@dimen/login_input_width"
+            android:layout_height="@dimen/login_input_height"
             android:layout_marginTop="15dp"
             android:padding="10dip"
             android:hint="@string/home_password"
             android:inputType="textPassword"
+            android:background="@drawable/style_edittext"
             android:textColor="@color/black"
+<<<<<<< HEAD
             android:textSize="@dimen/txt_input_size"
             android:background="@drawable/rounded_edittext"
+=======
+            android:textSize="@dimen/input_size"
+>>>>>>> 679449fde397c26a1ecb30241d50f62948b6118c
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editTextTextEmailAddress" />
+            app:layout_constraintTop_toBottomOf="@+id/edit_txt_login_email" />
 
         <Button
-            android:id="@+id/bnLogin"
+            android:id="@+id/btn_login_login"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
@@ -62,7 +70,7 @@
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editTextTextPassword" />
+            app:layout_constraintTop_toBottomOf="@+id/edit_txt_login_password" />
 
         <LinearLayout
             android:layout_width="0dp"
@@ -73,11 +81,11 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/bnLogin"
+            app:layout_constraintTop_toBottomOf="@+id/btn_login_login"
             app:layout_constraintVertical_bias="0.0">
 
             <TextView
-                android:id="@+id/txtRegister"
+                android:id="@+id/txt_login_register"
                 android:layout_width="wrap_content"
                 android:layout_height="50dp"
                 android:layout_marginRight="5dp"
@@ -87,7 +95,7 @@
                 android:textSize="@dimen/txt_paragraph_size" />
 
             <TextView
-                android:id="@+id/btnRegister"
+                android:id="@+id/btn_txt_login_register"
                 android:layout_width="wrap_content"
                 android:layout_height="50dp"
                 android:layout_marginLeft="5dp"
