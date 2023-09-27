@@ -6,7 +6,7 @@
     android:id="@+id/cardViewHomeCreatorProject"
     android:layout_margin="8dp"
     android:backgroundTintMode="@color/white"
-    app:cardCornerRadius="20dp"
+    app:cardCornerRadius="12dp"
     app:cardElevation="8dp">
 
    <androidx.constraintlayout.widget.ConstraintLayout
@@ -33,7 +33,9 @@
           android:text="Titulo"
           android:textColor="@color/pantone"
           android:textSize="@dimen/txt_secondary_title_size"
-          app:layout_constraintBottom_toTopOf="@+id/guidelineItemProjectCreator20Hor"
+          android:maxLines="1"
+          android:ellipsize="end"
+          app:layout_constraintBottom_toTopOf="@+id/guidelineItemProjectCreator22Hor"
           app:layout_constraintEnd_toStartOf="@+id/guidelineItemProjectCreator95Ver"
           app:layout_constraintStart_toStartOf="@+id/guidelineItemProjectCreator50Ver"
           app:layout_constraintTop_toTopOf="parent" />
@@ -46,10 +48,12 @@
           android:text="Categoría"
           android:textColor="@color/medium_gray"
           android:textSize="@dimen/txt_paragraph_size"
-          app:layout_constraintBottom_toTopOf="@+id/guidelineItemProjectCreator83Hor"
+          android:maxLines="1"
+          android:ellipsize="end"
+          app:layout_constraintBottom_toTopOf="@+id/guidelineItemProjectCreator80Hor"
           app:layout_constraintEnd_toStartOf="@+id/guidelineItemProjectCreator90Ver"
           app:layout_constraintStart_toStartOf="@+id/guidelineItemProjectCreator50Ver"
-          app:layout_constraintTop_toTopOf="@+id/guidelineItemProjectCreator70Hor" />
+          app:layout_constraintTop_toTopOf="@+id/guidelineItemProjectCreator63Hor" />
 
       <TextView
           android:id="@+id/txtItemProjectCeatorTotalBudget"
@@ -58,6 +62,8 @@
           android:text="$111"
           android:textColor="@color/green"
           android:textSize="@dimen/txt_input_size"
+          android:maxLines="1"
+          android:ellipsize="end"
           app:layout_constraintBottom_toTopOf="@+id/guidelineItemProjectCreator97Hor"
           app:layout_constraintEnd_toStartOf="@+id/guidelineItemProjectCreator95Ver" />
 
@@ -68,10 +74,11 @@
           android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec euismod, nisl eget tincidunt aliquam, nisl nisl aliquet nisl, nec aliquam nisl nisl nec nisl."
           android:textColor="@color/black"
           android:textSize="@dimen/txt_paragraph_size"
-          app:layout_constraintBottom_toTopOf="@+id/guidelineItemProjectCreator70Hor"
+          android:ellipsize="end"
+          app:layout_constraintBottom_toTopOf="@+id/guidelineItemProjectCreator63Hor"
           app:layout_constraintEnd_toStartOf="@+id/guidelineItemProjectCreator95Ver"
           app:layout_constraintStart_toStartOf="@+id/guidelineItemProjectCreator50Ver"
-          app:layout_constraintTop_toTopOf="@+id/guidelineItemProjectCreator20Hor" />
+          app:layout_constraintTop_toTopOf="@+id/guidelineItemProjectCreator22Hor" />
 
 
       <androidx.constraintlayout.widget.Guideline
@@ -103,25 +110,25 @@
           app:layout_constraintGuide_percent="0.95" />
 
       <androidx.constraintlayout.widget.Guideline
-          android:id="@+id/guidelineItemProjectCreator20Hor"
+          android:id="@+id/guidelineItemProjectCreator22Hor"
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
           android:orientation="horizontal"
-          app:layout_constraintGuide_percent="0.20" />
+          app:layout_constraintGuide_percent="0.22" />
 
       <androidx.constraintlayout.widget.Guideline
-          android:id="@+id/guidelineItemProjectCreator70Hor"
+          android:id="@+id/guidelineItemProjectCreator63Hor"
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
           android:orientation="horizontal"
-          app:layout_constraintGuide_percent="0.70" />
+          app:layout_constraintGuide_percent="0.63" />
 
       <androidx.constraintlayout.widget.Guideline
-          android:id="@+id/guidelineItemProjectCreator83Hor"
+          android:id="@+id/guidelineItemProjectCreator80Hor"
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
           android:orientation="horizontal"
-          app:layout_constraintGuide_percent="0.83" />
+          app:layout_constraintGuide_percent="0.80" />
 
       <androidx.constraintlayout.widget.Guideline
           android:id="@+id/guidelineItemProjectCreator97Hor"

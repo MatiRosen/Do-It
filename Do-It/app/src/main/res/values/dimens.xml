@@ -2,11 +2,12 @@
 <resources>
     <!-- Text size -->
     <dimen name="txt_main_title_size">30sp</dimen>
-    <dimen name="txt_secondary_title_size">24sp</dimen>
+    <dimen name="txt_secondary_title_size">22sp</dimen>
     <dimen name="txt_description_size">20sp</dimen>
     <dimen name="txt_button_size">18sp</dimen>
     <dimen name="txt_input_size">18sp</dimen>
     <dimen name="txt_paragraph_size">16sp</dimen>
+    <dimen name="txt_mini_size">14sp</dimen>
 
 
     <!-- Components size -->

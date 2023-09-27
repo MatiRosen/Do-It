@@ -2,8 +2,10 @@ package team.doit.do_it.holders
 
 import android.view.View
 import android.widget.TextView
+import androidx.core.view.doOnPreDraw
 import androidx.recyclerview.widget.RecyclerView
 import team.doit.do_it.R
+import team.doit.do_it.extensions.setMaxLinesForEllipsizing
 
 class ProjectHolder(view: View) : RecyclerView.ViewHolder(view){
 
@@ -19,9 +21,12 @@ class ProjectHolder(view: View) : RecyclerView.ViewHolder(view){
     }
 
     fun setProjectSubtitle(projectSubtitle: String) {
-        val txt : TextView = view.findViewById(R.id.txtItemProjectCreatorSubtitle)
+        val txt: TextView = view.findViewById(R.id.txtItemProjectCreatorSubtitle)
         txt.text = projectSubtitle
+
+        txt.setMaxLinesForEllipsizing()
     }
+
 
     fun setProjectCategory(projectCategory: String) {
         val txt : TextView = view.findViewById(R.id.txtItemProjectCreatorCategory)

@@ -52,7 +52,9 @@ class LoginFragment : Fragment() {
 
 
         loginButton.setOnClickListener {
-            login(v)
+            val intent = Intent(activity, MainActivity::class.java)
+            startActivity(intent)
+            requireActivity().finish()
         }
 
         val btnTextRegister = v.findViewById<TextView>(R.id.btnTxtLoginRegister)
