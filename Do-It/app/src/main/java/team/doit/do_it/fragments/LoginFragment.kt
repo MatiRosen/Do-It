@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
+import android.widget.Toast
 import androidx.navigation.fragment.findNavController
 import com.google.firebase.auth.FirebaseAuth
 import team.doit.do_it.R
@@ -43,22 +44,19 @@ class LoginFragment : Fragment() {
     override fun onStart() {
         super.onStart()
 
-        etEmail = v.findViewById(R.id.edit_txt_login_email)
-        etPassword = v.findViewById(R.id.edit_txt_login_password)
+        etEmail = v.findViewById(R.id.editTxtLoginEmail)
+        etPassword = v.findViewById(R.id.editTxtLoginPassword)
         mAuth = FirebaseAuth.getInstance()
 
-        loginButton = v.findViewById<Button>(R.id.btn_login_login)
+        loginButton = v.findViewById<Button>(R.id.btnLoginLogin)
 
 
         loginButton.setOnClickListener {
-            //login(v)
-            val intent = Intent(activity, MainActivity::class.java)
-            startActivity(intent)
+            login(v)
         }
 
-        val btnTextRegister = v.findViewById<TextView>(R.id.btn_txt_login_register)
+        val btnTextRegister = v.findViewById<TextView>(R.id.btnTxtLoginRegister)
         btnTextRegister.setOnClickListener {
-            //register(v)
             findNavController().navigate(R.id.action_loginFragment_to_registerFragment)
         }
     }
@@ -72,18 +70,7 @@ class LoginFragment : Fragment() {
                 if (it.isSuccessful) {
                     goHome(email, "email")
                 }
-            }
-    }
-
-    private fun register(v: View) {
-        etEmail = v.findViewById(R.id.edit_txt_login_email)
-        etPassword = v.findViewById(R.id.edit_txt_login_password)
-
-        FirebaseAuth.getInstance().createUserWithEmailAndPassword(etEmail.text.toString(), etPassword.text.toString())
-            .addOnCompleteListener {
-                if (it.isSuccessful) {
-                    goHome(etEmail.text.toString(), "email")
-                }
+                else Toast.makeText(activity, "Credenciales invalidas", Toast.LENGTH_SHORT).show()
             }
     }
 
