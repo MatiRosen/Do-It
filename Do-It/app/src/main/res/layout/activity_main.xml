@@ -6,6 +6,18 @@
     android:layout_height="match_parent"
     tools:context=".activities.MainActivity">
 
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/mainHost"
+        android:name="androidx.navigation.fragment.NavHostFragment"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:defaultNavHost="true"
+        app:layout_constraintBottom_toTopOf="@+id/guidelineMainActivityHorizontal90"
+        app:layout_constraintEnd_toStartOf="@+id/guidelineMainActivityVertical95"
+        app:layout_constraintStart_toStartOf="@+id/guideLineMainActivityVertical5"
+        app:layout_constraintTop_toTopOf="@+id/guidelineMainActivityHorizontal3"
+        app:navGraph="@navigation/main_nav" />
+
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNavigationView"
         android:layout_width="0dp"
@@ -17,47 +29,35 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/bot_guideline"
+        app:layout_constraintTop_toTopOf="@+id/guidelineMainActivityHorizontal90"
         app:menu="@menu/bottom_menu" />
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/bot_guideline"
+        android:id="@+id/guidelineMainActivityHorizontal3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_end="@dimen/bottom_menu" />
+        app:layout_constraintGuide_percent="@dimen/guideline_3" />
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/left_guideline"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_begin="@dimen/left_padding" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/right_guideline"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_end="@dimen/right_padding" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/top_guideline"
+        android:id="@+id/guidelineMainActivityHorizontal90"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_begin="@dimen/top_padding" />
+        app:layout_constraintGuide_percent="@dimen/guideline_90" />
 
-    <androidx.fragment.app.FragmentContainerView
-        android:id="@+id/main_host"
-        android:name="androidx.navigation.fragment.NavHostFragment"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:defaultNavHost="true"
-        app:layout_constraintBottom_toTopOf="@+id/bot_guideline"
-        app:layout_constraintEnd_toStartOf="@+id/right_guideline"
-        app:layout_constraintStart_toStartOf="@+id/left_guideline"
-        app:layout_constraintTop_toTopOf="@+id/top_guideline"
-        app:navGraph="@navigation/main_nav" />
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideLineMainActivityVertical5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="@dimen/guideline_5" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidelineMainActivityVertical95"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="@dimen/guideline_95" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

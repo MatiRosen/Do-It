@@ -5,42 +5,43 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".activities.LoginActivity">
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/bot_guideline"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_end="25dp" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/left_guideline"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_begin="@dimen/left_padding" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/right_guideline"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_end="@dimen/right_padding" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/top_guideline"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_begin="@dimen/top_padding" />
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fragmentContainerViewLogin"
         android:name="androidx.navigation.fragment.NavHostFragment"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/bot_guideline"
-        app:layout_constraintEnd_toStartOf="@+id/right_guideline"
-        app:layout_constraintStart_toStartOf="@+id/left_guideline"
-        app:layout_constraintTop_toTopOf="@+id/top_guideline"
+        app:layout_constraintBottom_toTopOf="@+id/guidelineLoginActivityHorizontal95"
+        app:layout_constraintEnd_toStartOf="@+id/guidelineLoginActivityVertical95"
+        app:layout_constraintStart_toStartOf="@+id/guidelineLoginActivityVertical5"
+        app:layout_constraintTop_toTopOf="@+id/guidelineLoginActivityHorizontal3"
         app:navGraph="@navigation/login_nav"/>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidelineLoginActivityHorizontal3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="@dimen/guideline_3" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidelineLoginActivityHorizontal95"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="@dimen/guideline_95" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidelineLoginActivityVertical5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="@dimen/guideline_5" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidelineLoginActivityVertical95"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="@dimen/guideline_95" />
 </androidx.constraintlayout.widget.ConstraintLayout>

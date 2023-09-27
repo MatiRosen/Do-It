@@ -24,7 +24,7 @@ class ProjectHolder(view: View) : RecyclerView.ViewHolder(view){
         val txt: TextView = view.findViewById(R.id.txtItemProjectCreatorSubtitle)
         txt.text = projectSubtitle
 
-        txt.setMaxLinesForEllipsizing()
+        txt.setMaxLinesForEllipsizing(true)
     }
 
 

@@ -7,7 +7,6 @@
     android:layout_height="match_parent"
     tools:context=".fragments.ProjectCreationFragment">
 
-
     <TextView
         android:id="@+id/txtProjectCreationTitle"
         android:layout_width="wrap_content"
@@ -20,134 +19,131 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guidelineProjectCreationTopPadding"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_begin="@dimen/top_content_padding" />
+    <!-- We use ScrollView because we set the elements height -->
 
-    <LinearLayout
-        android:id="@+id/linearLayoutProjectCreationForm"
+    <ScrollView
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:orientation="vertical"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/guidelineProjectCreationHorizontal90"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guidelineProjectCreationTopPadding">
-
-        <EditText
-            android:id="@+id/editTxtProjectCreationTitle"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/input_txt_height"
-            android:layout_marginBottom="@dimen/divider_bottom_padding"
-            android:autofillHints=""
-            android:background="@drawable/style_edittext"
-            android:hint="@string/project_creation_project_title"
-            android:inputType="text"
-            android:padding="@dimen/input_txt_padding"
-            android:textColor="@color/black"
-            android:textSize="@dimen/txt_input_size" />
-
-        <EditText
-            android:id="@+id/editTxtProjectCreationSubtitle"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/input_txt_height"
-            android:layout_marginBottom="@dimen/divider_bottom_padding"
-            android:autofillHints=""
-            android:background="@drawable/style_edittext"
-            android:hint="@string/project_creation_project_subtitle"
-            android:inputType="text"
-            android:padding="@dimen/input_txt_padding"
-            android:textColor="@color/black"
-            android:textSize="@dimen/txt_input_size" />
-
-        <Spinner
-            android:id="@+id/spinnerProjectCreationCategory"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/divider_top_padding"
-            android:layout_marginBottom="@dimen/divider_bottom_padding"
-            android:background="@drawable/style_edittext" />
-
-        <!-- TODO: Cambiar aspecto del botón para que se vea como el de figma. -->
-        <Button
-            android:id="@+id/btnProjectCreationAddImage"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/divider_top_padding"
-            android:layout_marginBottom="@dimen/divider_bottom_padding"
-            android:background="@drawable/style_button_project_creation"
-            android:text="@string/project_creation_project_image"
-            android:textColor="@color/white"
-            android:textSize="@dimen/txt_button_size" />
-
-
-        <EditText
-            android:id="@+id/editTxtProjectCreationDescription"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/project_creation_min_description_height"
-            android:layout_marginTop="@dimen/divider_top_padding"
-            android:layout_marginBottom="@dimen/divider_bottom_padding"
-            android:autofillHints=""
-            android:background="@drawable/style_edittext"
-            android:ems="10"
-            android:gravity="start|top"
-            android:hint="@string/project_creation_project_description"
-            android:inputType="textMultiLine"
-            android:padding="@dimen/input_txt_padding"
-            android:textColor="@color/black"
-            android:textSize="@dimen/txt_input_size" />
+        app:layout_constraintTop_toTopOf="@+id/guidelineProjectCreationHorizontal8">
 
         <LinearLayout
+            android:id="@+id/linearLayoutProjectCreationForm"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
+            android:gravity="center"
+            android:orientation="vertical"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/linearLayoutProjectCreationForm">
+            app:layout_constraintTop_toTopOf="@+id/guidelineProjectCreationHorizontal8">
 
             <EditText
-                android:id="@+id/editTxtProjectCreationMinBudget"
-                android:layout_width="0dp"
+                android:id="@+id/editTxtProjectCreationTitle"
+                android:layout_width="match_parent"
                 android:layout_height="@dimen/input_txt_height"
-                android:layout_marginTop="@dimen/divider_top_padding"
-                android:layout_marginEnd="@dimen/input_end_padding"
                 android:layout_marginBottom="@dimen/divider_bottom_padding"
-                android:layout_weight="1"
                 android:autofillHints=""
                 android:background="@drawable/style_edittext"
-                android:hint="@string/project_creation_project_min_budget"
-                android:inputType="numberDecimal"
+                android:hint="@string/project_creation_project_title"
+                android:inputType="text"
                 android:padding="@dimen/input_txt_padding"
                 android:textColor="@color/black"
                 android:textSize="@dimen/txt_input_size" />
 
             <EditText
-                android:id="@+id/editTxtProjectCreationTotalBudget"
-                android:layout_width="0dp"
+                android:id="@+id/editTxtProjectCreationSubtitle"
+                android:layout_width="match_parent"
                 android:layout_height="@dimen/input_txt_height"
-                android:layout_marginStart="@dimen/input_start_padding"
                 android:layout_marginTop="@dimen/divider_top_padding"
                 android:layout_marginBottom="@dimen/divider_bottom_padding"
-                android:layout_weight="1"
                 android:autofillHints=""
                 android:background="@drawable/style_edittext"
-                android:hint="@string/project_creation_project_total_budget"
-                android:inputType="numberDecimal"
+                android:hint="@string/project_creation_project_subtitle"
+                android:inputType="text"
                 android:padding="@dimen/input_txt_padding"
                 android:textColor="@color/black"
                 android:textSize="@dimen/txt_input_size" />
+
+            <Spinner
+                android:id="@+id/spinnerProjectCreationCategory"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/input_txt_height"
+                android:layout_marginTop="@dimen/divider_top_padding"
+                android:layout_marginBottom="@dimen/divider_bottom_padding"
+                android:background="@drawable/style_edittext" />
+
+            <!-- TODO: Cambiar aspecto del botón para que se vea como el de figma. -->
+            <Button
+                android:id="@+id/btnProjectCreationAddImage"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/divider_top_padding"
+                android:layout_marginBottom="@dimen/divider_bottom_padding"
+                android:background="@drawable/style_button_project_creation"
+                android:text="@string/project_creation_project_image"
+                android:textColor="@color/white"
+                android:textSize="@dimen/txt_button_size" />
+
+            <EditText
+                android:id="@+id/editTxtProjectCreationDescription"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/project_creation_min_description_height"
+                android:layout_marginTop="@dimen/divider_top_padding"
+                android:layout_marginBottom="@dimen/divider_bottom_padding"
+                android:autofillHints=""
+                android:background="@drawable/style_edittext"
+                android:ems="10"
+                android:gravity="start|top"
+                android:hint="@string/project_creation_project_description"
+                android:inputType="textMultiLine"
+                android:padding="@dimen/input_txt_padding"
+                android:textColor="@color/black"
+                android:textSize="@dimen/txt_input_size" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/linearLayoutProjectCreationForm">
+
+                <EditText
+                    android:id="@+id/editTxtProjectCreationMinBudget"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/input_txt_height"
+                    android:layout_marginTop="@dimen/divider_top_padding"
+                    android:layout_marginEnd="@dimen/input_end_padding"
+                    android:layout_marginBottom="@dimen/divider_bottom_padding"
+                    android:layout_weight="1"
+                    android:autofillHints=""
+                    android:background="@drawable/style_edittext"
+                    android:hint="@string/project_creation_project_min_budget"
+                    android:inputType="numberDecimal"
+                    android:padding="@dimen/input_txt_padding"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/txt_input_size" />
+
+                <EditText
+                    android:id="@+id/editTxtProjectCreationTotalBudget"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/input_txt_height"
+                    android:layout_marginStart="@dimen/input_start_padding"
+                    android:layout_marginTop="@dimen/divider_top_padding"
+                    android:layout_marginBottom="@dimen/divider_bottom_padding"
+                    android:layout_weight="1"
+                    android:autofillHints=""
+                    android:background="@drawable/style_edittext"
+                    android:hint="@string/project_creation_project_total_budget"
+                    android:inputType="numberDecimal"
+                    android:padding="@dimen/input_txt_padding"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/txt_input_size" />
+            </LinearLayout>
         </LinearLayout>
-    </LinearLayout>
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guidelineProjectCreationBottomPadding"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_end="@dimen/bottom_content_padding" />
+    </ScrollView>
 
     <Button
         android:id="@+id/btnProjectCreationSave"
@@ -159,7 +155,22 @@
         android:textSize="@dimen/txt_button_size"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/guidelineProjectCreationBottomPadding" />
+        app:layout_constraintTop_toBottomOf="@+id/guidelineProjectCreationHorizontal90" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidelineProjectCreationHorizontal8"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="@dimen/guideline_8" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidelineProjectCreationHorizontal90"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="@dimen/guideline_90" />
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

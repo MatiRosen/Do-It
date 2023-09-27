@@ -16,7 +16,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        navHostFragment = supportFragmentManager.findFragmentById(R.id.main_host) as NavHostFragment
+        navHostFragment = supportFragmentManager.findFragmentById(R.id.mainHost) as NavHostFragment
 
         bottomNavView = findViewById(R.id.bottomNavigationView)
 

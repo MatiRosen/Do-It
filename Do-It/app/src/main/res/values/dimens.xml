@@ -9,23 +9,43 @@
     <dimen name="txt_paragraph_size">16sp</dimen>
     <dimen name="txt_mini_size">14sp</dimen>
 
-
     <!-- Components size -->
     <dimen name="icon_size">36dp</dimen>
     <dimen name="button_radius">12dp</dimen>
     <dimen name="divider_height">1dp</dimen>
     <dimen name="img_radius">15dp</dimen>
 
-
     <!-- Padding -->
-    <dimen name="bottom_menu">70dp</dimen>
-    <dimen name="top_padding">25dp</dimen>
-    <dimen name="left_padding">20dp</dimen>
-    <dimen name="right_padding">20dp</dimen>
-
+    <dimen name="item_card_margin">8dp</dimen>
     <dimen name="top_content_padding">60dp</dimen>
-
     <dimen name="bottom_content_padding">70dp</dimen>
+
+    <!-- GuideLines -->
+    <dimen name="guideline_10">0.10</dimen>
+    <dimen name="guideline_20">0.20</dimen>
+    <dimen name="guideline_30">0.30</dimen>
+    <dimen name="guideline_40">0.40</dimen>
+    <dimen name="guideline_50">0.50</dimen>
+    <dimen name="guideline_60">0.60</dimen>
+    <dimen name="guideline_70">0.70</dimen>
+    <dimen name="guideline_80">0.80</dimen>
+    <dimen name="guideline_90">0.90</dimen>
+
+    <dimen name="guideline_3">0.03</dimen>
+    <dimen name="guideline_5">0.05</dimen>
+    <dimen name="guideline_8">0.08</dimen>
+    <dimen name="guideline_22">0.22</dimen>
+    <dimen name="guideline_45">0.45</dimen>
+    <dimen name="guideline_62">0.62</dimen>
+    <dimen name="guideline_95">0.95</dimen>
+    <dimen name="guideline_98">0.98</dimen>
+    <dimen name="guideline_99">0.99</dimen>
+
+    <!-- Elevations -->
+    <dimen name="card_elevation">8dp</dimen>
+
+    <!-- Radius -->
+    <dimen name="card_radius">12dp</dimen>
 
     <!-- Forms -->
     <dimen name="input_txt_padding">10dp</dimen>
@@ -43,7 +63,7 @@
     <dimen name="card_global_project_margin">5dp</dimen>
 
     <!-- Project Creation view -->
-    <dimen name="project_creation_min_description_height">100dp</dimen>
+    <dimen name="project_creation_min_description_height">200dp</dimen>
     <dimen name="project_creation_input_width">200dp</dimen>
 
     <!-- Login view -->

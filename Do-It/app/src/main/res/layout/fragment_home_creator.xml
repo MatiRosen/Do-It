@@ -27,46 +27,48 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guidelineHomeCreatorRecyclerTop" />
+        app:layout_constraintTop_toTopOf="@+id/guidelineHomeCreatorHorizontal8" />
 
     <ImageButton
         android:id="@+id/btnHomeCreatorCreateProject"
         android:layout_width="@dimen/icon_size"
         android:layout_height="@dimen/icon_size"
-        android:contentDescription="@string/home_creator_new_project"
-        android:text=""
         android:backgroundTint="@color/transparent"
+        android:contentDescription="@string/home_creator_new_project"
         android:src="@drawable/icon_plus_circle"
-        app:layout_constraintBottom_toTopOf="@+id/guidelineHomeCreatorBottom1"
-        app:layout_constraintEnd_toStartOf="@+id/guidelineHomeCreatorRight1" />
-
+        android:text=""
+        app:layout_constraintBottom_toTopOf="@+id/guidelineHomeCreatorHorizontal98"
+        app:layout_constraintEnd_toStartOf="@+id/guidelineHomeCreatorVertical98" />
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guidelineHomeCreatorBottom1"
+        android:id="@+id/guidelineHomeCreatorHorizontal8"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_end="@dimen/home_creator_create_project_margin" />
+        app:layout_constraintGuide_percent="@dimen/guideline_8" />
+
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guidelineHomeCreatorRight1"
+        android:id="@+id/guidelineHomeCreatorHorizontal90"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="@dimen/guideline_90" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidelineHomeCreatorHorizontal98"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="@dimen/guideline_98" />
+
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidelineHomeCreatorVertical98"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_end="@dimen/home_creator_create_project_margin" />
+        app:layout_constraintGuide_percent="@dimen/guideline_98" />
 
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guidelineHomeCreatorRecyclerTop"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_begin="@dimen/top_content_padding" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guidelineHomeCreatorRecyclerBottom"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_end="@dimen/bottom_content_padding" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
