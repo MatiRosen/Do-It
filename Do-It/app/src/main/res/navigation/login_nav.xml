@@ -26,5 +26,12 @@
         android:id="@+id/registerDataFragment"
         android:name="team.doit.do_it.fragments.RegisterDataFragment"
         android:label="fragment_register_data"
-        tools:layout="@layout/fragment_register_data" />
+        tools:layout="@layout/fragment_register_data" >
+        <argument
+            android:name="email"
+            app:argType="string" />
+        <argument
+            android:name="password"
+            app:argType="string" />
+    </fragment>
 </navigation>

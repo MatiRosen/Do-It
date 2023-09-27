@@ -10,7 +10,6 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.navigation.fragment.findNavController
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.FirebaseFirestore
 import team.doit.do_it.R
 import kotlin.properties.Delegates
 
@@ -24,8 +23,6 @@ class RegisterFragment : Fragment() {
     private var password by Delegates.notNull<String>()
     private lateinit var etEmail : EditText
     private lateinit var etPassword : EditText
-
-    private lateinit var mAuth: FirebaseAuth
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,31 +41,27 @@ class RegisterFragment : Fragment() {
 
         continueButton = v.findViewById<Button>(R.id.btnRegisterContinue)
         continueButton.setOnClickListener {
-            //register(v)
-            //TODO: Descomentar la línea de arriba y borrar la de abajo!
-            findNavController().navigate(R.id.action_registerFragment_to_registerDataFragment)
+            register()
         }
     }
 
-    private fun register(v: View) {
+    private fun register() {
         etEmail = v.findViewById(R.id.editTxtRegisterEmail)
         etPassword = v.findViewById(R.id.editTxtRegisterPassword)
 
         email = etEmail.text.toString()
         password = etPassword.text.toString()
 
-        FirebaseAuth.getInstance().createUserWithEmailAndPassword(email, password)
-            .addOnCompleteListener {
-                if (it.isSuccessful) {
-                    var dbRegister = FirebaseFirestore.getInstance()
-                    dbRegister.collection("usuarios").document(email).set(
-                        hashMapOf(
-                            "email" to email
-                        ))
-
-                    findNavController().navigate(R.id.action_registerFragment_to_registerDataFragment)
-                }
-                else Toast.makeText(activity, "Error, algo salió mal :(", Toast.LENGTH_SHORT).show()
-            }
+        if(!email.isEmpty() && !password.isEmpty() && isEmailValid(email)){
+            val action = RegisterFragmentDirections.actionRegisterFragmentToRegisterDataFragment(email, password)
+            findNavController().navigate(action)
+        } else {
+            Toast.makeText(activity, "Error, algo salió mal :(", Toast.LENGTH_SHORT).show()
+        }
     }
+
+    private fun isEmailValid(email: String): Boolean {
+        return android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()
+    }
+
 }

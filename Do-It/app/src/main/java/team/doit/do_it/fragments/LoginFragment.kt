@@ -49,8 +49,6 @@ class LoginFragment : Fragment() {
         mAuth = FirebaseAuth.getInstance()
 
         loginButton = v.findViewById<Button>(R.id.btnLoginLogin)
-
-
         loginButton.setOnClickListener {
             login(v)
         }
@@ -80,5 +78,7 @@ class LoginFragment : Fragment() {
 
         val intent = Intent(activity, MainActivity::class.java)
         startActivity(intent)
+
+        requireActivity().finish()
     }
 }
