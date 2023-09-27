@@ -17,14 +17,10 @@
         tools:layout="@layout/fragment_home_creator" >
         <action
             android:id="@+id/action_home_creator_to_projectCreationFragment"
-            app:destination="@id/project_creation"
-            app:popUpTo="@id/home_creator"
-            app:popUpToInclusive="true" />
+            app:destination="@id/project_creation" />
         <action
             android:id="@+id/action_home_creator_to_project_detail"
-            app:destination="@id/project_detail"
-            app:popUpTo="@id/home_creator"
-            app:popUpToInclusive="true" />
+            app:destination="@id/project_detail" />
     </fragment>
     <fragment
         android:id="@+id/chat"
