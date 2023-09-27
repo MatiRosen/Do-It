@@ -11,7 +11,7 @@
         android:layout_height="match_parent">
 
         <ImageView
-            android:id="@+id/img_register_logo"
+            android:id="@+id/imgRegisterLogo"
             android:layout_width="@dimen/register_logo"
             android:layout_height="@dimen/register_logo"
             android:src="@drawable/img_do_it_logo"
@@ -20,7 +20,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/txt_register_title"
+            android:id="@+id/txtRegisterTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="14dp"
@@ -30,10 +30,10 @@
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/img_register_logo" />
+            app:layout_constraintTop_toBottomOf="@+id/imgRegisterLogo" />
 
         <EditText
-            android:id="@+id/edit_txt_register_email"
+            android:id="@+id/editTxtRegisterEmail"
             android:layout_width="@dimen/login_input_width"
             android:layout_height="@dimen/login_input_height"
             android:layout_marginTop="45dp"
@@ -45,10 +45,10 @@
             android:textSize="@dimen/txt_input_size"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/txt_register_title" />
+            app:layout_constraintTop_toBottomOf="@+id/txtRegisterTitle" />
 
         <EditText
-            android:id="@+id/edit_txt_register_password"
+            android:id="@+id/editTxtRegisterPassword"
             android:layout_width="@dimen/login_input_width"
             android:layout_height="@dimen/login_input_height"
             android:layout_marginTop="15dp"
@@ -60,10 +60,10 @@
             android:textSize="@dimen/txt_input_size"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/edit_txt_register_email" />
+            app:layout_constraintTop_toBottomOf="@+id/editTxtRegisterEmail" />
 
         <Button
-            android:id="@+id/btn_register_continue"
+            android:id="@+id/btnRegisterContinue"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
@@ -74,7 +74,7 @@
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/edit_txt_register_password" />
+            app:layout_constraintTop_toBottomOf="@+id/editTxtRegisterPassword" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>
