@@ -28,7 +28,7 @@ class ProjectListAdapter(
         val project = projectList[position]
 
         holder.setProjectTitle(project.getTitle())
-        holder.setProjectDescription(project.getDescription())
+        holder.setProjectSubtitle(project.getSubtitle())
         holder.setProjectCategory(project.getCategory())
         holder.setProjectTotalBudget(project.getTotalBudget())
         holder.setProjectImage(project.getImage())

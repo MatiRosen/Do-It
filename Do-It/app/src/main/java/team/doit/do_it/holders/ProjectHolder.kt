@@ -14,23 +14,24 @@ class ProjectHolder(view: View) : RecyclerView.ViewHolder(view){
     }
 
     fun setProjectTitle(projectTitle: String) {
-        val txt : TextView = view.findViewById(R.id.txt_item_project_creator_title)
+        val txt : TextView = view.findViewById(R.id.txtItemProjectCreatorTitle)
         txt.text = projectTitle
     }
 
-    fun setProjectDescription(projectDescription: String) {
-        val txt : TextView = view.findViewById(R.id.txt_item_project_creator_description)
-        txt.text = projectDescription
+    fun setProjectSubtitle(projectSubtitle: String) {
+        val txt : TextView = view.findViewById(R.id.txtItemProjectCreatorSubtitle)
+        txt.text = projectSubtitle
     }
 
     fun setProjectCategory(projectCategory: String) {
-        val txt : TextView = view.findViewById(R.id.txt_item_project_creator_category)
+        val txt : TextView = view.findViewById(R.id.txtItemProjectCreatorCategory)
         txt.text = projectCategory
     }
 
     fun setProjectTotalBudget(projectTotalBudget: Double) {
-        val txt : TextView = view.findViewById(R.id.txt_item_project_creator_total_budget)
-        txt.text = projectTotalBudget.toString()
+        val txt : TextView = view.findViewById(R.id.txtItemProjectCeatorTotalBudget)
+        val budgetString = view.context.getString(R.string.currency) + projectTotalBudget.toString()
+        txt.text = budgetString
     }
 
     fun setProjectImage(projectImage: String) {
@@ -38,6 +39,6 @@ class ProjectHolder(view: View) : RecyclerView.ViewHolder(view){
     }
 
     fun getCardLayout(): View {
-        return view.findViewById(R.id.card_view_home_creator_project)
+        return view.findViewById(R.id.cardViewHomeCreatorProject)
     }
 }

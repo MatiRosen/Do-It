@@ -2,13 +2,13 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/frameLayout"
+    android:id="@+id/frameLayoutProjectDetail"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".fragments.ProjectDetailFragment">
 
     <TextView
-        android:id="@+id/txt_project_detail_title"
+        android:id="@+id/txtProjectDetailTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text=""
@@ -18,4 +18,53 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- TODO: Reemplazar imagen -->
+    <ImageView
+        android:id="@+id/imgProjectDetailProjectImage"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:src="@drawable/arg_campeon"
+        app:layout_constraintBottom_toTopOf="@+id/guidelineProjectDetail30"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/guidelineProjectDetailTop"
+        />
+
+    <TextView
+        android:id="@+id/txtProjectDetailTotalBudget"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/project_detail_top_padding"
+        android:text=""
+        android:textColor="@color/green"
+        android:textSize="@dimen/txt_description_size"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/guidelineProjectDetail30" />
+
+    <TextView
+        android:id="@+id/txtProjectDetailTotalBudgetDesc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/project_detail_top_padding"
+        android:text="@string/project_creation_total_budget"
+        android:textColor="@color/black"
+        android:textSize="@dimen/txt_description_size"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/txtProjectDetailTotalBudget"
+        app:layout_constraintTop_toBottomOf="@+id/guidelineProjectDetail30" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidelineProjectDetailTop"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_begin="@dimen/top_content_padding" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidelineProjectDetail30"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.30" />
 </androidx.constraintlayout.widget.ConstraintLayout>

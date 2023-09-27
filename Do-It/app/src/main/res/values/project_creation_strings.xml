@@ -2,6 +2,7 @@
 <resources>
     <string name="project_creation_new_project">Crear nuevo proyecto</string>
     <string name="project_creation_project_title">Título del proyecto</string>
+    <string name="project_creation_project_subtitle">Subtítulo del proyecto</string>
     <string name="project_creation_project_description">Descripción del proyecto</string>
     <string name="project_creation_project_category">Categoría</string>
     <string name="project_creation_project_category_hint">Seleccione una categoría</string>

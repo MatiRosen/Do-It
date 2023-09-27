@@ -2,14 +2,14 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/frame_layout_project_creation"
+    android:id="@+id/frameLayoutProjectCreation"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".fragments.ProjectCreationFragment">
 
 
     <TextView
-        android:id="@+id/txt_project_creation_title"
+        android:id="@+id/txtProjectCreationTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/project_creation_new_project"
@@ -21,24 +21,24 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline_project_creation_top_padding"
+        android:id="@+id/guidelineProjectCreationTopPadding"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintGuide_begin="@dimen/top_content_padding" />
 
     <LinearLayout
-        android:id="@+id/linearLayout_project_creation_form"
+        android:id="@+id/linearLayoutProjectCreationForm"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
         android:gravity="center"
+        android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline_project_creation_top_padding">
+        app:layout_constraintTop_toTopOf="@+id/guidelineProjectCreationTopPadding">
 
         <EditText
-            android:id="@+id/edit_txt_project_creation_title"
+            android:id="@+id/editTxtProjectCreationTitle"
             android:layout_width="match_parent"
             android:layout_height="@dimen/input_txt_height"
             android:layout_marginBottom="@dimen/divider_bottom_padding"
@@ -50,8 +50,21 @@
             android:textColor="@color/black"
             android:textSize="@dimen/txt_input_size" />
 
+        <EditText
+            android:id="@+id/editTxtProjectCreationSubtitle"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/input_txt_height"
+            android:layout_marginBottom="@dimen/divider_bottom_padding"
+            android:autofillHints=""
+            android:background="@drawable/style_edittext"
+            android:hint="@string/project_creation_project_subtitle"
+            android:inputType="text"
+            android:padding="@dimen/input_txt_padding"
+            android:textColor="@color/black"
+            android:textSize="@dimen/txt_input_size" />
+
         <Spinner
-            android:id="@+id/spinner_project_creation_category"
+            android:id="@+id/spinnerProjectCreationCategory"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/divider_top_padding"
@@ -60,7 +73,7 @@
 
         <!-- TODO: Cambiar aspecto del botón para que se vea como el de figma. -->
         <Button
-            android:id="@+id/btn_project_creation_add_image"
+            android:id="@+id/btnProjectCreationAddImage"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/divider_top_padding"
@@ -72,7 +85,7 @@
 
 
         <EditText
-            android:id="@+id/edit_txt_project_creation_description"
+            android:id="@+id/editTxtProjectCreationDescription"
             android:layout_width="match_parent"
             android:layout_height="@dimen/project_creation_min_description_height"
             android:layout_marginTop="@dimen/divider_top_padding"
@@ -93,16 +106,16 @@
             android:orientation="horizontal"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/linearLayout_project_creation_form">
+            app:layout_constraintTop_toBottomOf="@+id/linearLayoutProjectCreationForm">
 
             <EditText
-                android:id="@+id/edit_txt_project_creation_min_budget"
+                android:id="@+id/editTxtProjectCreationMinBudget"
                 android:layout_width="0dp"
                 android:layout_height="@dimen/input_txt_height"
-                android:layout_weight="1"
                 android:layout_marginTop="@dimen/divider_top_padding"
                 android:layout_marginEnd="@dimen/input_end_padding"
                 android:layout_marginBottom="@dimen/divider_bottom_padding"
+                android:layout_weight="1"
                 android:autofillHints=""
                 android:background="@drawable/style_edittext"
                 android:hint="@string/project_creation_project_min_budget"
@@ -112,13 +125,13 @@
                 android:textSize="@dimen/txt_input_size" />
 
             <EditText
-                android:id="@+id/edit_txt_project_creation_total_budget"
+                android:id="@+id/editTxtProjectCreationTotalBudget"
                 android:layout_width="0dp"
                 android:layout_height="@dimen/input_txt_height"
-                android:layout_weight="1"
                 android:layout_marginStart="@dimen/input_start_padding"
                 android:layout_marginTop="@dimen/divider_top_padding"
                 android:layout_marginBottom="@dimen/divider_bottom_padding"
+                android:layout_weight="1"
                 android:autofillHints=""
                 android:background="@drawable/style_edittext"
                 android:hint="@string/project_creation_project_total_budget"
@@ -130,23 +143,23 @@
     </LinearLayout>
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline_project_creation_bottom_padding"
+        android:id="@+id/guidelineProjectCreationBottomPadding"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintGuide_end="@dimen/bottom_content_padding" />
 
     <Button
-        android:id="@+id/btn_project_creation_save"
+        android:id="@+id/btnProjectCreationSave"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/style_button"
         android:text="@string/project_creation_save"
         android:textColor="@color/white"
         android:textSize="@dimen/txt_button_size"
-        app:layout_constraintTop_toBottomOf="@+id/guideline_project_creation_bottom_padding"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/guidelineProjectCreationBottomPadding" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

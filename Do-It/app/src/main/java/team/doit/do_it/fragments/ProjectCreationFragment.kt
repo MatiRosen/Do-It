@@ -32,8 +32,8 @@ class ProjectCreationFragment : Fragment() {
     }
 
     private fun initializeVariables() {
-        btnSaveProject = v.findViewById(R.id.btn_project_creation_save)
-        spinnerCategory = v.findViewById(R.id.spinner_project_creation_category)
+        btnSaveProject = v.findViewById(R.id.btnProjectCreationSave)
+        spinnerCategory = v.findViewById(R.id.spinnerProjectCreationCategory)
 
 
         startSpinner()
@@ -43,14 +43,15 @@ class ProjectCreationFragment : Fragment() {
         super.onStart()
 
         btnSaveProject.setOnClickListener {
-            val projectTitle = v.findViewById<EditText>(R.id.edit_txt_project_creation_title).text.toString()
+            val projectTitle = v.findViewById<EditText>(R.id.editTxtProjectCreationTitle).text.toString()
+            val projectSubtitle = v.findViewById<EditText>(R.id.editTxtProjectCreationSubtitle).text.toString()
             val projectCategory = spinnerCategory.selectedItem.toString()
             val projectImg = ""
-            val projectDescription = v.findViewById<EditText>(R.id.edit_txt_project_creation_description).text.toString()
-            val projectMinBudget = v.findViewById<EditText>(R.id.edit_txt_project_creation_min_budget).text.toString().toDouble()
-            val projectTotalBudget = v.findViewById<EditText>(R.id.edit_txt_project_creation_total_budget).text.toString().toDouble()
+            val projectDescription = v.findViewById<EditText>(R.id.editTxtProjectCreationDescription).text.toString()
+            val projectMinBudget = v.findViewById<EditText>(R.id.editTxtProjectCreationMinBudget).text.toString().toDouble()
+            val projectTotalBudget = v.findViewById<EditText>(R.id.editTxtProjectCreationTotalBudget).text.toString().toDouble()
 
-            val project = ProjectEntity(projectTitle, projectDescription, projectCategory, projectImg, projectMinBudget, projectTotalBudget)
+            val project = ProjectEntity(projectTitle, projectSubtitle, projectDescription, projectCategory, projectImg, projectMinBudget, projectTotalBudget)
             // TODO: Enviar el proyecto a la base de datos comprobando que nada es null ni vacio
             val successMessage = R.string.project_creation_succeed.toString() + ": " + project.toString()
             Snackbar.make(v, successMessage, Snackbar.LENGTH_LONG).show()
@@ -73,7 +74,7 @@ class ProjectCreationFragment : Fragment() {
 
                 if (position == 0) {
                     (view as TextView).setTextColor(resources.getColor(R.color.medium_gray, null))
-                    view .setBackgroundColor(0)
+                    view.setBackgroundColor(0)
                 }
 
                 return view

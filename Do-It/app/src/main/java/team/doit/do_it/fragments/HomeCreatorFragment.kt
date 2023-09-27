@@ -44,16 +44,16 @@ class HomeCreatorFragment : Fragment(), OnViewItemClickedListener {
     }
 
     private fun addProjects() {
-        projectList.add(ProjectEntity("Proyecto 1", "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation", "Categoría 1", "", 10000.0, 99000.0))
-        projectList.add(ProjectEntity("Proyecto 2", "Descripción 2", "Categoría 2", "", 5000.0, 66000.0))
-        projectList.add(ProjectEntity("Proyecto 3", "Descripción 3", "Categoría 3", "", 20000.0, 99000.0))
-        projectList.add(ProjectEntity("Proyecto 4", "Descripción 4", "Categoría 4", "", 15000.0, 350000.0))
-        projectList.add(ProjectEntity("Proyecto 5", "Descripción 5", "Categoría 5", "", 100000.0, 3000000.0))
+        projectList.add(ProjectEntity("Proyecto 1 sobre la naturaleza y el arte y los museos :)", "Este proyecto trata sobre muchas cosas. Por ejemplo: Lorem Ipsum dolor sit amet, consectetur adipiscing elit", "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation", "Naturaleza, arte, dinero y mas!", "", 10000.0, 99000.0))
+        projectList.add(ProjectEntity("Proyecto 2", "Subtitulo proyecto 2", "Descripción 2", "Categoría 2", "", 5000.0, 66000.0))
+        projectList.add(ProjectEntity("Proyecto 3", "Subtitulo proyecto 3", "Descripción 3", "Categoría 3", "", 20000.0, 99000.0))
+        projectList.add(ProjectEntity("Proyecto 4", "Subtitulo proyecto 4", "Descripción 4", "Categoría 4", "", 15000.0, 350000.0))
+        projectList.add(ProjectEntity("Proyecto 5", "Subtitulo proyecto 5", "Descripción 5", "Categoría 5", "", 100000.0, 3000000.0))
     }
 
     private fun iniliazeVariables() {
-        recyclerProject = v.findViewById(R.id.recycler_home_creator_projects)
-        btnCreateProject = v.findViewById(R.id.btn_home_creator_create_project)
+        recyclerProject = v.findViewById(R.id.recyclerHomeCreatorProjects)
+        btnCreateProject = v.findViewById(R.id.btnHomeCreatorCreateProject)
     }
 
     override fun onStart() {

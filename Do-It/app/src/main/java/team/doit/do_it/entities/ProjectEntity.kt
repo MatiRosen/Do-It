@@ -5,10 +5,11 @@ import android.os.Parcelable
 
 
 // TODO: Categoria es string o enum? Imagen es string?
-class ProjectEntity (title: String, description: String, category: String, image: String,
+class ProjectEntity (title: String, subtitle: String, description: String, category: String, image: String,
                      minBudget: Double, totalBudget: Double) : Parcelable {
 
     private var title: String
+    private var subtitle: String
     private var description: String
     private var category: String
     private var image: String
@@ -20,6 +21,7 @@ class ProjectEntity (title: String, description: String, category: String, image
         parcel.readString()!!,
         parcel.readString()!!,
         parcel.readString()!!,
+        parcel.readString()!!,
         parcel.readDouble(),
         parcel.readDouble()
     ) {
@@ -27,6 +29,7 @@ class ProjectEntity (title: String, description: String, category: String, image
 
     init {
         this.title = title
+        this.subtitle = subtitle
         this.description = description
         this.category = category
         this.image = image
@@ -39,6 +42,7 @@ class ProjectEntity (title: String, description: String, category: String, image
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeString(title)
+        parcel.writeString(subtitle)
         parcel.writeString(description)
         parcel.writeString(category)
         parcel.writeString(image)
@@ -58,6 +62,10 @@ class ProjectEntity (title: String, description: String, category: String, image
 
     fun getTitle(): String {
         return this.title
+    }
+
+    fun getSubtitle(): String {
+        return this.subtitle
     }
 
     fun getDescription(): String {
@@ -81,6 +89,6 @@ class ProjectEntity (title: String, description: String, category: String, image
     }
 
     override fun toString(): String {
-        return "ProjectEntity(title='$title', description='$description', category='$category', image='$image', minBudget=$minBudget, totalBudget=$totalBudget)"
+        return "ProjectEntity(title='$title', subtitle='$subtitle', description='$description', category='$category', image='$image', minBudget=$minBudget, totalBudget=$totalBudget)"
     }
 }
