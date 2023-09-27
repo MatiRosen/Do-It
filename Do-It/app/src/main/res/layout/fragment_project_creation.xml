@@ -24,10 +24,11 @@
     <ScrollView
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/guidelineProjectCreationHorizontal90"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guidelineProjectCreationHorizontal8">
+        app:layout_constraintTop_toTopOf="@+id/guidelineProjectCreationHorizontal8"
+        app:layout_constraintWidth_max="488dp">
 
         <LinearLayout
             android:id="@+id/linearLayoutProjectCreationForm"
@@ -142,20 +143,22 @@
                     android:textColor="@color/black"
                     android:textSize="@dimen/txt_input_size" />
             </LinearLayout>
+
+            <Button
+                android:id="@+id/btnProjectCreationSave"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/divider_top_padding"
+                android:layout_marginBottom="@dimen/divider_bottom_padding"
+                android:background="@drawable/style_button"
+                android:text="@string/project_creation_save"
+                android:textColor="@color/white"
+                android:textSize="@dimen/txt_button_size"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/guidelineProjectCreationHorizontal90" />
         </LinearLayout>
     </ScrollView>
-
-    <Button
-        android:id="@+id/btnProjectCreationSave"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@drawable/style_button"
-        android:text="@string/project_creation_save"
-        android:textColor="@color/white"
-        android:textSize="@dimen/txt_button_size"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/guidelineProjectCreationHorizontal90" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guidelineProjectCreationHorizontal8"
@@ -163,14 +166,5 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="@dimen/guideline_8" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guidelineProjectCreationHorizontal90"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="@dimen/guideline_90" />
-
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

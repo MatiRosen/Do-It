@@ -49,8 +49,16 @@ class LoginFragment : Fragment() {
         mAuth = FirebaseAuth.getInstance()
 
         loginButton = v.findViewById<Button>(R.id.btnLoginLogin)
+
+        // TODO descomentar esto
         loginButton.setOnClickListener {
             login(v)
+
+            // Y borrar esto
+            val intent = Intent(activity, MainActivity::class.java)
+            startActivity(intent)
+
+            requireActivity().finish()
         }
 
         val btnTextRegister = v.findViewById<TextView>(R.id.btnTxtLoginRegister)
