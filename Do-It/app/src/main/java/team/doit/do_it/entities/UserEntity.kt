@@ -5,24 +5,21 @@ import android.os.Parcelable
 import java.util.Date
 
 class UserEntity(firstName: String, surname: String, email: String,
-                 birthDate: Date, gender: String, telephoneNumber: String, address: String,
-                 password: String, isPremium: Byte) : Parcelable {
+                 birthDate: String, gender: String, telephoneNumber: String, address: String, isPremium: Byte) : Parcelable {
 
     private var firstName: String
     private var surname : String
     private var email : String
-    private var birthDate : Date // TODO: Change to Date data type
+    private var birthDate : String // TODO: Change to Date data type
     private var gender : String
     private var telephoneNumber : String
     private var address : String // TODO: Change to Address data type
-    private var password : String
     private var isPremium : Byte
 
     constructor(parcel: Parcel) : this(
         parcel.readString()!!,
         parcel.readString()!!,
         parcel.readString()!!,
-        parcel.readSerializable() as Date,
         parcel.readString()!!,
         parcel.readString()!!,
         parcel.readString()!!,
@@ -38,7 +35,6 @@ class UserEntity(firstName: String, surname: String, email: String,
         this.gender = gender
         this.telephoneNumber = telephoneNumber
         this.address = address
-        this.password = password
         this.isPremium = isPremium
     }
 
@@ -50,7 +46,6 @@ class UserEntity(firstName: String, surname: String, email: String,
         parcel.writeString(gender)
         parcel.writeString(telephoneNumber)
         parcel.writeString(address)
-        parcel.writeString(password)
         parcel.writeByte(isPremium)
     }
 
@@ -68,5 +63,37 @@ class UserEntity(firstName: String, surname: String, email: String,
         }
     }
 
+    //region Getters
+    fun getFirstName(): String {
+        return firstName
+    }
 
+    fun getSurname(): String {
+        return surname
+    }
+
+    fun getEmail(): String {
+        return email
+    }
+
+    fun getBirthDate(): String {
+        return birthDate
+    }
+
+    fun getGender(): String {
+        return gender
+    }
+
+    fun getTelephoneNumber(): String {
+        return telephoneNumber
+    }
+
+    fun getAddress(): String {
+        return address
+    }
+
+    fun getIsPremium(): Byte {
+        return isPremium
+    }
+    //endregion
 }
