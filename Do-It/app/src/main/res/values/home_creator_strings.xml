@@ -2,4 +2,5 @@
 <resources>
     <string name="home_creator_new_project">Crear nuevo proyecto</string>
     <string name="home_creator_title">Mis proyectos</string>
+    <string name="home_creation_add_project">Agregar idea</string>
 </resources>

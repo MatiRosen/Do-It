@@ -88,7 +88,8 @@
                 android:background="@drawable/style_button_project_creation"
                 android:text="@string/project_creation_project_image"
                 android:textColor="@color/white"
-                android:textSize="@dimen/txt_button_size" />
+                android:textSize="@dimen/txt_button_size"
+                android:textStyle="bold"/>
 
             <EditText
                 android:id="@+id/editTxtProjectCreationDescription"
@@ -153,10 +154,12 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/divider_top_padding"
                 android:layout_marginBottom="@dimen/divider_bottom_padding"
+                android:padding="@dimen/button_text_padding"
                 android:background="@drawable/style_button"
                 android:text="@string/project_creation_save"
                 android:textColor="@color/white"
                 android:textSize="@dimen/txt_button_size"
+                android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/guidelineProjectCreationHorizontal90" />
