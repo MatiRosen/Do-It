@@ -36,6 +36,7 @@
     <dimen name="guideline_80">0.80</dimen>
     <dimen name="guideline_90">0.90</dimen>
 
+    <dimen name="guideline_2">0.02</dimen>
     <dimen name="guideline_3">0.03</dimen>
     <dimen name="guideline_5">0.05</dimen>
     <dimen name="guideline_8">0.08</dimen>

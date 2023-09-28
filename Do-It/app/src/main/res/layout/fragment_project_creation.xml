@@ -79,7 +79,6 @@
                 android:id="@+id/btnProjectCreationAddImage"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-
                 android:layout_marginTop="@dimen/divider_top_padding"
                 android:layout_marginBottom="@dimen/divider_bottom_padding"
                 android:background="@drawable/style_button_project_creation"

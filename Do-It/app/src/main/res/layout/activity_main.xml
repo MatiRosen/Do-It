@@ -13,8 +13,8 @@
         android:layout_height="0dp"
         app:defaultNavHost="true"
         app:layout_constraintBottom_toTopOf="@+id/guidelineMainActivityHorizontal93"
-        app:layout_constraintEnd_toStartOf="@+id/guidelineMainActivityVertical95"
-        app:layout_constraintStart_toStartOf="@+id/guideLineMainActivityVertical5"
+        app:layout_constraintEnd_toStartOf="@+id/guidelineMainActivityVertical98"
+        app:layout_constraintStart_toStartOf="@+id/guideLineMainActivityVertical2"
         app:layout_constraintTop_toTopOf="@+id/guidelineMainActivityHorizontal3"
         app:navGraph="@navigation/main_nav" />
 
@@ -47,17 +47,17 @@
         app:layout_constraintGuide_percent="@dimen/guideline_93" />
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideLineMainActivityVertical5"
+        android:id="@+id/guideLineMainActivityVertical2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_percent="@dimen/guideline_5" />
+        app:layout_constraintGuide_percent="@dimen/guideline_2" />
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guidelineMainActivityVertical95"
+        android:id="@+id/guidelineMainActivityVertical98"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_percent="@dimen/guideline_95" />
+        app:layout_constraintGuide_percent="@dimen/guideline_98" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

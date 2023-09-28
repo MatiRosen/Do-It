@@ -8,42 +8,40 @@
     tools:context=".fragments.ProjectDetailFragment">
 
     <!-- TODO: Borrar textos -->
-    <TextView
-        android:id="@+id/txtProjectDetailTitle"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="Título"
-        android:textColor="@color/dark_pantone"
-        android:textSize="@dimen/txt_main_title_size"
-        android:textStyle="bold"
-        android:gravity="center"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
     <ScrollView
         android:id="@+id/scrollViewProjectDetail"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginTop="@dimen/divider_top_padding"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtProjectDetailTitle"
-        app:layout_constraintWidth_max="@dimen/input_max_width">>
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintWidth_max="@dimen/input_max_width">
 
         <LinearLayout
             android:id="@+id/linearLayoutProjectDetailInfo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:gravity="center">
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/txtProjectDetailTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_marginBottom="@dimen/divider_bottom_padding"
+                android:text="Título"
+                android:textColor="@color/dark_pantone"
+                android:textSize="@dimen/txt_secondary_title_size"
+                android:textStyle="bold" />
 
             <!-- TODO: Reemplazar imagen -->
             <ImageView
                 android:id="@+id/imgProjectDetailProjectImage"
                 android:layout_width="match_parent"
-                android:layout_height="100dp"
+                android:layout_height="200dp"
                 android:layout_marginTop="@dimen/divider_top_padding"
                 android:layout_marginBottom="@dimen/divider_bottom_padding"
                 android:src="@drawable/arg_campeon" />
@@ -56,7 +54,7 @@
                 android:layout_marginBottom="@dimen/divider_bottom_padding"
                 android:text="Subtítulo"
                 android:textColor="@color/medium_gray"
-                android:textSize="@dimen/txt_secondary_title_size" />
+                android:textSize="@dimen/txt_description_size" />
 
             <TextView
                 android:id="@+id/txtProjectDetailDescription"
@@ -66,7 +64,35 @@
                 android:layout_marginBottom="@dimen/divider_bottom_padding"
                 android:text="Descripción"
                 android:textColor="@color/black"
-                android:textSize="@dimen/txt_description_size" />
+                android:textSize="@dimen/txt_paragraph_size" />
+
+            <TextView
+                android:id="@+id/txtProjectDetailCategory"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/divider_top_padding"
+                android:layout_marginBottom="@dimen/divider_bottom_padding"
+                android:text="Categoría"
+                android:textColor="@color/dark_gray"
+                android:textSize="@dimen/txt_paragraph_size"
+                android:padding="@dimen/input_txt_padding"
+                android:drawablePadding="@dimen/input_txt_padding"
+                app:drawableStartCompat="@drawable/icon_label" />
+
+            <TextView
+                android:id="@+id/txtProjectDetailTotalBudget"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/divider_top_padding"
+                android:layout_marginBottom="@dimen/divider_bottom_padding"
+                android:text="Presupuesto total"
+                android:textColor="@color/green"
+                android:textSize="@dimen/txt_paragraph_size"
+                android:padding="@dimen/input_txt_padding"
+                android:drawablePadding="@dimen/input_txt_padding"
+                app:drawableStartCompat="@drawable/icon_cash" />
+
+
         </LinearLayout>
     </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>
