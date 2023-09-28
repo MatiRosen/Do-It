@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/home_nav"
+    app:startDestination="@id/homeCreatorFragment">
+
+    <fragment
+        android:id="@+id/homeCreatorFragment"
+        android:name="team.doit.do_it.fragments.HomeCreatorFragment"
+        android:label="fragment_home_creator"
+        tools:layout="@layout/fragment_home_creator" >
+        <action
+            android:id="@+id/action_homeCreatorFragment_to_homeInversorFragment"
+            app:destination="@id/homeInversorFragment" />
+        <action
+            android:id="@+id/action_homeCreatorFragment_to_projectCreationFragment"
+            app:destination="@id/projectCreationFragment" />
+        <action
+            android:id="@+id/action_homeCreatorFragment_to_projectDetailFragment"
+            app:destination="@id/projectDetailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/homeInversorFragment"
+        android:name="team.doit.do_it.fragments.HomeInversorFragment"
+        android:label="fragment_home_inversor"
+        tools:layout="@layout/fragment_home_inversor" />
+    <fragment
+        android:id="@+id/projectCreationFragment"
+        android:name="team.doit.do_it.fragments.ProjectCreationFragment"
+        android:label="fragment_project_creation"
+        tools:layout="@layout/fragment_project_creation" />
+    <fragment
+        android:id="@+id/projectDetailFragment"
+        android:name="team.doit.do_it.fragments.ProjectDetailFragment"
+        android:label="fragment_project_detail"
+        tools:layout="@layout/fragment_project_detail" >
+        <argument
+            android:name="project"
+            app:argType="team.doit.do_it.entities.ProjectEntity" />
+    </fragment>
+</navigation>
