@@ -52,7 +52,7 @@ class LoginFragment : Fragment() {
 
         // TODO descomentar esto
         loginButton.setOnClickListener {
-            login(v)
+            //login(v)
 
             // Y borrar esto
             val intent = Intent(activity, MainActivity::class.java)
