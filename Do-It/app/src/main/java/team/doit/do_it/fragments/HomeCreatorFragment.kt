@@ -12,15 +12,15 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import team.doit.do_it.R
 import team.doit.do_it.adapters.ProjectListAdapter
+import team.doit.do_it.databinding.FragmentHomeCreatorBinding
 import team.doit.do_it.entities.ProjectEntity
 import team.doit.do_it.listeners.OnViewItemClickedListener
 
 class HomeCreatorFragment : Fragment(), OnViewItemClickedListener {
 
+    private var _binding : FragmentHomeCreatorBinding? = null
+    private val binding get() = _binding!!
     private lateinit var v : View
-    private lateinit var btnCreateProject: Button
-
-    private lateinit var recyclerProject : RecyclerView
 
     private var projectList : MutableList<ProjectEntity> = ArrayList()
 
@@ -32,9 +32,9 @@ class HomeCreatorFragment : Fragment(), OnViewItemClickedListener {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        v = inflater.inflate(R.layout.fragment_home_creator, container, false)
-        iniliazeVariables()
+        _binding = FragmentHomeCreatorBinding.inflate(inflater, container, false)
 
+        v = binding.root
 
         if (projectList.size == 0) {
             addProjects()
@@ -51,25 +51,21 @@ class HomeCreatorFragment : Fragment(), OnViewItemClickedListener {
         projectList.add(ProjectEntity("Proyecto 5", "Subtitulo proyecto 5", "Descripción 5", "Categoría 5", "", 100000.0, 3000000.0))
     }
 
-    private fun iniliazeVariables() {
-        recyclerProject = v.findViewById(R.id.recyclerHomeCreatorProjects)
-        btnCreateProject = v.findViewById(R.id.btnHomeCreatorCreateProject)
-    }
-
     override fun onStart() {
         super.onStart()
 
-        btnCreateProject.setOnClickListener {
+            
+        binding.btnHomeCreatorCreateProject.setOnClickListener {
             val action = HomeCreatorFragmentDirections.actionHomeCreatorFragmentToProjectCreationFragment()
             v.findNavController().navigate(action)
         }
 
         requireActivity()
-        recyclerProject.setHasFixedSize(true)
+        binding.recyclerHomeCreatorProjects.setHasFixedSize(true)
         linearLayoutManager = LinearLayoutManager(context)
-        recyclerProject.layoutManager = linearLayoutManager
+        binding.recyclerHomeCreatorProjects.layoutManager = linearLayoutManager
         projectListAdapter = ProjectListAdapter(projectList, this)
-        recyclerProject.adapter = projectListAdapter
+        binding.recyclerHomeCreatorProjects.adapter = projectListAdapter
     }
 
     override fun onViewItemDetail(project: ProjectEntity) {

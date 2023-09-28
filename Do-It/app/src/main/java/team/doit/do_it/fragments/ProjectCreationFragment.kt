@@ -1,55 +1,49 @@
 package team.doit.do_it.fragments
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.EditText
-import android.widget.Spinner
 import android.widget.TextView
+import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import com.google.android.material.snackbar.Snackbar
 import team.doit.do_it.R
+import team.doit.do_it.databinding.FragmentProjectCreationBinding
 import team.doit.do_it.entities.ProjectEntity
 
 
 class ProjectCreationFragment : Fragment() {
 
-    private lateinit var v : View
-    private lateinit var btnSaveProject: View
-    private lateinit var spinnerCategory : Spinner
+    private var _binding : FragmentProjectCreationBinding? = null
+    private val binding get() = _binding!!
+    private lateinit var v: View
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        v = inflater.inflate(R.layout.fragment_project_creation, container, false)
+        _binding = FragmentProjectCreationBinding.inflate(inflater, container, false)
 
-        initializeVariables()
+        v = binding.root
+        startSpinner()
 
         return v
-    }
-
-    private fun initializeVariables() {
-        btnSaveProject = v.findViewById(R.id.btnProjectCreationSave)
-        spinnerCategory = v.findViewById(R.id.spinnerProjectCreationCategory)
-
-
-        startSpinner()
     }
 
     override fun onStart() {
         super.onStart()
 
-        btnSaveProject.setOnClickListener {
-            val projectTitle = v.findViewById<EditText>(R.id.editTxtProjectCreationTitle).text.toString()
-            val projectSubtitle = v.findViewById<EditText>(R.id.editTxtProjectCreationSubtitle).text.toString()
-            val projectCategory = spinnerCategory.selectedItem.toString()
+        binding.btnProjectCreationSave.setOnClickListener {
+            val projectTitle = binding.editTxtProjectCreationTitle.text.toString()
+            val projectSubtitle = binding.editTxtProjectCreationSubtitle.text.toString()
+            val projectCategory = binding.spinnerProjectCreationCategory.selectedItem.toString()
             val projectImg = ""
-            val projectDescription = v.findViewById<EditText>(R.id.editTxtProjectCreationDescription).text.toString()
-            val projectMinBudget = v.findViewById<EditText>(R.id.editTxtProjectCreationMinBudget).text.toString().toDouble()
-            val projectTotalBudget = v.findViewById<EditText>(R.id.editTxtProjectCreationTotalBudget).text.toString().toDouble()
+            val projectDescription = binding.editTxtProjectCreationDescription.text.toString()
+            val projectMinBudget = binding.editTxtProjectCreationMinBudget.text.toString().toDouble()
+            val projectTotalBudget = binding.editTxtProjectCreationTotalBudget.text.toString().toDouble()
 
             val project = ProjectEntity(projectTitle, projectSubtitle, projectDescription, projectCategory, projectImg, projectMinBudget, projectTotalBudget)
             // TODO: Enviar el proyecto a la base de datos comprobando que nada es null ni vacio
@@ -81,6 +75,6 @@ class ProjectCreationFragment : Fragment() {
             }
         }
 
-        spinnerCategory.adapter = adapter
+        binding.spinnerProjectCreationCategory.adapter = adapter
     }
 }
