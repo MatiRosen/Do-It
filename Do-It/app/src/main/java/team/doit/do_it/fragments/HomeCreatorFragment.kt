@@ -1,16 +1,13 @@
 package team.doit.do_it.fragments
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
+import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import team.doit.do_it.R
 import team.doit.do_it.adapters.ProjectListAdapter
 import team.doit.do_it.databinding.FragmentHomeCreatorBinding
 import team.doit.do_it.entities.ProjectEntity
@@ -54,13 +51,22 @@ class HomeCreatorFragment : Fragment(), OnViewItemClickedListener {
     override fun onStart() {
         super.onStart()
 
-            
         binding.btnHomeCreatorCreateProject.setOnClickListener {
             val action = HomeCreatorFragmentDirections.actionHomeCreatorFragmentToProjectCreationFragment()
             v.findNavController().navigate(action)
         }
 
+        setupRecyclerView()
+    }
+
+    override fun onViewItemDetail(project: ProjectEntity) {
+        val action = HomeCreatorFragmentDirections.actionHomeCreatorFragmentToProjectDetailFragment(project)
+        this.findNavController().navigate(action)
+    }
+
+    private fun setupRecyclerView() {
         requireActivity()
+
         binding.recyclerHomeCreatorProjects.setHasFixedSize(true)
         linearLayoutManager = LinearLayoutManager(context)
         binding.recyclerHomeCreatorProjects.layoutManager = linearLayoutManager
@@ -68,8 +74,8 @@ class HomeCreatorFragment : Fragment(), OnViewItemClickedListener {
         binding.recyclerHomeCreatorProjects.adapter = projectListAdapter
     }
 
-    override fun onViewItemDetail(project: ProjectEntity) {
-        val action = HomeCreatorFragmentDirections.actionHomeCreatorFragmentToProjectDetailFragment(project)
-        this.findNavController().navigate(action)
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

@@ -22,7 +22,7 @@
     <!-- TODO: Preguntar si está bien construido... -->
     <fragment
         android:id="@+id/home"
-        android:name="team.doit.do_it.fragments.Fragment_home"
+        android:name="team.doit.do_it.fragments.HomeFragment"
         android:label="fragment_home"
         tools:layout="@layout/fragment_home" />
 </navigation>

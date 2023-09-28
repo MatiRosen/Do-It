@@ -37,20 +37,30 @@ class ProjectCreationFragment : Fragment() {
         super.onStart()
 
         binding.btnProjectCreationSave.setOnClickListener {
-            val projectTitle = binding.editTxtProjectCreationTitle.text.toString()
-            val projectSubtitle = binding.editTxtProjectCreationSubtitle.text.toString()
-            val projectCategory = binding.spinnerProjectCreationCategory.selectedItem.toString()
-            val projectImg = ""
-            val projectDescription = binding.editTxtProjectCreationDescription.text.toString()
-            val projectMinBudget = binding.editTxtProjectCreationMinBudget.text.toString().toDouble()
-            val projectTotalBudget = binding.editTxtProjectCreationTotalBudget.text.toString().toDouble()
-
-            val project = ProjectEntity(projectTitle, projectSubtitle, projectDescription, projectCategory, projectImg, projectMinBudget, projectTotalBudget)
-            // TODO: Enviar el proyecto a la base de datos comprobando que nada es null ni vacio
-            val successMessage = R.string.project_creation_succeed.toString() + ": " + project.toString()
-            Snackbar.make(v, successMessage, Snackbar.LENGTH_LONG).show()
-            v.findNavController().navigateUp()
+            saveProject()
         }
+    }
+
+
+    // TODO: Enviar el proyecto a la base de datos comprobando que nada es null ni vacio
+    private fun saveProject(){
+        val project = createProject()
+
+        val successMessage = R.string.project_creation_succeed.toString() + ": " + project.toString()
+        Snackbar.make(v, successMessage, Snackbar.LENGTH_LONG).show()
+        v.findNavController().navigateUp()
+    }
+
+    private fun createProject() : ProjectEntity{
+        val projectTitle = binding.editTxtProjectCreationTitle.text.toString()
+        val projectSubtitle = binding.editTxtProjectCreationSubtitle.text.toString()
+        val projectCategory = binding.spinnerProjectCreationCategory.selectedItem.toString()
+        val projectImg = ""
+        val projectDescription = binding.editTxtProjectCreationDescription.text.toString()
+        val projectMinBudget = binding.editTxtProjectCreationMinBudget.text.toString().toDouble()
+        val projectTotalBudget = binding.editTxtProjectCreationTotalBudget.text.toString().toDouble()
+
+        return ProjectEntity(projectTitle, projectSubtitle, projectDescription, projectCategory, projectImg, projectMinBudget, projectTotalBudget)
     }
 
     private fun startSpinner(){
@@ -76,5 +86,10 @@ class ProjectCreationFragment : Fragment() {
         }
 
         binding.spinnerProjectCreationCategory.adapter = adapter
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

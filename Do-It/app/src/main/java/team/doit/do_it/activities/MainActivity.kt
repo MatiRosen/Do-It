@@ -6,20 +6,25 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import team.doit.do_it.R
+import team.doit.do_it.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var bottomNavView : BottomNavigationView
+    private lateinit var binding: ActivityMainBinding
+
     private lateinit var navHostFragment : NavHostFragment
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
 
+        initializeVariables()
+    }
+
+    private fun initializeVariables(){
         navHostFragment = supportFragmentManager.findFragmentById(R.id.mainHost) as NavHostFragment
-
-        bottomNavView = findViewById(R.id.bottomNavigationView)
-
-        NavigationUI.setupWithNavController(bottomNavView, navHostFragment.navController)
+        val navController = navHostFragment.navController
+        NavigationUI.setupWithNavController(binding.bottomNavigationView, navController)
     }
 }
