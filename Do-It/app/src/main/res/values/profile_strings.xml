@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="profile_name">Nombre</string>
+    <string name="profile_email">Email</string>
+    <string name="profile_phone">Teléfono</string>
+    <string name="profile_gender">Género</string>
+    <string name="profile_direction">Dirección</string>
+    <string name="profile_editIcon_description">Icono para edición de perfil</string>
+    <string name="profile_logoIcon_description">Logo de la app</string>
+</resources>
