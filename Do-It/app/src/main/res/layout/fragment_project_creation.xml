@@ -78,14 +78,17 @@
                 android:layout_marginBottom="@dimen/divider_bottom_padding"
                 android:background="@drawable/style_edittext" />
 
-            <!-- TODO: Cambiar aspecto del botón para que se vea como el de figma. -->
             <Button
                 android:id="@+id/btnProjectCreationAddImage"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+
                 android:layout_marginTop="@dimen/divider_top_padding"
                 android:layout_marginBottom="@dimen/divider_bottom_padding"
                 android:background="@drawable/style_button_project_creation"
+                android:drawableStart="@drawable/icon_upload_file"
+                android:padding="@dimen/button_text_padding"
+                android:drawablePadding="@dimen/button_text_padding"
                 android:text="@string/project_creation_project_image"
                 android:textColor="@color/white"
                 android:textSize="@dimen/txt_button_size"
