@@ -9,12 +9,13 @@
 
     <TextView
         android:id="@+id/txtProjectCreationTitle"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="@string/project_creation_new_project"
         android:textColor="@color/dark_pantone"
         android:textSize="@dimen/txt_main_title_size"
         android:textStyle="bold"
+        android:gravity="center"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -22,13 +23,15 @@
     <!-- We use ScrollView because we set the elements height -->
 
     <ScrollView
+        android:id="@+id/scrollView2"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:layout_marginTop="@dimen/divider_top_padding"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guidelineProjectCreationHorizontal8"
-        app:layout_constraintWidth_max="488dp">
+        app:layout_constraintTop_toBottomOf="@+id/txtProjectCreationTitle"
+        app:layout_constraintWidth_max="@dimen/input_max_width">
 
         <LinearLayout
             android:id="@+id/linearLayoutProjectCreationForm"
@@ -38,7 +41,7 @@
             android:orientation="vertical"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/guidelineProjectCreationHorizontal8">
+            app:layout_constraintTop_toBottomOf="parent">
 
             <EditText
                 android:id="@+id/editTxtProjectCreationTitle"
@@ -159,12 +162,5 @@
                 app:layout_constraintTop_toBottomOf="@+id/guidelineProjectCreationHorizontal90" />
         </LinearLayout>
     </ScrollView>
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guidelineProjectCreationHorizontal8"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="@dimen/guideline_8" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

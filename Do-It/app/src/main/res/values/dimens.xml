@@ -54,6 +54,7 @@
     <dimen name="input_end_padding">10dp</dimen>
     <dimen name="divider_top_padding">10dp</dimen>
     <dimen name="divider_bottom_padding">10dp</dimen>
+    <dimen name="input_max_width">488dp</dimen>
 
     <!-- Global views -->
     <dimen name="card_global_project_height">150dp</dimen>
