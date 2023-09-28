@@ -88,6 +88,8 @@ class RegisterDataFragment : Fragment() {
 
                     val intent = Intent(activity, MainActivity::class.java)
                     startActivity(intent)
+
+                    requireActivity().finish()
                 }
                 else Toast.makeText(activity, "Error, algo salió mal :(", Toast.LENGTH_SHORT).show()
             }

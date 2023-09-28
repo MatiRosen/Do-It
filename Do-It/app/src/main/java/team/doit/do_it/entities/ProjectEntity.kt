@@ -60,6 +60,7 @@ class ProjectEntity (title: String, subtitle: String, description: String, categ
         }
     }
 
+    //region Getters
     fun getTitle(): String {
         return this.title
     }
@@ -87,6 +88,7 @@ class ProjectEntity (title: String, subtitle: String, description: String, categ
     fun getTotalBudget(): Double {
         return this.totalBudget
     }
+    //endregion
 
     override fun toString(): String {
         return "ProjectEntity(title='$title', subtitle='$subtitle', description='$description', category='$category', image='$image', minBudget=$minBudget, totalBudget=$totalBudget)"
