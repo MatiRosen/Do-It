@@ -23,7 +23,7 @@
     <!-- We use ScrollView because we set the elements height -->
 
     <ScrollView
-        android:id="@+id/scrollView2"
+        android:id="@+id/scrollViewProjectCreation"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginTop="@dimen/divider_top_padding"
@@ -38,10 +38,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:orientation="vertical"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="parent">
+            android:orientation="vertical">
 
             <EditText
                 android:id="@+id/editTxtProjectCreationTitle"
@@ -111,12 +108,10 @@
                 android:textSize="@dimen/txt_input_size" />
 
             <LinearLayout
+                android:id="@+id/linearLayoutProjectCreationBudget"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/linearLayoutProjectCreationForm">
+                android:orientation="horizontal">
 
                 <EditText
                     android:id="@+id/editTxtProjectCreationMinBudget"

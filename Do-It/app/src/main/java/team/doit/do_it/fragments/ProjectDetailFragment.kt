@@ -29,6 +29,7 @@ class ProjectDetailFragment : Fragment() {
         val project = ProjectDetailFragmentArgs.fromBundle(requireArguments()).project
 
         v.findViewById<TextView>(R.id.txtProjectDetailTitle).text = project.getTitle()
+        v.findViewById<TextView>(R.id.txtProjectDetailSubtitle).text = project.getSubtitle()
         // TODO terminar de implementar
     }
 }
