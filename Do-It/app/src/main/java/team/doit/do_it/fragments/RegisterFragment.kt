@@ -11,11 +11,16 @@ import android.widget.Toast
 import androidx.navigation.fragment.findNavController
 import com.google.firebase.auth.FirebaseAuth
 import team.doit.do_it.R
+import team.doit.do_it.databinding.FragmentLoginBinding
+import team.doit.do_it.databinding.FragmentRegisterBinding
 import kotlin.properties.Delegates
 
 class RegisterFragment : Fragment() {
 
     private lateinit var v : View
+
+    private var _binding : FragmentRegisterBinding? = null
+    private val binding get() = _binding!!
 
     private lateinit var continueButton: Button
 
@@ -32,22 +37,23 @@ class RegisterFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        v = inflater.inflate(R.layout.fragment_register, container, false)
+        _binding = FragmentRegisterBinding.inflate(inflater, container, false)
+        v = binding.root
         return v
     }
 
     override fun onStart() {
         super.onStart()
 
-        continueButton = v.findViewById<Button>(R.id.btnRegisterContinue)
+        continueButton = binding.btnRegisterContinue
         continueButton.setOnClickListener {
             register()
         }
     }
 
     private fun register() {
-        etEmail = v.findViewById(R.id.editTxtRegisterEmail)
-        etPassword = v.findViewById(R.id.editTxtRegisterPassword)
+        etEmail = binding.editTxtRegisterEmail
+        etPassword = binding.editTxtRegisterPassword
 
         email = etEmail.text.toString()
         password = etPassword.text.toString()
@@ -64,4 +70,8 @@ class RegisterFragment : Fragment() {
         return android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
 }

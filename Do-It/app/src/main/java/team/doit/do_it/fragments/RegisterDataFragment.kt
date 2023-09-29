@@ -16,6 +16,8 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import team.doit.do_it.R
 import team.doit.do_it.activities.MainActivity
+import team.doit.do_it.databinding.FragmentRegisterBinding
+import team.doit.do_it.databinding.FragmentRegisterDataBinding
 import team.doit.do_it.entities.UserEntity
 
 class RegisterDataFragment : Fragment() {
@@ -24,6 +26,9 @@ class RegisterDataFragment : Fragment() {
 
     private lateinit var spinnerGender : Spinner
     private lateinit var btnRegister : Button
+
+    private var _binding : FragmentRegisterDataBinding? = null
+    private val binding get() = _binding!!
 
     private lateinit var user : UserEntity
 
@@ -37,8 +42,8 @@ class RegisterDataFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        v = inflater.inflate(R.layout.fragment_register_data, container, false)
-
+        _binding = FragmentRegisterDataBinding.inflate(inflater, container, false)
+        v = binding.root
         return v
     }
 
@@ -49,7 +54,7 @@ class RegisterDataFragment : Fragment() {
         val password = RegisterDataFragmentArgs.fromBundle(requireArguments()).password
 
         startSpinner()
-        btnRegister = v.findViewById(R.id.btnRegisterDataRegister)
+        btnRegister = binding.btnRegisterDataRegister
         btnRegister.setOnClickListener {
             initializeUser(email)
             register(email, password)
@@ -58,13 +63,13 @@ class RegisterDataFragment : Fragment() {
 
     private fun initializeUser(email: String) {
         user = UserEntity(
-            v.findViewById<TextView>(R.id.txtRegisterDataName).text.toString(),
-            v.findViewById<TextView>(R.id.txtRegisterDataSurname).text.toString(),
+            binding.txtRegisterDataName.text.toString(),
+            binding.txtRegisterDataSurname.text.toString(),
             email,
-            v.findViewById<TextView>(R.id.txtRegisterDataDate).text.toString(),
+            binding.txtRegisterDataDate.text.toString(),
             spinnerGender.selectedItem.toString(),
-            v.findViewById<TextView>(R.id.txtRegisterDataPhone).text.toString(),
-            v.findViewById<TextView>(R.id.txtRegisterDataAddress).text.toString(),
+            binding.txtRegisterDataPhone.text.toString(),
+            binding.txtRegisterDataAddress.text.toString(),
             0)
     }
 
@@ -96,7 +101,7 @@ class RegisterDataFragment : Fragment() {
     }
 
     private fun startSpinner() {
-        spinnerGender = v.findViewById(R.id.spnRegisterDataGender)
+        spinnerGender = binding.spnRegisterDataGender
         val genders = resources.getStringArray(R.array.genders).toMutableList()
         val hint = resources.getString(R.string.register_gender)
         genders.add(0, hint)
@@ -117,5 +122,10 @@ class RegisterDataFragment : Fragment() {
             }
         }
         spinnerGender.adapter = adapter
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }
