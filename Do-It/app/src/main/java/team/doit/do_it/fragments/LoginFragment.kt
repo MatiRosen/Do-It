@@ -33,8 +33,6 @@ class LoginFragment : Fragment() {
 
     private var email by Delegates.notNull<String>()
     private var password by Delegates.notNull<String>()
-    private lateinit var etEmail : EditText
-    private lateinit var etPassword : EditText
 
     private lateinit var mAuth: FirebaseAuth
 
@@ -50,8 +48,6 @@ class LoginFragment : Fragment() {
     override fun onStart() {
         super.onStart()
 
-        etEmail = binding.editTxtLoginEmail
-        etPassword = binding.editTxtLoginPassword
         mAuth = FirebaseAuth.getInstance()
 
         loginButton = binding.btnLoginLogin
@@ -72,15 +68,15 @@ class LoginFragment : Fragment() {
     }
 
     private fun login(v: View) {
-        email = etEmail.text.toString()
-        password = etPassword.text.toString()
+        email = binding.editTxtLoginEmail.text.toString()
+        password = binding.editTxtLoginPassword.text.toString()
 
         mAuth.signInWithEmailAndPassword(email, password)
             .addOnCompleteListener {
                 if (it.isSuccessful) {
                     goHome(email, "email")
                 }
-                else Toast.makeText(activity, "Credenciales invalidas", Toast.LENGTH_SHORT).show()
+                else Toast.makeText(activity, resources.getString(R.string.login_invalid_credentials), Toast.LENGTH_SHORT).show()
             }
     }
 

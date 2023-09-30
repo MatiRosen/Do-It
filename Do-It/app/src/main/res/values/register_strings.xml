@@ -14,4 +14,17 @@
     <string name="register_confirm_password">Confirmar contraseña</string>
     <string name="register_register_button">Registrarse</string>
     <string name="register_continue">Continuar</string>
+
+
+
+
+    <string name="register_wrong_format">Email o contraseña con formato inválido. Recuerde que la contraseña debe ser alfanumérica</string>
+    <string name="register_generic_error">Error, algo salió mal :(</string>
+    <string name="register_name_error">Ingrese su nombre</string>
+    <string name="register_surname_error">Ingrese su apellido</string>
+    <string name="register_birth_date_error">Ingrese su fecha de nacimiento</string>
+    <string name="register_phone_format_error">El número de teléfono debe tener 9 cáracteres</string>
+    <string name="register_gender_error">Ingrese su género</string>
+    <string name="register_phone_error">Ingrese su número de teléfono</string>
+    <string name="register_address_error">Ingrese su dirección</string>
 </resources>

@@ -62,7 +62,7 @@ class RegisterFragment : Fragment() {
             val action = RegisterFragmentDirections.actionRegisterFragmentToRegisterDataFragment(email, password)
             findNavController().navigate(action)
         } else {
-            Toast.makeText(activity, "Error, algo salió mal :(", Toast.LENGTH_SHORT).show()
+            Toast.makeText(activity, resources.getString(R.string.register_wrong_format), Toast.LENGTH_SHORT).show()
         }
     }
 

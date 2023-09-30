@@ -1,5 +1,6 @@
 package team.doit.do_it.fragments
 
+import android.app.DatePickerDialog
 import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -19,6 +20,7 @@ import team.doit.do_it.activities.MainActivity
 import team.doit.do_it.databinding.FragmentRegisterBinding
 import team.doit.do_it.databinding.FragmentRegisterDataBinding
 import team.doit.do_it.entities.UserEntity
+import java.util.Calendar
 
 class RegisterDataFragment : Fragment() {
 
@@ -53,11 +55,16 @@ class RegisterDataFragment : Fragment() {
         val email = RegisterDataFragmentArgs.fromBundle(requireArguments()).email
         val password = RegisterDataFragmentArgs.fromBundle(requireArguments()).password
 
+        binding.txtRegisterDataDate.setOnClickListener {
+            onClickBirthDatePicker(it)
+        }
+
         startSpinner()
         btnRegister = binding.btnRegisterDataRegister
         btnRegister.setOnClickListener {
             initializeUser(email)
-            register(email, password)
+            if(isValidUser())
+                register(email, password)
         }
     }
 
@@ -71,6 +78,47 @@ class RegisterDataFragment : Fragment() {
             binding.txtRegisterDataPhone.text.toString(),
             binding.txtRegisterDataAddress.text.toString(),
             0)
+    }
+
+    private fun isValidUser(): Boolean {
+        val propertiesToCheck = listOf(
+            Pair(user.getFirstName(), resources.getString(R.string.register_name_error)),
+            Pair(user.getSurname(), resources.getString(R.string.register_surname_error)),
+            Pair(user.getBirthDate(), resources.getString(R.string.register_birth_date_error)),
+            Pair(user.getTelephoneNumber(), resources.getString(R.string.register_phone_error)),
+            Pair(user.getAddress(), resources.getString(R.string.register_address_error))
+        )
+
+        for ((property, errorMessage) in propertiesToCheck) {
+            if (property.isNullOrEmpty()) {
+                Toast.makeText(activity, errorMessage, Toast.LENGTH_SHORT).show()
+                return false
+            }
+        }
+
+        if (user.getTelephoneNumber().length != 9) {
+            Toast.makeText(activity, resources.getString(R.string.register_phone_format_error), Toast.LENGTH_SHORT).show()
+            return false
+        }
+
+        if(user.getGender() == resources.getString(R.string.register_gender)) {
+            Toast.makeText(activity, resources.getString(R.string.register_gender_error), Toast.LENGTH_SHORT).show()
+            return false
+        }
+
+        return true
+    }
+
+    fun onClickBirthDatePicker(v: View) {
+        val selectedCalendar = Calendar.getInstance()
+        val year = selectedCalendar.get(Calendar.YEAR)
+        val month = selectedCalendar.get(Calendar.MONTH)
+        val day = selectedCalendar.get(Calendar.DAY_OF_MONTH)
+        val listener = DatePickerDialog.OnDateSetListener{ datePicker, year, month, day ->
+            binding.txtRegisterDataDate.setText("$day/${month+1}/$year")
+        }
+
+        DatePickerDialog(v.context, listener, year, month, day).show()
     }
 
     private fun register(email: String, password: String) {
@@ -96,7 +144,7 @@ class RegisterDataFragment : Fragment() {
 
                     requireActivity().finish()
                 }
-                else Toast.makeText(activity, "Error, algo salió mal :(", Toast.LENGTH_SHORT).show()
+                else Toast.makeText(activity, resources.getString(R.string.register_generic_error), Toast.LENGTH_SHORT).show()
             }
     }
 
