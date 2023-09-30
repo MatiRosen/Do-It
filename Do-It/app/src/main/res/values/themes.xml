@@ -5,6 +5,8 @@
         <item name="colorPrimary">@color/pantone</item>
         <item name="colorSecondary">@color/dark_pantone</item>
         <item name="android:statusBarColor">@color/pantone</item>
+        <item name="android:textColorHint">@color/light_gray</item>
+        <item name="android:editTextColor">@android:color/black</item>
     </style>
 
     <style name="Theme.DoIt" parent="Base.Theme.DoIt" />

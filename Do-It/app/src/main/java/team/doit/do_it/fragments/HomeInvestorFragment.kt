@@ -12,6 +12,7 @@ import android.widget.Toast
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.firestore.FirebaseFirestore
+import team.doit.do_it.R
 import team.doit.do_it.adapters.ProjectListAdapter
 import team.doit.do_it.databinding.FragmentHomeInvestorBinding
 import team.doit.do_it.entities.ProjectEntity
@@ -23,7 +24,7 @@ class HomeInvestorFragment : Fragment(), OnViewItemClickedListener {
     private var _binding : FragmentHomeInvestorBinding? = null
     private val binding get() = _binding!!
     private lateinit var v : View
-    private var db = FirebaseFirestore.getInstance()
+    private val db = FirebaseFirestore.getInstance()
     private var projectList : MutableList<ProjectEntity> = ArrayList()
     private var allProjectList : MutableList<ProjectEntity> = ArrayList()
 
@@ -46,33 +47,37 @@ class HomeInvestorFragment : Fragment(), OnViewItemClickedListener {
         allProjectList.add(ProjectEntity("Proyecto 3", "Subtitulo proyecto 3", "Descripción 3", "Categoría 3", "", 20000.0, 99000.0))
         allProjectList.add(ProjectEntity("Proyecto 4", "Subtitulo proyecto 4", "Descripción 4", "Categoría 4", "", 15000.0, 350000.0))
         allProjectList.add(ProjectEntity("Proyecto 5", "Subtitulo proyecto 5", "Descripción 5", "Categoría 5", "", 100000.0, 3000000.0))
+
+        // TODO: Hacer esto asincrono. (no se si ya lo es)
         db.collection("ideas")
             .get()
             .addOnSuccessListener { result ->
                     for (document in result) {
                         //Log.d(TAG, "${document.id} => ${document.data}")
                         if (document.id != "xyz") {
-                            val title = document.data["Title"] as String
-                            val description = document.data["Description"] as String
-                            val category = document.data["Category"] as String
-                            val goal = document.getLong("Goal") as Long
-                            val pledged = document.getLong("Pledged") as Long
+                            val title = document.data["title"] as String
+                            val subtitle = document.data["subtitle"] as String
+                            val description = document.data["description"] as String
+                            val image = document.data["image"] as String
+                            val category = document.data["category"] as String
+                            val goal = document.getLong("goal") as Long
+                            val minBudget = document.getLong("minBudget") as Long
                             projectList.add(
                                 ProjectEntity(
                                     title,
-                                    description,
+                                    subtitle,
                                     description,
                                     category,
-                                    "",
-                                    pledged.toDouble(),
+                                    image,
+                                    minBudget.toDouble(),
                                     goal.toDouble()
                                 )
                             )
                         }
                     }
             }
-            .addOnFailureListener { exception ->
-               Toast.makeText(activity, "Error, algo salió mal :( $exception", Toast.LENGTH_SHORT).show()
+            .addOnFailureListener {
+                Toast.makeText(activity, R.string.home_investor_get_project_failed, Toast.LENGTH_SHORT).show()
             }
     }
     override fun onStart() {

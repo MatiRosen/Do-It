@@ -2,7 +2,6 @@ package team.doit.do_it.holders
 
 import android.view.View
 import android.widget.TextView
-import androidx.core.view.doOnPreDraw
 import androidx.recyclerview.widget.RecyclerView
 import team.doit.do_it.R
 import team.doit.do_it.extensions.setMaxLinesForEllipsizing
@@ -33,7 +32,7 @@ class ProjectHolder(view: View) : RecyclerView.ViewHolder(view){
         txt.text = projectCategory
     }
 
-    fun setProjectTotalBudget(projectTotalBudget: Double) {
+    fun setProjectGoal(projectTotalBudget: Double) {
         val txt : TextView = view.findViewById(R.id.txtItemProjectCeatorTotalBudget)
         val budgetString = view.context.getString(R.string.currency) + projectTotalBudget.toString()
         txt.text = budgetString

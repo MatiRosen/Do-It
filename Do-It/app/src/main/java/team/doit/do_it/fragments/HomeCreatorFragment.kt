@@ -4,10 +4,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.firebase.firestore.FirebaseFirestore
+import team.doit.do_it.R
 import team.doit.do_it.adapters.ProjectListAdapter
 import team.doit.do_it.databinding.FragmentHomeCreatorBinding
 import team.doit.do_it.entities.ProjectEntity
@@ -19,6 +22,7 @@ class HomeCreatorFragment : Fragment(), OnViewItemClickedListener {
     private val binding get() = _binding!!
     private lateinit var v : View
 
+    private val db = FirebaseFirestore.getInstance()
     private var projectList : MutableList<ProjectEntity> = ArrayList()
 
     private lateinit var projectListAdapter: ProjectListAdapter
@@ -46,6 +50,36 @@ class HomeCreatorFragment : Fragment(), OnViewItemClickedListener {
         projectList.add(ProjectEntity("Proyecto 3", "Subtitulo proyecto 3", "Descripción 3", "Categoría 3", "", 20000.0, 99000.0))
         projectList.add(ProjectEntity("Proyecto 4", "Subtitulo proyecto 4", "Descripción 4", "Categoría 4", "", 15000.0, 350000.0))
         projectList.add(ProjectEntity("Proyecto 5", "Subtitulo proyecto 5", "Descripción 5", "Categoría 5", "", 100000.0, 3000000.0))
+        // TODO: Hacer esto asincrono. (no se si ya lo es)
+        db.collection("ideas")
+            .get()
+            .addOnSuccessListener { result ->
+                for (document in result) {
+                    if (document.id != "xyz") {
+                        val title = document.data["title"] as String
+                        val subtitle = document.data["subtitle"] as String
+                        val description = document.data["description"] as String
+                        val image = document.data["image"] as String
+                        val category = document.data["category"] as String
+                        val goal = document.getLong("goal") as Long
+                        val minBudget = document.getLong("minBudget") as Long
+                        projectList.add(
+                            ProjectEntity(
+                                title,
+                                subtitle,
+                                description,
+                                category,
+                                image,
+                                minBudget.toDouble(),
+                                goal.toDouble()
+                            )
+                        )
+                    }
+                }
+            }
+            .addOnFailureListener {
+                Toast.makeText(context, R.string.home_creation_get_project_failed.toString(), Toast.LENGTH_SHORT).show()
+            }
     }
 
     override fun onStart() {

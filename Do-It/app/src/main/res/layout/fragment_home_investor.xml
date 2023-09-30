@@ -7,101 +7,69 @@
     android:layout_height="match_parent"
     tools:context=".fragments.HomeInvestorFragment">
 
+    <androidx.appcompat.widget.SearchView
+        android:id="@+id/searchViewHomeInvestor"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/input_txt_height"
+        android:layout_marginBottom="@dimen/divider_bottom_padding"
+        android:background="@drawable/style_edittext"
+        android:textAppearance="@style/Base.Theme.DoIt"
+        app:queryHint="@string/home_investor_search_project"
+        app:iconifiedByDefault="false"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <TextView
         android:id="@+id/txtHomeInvestorTitle"
         android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:gravity="center"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/divider_top_padding"
+        android:layout_marginBottom="@dimen/divider_bottom_padding"
+        android:layout_marginStart="@dimen/card_global_project_margin"
         android:text="@string/home_investor_title"
         android:textColor="@color/dark_pantone"
-        android:textSize="@dimen/txt_mini_size"
+        android:textSize="@dimen/txt_description_size"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/guidelineHomeInvestorHorizontal8"
-        app:layout_constraintEnd_toStartOf="@+id/guidelineHomeInvestorVertical35"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toBottomOf="@+id/searchViewHomeInvestor" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerHomeInvestorProjects"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/divider_top_padding"
+        android:layout_marginBottom="@dimen/divider_bottom_padding"
+        android:scrollbars="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtHomeInvestorTitle" />
 
     <TextView
         android:id="@+id/txtHomeInvestorSubTitle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:gravity="center"
+        android:layout_marginTop="@dimen/divider_top_padding"
+        android:layout_marginBottom="@dimen/divider_bottom_padding"
+        android:layout_marginStart="@dimen/card_global_project_margin"
         android:text="@string/home_investor_secondary_title"
         android:textColor="@color/dark_pantone"
-        android:textSize="@dimen/txt_secondary_title_size"
+        android:textSize="@dimen/txt_description_size"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/recyclerHomeInvestorAllProjects"
+        app:layout_constraintTop_toBottomOf="@+id/recyclerHomeInvestorProjects"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guidelineHomeInvestorHorizontal32" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerHomeInvestorProjects"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:scrollbars="horizontal"
-        app:layout_constraintBottom_toTopOf="@+id/guidelineHomeInvestorHorizontal32"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guidelineHomeInvestorHorizontal8"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerHomeInvestorAllProjects"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:scrollbars="horizontal"
-        app:layout_constraintBottom_toTopOf="@+id/guidelineHomeInvestorHorizontal98"
+        android:layout_marginTop="@dimen/divider_top_padding"
+        android:scrollbars="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guidelineHomeInvestorHorizontal38"
-        app:layout_constraintVertical_bias="1.0" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guidelineHomeInvestorHorizontal8"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="@dimen/guideline_8" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guidelineHomeInvestorHorizontal98"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="@dimen/guideline_98" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guidelineHomeInvestorHorizontal32"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="@dimen/guideline_32" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guidelineHomeInvestorHorizontal38"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="@dimen/guideline_38" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guidelineHomeInvestorVertical35"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_percent="@dimen/guideline_35" />
-
-    <SearchView
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/recyclerHomeInvestorProjects"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/guidelineHomeInvestorVertical35"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/txtHomeInvestorSubTitle" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

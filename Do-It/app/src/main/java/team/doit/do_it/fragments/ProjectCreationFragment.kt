@@ -5,11 +5,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
-import android.widget.EditText
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.firestore.FirebaseFirestore
 import team.doit.do_it.R
 import team.doit.do_it.databinding.FragmentProjectCreationBinding
 import team.doit.do_it.entities.ProjectEntity
@@ -20,6 +20,8 @@ class ProjectCreationFragment : Fragment() {
     private var _binding : FragmentProjectCreationBinding? = null
     private val binding get() = _binding!!
     private lateinit var v: View
+
+    private val db = FirebaseFirestore.getInstance()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -44,23 +46,60 @@ class ProjectCreationFragment : Fragment() {
 
     // TODO: Enviar el proyecto a la base de datos comprobando que nada es null ni vacio
     private fun saveProject(){
-        val project = createProject()
+        val project = createProject() ?: return
 
-        val successMessage = R.string.project_creation_succeed.toString() + ": " + project.toString()
-        Snackbar.make(v, successMessage, Snackbar.LENGTH_LONG).show()
-        v.findNavController().navigateUp()
+        // TODO: Verificar si el usuario es premium. Si no lo es, no dejarle crear mas de 2 proyectos.
+
+        // TODO: Hacer esto asincrono, y que se actualice la lista de proyectos.
+        db.collection("ideas")
+            .whereEqualTo("title", project.getTitle())
+            .get()
+            .addOnSuccessListener { result ->
+                if (result.isEmpty){
+                    saveProjectToDatabase(project)
+                } else {
+                    Snackbar.make(v, R.string.project_creation_failed_title_exists.toString(), Snackbar.LENGTH_LONG).show()
+                }
+            }
+            .addOnFailureListener {
+                Snackbar.make(v, R.string.project_creation_failed.toString(), Snackbar.LENGTH_LONG).show()
+            }
+
     }
 
-    private fun createProject() : ProjectEntity{
+    private fun saveProjectToDatabase(project: ProjectEntity){
+        db.collection("ideas")
+            .add(project)
+            .addOnSuccessListener {
+                showSuccessMessage(project)
+                v.findNavController().popBackStack()
+                // TODO: Cambiar para que se actualice la lista de proyectos
+            }
+            .addOnFailureListener {
+                Snackbar.make(v, R.string.project_creation_failed.toString(), Snackbar.LENGTH_LONG).show()
+            }
+    }
+
+    private fun showSuccessMessage(project: ProjectEntity){
+        val successMessage = R.string.project_creation_succeed.toString() + ": " + project.toString()
+        Snackbar.make(v, successMessage, Snackbar.LENGTH_LONG).show()
+    }
+
+    private fun createProject() : ProjectEntity?{
         val projectTitle = binding.editTxtProjectCreationTitle.text.toString()
         val projectSubtitle = binding.editTxtProjectCreationSubtitle.text.toString()
         val projectCategory = binding.spinnerProjectCreationCategory.selectedItem.toString()
-        val projectImg = ""
+        val projectImg = "" // TODO agregar
         val projectDescription = binding.editTxtProjectCreationDescription.text.toString()
-        val projectMinBudget = binding.editTxtProjectCreationMinBudget.text.toString().toDouble()
-        val projectTotalBudget = binding.editTxtProjectCreationTotalBudget.text.toString().toDouble()
+        val projectMinBudget = binding.editTxtProjectCreationMinBudget.text.toString().toDoubleOrNull() ?: 0.0
+        val projectGoal = binding.editTxtProjectCreationGoal.text.toString().toDoubleOrNull() ?: 0.0
 
-        return ProjectEntity(projectTitle, projectSubtitle, projectDescription, projectCategory, projectImg, projectMinBudget, projectTotalBudget)
+        if (projectTitle.isEmpty() || projectSubtitle.isEmpty() || projectCategory.isEmpty() || projectDescription.isEmpty() || projectMinBudget < 0.0 || projectGoal <= 0.0){
+            Snackbar.make(v, R.string.project_creation_failed_empty_fields, Snackbar.LENGTH_LONG).show()
+            return null
+        }
+
+        return ProjectEntity(projectTitle, projectSubtitle, projectDescription, projectCategory, projectImg, projectMinBudget, projectGoal)
     }
 
     private fun startSpinner(){

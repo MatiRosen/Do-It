@@ -6,7 +6,7 @@ import android.os.Parcelable
 
 // TODO: Categoria es string o enum? Imagen es string?
 class ProjectEntity (title: String, subtitle: String, description: String, category: String, image: String,
-                     minBudget: Double, totalBudget: Double) : Parcelable {
+                     minBudget: Double, goal: Double) : Parcelable {
 
     private var title: String
     private var subtitle: String
@@ -14,7 +14,7 @@ class ProjectEntity (title: String, subtitle: String, description: String, categ
     private var category: String
     private var image: String
     private var minBudget: Double
-    private var totalBudget: Double
+    private var goal: Double
 
     constructor(parcel: Parcel) : this(
         parcel.readString()!!,
@@ -34,7 +34,7 @@ class ProjectEntity (title: String, subtitle: String, description: String, categ
         this.category = category
         this.image = image
         this.minBudget = minBudget
-        this.totalBudget = totalBudget
+        this.goal = goal
     }
     override fun describeContents(): Int {
         return 0
@@ -47,7 +47,7 @@ class ProjectEntity (title: String, subtitle: String, description: String, categ
         parcel.writeString(category)
         parcel.writeString(image)
         parcel.writeDouble(minBudget)
-        parcel.writeDouble(totalBudget)
+        parcel.writeDouble(goal)
     }
 
     companion object CREATOR : Parcelable.Creator<ProjectEntity> {
@@ -85,12 +85,12 @@ class ProjectEntity (title: String, subtitle: String, description: String, categ
         return this.minBudget
     }
 
-    fun getTotalBudget(): Double {
-        return this.totalBudget
+    fun getGoal(): Double {
+        return this.goal
     }
     //endregion
 
     override fun toString(): String {
-        return "ProjectEntity(title='$title', subtitle='$subtitle', description='$description', category='$category', image='$image', minBudget=$minBudget, totalBudget=$totalBudget)"
+        return "ProjectEntity(title='$title', subtitle='$subtitle', description='$description', category='$category', image='$image', minBudget=$minBudget, totalBudget=$goal)"
     }
 }

@@ -129,7 +129,7 @@
                     android:textSize="@dimen/txt_input_size" />
 
                 <EditText
-                    android:id="@+id/editTxtProjectCreationTotalBudget"
+                    android:id="@+id/edit_txt_project_creation_goal"
                     android:layout_width="0dp"
                     android:layout_height="@dimen/input_txt_height"
                     android:layout_marginStart="@dimen/input_start_padding"

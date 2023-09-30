@@ -38,7 +38,7 @@ class ProjectDetailFragment : Fragment() {
         binding.txtProjectDetailSubtitle.text = project.getSubtitle()
         binding.txtProjectDetailDescription.text = project.getDescription()
         binding.txtProjectDetailCategory.text = project.getCategory()
-        binding.txtProjectDetailTotalBudget.text = project.getTotalBudget().toString()
+        binding.txtProjectDetailTotalBudget.text = project.getGoal().toString()
     }
 
     override fun onDestroyView() {

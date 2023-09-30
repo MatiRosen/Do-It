@@ -12,5 +12,7 @@
     <string name="project_creation_save">Guardar</string>
 
     <string name="project_creation_succeed">Proyecto guardado con éxito!</string>
+    <string name="project_creation_failed">Hubo un error guardando el proyecto!</string>
+    <string name="project_creation_failed_title_exists">Ya existe un proyecto con ese título! Por favor, revisa si es la misma idea, y en caso que no lo sea, cambia el título.</string>
 
 </resources>

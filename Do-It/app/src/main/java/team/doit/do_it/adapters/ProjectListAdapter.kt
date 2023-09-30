@@ -30,7 +30,7 @@ class ProjectListAdapter(
         holder.setProjectTitle(project.getTitle())
         holder.setProjectSubtitle(project.getSubtitle())
         holder.setProjectCategory(project.getCategory())
-        holder.setProjectTotalBudget(project.getTotalBudget())
+        holder.setProjectGoal(project.getGoal())
         holder.setProjectImage(project.getImage())
 
 
