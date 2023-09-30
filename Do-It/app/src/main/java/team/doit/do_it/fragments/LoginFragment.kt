@@ -14,6 +14,8 @@ import androidx.navigation.fragment.findNavController
 import com.google.firebase.auth.FirebaseAuth
 import team.doit.do_it.R
 import team.doit.do_it.activities.MainActivity
+import team.doit.do_it.databinding.FragmentHomeCreatorBinding
+import team.doit.do_it.databinding.FragmentLoginBinding
 import kotlin.properties.Delegates
 
 class LoginFragment : Fragment() {
@@ -23,6 +25,9 @@ class LoginFragment : Fragment() {
     }
 
     private lateinit var v : View
+
+    private var _binding : FragmentLoginBinding? = null
+    private val binding get() = _binding!!
 
     private lateinit var loginButton: Button
 
@@ -37,31 +42,30 @@ class LoginFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        v = inflater.inflate(R.layout.fragment_login, container, false)
+        _binding = FragmentLoginBinding.inflate(inflater, container, false)
+        v = binding.root
         return v
     }
 
     override fun onStart() {
         super.onStart()
 
-        etEmail = v.findViewById(R.id.editTxtLoginEmail)
-        etPassword = v.findViewById(R.id.editTxtLoginPassword)
+        etEmail = binding.editTxtLoginEmail
+        etPassword = binding.editTxtLoginPassword
         mAuth = FirebaseAuth.getInstance()
 
-        loginButton = v.findViewById<Button>(R.id.btnLoginLogin)
-
-        // TODO descomentar esto
+        loginButton = binding.btnLoginLogin
         loginButton.setOnClickListener {
+            // TODO descomentar esto:
             //login(v)
-
-            // Y borrar esto
+            // TODO borrar las siguientes 2 lineas:
             val intent = Intent(activity, MainActivity::class.java)
             startActivity(intent)
 
             requireActivity().finish()
         }
 
-        val btnTextRegister = v.findViewById<TextView>(R.id.btnTxtLoginRegister)
+        val btnTextRegister = binding.btnTxtLoginRegister
         btnTextRegister.setOnClickListener {
             findNavController().navigate(R.id.action_loginFragment_to_registerFragment)
         }
@@ -88,5 +92,10 @@ class LoginFragment : Fragment() {
         startActivity(intent)
 
         requireActivity().finish()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }
