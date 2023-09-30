@@ -6,7 +6,7 @@
     android:layout_height="match_parent">
 
     <com.mikhaellopez.circularimageview.CircularImageView
-        android:id="@+id/circularImageView"
+        android:id="@+id/imgProfileCircular"
         android:layout_width="250dp"
         android:layout_height="250dp"
         android:layout_marginTop="30dp"
@@ -18,14 +18,14 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <LinearLayout
-        android:layout_width="316dp"
-        android:layout_height="390dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:gravity="center"
-        app:layout_constraintTop_toBottomOf="@+id/circularImageView">
+        app:layout_constraintTop_toBottomOf="@+id/imgProfileCircular">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -34,14 +34,14 @@
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/titleName"
+                android:id="@+id/txtProfileTitleName"
                 android:layout_width="50dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/profile_name" />
 
             <TextView
-                android:id="@+id/profileName"
+                android:id="@+id/txtProfileName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -62,14 +62,14 @@
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/titleEmail"
+                android:id="@+id/txtProfileTitleEmail"
                 android:layout_width="59dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/profile_email" />
 
             <TextView
-                android:id="@+id/profileEmail"
+                android:id="@+id/txtProfileEmail"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -89,14 +89,14 @@
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/titlePhone"
+                android:id="@+id/txtProfileTitlePhone"
                 android:layout_width="18dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/profile_phone" />
 
             <TextView
-                android:id="@+id/profilePhone"
+                android:id="@+id/txtProfilePhone"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -116,14 +116,14 @@
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/titleGender"
+                android:id="@+id/txtProfileTitleGender"
                 android:layout_width="16dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/profile_gender" />
 
             <TextView
-                android:id="@+id/profileGender"
+                android:id="@+id/txtProfileGender"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -143,14 +143,14 @@
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/titleDirection"
+                android:id="@+id/txtProfileTitleDirection"
                 android:layout_width="48dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/profile_direction" />
 
             <TextView
-                android:id="@+id/profileDirection"
+                android:id="@+id/txtProfileDirection"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -165,23 +165,23 @@
     </LinearLayout>
 
     <ImageView
-        android:id="@+id/editIcon"
+        android:id="@+id/imgProfileEditIcon"
         android:layout_width="49dp"
         android:layout_height="44dp"
-        android:layout_marginStart="4dp"
-        android:layout_marginTop="4dp"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="0dp"
+        android:contentDescription="@string/profile_editIcon_description"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/icon_edit"
-        android:contentDescription="@string/profile_editIcon_description"/>
+        app:srcCompat="@drawable/icon_edit" />
 
     <ImageView
-        android:id="@+id/imgLogo"
+        android:id="@+id/imgProfileLogo"
         android:layout_width="73dp"
         android:layout_height="70dp"
-        app:layout_constraintEnd_toEndOf="@+id/circularImageView"
-        app:layout_constraintTop_toTopOf="@+id/circularImageView"
-        app:srcCompat="@drawable/img_do_it_logo"
-        android:contentDescription="@string/profile_logoIcon_description"/>
+        android:contentDescription="@string/profile_logoIcon_description"
+        app:layout_constraintEnd_toEndOf="@+id/imgProfileCircular"
+        app:layout_constraintTop_toTopOf="@+id/imgProfileCircular"
+        app:srcCompat="@drawable/img_do_it_logo" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
