@@ -5,9 +5,10 @@ import android.os.Parcelable
 
 
 // TODO: Categoria es string o enum? Imagen es string?
-class ProjectEntity (title: String, subtitle: String, description: String, category: String, image: String,
+class ProjectEntity (creatorEmail: String, title: String, subtitle: String, description: String, category: String, image: String,
                      minBudget: Double, goal: Double) : Parcelable {
 
+    private var creatorEmail: String
     private var title: String
     private var subtitle: String
     private var description: String
@@ -22,12 +23,14 @@ class ProjectEntity (title: String, subtitle: String, description: String, categ
         parcel.readString()!!,
         parcel.readString()!!,
         parcel.readString()!!,
+        parcel.readString()!!,
         parcel.readDouble(),
         parcel.readDouble()
     ) {
     }
 
     init {
+        this.creatorEmail = creatorEmail
         this.title = title
         this.subtitle = subtitle
         this.description = description
@@ -41,6 +44,7 @@ class ProjectEntity (title: String, subtitle: String, description: String, categ
     }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
+        parcel.writeString(creatorEmail)
         parcel.writeString(title)
         parcel.writeString(subtitle)
         parcel.writeString(description)
@@ -61,6 +65,10 @@ class ProjectEntity (title: String, subtitle: String, description: String, categ
     }
 
     //region Getters
+
+    fun getCreatorEmail(): String {
+        return this.creatorEmail
+    }
     fun getTitle(): String {
         return this.title
     }

@@ -9,6 +9,7 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import team.doit.do_it.R
 import team.doit.do_it.databinding.FragmentProjectCreationBinding
@@ -86,6 +87,7 @@ class ProjectCreationFragment : Fragment() {
     }
 
     private fun createProject() : ProjectEntity?{
+        val projectCreatorEmail = FirebaseAuth.getInstance().currentUser?.email.toString()
         val projectTitle = binding.editTxtProjectCreationTitle.text.toString()
         val projectSubtitle = binding.editTxtProjectCreationSubtitle.text.toString()
         val projectCategory = binding.spinnerProjectCreationCategory.selectedItem.toString()
@@ -99,7 +101,7 @@ class ProjectCreationFragment : Fragment() {
             return null
         }
 
-        return ProjectEntity(projectTitle, projectSubtitle, projectDescription, projectCategory, projectImg, projectMinBudget, projectGoal)
+        return ProjectEntity(projectCreatorEmail, projectTitle, projectSubtitle, projectDescription, projectCategory, projectImg, projectMinBudget, projectGoal)
     }
 
     private fun startSpinner(){

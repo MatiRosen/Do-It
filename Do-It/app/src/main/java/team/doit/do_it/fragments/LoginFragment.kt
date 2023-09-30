@@ -2,21 +2,17 @@ package team.doit.do_it.fragments
 
 import android.content.Intent
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.EditText
-import android.widget.TextView
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.google.firebase.auth.FirebaseAuth
 import team.doit.do_it.R
 import team.doit.do_it.activities.MainActivity
-import team.doit.do_it.databinding.FragmentHomeCreatorBinding
 import team.doit.do_it.databinding.FragmentLoginBinding
-import kotlin.properties.Delegates
 
 class LoginFragment : Fragment() {
     companion object {
@@ -31,11 +27,6 @@ class LoginFragment : Fragment() {
 
     private lateinit var loginButton: Button
 
-    private var email by Delegates.notNull<String>()
-    private var password by Delegates.notNull<String>()
-    private lateinit var etEmail : EditText
-    private lateinit var etPassword : EditText
-
     private lateinit var mAuth: FirebaseAuth
 
     override fun onCreateView(
@@ -49,20 +40,18 @@ class LoginFragment : Fragment() {
 
     override fun onStart() {
         super.onStart()
-
-        etEmail = binding.editTxtLoginEmail
-        etPassword = binding.editTxtLoginPassword
         mAuth = FirebaseAuth.getInstance()
 
         loginButton = binding.btnLoginLogin
         loginButton.setOnClickListener {
             // TODO descomentar esto:
-            //login(v)
-            // TODO borrar las siguientes 2 lineas:
-            val intent = Intent(activity, MainActivity::class.java)
+            login(v)
+            // TODO borrar las siguientes 3 lineas:
+            /*val intent = Intent(activity, MainActivity::class.java)
             startActivity(intent)
-
             requireActivity().finish()
+            */
+
         }
 
         val btnTextRegister = binding.btnTxtLoginRegister
@@ -72,13 +61,11 @@ class LoginFragment : Fragment() {
     }
 
     private fun login(v: View) {
-        email = etEmail.text.toString()
-        password = etPassword.text.toString()
-
-        mAuth.signInWithEmailAndPassword(email, password)
+        mAuth.signInWithEmailAndPassword(binding.editTxtLoginEmail.text.toString(), binding.editTxtLoginPassword.text.toString())
             .addOnCompleteListener {
                 if (it.isSuccessful) {
-                    goHome(email, "email")
+                    goHome(binding.editTxtLoginEmail.text.toString(), "email")
+                    requireActivity().finish()
                 }
                 else Toast.makeText(activity, "Credenciales invalidas", Toast.LENGTH_SHORT).show()
             }
