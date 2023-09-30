@@ -12,7 +12,7 @@
         tools:layout="@layout/fragment_home_creator" >
         <action
             android:id="@+id/action_homeCreatorFragment_to_homeInversorFragment"
-            app:destination="@id/homeInversorFragment" />
+            app:destination="@id/homeInvestorFragment" />
         <action
             android:id="@+id/action_homeCreatorFragment_to_projectCreationFragment"
             app:destination="@id/projectCreationFragment" />
@@ -21,10 +21,14 @@
             app:destination="@id/projectDetailFragment" />
     </fragment>
     <fragment
-        android:id="@+id/homeInversorFragment"
-        android:name="team.doit.do_it.fragments.HomeInversorFragment"
-        android:label="fragment_home_inversor"
-        tools:layout="@layout/fragment_home_inversor" />
+        android:id="@+id/homeInvestorFragment"
+        android:name="team.doit.do_it.fragments.HomeInvestorFragment"
+        android:label="fragment_home_investor"
+        tools:layout="@layout/fragment_home_investor" >
+        <action
+            android:id="@+id/action_homeInvestorFragment_to_projectDetailFragment"
+            app:destination="@id/projectDetailFragment" />
+    </fragment>
     <fragment
         android:id="@+id/projectCreationFragment"
         android:name="team.doit.do_it.fragments.ProjectCreationFragment"

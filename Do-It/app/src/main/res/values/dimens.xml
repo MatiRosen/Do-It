@@ -36,13 +36,23 @@
     <dimen name="guideline_80">0.80</dimen>
     <dimen name="guideline_90">0.90</dimen>
 
+
     <dimen name="guideline_2">0.02</dimen>
     <dimen name="guideline_3">0.03</dimen>
     <dimen name="guideline_5">0.05</dimen>
     <dimen name="guideline_8">0.08</dimen>
     <dimen name="guideline_22">0.22</dimen>
+    <dimen name="guideline_32">0.32</dimen>
+    <dimen name="guideline_35">0.35</dimen>
+    <dimen name="guideline_38">0.38</dimen>
     <dimen name="guideline_45">0.45</dimen>
+    <dimen name="guideline_53">0.53</dimen>
+    <dimen name="guideline_55">0.55</dimen>
+    <dimen name="guideline_57">0.57</dimen>
     <dimen name="guideline_62">0.62</dimen>
+    <dimen name="guideline_65">0.65</dimen>
+    <dimen name="guideline_75">0.75</dimen>
+    <dimen name="guideline_78">0.78</dimen>
     <dimen name="guideline_93">0.93</dimen>
     <dimen name="guideline_95">0.95</dimen>
     <dimen name="guideline_98">0.98</dimen>
@@ -67,6 +77,10 @@
     <dimen name="img_global_project_height">140dp</dimen>
     <dimen name="img_global_project_width">250dp</dimen>
     <dimen name="card_global_project_margin">5dp</dimen>
+
+    <!-- Global views -->
+    <dimen name="card_Investor_project_height">250dp</dimen>
+    <dimen name="card_Investor_project_width">300dp</dimen>
 
     <!-- Project Creation view -->
     <dimen name="project_creation_min_description_height">200dp</dimen>
