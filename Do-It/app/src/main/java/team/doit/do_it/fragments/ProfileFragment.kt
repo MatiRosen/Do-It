@@ -5,8 +5,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import team.doit.do_it.R
+import com.google.firebase.auth.FirebaseAuth
 import team.doit.do_it.databinding.FragmentProfileBinding
+import android.widget.TextView
+
+
 
 class ProfileFragment : Fragment() {
 
@@ -17,9 +20,11 @@ class ProfileFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentProfileBinding.inflate(inflater, container, false)
         v = binding.root
+
+        replaceData()
 
         return v
     }
@@ -27,5 +32,25 @@ class ProfileFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    private fun replaceData() {
+        val name = v.findViewById<TextView>(team.doit.do_it.R.id.txtProfileName)
+        val mail = v.findViewById<TextView>(team.doit.do_it.R.id.txtProfileEmail)
+        val phone = v.findViewById<TextView>(team.doit.do_it.R.id.txtProfilePhone)
+        val gender = v.findViewById<TextView>(team.doit.do_it.R.id.txtProfileGender)
+        val address = v.findViewById<TextView>(team.doit.do_it.R.id.txtProfileAddress)
+
+        val user = FirebaseAuth.getInstance().currentUser
+
+        //TODO: replace data with user information
+        if (user != null) {
+            name.text = user.displayName.toString()
+            mail.text = user.email.toString()
+            phone.text = user.phoneNumber.toString()
+            gender.text = "Género"
+            address.text = "Dirección"
+        }
+
     }
 }

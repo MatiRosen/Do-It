@@ -35,17 +35,17 @@
 
             <TextView
                 android:id="@+id/txtProfileTitleName"
-                android:layout_width="50dp"
+                android:layout_width="@dimen/profile_titles_width"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:paddingStart="@dimen/profile_txt_start_padding"
+                android:paddingEnd="0dp"
                 android:text="@string/profile_name" />
 
             <TextView
                 android:id="@+id/txtProfileName"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Perrito McPerro" />
+                android:layout_weight="1" />
 
         </LinearLayout>
 
@@ -63,17 +63,17 @@
 
             <TextView
                 android:id="@+id/txtProfileTitleEmail"
-                android:layout_width="59dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:layout_width="@dimen/profile_titles_width"
+                android:paddingStart="@dimen/profile_txt_start_padding"
+                android:paddingEnd="0dp"
                 android:text="@string/profile_email" />
 
             <TextView
                 android:id="@+id/txtProfileEmail"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="guau@gmail.com" />
+                android:layout_weight="1" />
         </LinearLayout>
 
         <View
@@ -90,17 +90,17 @@
 
             <TextView
                 android:id="@+id/txtProfileTitlePhone"
-                android:layout_width="18dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:layout_width="@dimen/profile_titles_width"
+                android:paddingStart="@dimen/profile_txt_start_padding"
+                android:paddingEnd="0dp"
                 android:text="@string/profile_phone" />
 
             <TextView
                 android:id="@+id/txtProfilePhone"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="1234-5678" />
+                android:layout_weight="1" />
         </LinearLayout>
 
         <View
@@ -117,17 +117,17 @@
 
             <TextView
                 android:id="@+id/txtProfileTitleGender"
-                android:layout_width="16dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:layout_width="@dimen/profile_titles_width"
+                android:paddingStart="@dimen/profile_txt_start_padding"
+                android:paddingEnd="0dp"
                 android:text="@string/profile_gender" />
 
             <TextView
                 android:id="@+id/txtProfileGender"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="No binario" />
+                android:layout_weight="1" />
         </LinearLayout>
 
         <View
@@ -143,18 +143,18 @@
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/txtProfileTitleDirection"
-                android:layout_width="48dp"
+                android:id="@+id/txtProfileTitleAddress"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:layout_width="@dimen/profile_titles_width"
+                android:paddingStart="@dimen/profile_txt_start_padding"
+                android:paddingEnd="0dp"
                 android:text="@string/profile_direction" />
 
             <TextView
-                android:id="@+id/txtProfileDirection"
-                android:layout_width="wrap_content"
+                android:id="@+id/txtProfileAddress"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Av. Perruna 666" />
+                android:layout_weight="1" />
         </LinearLayout>
 
         <View
