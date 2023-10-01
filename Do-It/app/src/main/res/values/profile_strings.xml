@@ -7,4 +7,5 @@
     <string name="profile_direction">Dirección</string>
     <string name="profile_editIcon_description">Icono para edición de perfil</string>
     <string name="profile_logoIcon_description">Logo de la app</string>
+    <string name="profile_dataUser_error">Error al cargar los datos</string>
 </resources>
