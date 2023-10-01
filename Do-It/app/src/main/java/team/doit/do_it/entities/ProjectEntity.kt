@@ -2,11 +2,13 @@ package team.doit.do_it.entities
 
 import android.os.Parcel
 import android.os.Parcelable
+import java.util.Date
 
 
 // TODO: Categoria es string o enum? Imagen es string?
-class ProjectEntity (creatorEmail: String, title: String, subtitle: String, description: String, category: String, image: String,
-                     minBudget: Double, goal: Double) : Parcelable {
+class ProjectEntity(
+    creatorEmail: String, title: String, subtitle: String, description: String, category: String, image: String,
+    minBudget: Double, goal: Double, creationDate: Date) : Parcelable {
 
     private var creatorEmail: String
     private var title: String
@@ -16,7 +18,8 @@ class ProjectEntity (creatorEmail: String, title: String, subtitle: String, desc
     private var image: String
     private var minBudget: Double
     private var goal: Double
-    private var followers: MutableList<String>
+    private var followers: MutableList<String> // Notar que no se inicializa en el constructor del parcelable, por lo que no se puede pasar entre fragments
+    private var creationDate: Date
 
     constructor(parcel: Parcel) : this(
         parcel.readString()!!,
@@ -26,7 +29,8 @@ class ProjectEntity (creatorEmail: String, title: String, subtitle: String, desc
         parcel.readString()!!,
         parcel.readString()!!,
         parcel.readDouble(),
-        parcel.readDouble()
+        parcel.readDouble(),
+        Date(parcel.readLong())
     ) {
     }
 
@@ -40,6 +44,7 @@ class ProjectEntity (creatorEmail: String, title: String, subtitle: String, desc
         this.minBudget = minBudget
         this.goal = goal
         this.followers = ArrayList()
+        this.creationDate = creationDate
     }
     override fun describeContents(): Int {
         return 0
@@ -54,6 +59,7 @@ class ProjectEntity (creatorEmail: String, title: String, subtitle: String, desc
         parcel.writeString(image)
         parcel.writeDouble(minBudget)
         parcel.writeDouble(goal)
+        parcel.writeLong(creationDate.time)
     }
 
     companion object CREATOR : Parcelable.Creator<ProjectEntity> {
@@ -108,6 +114,10 @@ class ProjectEntity (creatorEmail: String, title: String, subtitle: String, desc
 
     fun getFollowersCount(): Int {
         return this.followers.size
+    }
+
+    fun getCreationDate(): Date {
+        return this.creationDate
     }
     //endregion
 

@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.firebase.Timestamp
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import team.doit.do_it.R
@@ -16,6 +17,7 @@ import team.doit.do_it.adapters.ProjectListAdapter
 import team.doit.do_it.databinding.FragmentHomeCreatorBinding
 import team.doit.do_it.entities.ProjectEntity
 import team.doit.do_it.listeners.OnViewItemClickedListener
+import java.util.Date
 
 class HomeCreatorFragment : Fragment(), OnViewItemClickedListener {
 
@@ -62,7 +64,8 @@ class HomeCreatorFragment : Fragment(), OnViewItemClickedListener {
                                 document.data["category"] as String,
                                 document.data["image"] as String,
                                 (document.getLong("goal") as Long).toDouble(),
-                                (document.getLong("minBudget") as Long).toDouble()
+                                (document.getLong("minBudget") as Long).toDouble(),
+                                (document.data["creationDate"] as Timestamp).toDate()
                             )
                         )
                     }

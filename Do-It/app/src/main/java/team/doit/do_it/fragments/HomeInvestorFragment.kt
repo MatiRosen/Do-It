@@ -8,13 +8,14 @@ import androidx.fragment.app.Fragment
 import android.widget.Toast
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.firebase.Timestamp
 import com.google.firebase.firestore.FirebaseFirestore
 import team.doit.do_it.R
 import team.doit.do_it.adapters.ProjectListAdapter
 import team.doit.do_it.databinding.FragmentHomeInvestorBinding
 import team.doit.do_it.entities.ProjectEntity
 import team.doit.do_it.listeners.OnViewItemClickedListener
-import java.util.Arrays
+import java.util.Date
 
 
 class HomeInvestorFragment : Fragment(), OnViewItemClickedListener {
@@ -63,7 +64,8 @@ class HomeInvestorFragment : Fragment(), OnViewItemClickedListener {
                                     document.data["category"] as String,
                                     document.data["image"] as String,
                                     (document.getLong("minBudget") as Long).toDouble(),
-                                    (document.getLong("goal") as Long).toDouble()
+                                    (document.getLong("goal") as Long).toDouble(),
+                                    (document.data["creationDate"] as Timestamp).toDate()
                                 )
                             )
                         }
@@ -90,7 +92,8 @@ class HomeInvestorFragment : Fragment(), OnViewItemClickedListener {
                 "Tecnología",
                 "",
                 5000.0,
-                10000.0
+                10000.0,
+                Date()
             )
         )
 
@@ -114,7 +117,7 @@ class HomeInvestorFragment : Fragment(), OnViewItemClickedListener {
     }
 
     override fun onViewItemDetail(project: ProjectEntity) {
-        val action = HomeInvestorFragmentDirections.actionHomeInvestorFragmentToProjectDetailFragment(project)
+        val action = HomeInvestorFragmentDirections.actionHomeInvestorFragmentToProjectDetailInvestorFragment(project)
         this.findNavController().navigate(action)
     }
     private fun setupRecyclerView() {
