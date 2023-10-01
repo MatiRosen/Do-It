@@ -36,9 +36,9 @@
         tools:layout="@layout/fragment_project_creation" />
     <fragment
         android:id="@+id/projectDetailFragment"
-        android:name="team.doit.do_it.fragments.ProjectDetailFragment"
+        android:name="team.doit.do_it.fragments.ProjectDetailCreatorFragment"
         android:label="fragment_project_detail"
-        tools:layout="@layout/fragment_project_detail" >
+        tools:layout="@layout/fragment_project_detail_creator" >
         <argument
             android:name="project"
             app:argType="team.doit.do_it.entities.ProjectEntity" />

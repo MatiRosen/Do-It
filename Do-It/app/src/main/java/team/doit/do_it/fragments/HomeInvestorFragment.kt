@@ -14,6 +14,7 @@ import team.doit.do_it.adapters.ProjectListAdapter
 import team.doit.do_it.databinding.FragmentHomeInvestorBinding
 import team.doit.do_it.entities.ProjectEntity
 import team.doit.do_it.listeners.OnViewItemClickedListener
+import java.util.Arrays
 
 
 class HomeInvestorFragment : Fragment(), OnViewItemClickedListener {
@@ -42,6 +43,7 @@ class HomeInvestorFragment : Fragment(), OnViewItemClickedListener {
 
         binding.recyclerHomeInvestorProjects.visibility = View.GONE
         binding.txtHomeInvestorSubTitle.visibility = View.GONE
+        binding.txtHomeInvestorTitle.visibility = View.GONE
         binding.searchViewHomeInvestor.visibility = View.GONE
         binding.progressBarHomeInvestor.visibility = View.VISIBLE
 
@@ -72,9 +74,23 @@ class HomeInvestorFragment : Fragment(), OnViewItemClickedListener {
             .addOnCompleteListener {
                 binding.progressBarHomeInvestor.visibility = View.GONE
                 binding.recyclerHomeInvestorProjects.visibility = View.VISIBLE
+                binding.txtHomeInvestorTitle.visibility = View.VISIBLE
                 binding.txtHomeInvestorSubTitle.visibility = View.VISIBLE
                 binding.searchViewHomeInvestor.visibility = View.VISIBLE
             }
+
+        popularProjectList.add(
+            ProjectEntity(
+                "matias.rosenstein00@gmail.com",
+                "Proyecto de prueba hardcodeado",
+                "Subtitulo del proyecto de prueba hardcodeado",
+                "Este es un proyecto de prueba hardcodeado para probar el funcionamiento de la app. Este proyecto no existe en la base de datos, y no se puede acceder a el.",
+                "Tecnología",
+                "",
+                5000.0,
+                10000.0
+            )
+        )
 
     }
     override fun onStart() {

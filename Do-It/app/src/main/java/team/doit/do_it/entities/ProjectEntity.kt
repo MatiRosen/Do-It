@@ -16,6 +16,7 @@ class ProjectEntity (creatorEmail: String, title: String, subtitle: String, desc
     private var image: String
     private var minBudget: Double
     private var goal: Double
+    private var followers: MutableList<String>
 
     constructor(parcel: Parcel) : this(
         parcel.readString()!!,
@@ -38,6 +39,7 @@ class ProjectEntity (creatorEmail: String, title: String, subtitle: String, desc
         this.image = image
         this.minBudget = minBudget
         this.goal = goal
+        this.followers = ArrayList()
     }
     override fun describeContents(): Int {
         return 0
@@ -64,8 +66,11 @@ class ProjectEntity (creatorEmail: String, title: String, subtitle: String, desc
         }
     }
 
-    //region Getters
+    fun addFollower(followerEmail: String){
+        this.followers.add(followerEmail)
+    }
 
+    //region Getters
     fun getCreatorEmail(): String {
         return this.creatorEmail
     }
@@ -95,6 +100,14 @@ class ProjectEntity (creatorEmail: String, title: String, subtitle: String, desc
 
     fun getGoal(): Double {
         return this.goal
+    }
+
+    fun getFollowers(): MutableList<String> {
+        return this.followers
+    }
+
+    fun getFollowersCount(): Int {
+        return this.followers.size
     }
     //endregion
 

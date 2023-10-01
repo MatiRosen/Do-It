@@ -88,7 +88,7 @@ class ProjectCreationFragment : Fragment() {
         val projectTitle = binding.editTxtProjectCreationTitle.text.toString()
         val projectSubtitle = binding.editTxtProjectCreationSubtitle.text.toString()
         val projectCategory = binding.spinnerProjectCreationCategory.selectedItem.toString()
-        val projectImg = "" // TODO agregar
+        val projectImg = "" // TODO Realizar el subido de imagenes.
         val projectDescription = binding.editTxtProjectCreationDescription.text.toString()
         val projectMinBudget = binding.editTxtProjectCreationMinBudget.text.toString().toDoubleOrNull() ?: 0.0
         val projectGoal = binding.editTxtProjectCreationGoal.text.toString().toDoubleOrNull() ?: 0.0
