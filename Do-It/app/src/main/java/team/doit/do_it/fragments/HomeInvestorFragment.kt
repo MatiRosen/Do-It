@@ -96,6 +96,10 @@ class HomeInvestorFragment : Fragment(), OnViewItemClickedListener {
     override fun onStart() {
         super.onStart()
         setupRecyclerView()
+
+        binding.switchToHomeCreator.setOnClickListener {
+            this.findNavController().navigateUp()
+        }
     }
 
     override fun onResume() {

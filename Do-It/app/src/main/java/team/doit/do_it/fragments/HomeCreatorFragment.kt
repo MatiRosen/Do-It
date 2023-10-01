@@ -87,10 +87,20 @@ class HomeCreatorFragment : Fragment(), OnViewItemClickedListener {
             this.findNavController().navigate(action)
         }
 
+        binding.switchToHomeInvestor.setOnClickListener {
+            val action = HomeCreatorFragmentDirections.actionHomeCreatorFragmentToHomeInversorFragment()
+            v.findNavController().navigate(action)
+        }
+
         // TODO: Hacer que no se borren todos los proyectos, solo actualizar la lista.
         projectList.clear()
         addProjects()
         setupRecyclerView()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        binding.switchToHomeInvestor.isChecked = false
     }
 
     override fun onViewItemDetail(project: ProjectEntity) {

@@ -9,14 +9,15 @@
 
     <TextView
         android:id="@+id/txtHomeCreatorTitle"
-        android:layout_width="0dp"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
+        android:gravity="center"
         android:text="@string/home_creator_title"
         android:textColor="@color/dark_pantone"
         android:textSize="@dimen/txt_main_title_size"
         android:textStyle="bold"
-        android:gravity="center"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -62,6 +63,19 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="@dimen/guideline_98" />
+
+    <Switch
+        android:id="@+id/switchToHomeInvestor"
+        android:layout_width="wrap_content"
+        android:layout_height="48dp"
+        android:layout_marginTop="1dp"
+        android:layout_marginEnd="10dp"
+        android:text=""
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:thumbTint="@color/pantone"
+        android:trackTint="@color/pantone"
+        android:checked="false"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
