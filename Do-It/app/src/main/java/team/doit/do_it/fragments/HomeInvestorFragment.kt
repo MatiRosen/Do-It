@@ -36,11 +36,6 @@ class HomeInvestorFragment : Fragment(), OnViewItemClickedListener {
 
         binding.progressBarHomeInvestor.visibility = View.GONE
 
-        // TODO hacerlo de otra manera para que sea mas optimo
-        addProjects()
-        popularProjectList.clear()
-        allProjectList.clear()
-
         return v
     }
     private fun addProjects() {
