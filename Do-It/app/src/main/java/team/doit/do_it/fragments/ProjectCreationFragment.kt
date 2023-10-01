@@ -45,10 +45,8 @@ class ProjectCreationFragment : Fragment() {
     }
 
 
-    // TODO: Enviar el proyecto a la base de datos comprobando que nada es null ni vacio
     private fun saveProject(){
         val project = createProject() ?: return
-
         // TODO: Verificar si el usuario es premium. Si no lo es, no dejarle crear mas de 2 proyectos.
 
         // TODO: Hacer esto asincrono, y que se actualice la lista de proyectos.
@@ -59,11 +57,11 @@ class ProjectCreationFragment : Fragment() {
                 if (result.isEmpty){
                     saveProjectToDatabase(project)
                 } else {
-                    Snackbar.make(v, R.string.project_creation_failed_title_exists.toString(), Snackbar.LENGTH_LONG).show()
+                    Snackbar.make(v, resources.getString(R.string.project_creation_failed_title_exists), Snackbar.LENGTH_LONG).show()
                 }
             }
             .addOnFailureListener {
-                Snackbar.make(v, R.string.project_creation_failed.toString(), Snackbar.LENGTH_LONG).show()
+                Snackbar.make(v, resources.getString(R.string.project_creation_failed), Snackbar.LENGTH_LONG).show()
             }
 
     }
@@ -77,12 +75,12 @@ class ProjectCreationFragment : Fragment() {
                 // TODO: Cambiar para que se actualice la lista de proyectos
             }
             .addOnFailureListener {
-                Snackbar.make(v, R.string.project_creation_failed.toString(), Snackbar.LENGTH_LONG).show()
+                Snackbar.make(v, resources.getString(R.string.project_creation_failed), Snackbar.LENGTH_LONG).show()
             }
     }
 
     private fun showSuccessMessage(project: ProjectEntity){
-        val successMessage = R.string.project_creation_succeed.toString() + ": " + project.toString()
+        val successMessage = resources.getString(R.string.project_creation_succeed) + ": " + project.toString()
         Snackbar.make(v, successMessage, Snackbar.LENGTH_LONG).show()
     }
 
@@ -97,7 +95,7 @@ class ProjectCreationFragment : Fragment() {
         val projectGoal = binding.editTxtProjectCreationGoal.text.toString().toDoubleOrNull() ?: 0.0
 
         if (projectTitle.isEmpty() || projectSubtitle.isEmpty() || projectCategory.isEmpty() || projectDescription.isEmpty() || projectMinBudget < 0.0 || projectGoal <= 0.0){
-            Snackbar.make(v, R.string.project_creation_failed_empty_fields, Snackbar.LENGTH_LONG).show()
+            Snackbar.make(v, resources.getString(R.string.project_creation_failed_empty_fields), Snackbar.LENGTH_LONG).show()
             return null
         }
 

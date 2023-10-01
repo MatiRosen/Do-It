@@ -27,7 +27,5 @@ class MainActivity : AppCompatActivity() {
         navHostFragment = supportFragmentManager.findFragmentById(R.id.mainHost) as NavHostFragment
         val navController = navHostFragment.navController
         NavigationUI.setupWithNavController(findViewById<BottomNavigationView>(R.id.bottomNavigationView), navController)
-        val email = FirebaseAuth.getInstance().currentUser?.email
-        println(email)
     }
 }

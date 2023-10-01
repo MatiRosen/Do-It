@@ -42,44 +42,29 @@ class HomeInvestorFragment : Fragment(), OnViewItemClickedListener {
         return v
     }
     private fun addProjects() {
-        allProjectList.add(ProjectEntity("matias.rosenstein00@gmail.com", "Proyecto 1 sobre la naturaleza y el arte y los museos :)", "Este proyecto trata sobre muchas cosas. Por ejemplo: Lorem Ipsum dolor sit amet, consectetur adipiscing elit", "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation", "Naturaleza, arte, dinero y mas!", "", 10000.0, 99000.0))
-        allProjectList.add(ProjectEntity("matias.rosenstein00@gmail.com", "Proyecto 2", "Subtitulo proyecto 2", "Descripción 2", "Categoría 2", "", 5000.0, 66000.0))
-        allProjectList.add(ProjectEntity("matias.rosenstein00@gmail.com", "Proyecto 3", "Subtitulo proyecto 3", "Descripción 3", "Categoría 3", "", 20000.0, 99000.0))
-        allProjectList.add(ProjectEntity("matias.rosenstein00@gmail.com", "Proyecto 4", "Subtitulo proyecto 4", "Descripción 4", "Categoría 4", "", 15000.0, 350000.0))
-        allProjectList.add(ProjectEntity("matias.rosenstein00@gmail.com", "Proyecto 5", "Subtitulo proyecto 5", "Descripción 5", "Categoría 5", "", 100000.0, 3000000.0))
-
         // TODO: Hacer esto asincrono. (no se si ya lo es)
         db.collection("ideas")
             .get()
             .addOnSuccessListener { result ->
                     for (document in result) {
-                        //Log.d(TAG, "${document.id} => ${document.data}")
                         if (document.id != "xyz") {
-                            val creatorEmail = document.data["creatorEmail"] as String
-                            val title = document.data["title"] as String
-                            val subtitle = document.data["subtitle"] as String
-                            val description = document.data["description"] as String
-                            val image = document.data["image"] as String
-                            val category = document.data["category"] as String
-                            val goal = document.getLong("goal") as Long
-                            val minBudget = document.getLong("minBudget") as Long
                             projectList.add(
                                 ProjectEntity(
-                                    creatorEmail,
-                                    title,
-                                    subtitle,
-                                    description,
-                                    category,
-                                    image,
-                                    minBudget.toDouble(),
-                                    goal.toDouble()
+                                    document.data["creatorEmail"] as String,
+                                    document.data["title"] as String,
+                                    document.data["subtitle"] as String,
+                                    document.data["description"] as String,
+                                    document.data["category"] as String,
+                                    document.data["image"] as String,
+                                    (document.getLong("minBudget") as Long).toDouble(),
+                                    (document.getLong("goal") as Long).toDouble()
                                 )
                             )
                         }
                     }
             }
             .addOnFailureListener {
-                Toast.makeText(activity, R.string.home_investor_get_project_failed, Toast.LENGTH_SHORT).show()
+                Toast.makeText(activity, resources.getString(R.string.home_investor_get_project_failed), Toast.LENGTH_SHORT).show()
             }
     }
     override fun onStart() {
