@@ -45,6 +45,7 @@ class HomeInvestorFragment : Fragment(), OnViewItemClickedListener {
         binding.txtHomeInvestorSubTitle.visibility = View.GONE
         binding.txtHomeInvestorTitle.visibility = View.GONE
         binding.searchViewHomeInvestor.visibility = View.GONE
+        binding.switchToHomeCreator.visibility = View.GONE
         binding.progressBarHomeInvestor.visibility = View.VISIBLE
 
         // TODO: Hacer esto asincrono. (no se si ya lo es)
@@ -77,6 +78,7 @@ class HomeInvestorFragment : Fragment(), OnViewItemClickedListener {
                 binding.txtHomeInvestorTitle.visibility = View.VISIBLE
                 binding.txtHomeInvestorSubTitle.visibility = View.VISIBLE
                 binding.searchViewHomeInvestor.visibility = View.VISIBLE
+                binding.switchToHomeCreator.visibility = View.VISIBLE
             }
 
         popularProjectList.add(

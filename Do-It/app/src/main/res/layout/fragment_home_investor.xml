@@ -9,12 +9,12 @@
 
     <androidx.appcompat.widget.SearchView
         android:id="@+id/searchViewHomeInvestor"
-        android:layout_width="300dp"
+        android:layout_width="0dp"
         android:layout_height="@dimen/input_txt_height"
         android:background="@drawable/style_edittext"
         android:textAppearance="@style/Base.Theme.DoIt"
         app:iconifiedByDefault="false"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/guidelineHomeInvestorVertical80"
         app:layout_constraintHorizontal_bias="0.144"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -87,12 +87,19 @@
         android:layout_width="wrap_content"
         android:layout_height="48dp"
         android:layout_marginTop="1dp"
-        android:layout_marginEnd="10dp"
         android:checked="true"
         android:text=""
         android:thumbTint="@color/dark_pantone"
         android:trackTint="@color/dark_pantone"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/searchViewHomeInvestor"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidelineHomeInvestorVertical80"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="@dimen/guideline_80" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
