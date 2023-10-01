@@ -37,16 +37,16 @@ class HomeCreatorFragment : Fragment(), OnViewItemClickedListener {
         _binding = FragmentHomeCreatorBinding.inflate(inflater, container, false)
 
         v = binding.root
-
-        if (projectList.size == 0) {
-            addProjects()
-        }
+        binding.progressBarHomeCreator.visibility = View.GONE
 
         return v
     }
 
     private fun addProjects() {
         // TODO: Hacer esto asincrono. (no se si ya lo es)
+        binding.recyclerHomeCreatorProjects.visibility = View.GONE
+        binding.progressBarHomeCreator.visibility = View.VISIBLE
+
         db.collection("ideas")
             .whereEqualTo("creatorEmail", FirebaseAuth.getInstance().currentUser?.email)
             .get()
@@ -70,6 +70,12 @@ class HomeCreatorFragment : Fragment(), OnViewItemClickedListener {
             }
             .addOnFailureListener {
                 Toast.makeText(context, resources.getString(R.string.home_creation_get_project_failed) , Toast.LENGTH_SHORT).show()
+                binding.progressBarHomeCreator.visibility = View.GONE
+                binding.recyclerHomeCreatorProjects.visibility = View.VISIBLE
+            }
+            .addOnCompleteListener { task ->
+                binding.progressBarHomeCreator.visibility = View.GONE
+                binding.recyclerHomeCreatorProjects.visibility = View.VISIBLE
             }
     }
 
@@ -78,9 +84,12 @@ class HomeCreatorFragment : Fragment(), OnViewItemClickedListener {
 
         binding.btnHomeCreatorCreateProject.setOnClickListener {
             val action = HomeCreatorFragmentDirections.actionHomeCreatorFragmentToProjectCreationFragment()
-            v.findNavController().navigate(action)
+            this.findNavController().navigate(action)
         }
 
+        // TODO: Hacer que no se borren todos los proyectos, solo actualizar la lista.
+        projectList.clear()
+        addProjects()
         setupRecyclerView()
     }
 

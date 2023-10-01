@@ -72,7 +72,6 @@ class ProjectCreationFragment : Fragment() {
             .addOnSuccessListener {
                 showSuccessMessage(project)
                 v.findNavController().popBackStack()
-                // TODO: Cambiar para que se actualice la lista de proyectos
             }
             .addOnFailureListener {
                 Snackbar.make(v, resources.getString(R.string.project_creation_failed), Snackbar.LENGTH_LONG).show()
@@ -94,7 +93,7 @@ class ProjectCreationFragment : Fragment() {
         val projectMinBudget = binding.editTxtProjectCreationMinBudget.text.toString().toDoubleOrNull() ?: 0.0
         val projectGoal = binding.editTxtProjectCreationGoal.text.toString().toDoubleOrNull() ?: 0.0
 
-        if (projectTitle.isEmpty() || projectSubtitle.isEmpty() || projectCategory.isEmpty() || projectDescription.isEmpty() || projectMinBudget < 0.0 || projectGoal <= 0.0){
+        if (projectTitle.isEmpty() || projectSubtitle.isEmpty() || projectCategory.isEmpty() || projectCategory.equals(resources.getStringArray(R.array.categories_array)) || projectDescription.isEmpty() || projectMinBudget < 0.0 || projectGoal <= 0.0){
             Snackbar.make(v, resources.getString(R.string.project_creation_failed_empty_fields), Snackbar.LENGTH_LONG).show()
             return null
         }

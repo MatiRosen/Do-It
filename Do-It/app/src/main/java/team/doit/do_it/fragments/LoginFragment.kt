@@ -53,12 +53,12 @@ class LoginFragment : Fragment() {
         loginButton = binding.btnLoginLogin
         loginButton.setOnClickListener {
             // TODO descomentar esto:
-            //login(v)
+            login(v)
             // TODO borrar las siguientes 2 lineas:
-            val intent = Intent(activity, MainActivity::class.java)
+            /*val intent = Intent(activity, MainActivity::class.java)
             startActivity(intent)
 
-            requireActivity().finish()
+            requireActivity().finish()*/
         }
 
         val btnTextRegister = binding.btnTxtLoginRegister

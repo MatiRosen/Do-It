@@ -1,13 +1,10 @@
 package team.doit.do_it.fragments
 
-import android.content.ContentValues.TAG
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.navigation.findNavController
 import android.widget.Toast
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -25,7 +22,7 @@ class HomeInvestorFragment : Fragment(), OnViewItemClickedListener {
     private val binding get() = _binding!!
     private lateinit var v : View
     private val db = FirebaseFirestore.getInstance()
-    private var projectList : MutableList<ProjectEntity> = ArrayList()
+    private var popularProjectList : MutableList<ProjectEntity> = ArrayList()
     private var allProjectList : MutableList<ProjectEntity> = ArrayList()
 
     private lateinit var projectListAdapter: ProjectListAdapter
@@ -36,19 +33,30 @@ class HomeInvestorFragment : Fragment(), OnViewItemClickedListener {
     ): View? {
         _binding = FragmentHomeInvestorBinding.inflate(inflater, container, false)
         v = binding.root
-        if (projectList.size == 0) {
-            addProjects()
-        }
+
+        binding.progressBarHomeInvestor.visibility = View.GONE
+
+        // TODO hacerlo de otra manera para que sea mas optimo
+        addProjects()
+        popularProjectList.clear()
+        allProjectList.clear()
+
         return v
     }
     private fun addProjects() {
+
+        binding.recyclerHomeInvestorProjects.visibility = View.GONE
+        binding.txtHomeInvestorSubTitle.visibility = View.GONE
+        binding.searchViewHomeInvestor.visibility = View.GONE
+        binding.progressBarHomeInvestor.visibility = View.VISIBLE
+
         // TODO: Hacer esto asincrono. (no se si ya lo es)
         db.collection("ideas")
             .get()
             .addOnSuccessListener { result ->
                     for (document in result) {
                         if (document.id != "xyz") {
-                            projectList.add(
+                            allProjectList.add(
                                 ProjectEntity(
                                     document.data["creatorEmail"] as String,
                                     document.data["title"] as String,
@@ -66,11 +74,28 @@ class HomeInvestorFragment : Fragment(), OnViewItemClickedListener {
             .addOnFailureListener {
                 Toast.makeText(activity, resources.getString(R.string.home_investor_get_project_failed), Toast.LENGTH_SHORT).show()
             }
+            .addOnCompleteListener {
+                binding.progressBarHomeInvestor.visibility = View.GONE
+                binding.recyclerHomeInvestorProjects.visibility = View.VISIBLE
+                binding.txtHomeInvestorSubTitle.visibility = View.VISIBLE
+                binding.searchViewHomeInvestor.visibility = View.VISIBLE
+            }
+
     }
     override fun onStart() {
         super.onStart()
         setupRecyclerView()
     }
+
+    override fun onResume() {
+        super.onResume()
+
+        // TODO: Cambiarlo para hacer que solo se agreguen los nuevos proyectos, no todos.
+        allProjectList.clear()
+        popularProjectList.clear()
+        addProjects()
+    }
+
     override fun onViewItemDetail(project: ProjectEntity) {
         val action = HomeInvestorFragmentDirections.actionHomeInvestorFragmentToProjectDetailFragment(project)
         this.findNavController().navigate(action)
@@ -81,7 +106,7 @@ class HomeInvestorFragment : Fragment(), OnViewItemClickedListener {
         binding.recyclerHomeInvestorProjects.setHasFixedSize(true)
         linearLayoutManager = LinearLayoutManager(context,LinearLayoutManager.HORIZONTAL, false)
         binding.recyclerHomeInvestorProjects.layoutManager = linearLayoutManager
-        projectListAdapter = ProjectListAdapter(projectList, this)
+        projectListAdapter = ProjectListAdapter(popularProjectList, this)
         binding.recyclerHomeInvestorProjects.adapter = projectListAdapter
 
         binding.recyclerHomeInvestorAllProjects.setHasFixedSize(true)
