@@ -65,6 +65,11 @@ class LoginFragment : Fragment() {
         email = binding.editTxtLoginEmail.text.toString()
         password = binding.editTxtLoginPassword.text.toString()
 
+        if(email.isEmpty() || password.isEmpty()) {
+            Toast.makeText(activity, resources.getString(R.string.login_empty_fields), Toast.LENGTH_SHORT).show()
+            return
+        }
+
         mAuth.signInWithEmailAndPassword(email, password)
             .addOnCompleteListener {
                 if (it.isSuccessful) {

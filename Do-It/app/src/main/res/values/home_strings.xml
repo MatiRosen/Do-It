@@ -11,4 +11,5 @@
 
 
     <string name="login_invalid_credentials">Credenciales invalidas</string>
+    <string name="login_empty_fields">Debe ingresar un mail y una contraseña</string>
 </resources>
