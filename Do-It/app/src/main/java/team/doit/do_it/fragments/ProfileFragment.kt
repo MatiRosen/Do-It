@@ -39,23 +39,17 @@ class ProfileFragment : Fragment() {
     }
 
     private fun replaceData() {
-        val name = binding.txtProfileName
-        val mail = binding.txtProfileEmail
-        val phone = binding.txtProfilePhone
-        val gender = binding.txtProfileGender
-        val address = binding.txtProfileAddress
-
         val currentUser = FirebaseAuth.getInstance().currentUser
 
         getUser(currentUser?.email.toString(), object : OnUserFetchedListener {
             override fun onUserFetched(user: DocumentSnapshot?) {
                 if (user != null) {
                     //TODO: add profile photo
-                    name.text = "${user.getString("nombre")} ${user.getString("apellido")}"
-                    mail.text = user.getString("email")
-                    phone.text = user.getString("telefono")
-                    gender.text = user.getString("genero")
-                    address.text = user.getString("direccion")
+                    binding.txtProfileName.text = "${user.getString("nombre")} ${user.getString("apellido")}"
+                    binding.txtProfileEmail.text = user.getString("email")
+                    binding.txtProfilePhone.text = user.getString("telefono")
+                    binding.txtProfileGender.text = user.getString("genero")
+                    binding.txtProfileAddress.text = user.getString("direccion")
                 } else {
                     Toast.makeText(activity, resources.getString(R.string.profile_dataUser_error), Toast.LENGTH_SHORT).show()
                 }
@@ -72,7 +66,6 @@ class ProfileFragment : Fragment() {
             .addOnSuccessListener { documents ->
                 if (!documents.isEmpty) {
                     val user = documents.documents[0]
-                    println(user)
                     listener.onUserFetched(user)
                 } else {
                     listener.onUserFetched(null)
