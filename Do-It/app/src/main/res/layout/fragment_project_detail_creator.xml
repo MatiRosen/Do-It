@@ -2,15 +2,15 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/frameLayoutProjectDetail"
+    android:id="@+id/frameLayoutProjectDetailCreator"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragments.ProjectDetailFragment">
+    tools:context=".fragments.ProjectDetailCreatorFragment">
 
     <!-- TODO: Borrar textos -->
 
     <ScrollView
-        android:id="@+id/scrollViewProjectDetail"
+        android:id="@+id/scrollViewProjectDetailCreator"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -20,14 +20,14 @@
         app:layout_constraintWidth_max="@dimen/input_max_width">
 
         <LinearLayout
-            android:id="@+id/linearLayoutProjectDetailInfo"
+            android:id="@+id/linearLayoutProjectDetailCreatorInfo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/txtProjectDetailTitle"
+                android:id="@+id/txtProjectDetailCreatorTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
@@ -39,7 +39,7 @@
 
             <!-- TODO: Reemplazar imagen -->
             <ImageView
-                android:id="@+id/imgProjectDetailProjectImage"
+                android:id="@+id/imgProjectDetailCreatorProjectImage"
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
                 android:layout_marginTop="@dimen/divider_top_padding"
@@ -47,7 +47,7 @@
                 android:src="@drawable/arg_campeon" />
 
             <TextView
-                android:id="@+id/txtProjectDetailSubtitle"
+                android:id="@+id/txtProjectDetailCreatorSubtitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/divider_top_padding"
@@ -57,7 +57,20 @@
                 android:textSize="@dimen/txt_description_size" />
 
             <TextView
-                android:id="@+id/txtProjectDetailDescription"
+                android:id="@+id/txtProjectDetailCreatorFollowIdea"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/divider_top_padding"
+                android:layout_marginBottom="@dimen/divider_bottom_padding"
+                android:text="Seguir"
+                android:textColor="@color/black"
+                android:textSize="@dimen/txt_paragraph_size"
+                android:padding="@dimen/input_txt_padding"
+                android:drawablePadding="@dimen/input_txt_padding"
+                app:drawableStartCompat="@drawable/icon_follow_project" />
+
+            <TextView
+                android:id="@+id/txtProjectDetailCreatorDescription"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/divider_top_padding"
@@ -67,7 +80,7 @@
                 android:textSize="@dimen/txt_paragraph_size" />
 
             <TextView
-                android:id="@+id/txtProjectDetailCategory"
+                android:id="@+id/txtProjectDetailCreatorCategory"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/divider_top_padding"
@@ -80,7 +93,7 @@
                 app:drawableStartCompat="@drawable/icon_label" />
 
             <TextView
-                android:id="@+id/txtProjectDetailTotalBudget"
+                android:id="@+id/txtProjectDetailCreatorGoal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/divider_top_padding"
@@ -92,7 +105,18 @@
                 android:drawablePadding="@dimen/input_txt_padding"
                 app:drawableStartCompat="@drawable/icon_cash" />
 
-
+            <TextView
+                android:id="@+id/txtProjectDetailCreatorMinBudget"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/divider_top_padding"
+                android:layout_marginBottom="@dimen/divider_bottom_padding"
+                android:text="Presupuesto Minimo"
+                android:textColor="@color/green"
+                android:textSize="@dimen/txt_paragraph_size"
+                android:padding="@dimen/input_txt_padding"
+                android:drawablePadding="@dimen/input_txt_padding"
+                app:drawableStartCompat="@drawable/icon_cash" />
         </LinearLayout>
     </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>

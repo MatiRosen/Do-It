@@ -11,14 +11,25 @@
         android:id="@+id/txtHomeCreatorTitle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:gravity="center"
         android:text="@string/home_creator_title"
         android:textColor="@color/dark_pantone"
         android:textSize="@dimen/txt_main_title_size"
         android:textStyle="bold"
-        android:gravity="center"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/guidelineHomeCreatorVertical80"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <ProgressBar
+        android:id="@+id/progressBarHomeCreator"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:indeterminateTint="@color/pantone"
+        app:layout_constraintBottom_toTopOf="@+id/btnHomeCreatorCreateProject"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtHomeCreatorTitle" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerHomeCreatorProjects"
@@ -34,24 +45,17 @@
         android:id="@+id/btnHomeCreatorCreateProject"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:drawableStart="@drawable/icon_plus_circle"
-        android:text="@string/home_creation_add_project"
-        android:textSize="@dimen/txt_button_size"
-        android:textColor="@color/white"
-        android:textStyle="bold"
         android:background="@drawable/style_button_add_project"
-        android:padding="@dimen/button_text_padding"
+        android:drawableStart="@drawable/icon_plus_circle"
         android:drawablePadding="@dimen/button_text_padding"
+        android:padding="@dimen/button_text_padding"
+        android:text="@string/home_creation_add_project"
+        android:textColor="@color/white"
+        android:textSize="@dimen/txt_button_size"
+        android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/guidelineHomeCreatorHorizontal98"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guidelineHomeCreatorHorizontal8"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="@dimen/guideline_8" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guidelineHomeCreatorHorizontal98"
@@ -59,6 +63,27 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="@dimen/guideline_98" />
+
+    <Switch
+        android:id="@+id/switchToHomeInvestor"
+        android:layout_width="wrap_content"
+        android:layout_height="48dp"
+        android:layout_marginTop="1dp"
+        android:checked="false"
+        android:text=""
+        android:thumbTint="@color/pantone"
+        android:trackTint="@color/pantone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.843"
+        app:layout_constraintStart_toStartOf="@+id/guidelineHomeCreatorVertical80"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidelineHomeCreatorVertical80"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="@dimen/guideline_80" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

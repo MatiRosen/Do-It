@@ -11,14 +11,14 @@
         android:id="@+id/searchViewHomeInvestor"
         android:layout_width="0dp"
         android:layout_height="@dimen/input_txt_height"
-        android:layout_marginBottom="@dimen/divider_bottom_padding"
         android:background="@drawable/style_edittext"
         android:textAppearance="@style/Base.Theme.DoIt"
-        app:queryHint="@string/home_investor_search_project"
         app:iconifiedByDefault="false"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/guidelineHomeInvestorVertical80"
+        app:layout_constraintHorizontal_bias="0.144"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:queryHint="@string/home_investor_search_project" />
 
     <TextView
         android:id="@+id/txtHomeInvestorTitle"
@@ -31,6 +31,16 @@
         android:textColor="@color/dark_pantone"
         android:textSize="@dimen/txt_description_size"
         android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/searchViewHomeInvestor" />
+
+    <ProgressBar
+        android:id="@+id/progressBarHomeInvestor"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:indeterminateTint="@color/pantone"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/searchViewHomeInvestor" />
@@ -71,5 +81,25 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txtHomeInvestorSubTitle" />
+
+    <Switch
+        android:id="@+id/switchToHomeCreator"
+        android:layout_width="wrap_content"
+        android:layout_height="48dp"
+        android:layout_marginTop="1dp"
+        android:checked="true"
+        android:text=""
+        android:thumbTint="@color/dark_pantone"
+        android:trackTint="@color/dark_pantone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/searchViewHomeInvestor"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidelineHomeInvestorVertical80"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="@dimen/guideline_80" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

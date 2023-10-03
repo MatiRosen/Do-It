@@ -14,6 +14,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import team.doit.do_it.R
 import team.doit.do_it.databinding.FragmentProjectCreationBinding
 import team.doit.do_it.entities.ProjectEntity
+import java.util.Date
 
 
 class ProjectCreationFragment : Fragment() {
@@ -44,13 +45,13 @@ class ProjectCreationFragment : Fragment() {
         }
     }
 
-
     private fun saveProject(){
         val project = createProject() ?: return
         // TODO: Verificar si el usuario es premium. Si no lo es, no dejarle crear mas de 2 proyectos.
 
-        // TODO: Hacer esto asincrono, y que se actualice la lista de proyectos.
-        db.collection("ideas")
+        // TODO: Hacer esto asincrono.
+        saveProjectToDatabase(project)
+        /*db.collection("ideas")
             .whereEqualTo("title", project.getTitle())
             .get()
             .addOnSuccessListener { result ->
@@ -63,7 +64,7 @@ class ProjectCreationFragment : Fragment() {
             .addOnFailureListener {
                 Snackbar.make(v, resources.getString(R.string.project_creation_failed), Snackbar.LENGTH_LONG).show()
             }
-
+        */
     }
 
     private fun saveProjectToDatabase(project: ProjectEntity){
@@ -72,7 +73,6 @@ class ProjectCreationFragment : Fragment() {
             .addOnSuccessListener {
                 showSuccessMessage(project)
                 v.findNavController().popBackStack()
-                // TODO: Cambiar para que se actualice la lista de proyectos
             }
             .addOnFailureListener {
                 Snackbar.make(v, resources.getString(R.string.project_creation_failed), Snackbar.LENGTH_LONG).show()
@@ -89,17 +89,17 @@ class ProjectCreationFragment : Fragment() {
         val projectTitle = binding.editTxtProjectCreationTitle.text.toString()
         val projectSubtitle = binding.editTxtProjectCreationSubtitle.text.toString()
         val projectCategory = binding.spinnerProjectCreationCategory.selectedItem.toString()
-        val projectImg = "" // TODO agregar
+        val projectImg = "" // TODO Realizar el subido de imagenes.
         val projectDescription = binding.editTxtProjectCreationDescription.text.toString()
         val projectMinBudget = binding.editTxtProjectCreationMinBudget.text.toString().toDoubleOrNull() ?: 0.0
         val projectGoal = binding.editTxtProjectCreationGoal.text.toString().toDoubleOrNull() ?: 0.0
 
-        if (projectTitle.isEmpty() || projectSubtitle.isEmpty() || projectCategory.isEmpty() || projectDescription.isEmpty() || projectMinBudget < 0.0 || projectGoal <= 0.0){
+        if (projectTitle.isEmpty() || projectSubtitle.isEmpty() || projectCategory.isEmpty() || projectCategory.equals(resources.getStringArray(R.array.categories_array)) || projectDescription.isEmpty() || projectMinBudget < 0.0 || projectGoal <= 0.0){
             Snackbar.make(v, resources.getString(R.string.project_creation_failed_empty_fields), Snackbar.LENGTH_LONG).show()
             return null
         }
 
-        return ProjectEntity(projectCreatorEmail, projectTitle, projectSubtitle, projectDescription, projectCategory, projectImg, projectMinBudget, projectGoal)
+        return ProjectEntity(projectCreatorEmail, projectTitle, projectSubtitle, projectDescription, projectCategory, projectImg, projectMinBudget, projectGoal, Date())
     }
 
     private fun startSpinner(){

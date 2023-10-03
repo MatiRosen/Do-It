@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.firebase.Timestamp
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import team.doit.do_it.R
@@ -16,6 +17,7 @@ import team.doit.do_it.adapters.ProjectListAdapter
 import team.doit.do_it.databinding.FragmentHomeCreatorBinding
 import team.doit.do_it.entities.ProjectEntity
 import team.doit.do_it.listeners.OnViewItemClickedListener
+import java.util.Date
 
 class HomeCreatorFragment : Fragment(), OnViewItemClickedListener {
 
@@ -37,16 +39,16 @@ class HomeCreatorFragment : Fragment(), OnViewItemClickedListener {
         _binding = FragmentHomeCreatorBinding.inflate(inflater, container, false)
 
         v = binding.root
-
-        if (projectList.size == 0) {
-            addProjects()
-        }
+        binding.progressBarHomeCreator.visibility = View.GONE
 
         return v
     }
 
     private fun addProjects() {
         // TODO: Hacer esto asincrono. (no se si ya lo es)
+        binding.recyclerHomeCreatorProjects.visibility = View.GONE
+        binding.progressBarHomeCreator.visibility = View.VISIBLE
+
         db.collection("ideas")
             .whereEqualTo("creatorEmail", FirebaseAuth.getInstance().currentUser?.email)
             .get()
@@ -62,7 +64,8 @@ class HomeCreatorFragment : Fragment(), OnViewItemClickedListener {
                                 document.data["category"] as String,
                                 document.data["image"] as String,
                                 (document.getLong("goal") as Long).toDouble(),
-                                (document.getLong("minBudget") as Long).toDouble()
+                                (document.getLong("minBudget") as Long).toDouble(),
+                                (document.data["creationDate"] as Timestamp).toDate()
                             )
                         )
                     }
@@ -70,6 +73,12 @@ class HomeCreatorFragment : Fragment(), OnViewItemClickedListener {
             }
             .addOnFailureListener {
                 Toast.makeText(context, resources.getString(R.string.home_creation_get_project_failed) , Toast.LENGTH_SHORT).show()
+                binding.progressBarHomeCreator.visibility = View.GONE
+                binding.recyclerHomeCreatorProjects.visibility = View.VISIBLE
+            }
+            .addOnCompleteListener { task ->
+                binding.progressBarHomeCreator.visibility = View.GONE
+                binding.recyclerHomeCreatorProjects.visibility = View.VISIBLE
             }
     }
 
@@ -78,10 +87,23 @@ class HomeCreatorFragment : Fragment(), OnViewItemClickedListener {
 
         binding.btnHomeCreatorCreateProject.setOnClickListener {
             val action = HomeCreatorFragmentDirections.actionHomeCreatorFragmentToProjectCreationFragment()
+            this.findNavController().navigate(action)
+        }
+
+        binding.switchToHomeInvestor.setOnClickListener {
+            val action = HomeCreatorFragmentDirections.actionHomeCreatorFragmentToHomeInversorFragment()
             v.findNavController().navigate(action)
         }
 
+        // TODO: Hacer que no se borren todos los proyectos, solo actualizar la lista.
+        projectList.clear()
+        addProjects()
         setupRecyclerView()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        binding.switchToHomeInvestor.isChecked = false
     }
 
     override fun onViewItemDetail(project: ProjectEntity) {

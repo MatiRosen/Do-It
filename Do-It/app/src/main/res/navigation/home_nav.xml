@@ -26,8 +26,8 @@
         android:label="fragment_home_investor"
         tools:layout="@layout/fragment_home_investor" >
         <action
-            android:id="@+id/action_homeInvestorFragment_to_projectDetailFragment"
-            app:destination="@id/projectDetailFragment" />
+            android:id="@+id/action_homeInvestorFragment_to_projectDetailInvestorFragment"
+            app:destination="@id/projectDetailInvestorFragment" />
     </fragment>
     <fragment
         android:id="@+id/projectCreationFragment"
@@ -36,9 +36,18 @@
         tools:layout="@layout/fragment_project_creation" />
     <fragment
         android:id="@+id/projectDetailFragment"
-        android:name="team.doit.do_it.fragments.ProjectDetailFragment"
+        android:name="team.doit.do_it.fragments.ProjectDetailCreatorFragment"
         android:label="fragment_project_detail"
-        tools:layout="@layout/fragment_project_detail" >
+        tools:layout="@layout/fragment_project_detail_creator" >
+        <argument
+            android:name="project"
+            app:argType="team.doit.do_it.entities.ProjectEntity" />
+    </fragment>
+    <fragment
+        android:id="@+id/projectDetailInvestorFragment"
+        android:name="team.doit.do_it.fragments.ProjectDetailInvestorFragment"
+        android:label="fragment_project_detail_investor"
+        tools:layout="@layout/fragment_project_detail_investor" >
         <argument
             android:name="project"
             app:argType="team.doit.do_it.entities.ProjectEntity" />

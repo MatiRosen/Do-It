@@ -52,13 +52,7 @@ class LoginFragment : Fragment() {
 
         loginButton = binding.btnLoginLogin
         loginButton.setOnClickListener {
-            // TODO descomentar esto:
-            //login(v)
-            // TODO borrar las siguientes 2 lineas:
-            val intent = Intent(activity, MainActivity::class.java)
-            startActivity(intent)
-
-            requireActivity().finish()
+            login(v)
         }
 
         val btnTextRegister = binding.btnTxtLoginRegister
@@ -71,10 +65,16 @@ class LoginFragment : Fragment() {
         email = binding.editTxtLoginEmail.text.toString()
         password = binding.editTxtLoginPassword.text.toString()
 
+        if(email.isEmpty() || password.isEmpty()) {
+            Toast.makeText(activity, resources.getString(R.string.login_empty_fields), Toast.LENGTH_SHORT).show()
+            return
+        }
+
         mAuth.signInWithEmailAndPassword(email, password)
             .addOnCompleteListener {
                 if (it.isSuccessful) {
                     goHome(email, "email")
+                    requireActivity().finish()
                 }
                 else Toast.makeText(activity, resources.getString(R.string.login_invalid_credentials), Toast.LENGTH_SHORT).show()
             }
