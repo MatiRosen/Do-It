@@ -82,15 +82,14 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txtHomeInvestorSubTitle" />
 
-    <Switch
+    <androidx.appcompat.widget.SwitchCompat
         android:id="@+id/switchToHomeCreator"
         android:layout_width="wrap_content"
         android:layout_height="48dp"
         android:layout_marginTop="1dp"
         android:checked="true"
         android:text=""
-        android:thumbTint="@color/dark_pantone"
-        android:trackTint="@color/dark_pantone"
+        android:theme="@style/SwitchStyleHomes"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/searchViewHomeInvestor"
         app:layout_constraintTop_toTopOf="parent" />

@@ -26,25 +26,60 @@
             android:gravity="center"
             android:orientation="vertical">
 
+            <FrameLayout
+                android:id="@+id/frameLayoutImageContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <!-- TODO: Reemplazar imagen -->
+                <ImageView
+                    android:id="@+id/imgProjectDetailCreatorProjectImage"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:layout_marginBottom="@dimen/divider_bottom_padding"
+                    android:src="@drawable/arg_campeon2"
+                    android:scaleType="centerCrop"
+                    android:adjustViewBounds="true" />
+
+                <FrameLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="top|start">
+
+                    <View
+                        android:id="@+id/cardViewArrow"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_gravity="top|start"
+                        android:background="@drawable/style_shadow_top_info"/>
+
+                    <ImageButton
+                        android:id="@+id/imgBtnProjectDetailCreatorBack"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:backgroundTint="@color/transparent"
+                        android:layout_marginStart="16dp"
+                        android:src="@drawable/icon_arrow_left"
+                        android:contentDescription="@string/project_detail_creator_back" />
+
+                </FrameLayout>
+
+
+            </FrameLayout>
+
             <TextView
                 android:id="@+id/txtProjectDetailCreatorTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
+                android:layout_marginTop="@dimen/divider_top_padding"
                 android:layout_marginBottom="@dimen/divider_bottom_padding"
                 android:text="Título"
                 android:textColor="@color/dark_pantone"
                 android:textSize="@dimen/txt_secondary_title_size"
                 android:textStyle="bold" />
 
-            <!-- TODO: Reemplazar imagen -->
-            <ImageView
-                android:id="@+id/imgProjectDetailCreatorProjectImage"
-                android:layout_width="match_parent"
-                android:layout_height="200dp"
-                android:layout_marginTop="@dimen/divider_top_padding"
-                android:layout_marginBottom="@dimen/divider_bottom_padding"
-                android:src="@drawable/arg_campeon" />
 
             <TextView
                 android:id="@+id/txtProjectDetailCreatorSubtitle"

@@ -5,6 +5,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.findNavController
+import team.doit.do_it.R
 import team.doit.do_it.databinding.FragmentProjectDetailCreatorBinding
 
 
@@ -22,6 +24,9 @@ class ProjectDetailCreatorFragment : Fragment() {
         _binding = FragmentProjectDetailCreatorBinding.inflate(inflater, container, false)
         v = binding.root
 
+        hideBottomNav()
+
+
         return v
     }
 
@@ -29,6 +34,15 @@ class ProjectDetailCreatorFragment : Fragment() {
         super.onStart()
 
         setTexts()
+
+        binding.imgBtnProjectDetailCreatorBack.setOnClickListener {
+            v.findNavController().navigateUp()
+        }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        showBottomNav()
     }
 
     private fun setTexts() {
@@ -39,6 +53,14 @@ class ProjectDetailCreatorFragment : Fragment() {
         binding.txtProjectDetailCreatorDescription.text = project.getDescription()
         binding.txtProjectDetailCreatorCategory.text = project.getCategory()
         binding.txtProjectDetailCreatorGoal.text = project.getGoal().toString()
+    }
+
+    private fun hideBottomNav() {
+        requireActivity().findViewById<View>(R.id.bottomNavigationView).visibility = View.GONE
+    }
+
+    private fun showBottomNav() {
+        requireActivity().findViewById<View>(R.id.bottomNavigationView).visibility = View.VISIBLE
     }
 
     override fun onDestroyView() {

@@ -42,6 +42,9 @@
         <argument
             android:name="project"
             app:argType="team.doit.do_it.entities.ProjectEntity" />
+        <action
+            android:id="@+id/action_projectDetailFragment_to_homeCreatorFragment"
+            app:destination="@id/homeCreatorFragment" />
     </fragment>
     <fragment
         android:id="@+id/projectDetailInvestorFragment"

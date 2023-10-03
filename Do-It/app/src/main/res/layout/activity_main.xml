@@ -12,7 +12,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:defaultNavHost="true"
-        app:layout_constraintBottom_toTopOf="@+id/guidelineMainActivityHorizontal93"
+        app:layout_constraintBottom_toTopOf="@+id/bottomNavigationView"
         app:layout_constraintEnd_toStartOf="@+id/guidelineMainActivityVertical98"
         app:layout_constraintStart_toStartOf="@+id/guideLineMainActivityVertical2"
         app:layout_constraintTop_toTopOf="@+id/guidelineMainActivityHorizontal3"
@@ -32,6 +32,10 @@
         app:layout_constraintTop_toTopOf="@+id/guidelineMainActivityHorizontal93"
         app:menu="@menu/bottom_menu" />
 
+    <!-- TODO: Sacar los margenes de acá, y ponerlos en cada fragment en particular. -->
+    <!-- Tener que definir los margenes en cada fragment no me parece muy correcto, porque
+         podría pasar que haya 2 fragmentos con distintos márgenes sin querer. Intentar
+         buscar una solución mejor, para el tema de los fragmentos que no tienen margenes.-->
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guidelineMainActivityHorizontal3"
         android:layout_width="wrap_content"

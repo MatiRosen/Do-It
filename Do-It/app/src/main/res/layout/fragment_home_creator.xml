@@ -64,15 +64,14 @@
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="@dimen/guideline_98" />
 
-    <Switch
+    <androidx.appcompat.widget.SwitchCompat
         android:id="@+id/switchToHomeInvestor"
         android:layout_width="wrap_content"
         android:layout_height="48dp"
         android:layout_marginTop="1dp"
         android:checked="false"
         android:text=""
-        android:thumbTint="@color/pantone"
-        android:trackTint="@color/pantone"
+        android:theme="@style/SwitchStyleHomes"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.843"
         app:layout_constraintStart_toStartOf="@+id/guidelineHomeCreatorVertical80"

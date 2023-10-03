@@ -20,6 +20,8 @@
           android:layout_height="0dp"
           android:contentDescription="@string/img_project_image"
           android:src="@drawable/arg_campeon"
+          android:scaleType="centerCrop"
+          android:adjustViewBounds="true"
           app:layout_constraintBottom_toBottomOf="parent"
           app:layout_constraintEnd_toStartOf="@+id/guidelineItemProjectCreatorVertical45"
           app:layout_constraintStart_toStartOf="parent"
