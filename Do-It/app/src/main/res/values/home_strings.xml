@@ -8,6 +8,8 @@
     <string name="home_register_button">Registrarse</string>
     <string name="home_forgot_password">¿Olvidaste tu contraseña?</string>
     <string name="login_reset_password">Email de reseteo de contraseña enviado</string>
+    <string name="login_email_not_verified">Debe verificar su email para poder iniciar sesión</string>
+    <string name="login_verify_email">Verificar email</string>
 
 
 

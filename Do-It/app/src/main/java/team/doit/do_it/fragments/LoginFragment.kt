@@ -40,6 +40,9 @@ class LoginFragment : Fragment() {
     ): View? {
         _binding = FragmentLoginBinding.inflate(inflater, container, false)
         v = binding.root
+
+        hideVerifyEmailButton()
+
         return v
     }
 
@@ -62,6 +65,20 @@ class LoginFragment : Fragment() {
         btnForgotPassword.setOnClickListener {
             forgotPassword()
         }
+
+        val btnVerifyEmail = binding.btnVerifyEmail
+        btnVerifyEmail.setOnClickListener {
+            mAuth.currentUser?.sendEmailVerification()
+                ?.addOnCompleteListener {
+                    if(it.isSuccessful) {
+                        hideVerifyEmailButton()
+                        Toast.makeText(activity, resources.getString(R.string.register_email_sent), Toast.LENGTH_SHORT).show()
+                    }
+                    else {
+                        Toast.makeText(activity, resources.getString(R.string.register_email_sent_error), Toast.LENGTH_SHORT).show()
+                    }
+                }
+        }
     }
 
     private fun login(v: View) {
@@ -76,8 +93,14 @@ class LoginFragment : Fragment() {
         mAuth.signInWithEmailAndPassword(email, password)
             .addOnCompleteListener {
                 if (it.isSuccessful) {
-                    goHome(email, "email")
-                    requireActivity().finish()
+                    if(mAuth.currentUser?.isEmailVerified == true) {
+                        goHome(email, "email")
+                        requireActivity().finish()
+                    }
+                    else {
+                        showVerifyEmailButton()
+                        Toast.makeText(activity, resources.getString(R.string.login_email_not_verified), Toast.LENGTH_LONG).show()
+                    }
                 }
                 else Toast.makeText(activity, resources.getString(R.string.login_invalid_credentials), Toast.LENGTH_SHORT).show()
             }
@@ -115,8 +138,22 @@ class LoginFragment : Fragment() {
         requireActivity().finish()
     }
 
+    private fun hideVerifyEmailButton() {
+        binding.btnVerifyEmail.visibility = View.GONE
+        binding.btnTxtLoginRegister.visibility = View.VISIBLE
+        binding.txtLoginRegister.visibility = View.VISIBLE
+    }
+
+    private fun showVerifyEmailButton() {
+        binding.btnVerifyEmail.visibility = View.VISIBLE
+        binding.btnTxtLoginRegister.visibility = View.GONE
+        binding.txtLoginRegister.visibility = View.GONE
+    }
+
     override fun onDestroyView() {
+        hideVerifyEmailButton()
         super.onDestroyView()
         _binding = null
     }
+
 }
