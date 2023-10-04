@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <string name="project_creation_total_budget">Meta de presupuesto: </string>
     <string name="project_detail_investor_contact">Contactar</string>
     <string name="project_detail_title">Título</string>
@@ -7,7 +8,11 @@
     <string name="project_detail_description">Descripción</string>
     <string name="project_detail_category">Categoria</string>
     <string name="project_detail_follow">Seguir</string>
-    <string name="project_detail_goal">Presupuesto total</string>
     <string name="project_detail_minBudget">Presupuesto minimo</string>
+    <string name="project_detail_goal">Meta de presupuesto: </string>
+    <string name="project_detail_back">Volver atrás</string>
+    <string name="project_detail_trash">Eliminar proyecto</string>
+    <string name="project_detail_edit">Editar proyecto</string>
+    <string name="project_detail_image">Imágen del proyecto</string>
 
 </resources>

@@ -6,10 +6,16 @@
     <string name="home_login_button">Iniciar sesión</string>
     <string name="home_register">¿No tienes cuenta?</string>
     <string name="home_register_button">Registrarse</string>
+    <string name="home_forgot_password">¿Olvidaste tu contraseña?</string>
+    <string name="login_reset_password">Email de reseteo de contraseña enviado</string>
+    <string name="login_email_not_verified">Debe verificar su email para poder iniciar sesión</string>
+    <string name="login_verify_email">Verificar email</string>
 
 
 
 
     <string name="login_invalid_credentials">Credenciales invalidas</string>
     <string name="login_empty_fields">Debe ingresar un mail y una contraseña</string>
+    <string name="login_empty_email">Indica un email</string>
+    <string name="login_reset_password_error">No se encontro usuario con este correo</string>
 </resources>

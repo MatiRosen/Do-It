@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="transparent">#00000000</color>
+    <color name="light_shadow">#66000000</color>
+    <color name="dark_shadow">#99000000</color>
+
     <!--Blanco y negro-->
     <color name="black">#262626</color>
     <color name="white">#FEFEFE</color>

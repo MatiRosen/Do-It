@@ -14,6 +14,7 @@
     <string name="register_confirm_password">Confirmar contraseña</string>
     <string name="register_register_button">Registrarse</string>
     <string name="register_continue">Continuar</string>
+    <string name="register_email_sent">Email de verificación enviado</string>
 
 
 
@@ -27,4 +28,5 @@
     <string name="register_gender_error">Ingrese su género</string>
     <string name="register_phone_error">Ingrese su número de teléfono</string>
     <string name="register_address_error">Ingrese su dirección</string>
+    <string name="register_email_sent_error">Error al enviar mensaje de validación</string>
 </resources>

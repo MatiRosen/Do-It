@@ -42,6 +42,9 @@
         <argument
             android:name="project"
             app:argType="team.doit.do_it.entities.ProjectEntity" />
+        <action
+            android:id="@+id/action_projectDetailFragment_to_editProjectFragment"
+            app:destination="@id/editProjectFragment" />
     </fragment>
     <fragment
         android:id="@+id/projectDetailInvestorFragment"
@@ -65,5 +68,14 @@
             android:name="CreatorEmail"
             app:argType="string"
             app:nullable="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/editProjectFragment"
+        android:name="team.doit.do_it.fragments.EditProjectFragment"
+        android:label="fragment_edit_project"
+        tools:layout="@layout/fragment_edit_project" >
+        <argument
+            android:name="project"
+            app:argType="team.doit.do_it.entities.ProjectEntity" />
     </fragment>
 </navigation>

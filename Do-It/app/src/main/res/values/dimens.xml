@@ -23,6 +23,8 @@
     <dimen name="button_text_padding">10dp</dimen>
     <dimen name="divider_top_padding">10dp</dimen>
     <dimen name="divider_bottom_padding">10dp</dimen>
+    <dimen name="divider_start_padding">10dp</dimen>
+    <dimen name="divider_end_padding">10dp</dimen>
     <dimen name="title_bottom_padding">20dp</dimen>
 
     <!-- GuideLines -->

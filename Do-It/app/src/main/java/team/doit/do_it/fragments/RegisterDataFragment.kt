@@ -63,8 +63,9 @@ class RegisterDataFragment : Fragment() {
         btnRegister = binding.btnRegisterDataRegister
         btnRegister.setOnClickListener {
             initializeUser(email)
-            if(isValidUser())
+            if(isValidUser()) {
                 register(email, password)
+            }
         }
     }
 
@@ -139,13 +140,24 @@ class RegisterDataFragment : Fragment() {
                             "premium" to user.getIsPremium().toInt()
                         ))
 
-                    val intent = Intent(activity, MainActivity::class.java)
-                    startActivity(intent)
-
-                    requireActivity().finish()
+                    validateEmail(email)
+                    findNavController().navigate(R.id.action_registerDataFragment_to_loginFragment)
                 }
                 else Toast.makeText(activity, resources.getString(R.string.register_generic_error), Toast.LENGTH_SHORT).show()
             }
+    }
+
+    private fun validateEmail(email: String) {
+        FirebaseAuth.getInstance().currentUser?.sendEmailVerification()
+        //TODO: Cambiar el toast por un dialogo
+            /*?.addOnCompleteListener {
+                if(it.isSuccessful) {
+                    Toast.makeText(v.context, resources.getString(R.string.register_email_sent), Toast.LENGTH_SHORT).show()
+                }
+                else {
+                    Toast.makeText(v.context, resources.getString(R.string.register_email_sent_error), Toast.LENGTH_SHORT).show()
+                }
+            }*/
     }
 
     private fun startSpinner() {
