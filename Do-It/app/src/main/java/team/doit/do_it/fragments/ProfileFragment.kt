@@ -39,9 +39,15 @@ class ProfileFragment : Fragment() {
     }
 
     private fun replaceData() {
+        val creatorEmail = ProfileFragmentArgs.fromBundle(requireArguments()).CreatorEmail
         val currentUser = FirebaseAuth.getInstance().currentUser
-
-        getUser(currentUser?.email.toString(), object : OnUserFetchedListener {
+        var userEmail = " "
+        if (creatorEmail == " "){
+            userEmail =  currentUser?.email.toString()
+        }else{
+            userEmail = creatorEmail
+        }
+        getUser(userEmail, object : OnUserFetchedListener {
             override fun onUserFetched(user: DocumentSnapshot?) {
                 if (user != null) {
                     //TODO: add profile photo

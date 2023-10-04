@@ -52,7 +52,7 @@ class HomeInvestorFragment : Fragment(), OnViewItemClickedListener {
 
         // TODO: Hacer esto asincrono. (no se si ya lo es)
         db.collection("ideas")
-            .orderBy("name", Query.Direction.DESCENDING).limit(5)
+            .orderBy("followersCount", Query.Direction.DESCENDING).limit(5)
             .get()
             .addOnSuccessListener { result ->
                 for (document in result) {
@@ -77,6 +77,7 @@ class HomeInvestorFragment : Fragment(), OnViewItemClickedListener {
                 Toast.makeText(activity, resources.getString(R.string.home_investor_get_project_failed), Toast.LENGTH_SHORT).show()
             }
         db.collection("ideas")
+            .orderBy("creationDate", Query.Direction.DESCENDING)
             .get()
             .addOnSuccessListener { result ->
                     for (document in result) {

@@ -57,7 +57,7 @@
         <action
             android:id="@+id/action_projectDetailInvestorFragment_to_profileFragment"
             app:destination="@id/profileFragment"
-            app:popUpTo="@id/homeInvestorFragment"
+            app:popUpTo="@id/projectDetailInvestorFragment"
             app:popUpToInclusive="true" />
     </fragment>
     <fragment
@@ -67,7 +67,7 @@
         <argument
             android:name="CreatorEmail"
             app:argType="string"
-            app:nullable="true" />
+            android:defaultValue=" " />
     </fragment>
     <fragment
         android:id="@+id/editProjectFragment"
