@@ -71,13 +71,13 @@ class LoginFragment : Fragment() {
             mAuth.currentUser?.sendEmailVerification()
                 ?.addOnCompleteListener {
                     if(it.isSuccessful) {
-                        hideVerifyEmailButton()
                         Toast.makeText(activity, resources.getString(R.string.register_email_sent), Toast.LENGTH_SHORT).show()
                     }
                     else {
                         Toast.makeText(activity, resources.getString(R.string.register_email_sent_error), Toast.LENGTH_SHORT).show()
                     }
                 }
+            hideVerifyEmailButton()
         }
     }
 
