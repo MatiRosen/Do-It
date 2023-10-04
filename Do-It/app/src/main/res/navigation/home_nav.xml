@@ -43,14 +43,23 @@
             android:name="project"
             app:argType="team.doit.do_it.entities.ProjectEntity" />
         <action
-            android:id="@+id/action_projectDetailFragment_to_homeCreatorFragment"
-            app:destination="@id/homeCreatorFragment" />
+            android:id="@+id/action_projectDetailFragment_to_editProjectFragment"
+            app:destination="@id/editProjectFragment" />
     </fragment>
     <fragment
         android:id="@+id/projectDetailInvestorFragment"
         android:name="team.doit.do_it.fragments.ProjectDetailInvestorFragment"
         android:label="fragment_project_detail_investor"
         tools:layout="@layout/fragment_project_detail_investor" >
+        <argument
+            android:name="project"
+            app:argType="team.doit.do_it.entities.ProjectEntity" />
+    </fragment>
+    <fragment
+        android:id="@+id/editProjectFragment"
+        android:name="team.doit.do_it.fragments.EditProjectFragment"
+        android:label="fragment_edit_project"
+        tools:layout="@layout/fragment_edit_project" >
         <argument
             android:name="project"
             app:argType="team.doit.do_it.entities.ProjectEntity" />
