@@ -10,6 +10,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.Timestamp
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.Query
 import team.doit.do_it.R
 import team.doit.do_it.adapters.ProjectListAdapter
 import team.doit.do_it.databinding.FragmentHomeInvestorBinding
@@ -51,6 +52,31 @@ class HomeInvestorFragment : Fragment(), OnViewItemClickedListener {
 
         // TODO: Hacer esto asincrono. (no se si ya lo es)
         db.collection("ideas")
+            .orderBy("name", Query.Direction.DESCENDING).limit(5)
+            .get()
+            .addOnSuccessListener { result ->
+                for (document in result) {
+                    if (document.id != "xyz") {
+                        popularProjectList.add(
+                            ProjectEntity(
+                                document.data["creatorEmail"] as String,
+                                document.data["title"] as String,
+                                document.data["subtitle"] as String,
+                                document.data["description"] as String,
+                                document.data["category"] as String,
+                                document.data["image"] as String,
+                                (document.getLong("minBudget") as Long).toDouble(),
+                                (document.getLong("goal") as Long).toDouble(),
+                                (document.data["creationDate"] as Timestamp).toDate()
+                            )
+                        )
+                    }
+                }
+            }
+            .addOnFailureListener {
+                Toast.makeText(activity, resources.getString(R.string.home_investor_get_project_failed), Toast.LENGTH_SHORT).show()
+            }
+        db.collection("ideas")
             .get()
             .addOnSuccessListener { result ->
                     for (document in result) {
@@ -81,9 +107,10 @@ class HomeInvestorFragment : Fragment(), OnViewItemClickedListener {
                 binding.txtHomeInvestorSubTitle.visibility = View.VISIBLE
                 binding.searchViewHomeInvestor.visibility = View.VISIBLE
                 binding.switchToHomeCreator.visibility = View.VISIBLE
+
             }
 
-        popularProjectList.add(
+        /*popularProjectList.add(
             ProjectEntity(
                 "matias.rosenstein00@gmail.com",
                 "Proyecto de prueba hardcodeado",
@@ -95,7 +122,7 @@ class HomeInvestorFragment : Fragment(), OnViewItemClickedListener {
                 10000.0,
                 Date()
             )
-        )
+        )*/
 
     }
     override fun onStart() {
@@ -105,6 +132,7 @@ class HomeInvestorFragment : Fragment(), OnViewItemClickedListener {
         binding.switchToHomeCreator.setOnClickListener {
             this.findNavController().navigateUp()
         }
+
     }
 
     override fun onResume() {

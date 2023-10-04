@@ -51,5 +51,19 @@
         <argument
             android:name="project"
             app:argType="team.doit.do_it.entities.ProjectEntity" />
+        <action
+            android:id="@+id/action_projectDetailInvestorFragment_to_profileFragment"
+            app:destination="@id/profileFragment"
+            app:popUpTo="@id/homeInvestorFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="team.doit.do_it.fragments.ProfileFragment"
+        android:label="ProfileFragment" >
+        <argument
+            android:name="CreatorEmail"
+            app:argType="string"
+            app:nullable="true" />
     </fragment>
 </navigation>

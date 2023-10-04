@@ -8,7 +8,7 @@ import androidx.fragment.app.Fragment
 import com.google.firebase.auth.FirebaseAuth
 import team.doit.do_it.databinding.FragmentProfileBinding
 import android.widget.TextView
-
+import com.google.firebase.firestore.FirebaseFirestore
 
 
 class ProfileFragment : Fragment() {
@@ -16,7 +16,8 @@ class ProfileFragment : Fragment() {
     private var _binding : FragmentProfileBinding? = null
     private val binding get() = _binding!!
     private lateinit var v : View
-
+    private val db = FirebaseFirestore.getInstance()
+    private var creatorEmail : String? = null
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -42,14 +43,33 @@ class ProfileFragment : Fragment() {
         val address = v.findViewById<TextView>(team.doit.do_it.R.id.txtProfileAddress)
 
         val user = FirebaseAuth.getInstance().currentUser
+        creatorEmail = ProfileFragmentArgs.fromBundle(requireArguments()).CreatorEmail
 
-        //TODO: replace data with user information
-        if (user != null) {
-            name.text = user.displayName.toString()
-            mail.text = user.email.toString()
-            phone.text = user.phoneNumber.toString()
-            gender.text = "Género"
-            address.text = "Dirección"
+        if(creatorEmail == " " ){
+            //TODO: replace data with user information
+            if (user != null) {
+                name.text = user.displayName.toString()
+                mail.text = user.email.toString()
+                phone.text = user.phoneNumber.toString()
+                gender.text = "Género"
+                address.text = "Dirección"
+            }
+        }else{
+            val creatorUser =  db.collection("usuarios").whereEqualTo("email",creatorEmail)
+            creatorUser.get()
+                .addOnSuccessListener { querySnapshot ->
+                    for (document in querySnapshot) {
+                        name.text = document.getString("nombre")
+                        mail.text = document.getString("email")
+                        phone.text = document.getString("telefono")
+                        gender.text = document.getString("genero")
+                        address.text = document.getString("direccion")
+                    }
+                }
+                .addOnFailureListener { exception ->
+                    // Manejar errores en la consulta, si los hay
+                }
+
         }
 
     }

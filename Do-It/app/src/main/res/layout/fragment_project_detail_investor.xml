@@ -7,15 +7,140 @@
     android:layout_height="match_parent"
     tools:context=".fragments.ProjectDetailInvestorFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:id="@+id/textView"
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidelineDetailInvestorHorizontal95"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="@dimen/guideline_95" />
+
+    <Button
+        android:id="@+id/btnGetInContactCreator"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/style_button_add_project"
+        android:drawablePadding="@dimen/button_text_padding"
+        android:padding="@dimen/button_text_padding"
+        android:text="@string/project_detail_investor_contact"
+        android:textColor="@color/white"
+        android:textSize="@dimen/txt_button_size"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/guidelineDetailInvestorHorizontal95"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <ScrollView
+        android:id="@+id/scrollViewProjectDetailInvestor"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:text="@string/hello_blank_fragment"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintWidth_max="@dimen/input_max_width">
+
+        <LinearLayout
+            android:id="@+id/linearLayoutProjectDetailInvestorInfo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/txtProjectDetailInvestorTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_marginBottom="@dimen/divider_bottom_padding"
+                android:text="@string/project_detail_title"
+                android:textColor="@color/dark_pantone"
+                android:textSize="@dimen/txt_secondary_title_size"
+                android:textStyle="bold" />
+
+            <!-- TODO: Reemplazar imagen -->
+            <ImageView
+                android:id="@+id/imgProjectDetailCreatorProjectImage"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:layout_marginTop="@dimen/divider_top_padding"
+                android:layout_marginBottom="@dimen/divider_bottom_padding"
+                android:src="@drawable/arg_campeon" />
+
+            <TextView
+                android:id="@+id/txtProjectDetailInvestorSubtitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/divider_top_padding"
+                android:layout_marginBottom="@dimen/divider_bottom_padding"
+                android:text="@string/project_detail_subtitle"
+                android:textColor="@color/medium_gray"
+                android:textSize="@dimen/txt_description_size" />
+
+            <TextView
+                android:id="@+id/txtProjectDetailInvestorFollowProject"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/divider_top_padding"
+                android:layout_marginBottom="@dimen/divider_bottom_padding"
+                android:text="@string/project_detail_follow"
+                android:textColor="@color/black"
+                android:textSize="@dimen/txt_paragraph_size"
+                android:padding="@dimen/input_txt_padding"
+                android:drawablePadding="@dimen/input_txt_padding"
+                app:drawableStartCompat="@drawable/icon_follow_project" />
+
+            <TextView
+                android:id="@+id/txtProjectDetailInvestorDescription"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/divider_top_padding"
+                android:layout_marginBottom="@dimen/divider_bottom_padding"
+                android:text="@string/project_detail_description"
+                android:textColor="@color/black"
+                android:textSize="@dimen/txt_paragraph_size" />
+
+            <TextView
+                android:id="@+id/txtProjectDetailInvestorCategory"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/divider_top_padding"
+                android:layout_marginBottom="@dimen/divider_bottom_padding"
+                android:text="@string/project_detail_category"
+                android:textColor="@color/dark_gray"
+                android:textSize="@dimen/txt_paragraph_size"
+                android:padding="@dimen/input_txt_padding"
+                android:drawablePadding="@dimen/input_txt_padding"
+                app:drawableStartCompat="@drawable/icon_label" />
+
+            <TextView
+                android:id="@+id/txtProjectDetailInvestorGoal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/divider_top_padding"
+                android:layout_marginBottom="@dimen/divider_bottom_padding"
+                android:text="@string/project_detail_goal"
+                android:textColor="@color/green"
+                android:textSize="@dimen/txt_paragraph_size"
+                android:padding="@dimen/input_txt_padding"
+                android:drawablePadding="@dimen/input_txt_padding"
+                app:drawableStartCompat="@drawable/icon_cash" />
+
+            <TextView
+                android:id="@+id/txtProjectDetailInvestorMinBudget"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/divider_top_padding"
+                android:layout_marginBottom="@dimen/divider_bottom_padding"
+                android:text="@string/project_detail_minBudget"
+                android:textColor="@color/green"
+                android:textSize="@dimen/txt_paragraph_size"
+                android:padding="@dimen/input_txt_padding"
+                android:drawablePadding="@dimen/input_txt_padding"
+                app:drawableStartCompat="@drawable/icon_cash" />
+
+
+
+        </LinearLayout>
+    </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

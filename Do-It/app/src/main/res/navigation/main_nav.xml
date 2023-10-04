@@ -16,9 +16,15 @@
         android:label="fragment_chat"
         tools:layout="@layout/fragment_chat" />
     <fragment
-        android:id="@+id/profile"
+        android:id="@+id/profileFragmentMain"
         android:name="team.doit.do_it.fragments.ProfileFragment"
-        android:label="ProfileFragment" />
+        android:label="ProfileFragmentMain" >
+        <argument
+            android:name="CreatorEmail"
+            app:argType="string"
+            android:defaultValue=" " />
+    </fragment>
+
     <!-- TODO: Preguntar si está bien construido... -->
     <include app:graph="@navigation/home_nav" />
 </navigation>
