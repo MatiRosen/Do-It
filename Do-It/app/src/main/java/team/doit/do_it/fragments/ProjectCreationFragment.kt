@@ -94,12 +94,51 @@ class ProjectCreationFragment : Fragment() {
         val projectMinBudget = binding.editTxtProjectCreationMinBudget.text.toString().toDoubleOrNull() ?: 0.0
         val projectGoal = binding.editTxtProjectCreationGoal.text.toString().toDoubleOrNull() ?: 0.0
 
-        if (projectTitle.isEmpty() || projectSubtitle.isEmpty() || projectCategory.isEmpty() || projectCategory.equals(resources.getStringArray(R.array.categories_array)) || projectDescription.isEmpty() || projectMinBudget < 0.0 || projectGoal <= 0.0){
-            Snackbar.make(v, resources.getString(R.string.project_creation_failed_empty_fields), Snackbar.LENGTH_LONG).show()
-            return null
+        val project = ProjectEntity(projectCreatorEmail, projectTitle, projectSubtitle, projectDescription, projectCategory, projectImg, projectMinBudget, projectGoal, Date())
+
+        return if (validateFields(project)) project else null
+    }
+
+    private fun validateFields(project: ProjectEntity) : Boolean{
+        val fieldsToCheck = listOf(
+            Pair(project.getTitle(), resources.getString(R.string.project_creation_title_error)),
+            Pair(project.getSubtitle(), resources.getString(R.string.project_creation_subtitle_error)),
+            Pair(project.getDescription(), resources.getString(R.string.project_creation_description_error)),
+            Pair(project.getCategory(), resources.getString(R.string.project_creation_category_error)),
+            //Pair(project.getImage(), resources.getString(R.string.project_creation_image_error)),
+            Pair(project.getMinBudget(), resources.getString(R.string.project_creation_min_budget_error)),
+            Pair(project.getGoal(), resources.getString(R.string.project_creation_goal_error))
+        )
+
+        for ((property, errorMessage) in fieldsToCheck){
+            if (property.toString().isEmpty()){
+                Snackbar.make(v, errorMessage, Snackbar.LENGTH_LONG).show()
+                return false
+            }
         }
 
-        return ProjectEntity(projectCreatorEmail, projectTitle, projectSubtitle, projectDescription, projectCategory, projectImg, projectMinBudget, projectGoal, Date())
+        if (project.getCategory() == resources.getString(R.string.project_creation_project_category_hint)){
+            Snackbar.make(v, resources.getString(R.string.project_creation_category_error), Snackbar.LENGTH_LONG).show()
+            return false
+        }
+
+        if (project.getMinBudget() < 0.0){
+            Snackbar.make(v, resources.getString(R.string.project_creation_min_budget_error), Snackbar.LENGTH_LONG).show()
+            return false
+        }
+
+        if (project.getGoal() <= 0.0){
+            Snackbar.make(v, resources.getString(R.string.project_creation_goal_error), Snackbar.LENGTH_LONG).show()
+            return false
+        }
+
+        if (project.getGoal() < project.getMinBudget()){
+            Snackbar.make(v, resources.getString(R.string.project_creation_min_budget_higher_than_goal_error), Snackbar.LENGTH_LONG).show()
+            return false
+        }
+
+
+        return true
     }
 
     private fun startSpinner(){

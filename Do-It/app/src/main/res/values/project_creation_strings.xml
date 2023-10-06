@@ -15,4 +15,14 @@
     <string name="project_creation_failed">¡Hubo un error guardando el proyecto!</string>
     <string name="project_creation_failed_title_exists">¡Ya existe un proyecto con ese título! Por favor, revisa si es la misma idea, y en caso que no lo sea, cambia el título.</string>
 
+    <string name="project_creation_title_error">¡Debes ingresar un título!</string>
+    <string name="project_creation_subtitle_error">¡Debes ingresar un subtítulo!</string>
+    <string name="project_creation_description_error">¡Debes ingresar una descripción!</string>
+    <string name="project_creation_category_error">¡Debes seleccionar una categoría!</string>
+    <string name="project_creation_min_budget_error">¡Debes ingresar un monto mínimo de inversión mayor o igual a 0!</string>
+    <string name="project_creation_goal_error">¡Debes ingresar un monto objetivo de inversión mayor a 0!</string>
+    <string name="project_creation_image_error">¡Debes seleccionar una imágen!</string>
+    <string name="project_creation_image_upload_error">¡Hubo un error subiendo la imágen!</string>
+    <string name="project_creation_min_budget_higher_than_goal_error">¡El monto mínimo de inversión no puede ser mayor al monto objetivo!</string>
+
 </resources>

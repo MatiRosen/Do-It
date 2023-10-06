@@ -108,7 +108,7 @@
                     android:id="@+id/txtProjectDetailCreatorTitle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="center"
+                    android:gravity="center_vertical"
                     android:layout_marginBottom="@dimen/divider_bottom_padding"
                     android:text="Título"
                     android:textColor="@color/dark_pantone"
