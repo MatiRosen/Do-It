@@ -1,11 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/frameLayoutProfile"
+    android:id="@+id/profileEditFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/imgCloseEditProfile"
+        android:layout_width="49dp"
+        android:layout_height="44dp"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="0dp"
+        android:contentDescription="@string/profile_closeEditIcon_description"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/icon_close" />
 
     <com.mikhaellopez.circularimageview.CircularImageView
         android:id="@+id/imgProfileCircular"
@@ -18,17 +28,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
-    <ImageView
-        android:id="@+id/imgProfileEditIcon"
-        android:layout_width="49dp"
-        android:layout_height="44dp"
-        android:layout_marginStart="0dp"
-        android:layout_marginTop="0dp"
-        android:contentDescription="@string/profile_editIcon_description"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/icon_edit" />
 
     <ImageView
         android:id="@+id/imgProfileLogo"
@@ -51,15 +50,18 @@
         app:layout_constraintWidth_max="@dimen/input_max_width">
 
         <LinearLayout
+            android:id="@+id/linearLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imgProfileCircular">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="15dp"
                 android:orientation="horizontal">
 
                 <TextView
@@ -70,11 +72,12 @@
                     android:paddingEnd="0dp"
                     android:text="@string/profile_name" />
 
-                <TextView
-                    android:id="@+id/txtProfileName"
+                <EditText
+                    android:id="@+id/editTextProfileName"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1" />
+                    android:layout_weight="1"
+                    android:inputType="text" />
 
             </LinearLayout>
 
@@ -86,8 +89,33 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-                android:layout_marginBottom="15dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/txtProfileTitleSurname"
+                    android:layout_width="@dimen/profile_titles_width"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="@dimen/profile_txt_start_padding"
+                    android:paddingEnd="0dp"
+                    android:text="@string/profile_surname" />
+
+                <EditText
+                    android:id="@+id/editTextProfileSurname"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:inputType="text" />
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="@color/light_gray" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
                 <TextView
@@ -98,11 +126,12 @@
                     android:paddingEnd="0dp"
                     android:text="@string/profile_email" />
 
-                <TextView
-                    android:id="@+id/txtProfileEmail"
+                <EditText
+                    android:id="@+id/editTextProfileEmail"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1" />
+                    android:layout_weight="1"
+                    android:inputType="text" />
             </LinearLayout>
 
             <View
@@ -113,8 +142,6 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-                android:layout_marginBottom="15dp"
                 android:orientation="horizontal">
 
                 <TextView
@@ -125,11 +152,12 @@
                     android:paddingEnd="0dp"
                     android:text="@string/profile_phone" />
 
-                <TextView
-                    android:id="@+id/txtProfilePhone"
+                <EditText
+                    android:id="@+id/editTextProfilePhone"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1" />
+                    android:layout_weight="1"
+                    android:inputType="text" />
             </LinearLayout>
 
             <View
@@ -140,8 +168,6 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-                android:layout_marginBottom="15dp"
                 android:orientation="horizontal">
 
                 <TextView
@@ -152,11 +178,12 @@
                     android:paddingEnd="0dp"
                     android:text="@string/profile_gender" />
 
-                <TextView
-                    android:id="@+id/txtProfileGender"
+                <EditText
+                    android:id="@+id/editTextProfileGender"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1" />
+                    android:layout_weight="1"
+                    android:inputType="text" />
             </LinearLayout>
 
             <View
@@ -167,8 +194,6 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-                android:layout_marginBottom="15dp"
                 android:orientation="horizontal">
 
                 <TextView
@@ -179,18 +204,49 @@
                     android:paddingEnd="0dp"
                     android:text="@string/profile_direction" />
 
-                <TextView
-                    android:id="@+id/txtProfileAddress"
+                <EditText
+                    android:id="@+id/editTextProfileAddress"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1" />
+                    android:layout_weight="1"
+                    android:inputType="text" />
             </LinearLayout>
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="2dp"
-                android:background="@color/light_gray" />
+                android:background="@color/light_gray"
+                android:layout_marginBottom="@dimen/profile_marginBottom_info"/>
+
+            <Button
+                android:id="@+id/btnConfirmEditProfile"
+                android:layout_width="wrap_content"
+                android:background="@drawable/style_button"
+                android:layout_marginBottom="@dimen/profile_marginBottom_btnEdit"
+                android:textColor="@color/white"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/button_text_padding"
+                android:text="@string/profile_edit_confirm"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+
+            <TextView
+                android:id="@+id/txtDeleteAccount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/profile_delete_link"
+                android:textColor="@color/pantone"
+                android:textSize="@dimen/txt_button_size"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/btnConfirmEditProfile"
+                tools:ignore="MissingConstraints" />
         </LinearLayout>
+
     </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

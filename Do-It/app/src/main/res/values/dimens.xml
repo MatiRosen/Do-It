@@ -110,5 +110,8 @@
     <!-- Profile View -->
     <dimen name="profile_txt_start_padding">20dp</dimen>
     <dimen name="profile_titles_width">160dp</dimen>
+    <dimen name="profile_paddingTop_info">40dp</dimen>
+    <dimen name="profile_marginBottom_info">30dp</dimen>
+    <dimen name="profile_marginBottom_btnEdit">10dp</dimen>
 
 </resources>

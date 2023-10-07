@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.google.firebase.auth.FirebaseAuth
 import team.doit.do_it.databinding.FragmentProfileBinding
 import com.google.firebase.firestore.*
@@ -21,6 +22,14 @@ class ProfileFragment : Fragment() {
         fun onUserFetched(user: DocumentSnapshot?)
     }
 
+    interface OnUserUpdatedListener {
+        fun onUserUpdated(successful: Boolean)
+    }
+
+    interface OnUserDeletedListener {
+        fun onUserDeleted(successful: Boolean)
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -31,6 +40,15 @@ class ProfileFragment : Fragment() {
         replaceData()
 
         return v
+    }
+
+    override fun onStart() {
+        super.onStart()
+
+        //TODO: navegación a edición de perfil
+        binding.imgProfileEditIcon.setOnClickListener {
+            findNavController().navigate(R.id.action_profileFragmentMain_to_profileEditFragment)
+        }
     }
 
     override fun onDestroyView() {

@@ -1,11 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="profile_name">Nombre</string>
+    <string name="profile_surname">Apellido</string>
     <string name="profile_email">Email</string>
     <string name="profile_phone">Teléfono</string>
     <string name="profile_gender">Género</string>
     <string name="profile_direction">Dirección</string>
     <string name="profile_editIcon_description">Icono para edición de perfil</string>
+    <string name="profile_closeEditIcon_description">Icono para cerrar edición de perfil</string>
     <string name="profile_logoIcon_description">Logo de la app</string>
     <string name="profile_dataUser_error">Error al cargar los datos</string>
+    <string name="profile_deleteAccount_error">Error al eliminar la cuenta</string>
+    <string name="profile_deleteAccount_complete">Usuario eliminado con éxito</string>
+    <string name="profile_deleteAccount_title">Eliminación de cuenta</string>
+    <string name="profile_deleteAccount_accept">Confirmar eliminación</string>
+    <string name="profile_deleteAccount_decline">Volver atrás</string>
+    <string name="profile_deleteAccount_message">¿Estás seguro de que deseas eliminar tu cuenta? Se eliminarán todos tus datos e ideas de forma permanente."</string>
+    <string name="profile_editUser_complete">Usuario editado con éxito</string>
+    <string name="profile_edit_confirm">Guardar datos</string>
+    <string name="profile_delete_link">Eliminar cuenta</string>
 </resources>
