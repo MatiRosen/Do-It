@@ -63,8 +63,10 @@ class HomeCreatorFragment : Fragment(), OnViewItemClickedListener {
                                 document.data["description"] as String,
                                 document.data["category"] as String,
                                 document.data["image"] as String,
-                                (document.getLong("goal") as Long).toDouble(),
-                                (document.getLong("minBudget") as Long).toDouble(),
+                                document.data["minBudget"] as Double,
+                                document.data["goal"] as Double,
+                                (document.data["visitorsCount"] as Long).toInt(),
+                                (document.data["followersCount"] as Long).toInt(),
                                 (document.data["creationDate"] as Timestamp).toDate()
                             )
                         )
@@ -76,7 +78,7 @@ class HomeCreatorFragment : Fragment(), OnViewItemClickedListener {
                 binding.progressBarHomeCreator.visibility = View.GONE
                 binding.recyclerHomeCreatorProjects.visibility = View.VISIBLE
             }
-            .addOnCompleteListener { task ->
+            .addOnCompleteListener {
                 binding.progressBarHomeCreator.visibility = View.GONE
                 binding.recyclerHomeCreatorProjects.visibility = View.VISIBLE
             }

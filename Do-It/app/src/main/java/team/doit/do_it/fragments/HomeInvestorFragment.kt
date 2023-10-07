@@ -65,8 +65,10 @@ class HomeInvestorFragment : Fragment(), OnViewItemClickedListener {
                                 document.data["description"] as String,
                                 document.data["category"] as String,
                                 document.data["image"] as String,
-                                (document.getLong("minBudget") as Long).toDouble(),
-                                (document.getLong("goal") as Long).toDouble(),
+                                document.data["minBudget"] as Double,
+                                document.data["goal"] as Double,
+                                (document.data["visitorsCount"] as Long).toInt(),
+                                (document.data["followersCount"] as Long).toInt(),
                                 (document.data["creationDate"] as Timestamp).toDate()
                             )
                         )
@@ -76,6 +78,7 @@ class HomeInvestorFragment : Fragment(), OnViewItemClickedListener {
             .addOnFailureListener {
                 Toast.makeText(activity, resources.getString(R.string.home_investor_get_project_failed), Toast.LENGTH_SHORT).show()
             }
+
         db.collection("ideas")
             .orderBy("creationDate", Query.Direction.DESCENDING)
             .get()
@@ -90,8 +93,10 @@ class HomeInvestorFragment : Fragment(), OnViewItemClickedListener {
                                     document.data["description"] as String,
                                     document.data["category"] as String,
                                     document.data["image"] as String,
-                                    (document.getLong("minBudget") as Long).toDouble(),
-                                    (document.getLong("goal") as Long).toDouble(),
+                                    document.data["minBudget"] as Double,
+                                    document.data["goal"] as Double,
+                                    (document.data["visitorsCount"] as Long).toInt(),
+                                    (document.data["followersCount"] as Long).toInt(),
                                     (document.data["creationDate"] as Timestamp).toDate()
                                 )
                             )
@@ -110,21 +115,6 @@ class HomeInvestorFragment : Fragment(), OnViewItemClickedListener {
                 binding.switchToHomeCreator.visibility = View.VISIBLE
 
             }
-
-        /*popularProjectList.add(
-            ProjectEntity(
-                "matias.rosenstein00@gmail.com",
-                "Proyecto de prueba hardcodeado",
-                "Subtitulo del proyecto de prueba hardcodeado",
-                "Este es un proyecto de prueba hardcodeado para probar el funcionamiento de la app. Este proyecto no existe en la base de datos, y no se puede acceder a el.",
-                "Tecnología",
-                "",
-                5000.0,
-                10000.0,
-                Date()
-            )
-        )*/
-
     }
     override fun onStart() {
         super.onStart()

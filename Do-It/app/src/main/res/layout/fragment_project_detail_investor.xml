@@ -7,28 +7,6 @@
     android:layout_height="match_parent"
     tools:context=".fragments.ProjectDetailInvestorFragment">
 
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guidelineDetailInvestorHorizontal95"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="@dimen/guideline_95" />
-
-    <Button
-        android:id="@+id/btnGetInContactCreator"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@drawable/style_button_add_project"
-        android:drawablePadding="@dimen/button_text_padding"
-        android:padding="@dimen/button_text_padding"
-        android:text="@string/project_detail_investor_contact"
-        android:textColor="@color/white"
-        android:textSize="@dimen/txt_button_size"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/guidelineDetailInvestorHorizontal95"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
     <ScrollView
         android:id="@+id/scrollViewProjectDetailInvestor"
         android:layout_width="0dp"
@@ -46,100 +24,175 @@
             android:gravity="center"
             android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/txtProjectDetailInvestorTitle"
+            <FrameLayout
+                android:id="@+id/frameLayoutProjectDetailInvestorImageContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <!-- TODO: Reemplazar imagen -->
+                <ImageView
+                    android:id="@+id/imgProjectDetailInvestorProjectImage"
+                    android:layout_width="match_parent"
+                    android:layout_height="250dp"
+                    android:src="@drawable/arg_campeon2"
+                    android:scaleType="centerCrop"
+                    android:adjustViewBounds="true"
+                    android:contentDescription="@string/project_detail_image" />
+
+                <FrameLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="top|start">
+
+                    <View
+                        android:id="@+id/viewProjectDetailInvestorShadow"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:layout_gravity="top|start"
+                        android:background="@drawable/style_shadow_top_info" />
+
+                    <ImageButton
+                        android:id="@+id/imgBtnProjectDetailInvestorBack"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:backgroundTint="@color/transparent"
+                        android:layout_marginStart="8dp"
+                        android:src="@drawable/icon_arrow_left"
+                        android:contentDescription="@string/project_detail_back" />
+                </FrameLayout>
+            </FrameLayout>
+
+            <LinearLayout
+                android:id="@+id/linearLayoutProjectDetailInvestorData"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center"
-                android:layout_marginBottom="@dimen/divider_bottom_padding"
-                android:text="@string/project_detail_title"
-                android:textColor="@color/dark_pantone"
-                android:textSize="@dimen/txt_secondary_title_size"
-                android:textStyle="bold" />
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:background="@color/lighter_gray"
+                android:layout_marginBottom="@dimen/divider_bottom_padding">
 
-            <!-- TODO: Reemplazar imagen -->
-            <ImageView
-                android:id="@+id/imgProjectDetailCreatorProjectImage"
-                android:layout_width="match_parent"
-                android:layout_height="200dp"
-                android:layout_marginTop="@dimen/divider_top_padding"
-                android:layout_marginBottom="@dimen/divider_bottom_padding"
-                android:src="@drawable/arg_campeon" />
+                <ProgressBar
+                    android:id="@+id/progressBarProjectDetailInvestor"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:indeterminateTint="@color/pantone"/>
 
-            <TextView
-                android:id="@+id/txtProjectDetailInvestorSubtitle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/divider_top_padding"
-                android:layout_marginBottom="@dimen/divider_bottom_padding"
-                android:text="@string/project_detail_subtitle"
-                android:textColor="@color/medium_gray"
-                android:textSize="@dimen/txt_description_size" />
+                <com.mikhaellopez.circularimageview.CircularImageView
+                    android:id="@+id/imgProjectDetailInvestorProfileImage"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_margin="@dimen/divider_start_padding"
+                    android:src="@drawable/img_profile"
+                    app:civ_border_width="1dp"
+                    app:civ_border_color="@color/pantone"
+                    android:scaleType="centerCrop"/>
 
-            <TextView
-                android:id="@+id/txtProjectDetailInvestorFollowProject"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/divider_top_padding"
-                android:layout_marginBottom="@dimen/divider_bottom_padding"
-                android:text="@string/project_detail_follow"
-                android:textColor="@color/black"
-                android:textSize="@dimen/txt_paragraph_size"
-                android:padding="@dimen/input_txt_padding"
-                android:drawablePadding="@dimen/input_txt_padding"
-                app:drawableStartCompat="@drawable/icon_follow_project" />
+                <TextView
+                    android:id="@+id/txtProjectDetailInvestorProfileName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Nombre"
+                    android:textColor="@color/black"
+                    android:maxLines="1"
+                    android:textSize="@dimen/txt_description_size" />
 
-            <TextView
-                android:id="@+id/txtProjectDetailInvestorDescription"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/divider_top_padding"
-                android:layout_marginBottom="@dimen/divider_bottom_padding"
-                android:text="@string/project_detail_description"
-                android:textColor="@color/black"
-                android:textSize="@dimen/txt_paragraph_size" />
+                <ImageButton
+                    android:id="@+id/imgBtnProjectDetailInvestorChat"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical|end"
+                    android:layout_marginEnd="@dimen/divider_end_padding"
+                    android:backgroundTint="@color/transparent"
+                    app:tint="@color/black"
+                    android:src="@drawable/icon_chat" />
 
-            <TextView
-                android:id="@+id/txtProjectDetailInvestorCategory"
+            </LinearLayout>
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_gravity="start"
                 android:layout_marginTop="@dimen/divider_top_padding"
                 android:layout_marginBottom="@dimen/divider_bottom_padding"
-                android:text="@string/project_detail_category"
-                android:textColor="@color/dark_gray"
-                android:textSize="@dimen/txt_paragraph_size"
-                android:padding="@dimen/input_txt_padding"
-                android:drawablePadding="@dimen/input_txt_padding"
-                app:drawableStartCompat="@drawable/icon_label" />
+                android:layout_marginStart="@dimen/divider_start_padding"
+                android:layout_marginEnd="@dimen/divider_end_padding">
 
-            <TextView
-                android:id="@+id/txtProjectDetailInvestorGoal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/divider_top_padding"
-                android:layout_marginBottom="@dimen/divider_bottom_padding"
-                android:text="@string/project_detail_goal"
-                android:textColor="@color/green"
-                android:textSize="@dimen/txt_paragraph_size"
-                android:padding="@dimen/input_txt_padding"
-                android:drawablePadding="@dimen/input_txt_padding"
-                app:drawableStartCompat="@drawable/icon_cash" />
+                <TextView
+                    android:id="@+id/txtProjectDetailInvestorTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:layout_marginBottom="@dimen/divider_bottom_padding"
+                    android:text="Título"
+                    android:textColor="@color/dark_pantone"
+                    android:textSize="@dimen/txt_secondary_title_size"
+                    android:textStyle="bold" />
 
-            <TextView
-                android:id="@+id/txtProjectDetailInvestorMinBudget"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/divider_top_padding"
-                android:layout_marginBottom="@dimen/divider_bottom_padding"
-                android:text="@string/project_detail_minBudget"
-                android:textColor="@color/green"
-                android:textSize="@dimen/txt_paragraph_size"
-                android:padding="@dimen/input_txt_padding"
-                android:drawablePadding="@dimen/input_txt_padding"
-                app:drawableStartCompat="@drawable/icon_cash" />
+                <TextView
+                    android:id="@+id/txtProjectDetailInvestorCategory"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/divider_top_padding"
+                    android:layout_marginBottom="@dimen/divider_bottom_padding"
+                    android:text="Categoría"
+                    android:textColor="@color/green"
+                    android:textSize="@dimen/txt_paragraph_size"
+                    android:paddingVertical="@dimen/input_txt_padding"
+                    android:drawablePadding="@dimen/input_txt_padding"
+                    app:drawableStartCompat="@drawable/icon_label" />
 
 
+                <TextView
+                    android:id="@+id/txtProjectDetailInvestorSubtitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/divider_top_padding"
+                    android:layout_marginBottom="@dimen/divider_bottom_padding"
+                    android:text="Subtítulo"
+                    android:textColor="@color/medium_gray"
+                    android:textSize="@dimen/txt_description_size" />
 
+                <TextView
+                    android:id="@+id/txtProjectDetailInvestorDescription"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/divider_top_padding"
+                    android:layout_marginBottom="@dimen/divider_bottom_padding"
+                    android:text="Descripción"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/txt_paragraph_size" />
+
+                <TextView
+                    android:id="@+id/txtProjectDetailInvestorGoal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/divider_top_padding"
+                    android:layout_marginBottom="@dimen/divider_bottom_padding"
+                    android:text="Presupuesto total"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/txt_paragraph_size"
+                    android:paddingVertical="@dimen/input_txt_padding"
+                    android:drawablePadding="@dimen/input_txt_padding"
+                    app:drawableStartCompat="@drawable/icon_cash" />
+
+                <TextView
+                    android:id="@+id/txtProjectDetailInvestorMinBudget"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/divider_top_padding"
+                    android:layout_marginBottom="@dimen/divider_bottom_padding"
+                    android:text="Presupuesto Minimo"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/txt_paragraph_size"
+                    android:paddingVertical="@dimen/input_txt_padding"
+                    android:drawablePadding="@dimen/input_txt_padding"
+                    app:drawableStartCompat="@drawable/icon_cash" />
+
+            </LinearLayout>
         </LinearLayout>
     </ScrollView>
 

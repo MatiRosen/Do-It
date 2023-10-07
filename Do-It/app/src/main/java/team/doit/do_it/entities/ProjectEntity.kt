@@ -8,7 +8,7 @@ import java.util.Date
 // TODO: Categoria es string o enum? Imagen es string?
 class ProjectEntity(
     creatorEmail: String, title: String, subtitle: String, description: String, category: String, image: String,
-    minBudget: Double, goal: Double, creationDate: Date) : Parcelable {
+    minBudget: Double, goal: Double, visitorsCount: Int, followersCount: Int, creationDate: Date) : Parcelable {
 
     private var creatorEmail: String
     private var title: String
@@ -18,7 +18,8 @@ class ProjectEntity(
     private var image: String
     private var minBudget: Double
     private var goal: Double
-    private var followers: MutableList<String> // Notar que no se inicializa en el constructor del parcelable, por lo que no se puede pasar entre fragments
+    private var visitorsCount: Int
+    private var followersCount: Int
     private var creationDate: Date
 
     constructor(parcel: Parcel) : this(
@@ -30,6 +31,8 @@ class ProjectEntity(
         parcel.readString()!!,
         parcel.readDouble(),
         parcel.readDouble(),
+        parcel.readInt(),
+        parcel.readInt(),
         Date(parcel.readLong())
     ) {
     }
@@ -43,7 +46,8 @@ class ProjectEntity(
         this.image = image
         this.minBudget = minBudget
         this.goal = goal
-        this.followers = ArrayList()
+        this.visitorsCount = visitorsCount
+        this.followersCount = followersCount
         this.creationDate = creationDate
     }
     override fun describeContents(): Int {
@@ -59,6 +63,8 @@ class ProjectEntity(
         parcel.writeString(image)
         parcel.writeDouble(minBudget)
         parcel.writeDouble(goal)
+        parcel.writeInt(visitorsCount)
+        parcel.writeInt(followersCount)
         parcel.writeLong(creationDate.time)
     }
 
@@ -72,9 +78,47 @@ class ProjectEntity(
         }
     }
 
-    fun addFollower(followerEmail: String){
-        this.followers.add(followerEmail)
+    fun addFollower() {
+        this.followersCount++
     }
+
+    fun addVisitor() {
+        this.visitorsCount++
+    }
+
+    //region Setters
+    fun setCreatorEmail(creatorEmail: String) {
+        this.creatorEmail = creatorEmail
+    }
+
+    fun setTitle(title: String) {
+        this.title = title
+    }
+
+    fun setSubtitle(subtitle: String) {
+        this.subtitle = subtitle
+    }
+
+    fun setDescription(description: String) {
+        this.description = description
+    }
+
+    fun setCategory(category: String) {
+        this.category = category
+    }
+
+    fun setImage(image: String) {
+        this.image = image
+    }
+
+    fun setMinBudget(minBudget: Double) {
+        this.minBudget = minBudget
+    }
+
+    fun setGoal(goal: Double) {
+        this.goal = goal
+    }
+    //endregion
 
     //region Getters
     fun getCreatorEmail(): String {
@@ -108,20 +152,24 @@ class ProjectEntity(
         return this.goal
     }
 
-    fun getFollowers(): MutableList<String> {
-        return this.followers
+    fun getFollowersCount(): Int {
+        return this.followersCount
     }
 
-    fun getFollowersCount(): Int {
-        return this.followers.size
+    fun getVisitorsCount(): Int {
+        return this.visitorsCount
     }
 
     fun getCreationDate(): Date {
         return this.creationDate
     }
+
+    fun hasFollowers(): Boolean {
+        return this.followersCount > 0
+    }
     //endregion
 
     override fun toString(): String {
-        return "ProjectEntity(title='$title', subtitle='$subtitle', description='$description', category='$category', image='$image', minBudget=$minBudget, totalBudget=$goal)"
+        return "ProjectEntity(creatorEmail='$creatorEmail', title='$title', subtitle='$subtitle', description='$description', category='$category', image='$image', minBudget=$minBudget, goal=$goal, visitorsCount=$visitorsCount, followersCount=$followersCount, creationDate=$creationDate)"
     }
 }

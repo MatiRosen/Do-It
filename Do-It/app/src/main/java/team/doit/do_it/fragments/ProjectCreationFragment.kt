@@ -94,7 +94,7 @@ class ProjectCreationFragment : Fragment() {
         val projectMinBudget = binding.editTxtProjectCreationMinBudget.text.toString().toDoubleOrNull() ?: 0.0
         val projectGoal = binding.editTxtProjectCreationGoal.text.toString().toDoubleOrNull() ?: 0.0
 
-        val project = ProjectEntity(projectCreatorEmail, projectTitle, projectSubtitle, projectDescription, projectCategory, projectImg, projectMinBudget, projectGoal, Date())
+        val project = ProjectEntity(projectCreatorEmail, projectTitle, projectSubtitle, projectDescription, projectCategory, projectImg, projectMinBudget, projectGoal, 0, 0, Date())
 
         return if (validateFields(project)) project else null
     }

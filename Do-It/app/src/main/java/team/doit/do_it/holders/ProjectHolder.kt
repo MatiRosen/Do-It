@@ -5,6 +5,8 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import team.doit.do_it.R
 import team.doit.do_it.extensions.setMaxLinesForEllipsizing
+import java.text.DecimalFormat
+import java.text.DecimalFormatSymbols
 
 class ProjectHolder(view: View) : RecyclerView.ViewHolder(view){
 
@@ -33,8 +35,13 @@ class ProjectHolder(view: View) : RecyclerView.ViewHolder(view){
     }
 
     fun setProjectGoal(projectTotalBudget: Double) {
+        val decimalFormatSymbols = DecimalFormatSymbols()
+        decimalFormatSymbols.groupingSeparator = '.'
+        decimalFormatSymbols.decimalSeparator = ','
+        val decimalFormat = DecimalFormat("#,###.00", decimalFormatSymbols)
+
         val txt : TextView = view.findViewById(R.id.txtItemProjectCeatorTotalBudget)
-        val budgetString = view.context.getString(R.string.currency) + projectTotalBudget.toString()
+        val budgetString = view.context.getString(R.string.currency) + decimalFormat.format(projectTotalBudget)
         txt.text = budgetString
     }
 

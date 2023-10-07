@@ -12,6 +12,7 @@
     <color name="dark_gray">#373737</color>
     <color name="medium_gray">#7f7f7d</color>
     <color name="light_gray">#DBDBDB</color>
+    <color name="lighter_gray">#BFEFEFEF</color>
 
     <!--Pantone-->
     <color name="pantone">#BB2649</color>

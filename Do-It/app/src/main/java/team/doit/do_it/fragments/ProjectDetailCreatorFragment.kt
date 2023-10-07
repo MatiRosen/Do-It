@@ -1,16 +1,23 @@
 package team.doit.do_it.fragments
 
 import android.os.Bundle
+import android.text.Spannable
+import android.text.SpannableString
+import android.text.style.ForegroundColorSpan
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.FrameLayout
+import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintSet
 import androidx.fragment.app.FragmentContainerView
 import androidx.navigation.findNavController
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 import team.doit.do_it.R
 import team.doit.do_it.databinding.FragmentProjectDetailCreatorBinding
+import java.text.DecimalFormat
+import java.text.DecimalFormatSymbols
 
 
 class ProjectDetailCreatorFragment : Fragment() {
@@ -45,17 +52,12 @@ class ProjectDetailCreatorFragment : Fragment() {
             v.findNavController().navigateUp()
         }
 
+        val project = ProjectDetailCreatorFragmentArgs.fromBundle(requireArguments()).project
+
         binding.imgBtnProjectDetailCreatorEdit.setOnClickListener {
-            val project = ProjectDetailCreatorFragmentArgs.fromBundle(requireArguments()).project
             val action = ProjectDetailCreatorFragmentDirections.actionProjectDetailFragmentToEditProjectFragment(project)
             v.findNavController().navigate(action)
         }
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        showBottomNav()
-        showMargins()
     }
 
     private fun setTexts() {
@@ -65,7 +67,63 @@ class ProjectDetailCreatorFragment : Fragment() {
         binding.txtProjectDetailCreatorSubtitle.text = project.getSubtitle()
         binding.txtProjectDetailCreatorDescription.text = project.getDescription()
         binding.txtProjectDetailCreatorCategory.text = project.getCategory()
-        binding.txtProjectDetailCreatorGoal.text = project.getGoal().toString()
+
+        val projectGoal = this.formatMoney(project.getGoal())
+        val goalText = getString(R.string.project_detail_goal, projectGoal)
+        binding.txtProjectDetailCreatorGoal.text = spannableText(goalText, goalText.indexOf(projectGoal[0]) - 1)
+
+        val projectMinBudget = this.formatMoney(project.getMinBudget())
+        val minBudgetText = getString(R.string.project_detail_min_budget, projectMinBudget)
+        binding.txtProjectDetailCreatorMinBudget.text = spannableText(minBudgetText, minBudgetText.indexOf(projectMinBudget[0]) -1)
+        this.setCreatorData()
+    }
+
+    private fun setCreatorData() {
+        val creatorEmail = FirebaseAuth.getInstance().currentUser?.email.toString()
+        binding.progressBarProjectDetailCreator.visibility = View.VISIBLE
+        binding.txtProjectDetailCreatorProfileName.visibility = View.GONE
+        binding.imgProjectDetailCreatorProfileImage.visibility = View.GONE
+
+        val db = FirebaseFirestore.getInstance()
+        val usersRef = db.collection("usuarios")
+
+        usersRef.whereEqualTo("email", creatorEmail)
+            .get()
+            .addOnSuccessListener { documents ->
+                if (!documents.isEmpty) {
+                    val user = documents.documents[0]
+                    binding.txtProjectDetailCreatorProfileName.text = user.getString("nombre")
+                    binding.progressBarProjectDetailCreator.visibility = View.GONE
+                    binding.txtProjectDetailCreatorProfileName.visibility = View.VISIBLE
+                    binding.imgProjectDetailCreatorProfileImage.visibility = View.VISIBLE
+                } else {
+                    Toast.makeText(activity, resources.getString(R.string.project_detail_error), Toast.LENGTH_SHORT).show()
+                    v.findNavController().navigateUp()
+                }
+            }
+            .addOnFailureListener {
+                Toast.makeText(activity, resources.getString(R.string.project_detail_error), Toast.LENGTH_SHORT).show()
+                v.findNavController().navigateUp()
+            }
+    }
+
+    private fun formatMoney(money: Double): String {
+        val decimalFormatSymbols = DecimalFormatSymbols()
+        decimalFormatSymbols.groupingSeparator = '.'
+        decimalFormatSymbols.decimalSeparator = ','
+        val decimalFormat = DecimalFormat("#,###.00", decimalFormatSymbols)
+        return decimalFormat.format(money)
+    }
+
+    private fun spannableText(text: String, index: Int): SpannableString {
+        val spannable = SpannableString(text)
+        spannable.setSpan(
+            ForegroundColorSpan(resources.getColor(R.color.green, null)),
+            index,
+            text.length,
+            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+        )
+        return spannable
     }
 
     private fun hideBottomNav() {
@@ -96,6 +154,8 @@ class ProjectDetailCreatorFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
+        showBottomNav()
+        showMargins()
         _binding = null
     }
 }
