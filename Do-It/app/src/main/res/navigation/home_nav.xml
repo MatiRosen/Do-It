@@ -56,9 +56,7 @@
             app:argType="team.doit.do_it.entities.ProjectEntity" />
         <action
             android:id="@+id/action_projectDetailInvestorFragment_to_profileFragment"
-            app:destination="@id/profileFragment"
-            app:popUpTo="@id/projectDetailInvestorFragment"
-            app:popUpToInclusive="true" />
+            app:destination="@id/profileFragment" />
     </fragment>
     <fragment
         android:id="@+id/profileFragment"
