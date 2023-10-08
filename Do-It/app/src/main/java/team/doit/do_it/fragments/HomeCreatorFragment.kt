@@ -88,7 +88,7 @@ class HomeCreatorFragment : Fragment(), OnViewItemClickedListener {
         super.onStart()
 
         binding.btnHomeCreatorCreateProject.setOnClickListener {
-            val action = HomeCreatorFragmentDirections.actionHomeCreatorFragmentToProjectCreationFragment()
+            val action = HomeCreatorFragmentDirections.actionGlobalProjectCreationFragment()
             this.findNavController().navigate(action)
         }
 
@@ -109,7 +109,7 @@ class HomeCreatorFragment : Fragment(), OnViewItemClickedListener {
     }
 
     override fun onViewItemDetail(project: ProjectEntity) {
-        val action = HomeCreatorFragmentDirections.actionHomeCreatorFragmentToProjectDetailFragment(project)
+        val action = HomeCreatorFragmentDirections.actionGlobalProjectDetailFragment(project)
         this.findNavController().navigate(action)
     }
 

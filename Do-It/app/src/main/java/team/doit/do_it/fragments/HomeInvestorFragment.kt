@@ -121,7 +121,8 @@ class HomeInvestorFragment : Fragment(), OnViewItemClickedListener {
         setupRecyclerView()
 
         binding.switchToHomeCreator.setOnClickListener {
-            this.findNavController().navigateUp()
+            var action = HomeInvestorFragmentDirections.actionHomeInvestorFragmentToHomeCreatorFragment()
+            this.findNavController().navigate(action)
         }
 
     }
@@ -136,7 +137,7 @@ class HomeInvestorFragment : Fragment(), OnViewItemClickedListener {
     }
 
     override fun onViewItemDetail(project: ProjectEntity) {
-        val action = HomeInvestorFragmentDirections.actionHomeInvestorFragmentToProjectDetailInvestorFragment(project)
+        val action = HomeInvestorFragmentDirections.actionGlobalProjectDetailInvestorFragment(project)
         this.findNavController().navigate(action)
     }
     private fun setupRecyclerView() {
