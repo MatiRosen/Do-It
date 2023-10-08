@@ -44,7 +44,7 @@ class ProfileEditFragment : Fragment() {
                 override fun onUserUpdated(successful: Boolean) {
                     if (successful) {
                         Toast.makeText(activity, resources.getString(R.string.profile_editUser_complete), Toast.LENGTH_SHORT).show()
-                        //TODO: volver a la pantalla del perfil
+                        findNavController().navigateUp()
                     } else {
                         Toast.makeText(activity, resources.getString(R.string.profile_dataUser_error), Toast.LENGTH_SHORT).show()
                     }
@@ -105,33 +105,37 @@ class ProfileEditFragment : Fragment() {
         val db = FirebaseFirestore.getInstance()
         val currentUser = FirebaseAuth.getInstance().currentUser
 
-        getUser(currentUser?.email.toString(), object : ProfileFragment.OnUserFetchedListener {
-            override fun onUserFetched(user: DocumentSnapshot?) {
-                if (user != null) {
-                    val usersRef = db.collection("usuarios").document(user.id)
+        currentUser?.let { user ->
+            getUser(user.email.toString(), object : ProfileFragment.OnUserFetchedListener {
+                override fun onUserFetched(userDoc: DocumentSnapshot?) {
+                    userDoc?.let { userSnapshot ->
+                        val userId = userSnapshot.id
+                        val usersRef = db.collection("usuarios").document(userId)
 
-                    //TODO: add profile photo
-                    val updates = hashMapOf<String, Any>(
-                        "nombre" to binding.editTextProfileName.text,
-                        "apellido" to binding.editTextProfileSurname.text,
-                        "email" to binding.editTextProfileEmail.text,
-                        "telefono" to binding.editTextProfilePhone.text,
-                        "genero" to binding.editTextProfileGender.text,
-                        "direccion" to binding.editTextProfileAddress.text
-                    )
+                        val updatedData = hashMapOf<String, Any>(
+                            "nombre" to binding.editTextProfileName.text.toString(),
+                            "apellido" to binding.editTextProfileSurname.text.toString(),
+                            "email" to binding.editTextProfileEmail.text.toString(),
+                            "telefono" to binding.editTextProfilePhone.text.toString(),
+                            "genero" to binding.editTextProfileGender.text.toString(),
+                            "direccion" to binding.editTextProfileAddress.text.toString()
+                        )
 
-                    usersRef.update(updates)
-                        .addOnSuccessListener {
-                            listener.onUserUpdated(true)
-                        }
-                        .addOnFailureListener {
-                            listener.onUserUpdated(false)
-                        }
-                } else {
-                    Toast.makeText(activity, resources.getString(R.string.profile_dataUser_error), Toast.LENGTH_SHORT).show()
+                        usersRef.update(updatedData)
+                            .addOnSuccessListener {
+                                listener.onUserUpdated(true)
+                            }
+                            .addOnFailureListener { exception ->
+                                println(exception)
+                                listener.onUserUpdated(false)
+                            }
+                    } ?: run {
+                        Toast.makeText(activity, resources.getString(R.string.profile_dataUser_error), Toast.LENGTH_SHORT).show()
+                        listener.onUserUpdated(false)
+                    }
                 }
-            }
-        })
+            })
+        }
     }
 
     private fun deleteAccount() {

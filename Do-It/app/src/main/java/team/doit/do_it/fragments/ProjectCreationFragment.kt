@@ -1,5 +1,6 @@
 package team.doit.do_it.fragments
 
+import android.app.Activity
 import android.app.Activity.RESULT_OK
 import android.content.Intent
 import android.net.Uri
@@ -10,6 +11,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.TextView
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import com.google.android.material.snackbar.Snackbar
@@ -65,15 +67,17 @@ class ProjectCreationFragment : Fragment() {
 
     private fun pickImageFromGallery() : File?{
         val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
-        startActivityForResult(intent, 999)
+        resultLauncher.launch(intent)
         return selectedImage?.let { File(it.path) }
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if(999 == requestCode && resultCode == RESULT_OK && data != null) run {
-            val selectedImageFromGallery: Uri? = data.data
-            selectedImage = selectedImageFromGallery
+    var resultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+        if (result.resultCode == Activity.RESULT_OK) {
+            val data: Intent? = result.data
+            if(data != null) run {
+                val selectedImageFromGallery: Uri? = data.data
+                selectedImage = selectedImageFromGallery
+            }
         }
     }
 
@@ -132,7 +136,7 @@ class ProjectCreationFragment : Fragment() {
     }
 
     private fun uploadImage(projectCreatorEmail: String, projectTitle: String): String {
-        var fileName = "$projectCreatorEmail-$projectTitle"
+        var fileName = "$projectCreatorEmail-$projectTitle" + "-" + Date().time.toString()
 
         val storeReference = FirebaseStorage.getInstance().getReference("images/$projectCreatorEmail/projects/$fileName")
         storeReference.putFile(selectedImage!!)
