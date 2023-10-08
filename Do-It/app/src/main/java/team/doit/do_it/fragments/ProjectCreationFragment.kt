@@ -1,6 +1,10 @@
 package team.doit.do_it.fragments
 
+import android.app.Activity.RESULT_OK
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
+import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,19 +15,25 @@ import androidx.navigation.findNavController
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.ktx.storageMetadata
 import team.doit.do_it.R
 import team.doit.do_it.databinding.FragmentProjectCreationBinding
 import team.doit.do_it.entities.ProjectEntity
+import java.io.File
 import java.util.Date
 
 
 class ProjectCreationFragment : Fragment() {
-
     private var _binding : FragmentProjectCreationBinding? = null
     private val binding get() = _binding!!
     private lateinit var v: View
 
     private val db = FirebaseFirestore.getInstance()
+
+    private var selectedImage: Uri? = null
+    private var photoFile: File? = null
+    private var lastImage: String = ""
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -40,8 +50,30 @@ class ProjectCreationFragment : Fragment() {
     override fun onStart() {
         super.onStart()
 
+        binding.btnProjectCreationAddImage.setOnClickListener {
+            pickImage()
+        }
+
         binding.btnProjectCreationSave.setOnClickListener {
             saveProject()
+        }
+    }
+
+    private fun pickImage() {
+        photoFile = pickImageFromGallery()
+    }
+
+    private fun pickImageFromGallery() : File?{
+        val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+        startActivityForResult(intent, 999)
+        return selectedImage?.let { File(it.path) }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if(999 == requestCode && resultCode == RESULT_OK && data != null) run {
+            val selectedImageFromGallery: Uri? = data.data
+            selectedImage = selectedImageFromGallery
         }
     }
 
@@ -89,7 +121,7 @@ class ProjectCreationFragment : Fragment() {
         val projectTitle = binding.editTxtProjectCreationTitle.text.toString()
         val projectSubtitle = binding.editTxtProjectCreationSubtitle.text.toString()
         val projectCategory = binding.spinnerProjectCreationCategory.selectedItem.toString()
-        val projectImg = "" // TODO Realizar el subido de imagenes.
+        val projectImg = uploadImage(projectCreatorEmail, projectTitle)
         val projectDescription = binding.editTxtProjectCreationDescription.text.toString()
         val projectMinBudget = binding.editTxtProjectCreationMinBudget.text.toString().toDoubleOrNull() ?: 0.0
         val projectGoal = binding.editTxtProjectCreationGoal.text.toString().toDoubleOrNull() ?: 0.0
@@ -97,6 +129,19 @@ class ProjectCreationFragment : Fragment() {
         val project = ProjectEntity(projectCreatorEmail, projectTitle, projectSubtitle, projectDescription, projectCategory, projectImg, projectMinBudget, projectGoal, 0, 0, Date())
 
         return if (validateFields(project)) project else null
+    }
+
+    private fun uploadImage(projectCreatorEmail: String, projectTitle: String): String {
+        var fileName = "$projectCreatorEmail-$projectTitle"
+
+        val storeReference = FirebaseStorage.getInstance().getReference("images/$projectCreatorEmail/projects/$fileName")
+        storeReference.putFile(selectedImage!!)
+            .addOnSuccessListener {
+                lastImage = "images/$projectCreatorEmail/projects/$fileName"
+            }.addOnFailureListener {
+                Snackbar.make(v, resources.getString(R.string.project_creation_image_upload_failed), Snackbar.LENGTH_LONG).show()
+            }
+        return lastImage
     }
 
     private fun validateFields(project: ProjectEntity) : Boolean{
