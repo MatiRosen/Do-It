@@ -236,6 +236,7 @@
                 android:id="@+id/txtDeleteAccount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/profile_marginBottom_btnEdit"
                 android:text="@string/profile_delete_link"
                 android:textColor="@color/pantone"
                 android:textSize="@dimen/txt_button_size"

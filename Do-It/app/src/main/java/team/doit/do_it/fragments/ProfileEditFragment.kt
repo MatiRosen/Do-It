@@ -44,7 +44,7 @@ class ProfileEditFragment : Fragment() {
                 override fun onUserUpdated(successful: Boolean) {
                     if (successful) {
                         Toast.makeText(activity, resources.getString(R.string.profile_editUser_complete), Toast.LENGTH_SHORT).show()
-                        //TODO: volver a la pantalla del perfil
+                        findNavController().navigateUp()
                     } else {
                         Toast.makeText(activity, resources.getString(R.string.profile_dataUser_error), Toast.LENGTH_SHORT).show()
                     }
@@ -124,9 +124,10 @@ class ProfileEditFragment : Fragment() {
                         .addOnSuccessListener {
                             listener.onUserUpdated(true)
                         }
-                        .addOnFailureListener {
-                            listener.onUserUpdated(false)
-                        }
+                        .addOnFailureListener { exception ->
+                        println(exception)
+                        listener.onUserUpdated(false)
+                    }
                 } else {
                     Toast.makeText(activity, resources.getString(R.string.profile_dataUser_error), Toast.LENGTH_SHORT).show()
                 }
