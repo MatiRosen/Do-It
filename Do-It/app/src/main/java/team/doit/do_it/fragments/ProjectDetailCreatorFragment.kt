@@ -1,5 +1,7 @@
 package team.doit.do_it.fragments
 
+import android.graphics.BitmapFactory
+import android.net.Uri
 import android.os.Bundle
 import android.text.Spannable
 import android.text.SpannableString
@@ -10,12 +12,15 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintSet
+import androidx.core.net.toUri
 import androidx.fragment.app.FragmentContainerView
 import androidx.navigation.findNavController
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.storage.FirebaseStorage
 import team.doit.do_it.R
 import team.doit.do_it.databinding.FragmentProjectDetailCreatorBinding
+import java.io.File
 import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
 
@@ -26,6 +31,9 @@ class ProjectDetailCreatorFragment : Fragment() {
     private val binding get() = _binding!!
 
     private lateinit var v : View
+
+    private var projectImage : String = ""
+    private var creatorEmail : String = ""
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -43,7 +51,7 @@ class ProjectDetailCreatorFragment : Fragment() {
     override fun onStart() {
         super.onStart()
 
-        setTexts()
+        setValues()
         initializeButtons()
     }
 
@@ -60,7 +68,7 @@ class ProjectDetailCreatorFragment : Fragment() {
         }
     }
 
-    private fun setTexts() {
+    private fun setValues() {
         val project = ProjectDetailCreatorFragmentArgs.fromBundle(requireArguments()).project
 
         binding.txtProjectDetailCreatorTitle.text = project.getTitle()
@@ -75,6 +83,10 @@ class ProjectDetailCreatorFragment : Fragment() {
         val projectMinBudget = this.formatMoney(project.getMinBudget())
         val minBudgetText = getString(R.string.project_detail_min_budget, projectMinBudget)
         binding.txtProjectDetailCreatorMinBudget.text = spannableText(minBudgetText, minBudgetText.indexOf(projectMinBudget[0]) -1)
+
+        projectImage = project.getImage()
+        creatorEmail = project.getCreatorEmail()
+
         this.setCreatorData()
     }
 
@@ -100,10 +112,21 @@ class ProjectDetailCreatorFragment : Fragment() {
                     Toast.makeText(activity, resources.getString(R.string.project_detail_error), Toast.LENGTH_SHORT).show()
                     v.findNavController().navigateUp()
                 }
+                setImage()
             }
             .addOnFailureListener {
                 Toast.makeText(activity, resources.getString(R.string.project_detail_error), Toast.LENGTH_SHORT).show()
                 v.findNavController().navigateUp()
+            }
+    }
+
+    private fun setImage() {
+        var storageReference = FirebaseStorage.getInstance().reference.child("images/$creatorEmail/projects/$projectImage")
+        var localFile = File.createTempFile("images", "jpg")
+        storageReference.getFile(localFile)
+            .addOnSuccessListener {
+                var bitMap = BitmapFactory.decodeFile(localFile.absolutePath)
+                binding.imgProjectDetailCreatorProjectImage.setImageBitmap(bitMap)
             }
     }
 

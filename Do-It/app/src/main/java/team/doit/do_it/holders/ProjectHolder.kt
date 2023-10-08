@@ -1,10 +1,14 @@
 package team.doit.do_it.holders
 
+import android.graphics.BitmapFactory
 import android.view.View
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.storage.FirebaseStorage
 import team.doit.do_it.R
 import team.doit.do_it.extensions.setMaxLinesForEllipsizing
+import java.io.File
 import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
 
@@ -45,8 +49,15 @@ class ProjectHolder(view: View) : RecyclerView.ViewHolder(view){
         txt.text = budgetString
     }
 
-    fun setProjectImage(projectImage: String) {
-        // TODO averiguar como se hace...
+    fun setProjectImage(projectImage: String, projectCreatorEmail: String) {
+        val image = view.findViewById<ImageView>(R.id.imgPerfil)
+        var storageReference = FirebaseStorage.getInstance().reference.child("images/$projectCreatorEmail/projects/$projectImage")
+        var localFile = File.createTempFile("images", "jpg")
+        storageReference.getFile(localFile)
+            .addOnSuccessListener {
+                var bitMap = BitmapFactory.decodeFile(localFile.absolutePath)
+                image.setImageBitmap(bitMap)
+            }
     }
 
     fun getCardLayout(): View {

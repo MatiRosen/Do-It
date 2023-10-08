@@ -31,7 +31,7 @@ class ProjectListAdapter(
         holder.setProjectSubtitle(project.getSubtitle())
         holder.setProjectCategory(project.getCategory())
         holder.setProjectGoal(project.getGoal())
-        holder.setProjectImage(project.getImage())
+        holder.setProjectImage(project.getImage(), project.getCreatorEmail())
 
 
         holder.getCardLayout().setOnClickListener {
