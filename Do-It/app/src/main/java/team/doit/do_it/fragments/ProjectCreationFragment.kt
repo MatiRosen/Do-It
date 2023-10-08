@@ -141,7 +141,7 @@ class ProjectCreationFragment : Fragment() {
             }.addOnFailureListener {
                 Snackbar.make(v, resources.getString(R.string.project_creation_image_upload_failed), Snackbar.LENGTH_LONG).show()
             }
-        return lastImage
+        return fileName
     }
 
     private fun validateFields(project: ProjectEntity) : Boolean{
