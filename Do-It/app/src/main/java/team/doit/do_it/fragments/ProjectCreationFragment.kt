@@ -125,7 +125,7 @@ class ProjectCreationFragment : Fragment() {
         val projectTitle = binding.editTxtProjectCreationTitle.text.toString()
         val projectSubtitle = binding.editTxtProjectCreationSubtitle.text.toString()
         val projectCategory = binding.spinnerProjectCreationCategory.selectedItem.toString()
-        val projectImg = uploadImage(projectCreatorEmail, projectTitle)
+        val projectImg = if(selectedImage != null) uploadImage(projectCreatorEmail, projectTitle) else ""
         val projectDescription = binding.editTxtProjectCreationDescription.text.toString()
         val projectMinBudget = binding.editTxtProjectCreationMinBudget.text.toString().toDoubleOrNull() ?: 0.0
         val projectGoal = binding.editTxtProjectCreationGoal.text.toString().toDoubleOrNull() ?: 0.0
@@ -144,6 +144,7 @@ class ProjectCreationFragment : Fragment() {
                 lastImage = "images/$projectCreatorEmail/projects/$fileName"
             }.addOnFailureListener {
                 Snackbar.make(v, resources.getString(R.string.project_creation_image_upload_failed), Snackbar.LENGTH_LONG).show()
+                fileName = ""
             }
         return fileName
     }
@@ -154,7 +155,7 @@ class ProjectCreationFragment : Fragment() {
             Pair(project.getSubtitle(), resources.getString(R.string.project_creation_subtitle_error)),
             Pair(project.getDescription(), resources.getString(R.string.project_creation_description_error)),
             Pair(project.getCategory(), resources.getString(R.string.project_creation_category_error)),
-            //Pair(project.getImage(), resources.getString(R.string.project_creation_image_error)),
+            Pair(project.getImage(), resources.getString(R.string.project_creation_image_error)),
             Pair(project.getMinBudget(), resources.getString(R.string.project_creation_min_budget_error)),
             Pair(project.getGoal(), resources.getString(R.string.project_creation_goal_error))
         )
