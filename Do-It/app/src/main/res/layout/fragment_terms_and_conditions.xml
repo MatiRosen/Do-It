@@ -36,6 +36,7 @@
             android:id="@+id/btnTermsAndConditionsVolver"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textSize="@dimen/txt_button_size"
             android:text="@string/terms_and_conditions_back"
             android:background="@drawable/style_button_verify_email"
             android:layout_margin="@dimen/item_card_margin"/>
