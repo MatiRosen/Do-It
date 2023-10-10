@@ -139,19 +139,74 @@ class ProfileEditFragment : Fragment() {
     }
 
     private fun deleteAccount() {
-        val user = FirebaseAuth.getInstance().currentUser
+        val currentUser = FirebaseAuth.getInstance().currentUser
+        val db = FirebaseFirestore.getInstance()
 
-        user?.delete()
-            ?.addOnCompleteListener { task ->
-                if (task.isSuccessful) {
-                    Toast.makeText(activity, resources.getString(R.string.profile_deleteAccount_complete), Toast.LENGTH_SHORT).show()
-                    val intent = Intent(activity, LoginActivity::class.java)
-                    startActivity(intent)
-                } else {
-                    Toast.makeText(activity, resources.getString(R.string.profile_deleteAccount_error), Toast.LENGTH_SHORT).show()
+        currentUser?.let { user ->
+            db.collection("ideas")
+                .whereEqualTo("creatorEmail", user.email.toString())
+                .get()
+                .addOnSuccessListener { querySnapshot ->
+
+                    for (document in querySnapshot.documents) {
+                        db.collection("ideas").document(document.id)
+                            .delete()
+                            .addOnFailureListener { exception ->
+                                Toast.makeText(
+                                    activity,
+                                    resources.getString(R.string.profile_deleteAccount_error),
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
+                    }
+
+                    db.collection("usuarios")
+                        .whereEqualTo("email", user.email.toString())
+                        .get()
+                        .addOnSuccessListener { querySnapshot ->
+                            for (document in querySnapshot.documents) {
+                                db.collection("usuarios").document(document.id)
+                                    .delete()
+                                    .addOnFailureListener {
+                                        Toast.makeText(
+                                            activity,
+                                            resources.getString(R.string.profile_deleteAccount_error),
+                                            Toast.LENGTH_SHORT
+                                        ).show()
+                                    }
+                            }
+
+                            user.delete()
+                                .addOnCompleteListener { task ->
+                                    if (task.isSuccessful) {
+                                        Toast.makeText(
+                                            activity,
+                                            resources.getString(R.string.profile_deleteAccount_complete),
+                                            Toast.LENGTH_SHORT
+                                        ).show()
+                                        val intent = Intent(activity, LoginActivity::class.java)
+                                        startActivity(intent)
+                                    } else {
+                                        Toast.makeText(
+                                            activity,
+                                            resources.getString(R.string.profile_deleteAccount_error),
+                                            Toast.LENGTH_SHORT
+                                        ).show()
+                                    }
+                                }
+                        }
+                        .addOnFailureListener {
+                            Toast.makeText(
+                                activity,
+                                resources.getString(R.string.profile_deleteAccount_error),
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
                 }
-            }
+        }
     }
+
+
 
     private fun deleteAccountConfirm() {
         val alertDialogBuilder = AlertDialog.Builder(activity)
