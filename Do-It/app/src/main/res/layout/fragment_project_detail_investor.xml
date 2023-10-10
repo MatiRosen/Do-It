@@ -192,7 +192,41 @@
                     android:drawablePadding="@dimen/input_txt_padding"
                     app:drawableStartCompat="@drawable/icon_cash" />
 
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center">
+
+                    <EditText
+                        android:id="@+id/txtProjectDetailBudgetInvestment"
+                        android:layout_width="@dimen/investor_detail_input_width"
+                        android:layout_height="@dimen/investor_detail_input_height"
+                        android:background="@drawable/style_edittext"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/txt_input_size"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent" />
+
+                    <Button
+                        android:id="@+id/btnProjectDetailInvestment"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/style_button"
+                        android:padding="@dimen/button_text_padding"
+                        android:text="@string/project_invest"
+                        android:textColor="@color/white"
+                        android:layout_margin="@dimen/divider_start_padding"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+                </LinearLayout>
+
+
             </LinearLayout>
+
+
+
         </LinearLayout>
     </ScrollView>
 

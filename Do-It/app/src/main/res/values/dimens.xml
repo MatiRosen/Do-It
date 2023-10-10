@@ -97,6 +97,9 @@
     <dimen name="register_input_width">180dp</dimen>
     <dimen name="register_input_heigth">50dp</dimen>
 
+    <!-- Investor Detail view -->
+    <dimen name="investor_detail_input_width">150dp</dimen>
+    <dimen name="investor_detail_input_height">45dp</dimen>
     <!-- Home Creator view -->
     <dimen name="home_creator_create_project_margin">15dp</dimen>
     <dimen name="home_creator_project_margin">15dp</dimen>

@@ -15,5 +15,9 @@
     <string name="project_detail_edit">Editar</string>
     <string name="project_detail_image">Imágen del proyecto</string>
     <string name="project_detail_error">Error al cargar los datos</string>
+    <string name="project_invest">Invertir</string>
+    <string name="project_detail_budget_error">¡Debes ingresar un monto mínimo de inversión mayor o igual a %s!</string>
+    <string name="project_detail_invest_success">¡Inversión generada con éxito!</string>
+    <string name="project_detail_estado_pendiente">Pendiente</string>
 
 </resources>
