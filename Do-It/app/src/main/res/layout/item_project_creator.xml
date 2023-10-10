@@ -13,7 +13,6 @@
        android:layout_width="match_parent"
        android:layout_height="match_parent">
 
-      <!-- TODO: Arreglar el tamaño de imagen -->
       <ImageView
           android:id="@+id/imgItemProjectCreator"
           android:layout_width="0dp"

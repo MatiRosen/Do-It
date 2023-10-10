@@ -29,7 +29,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <!-- TODO: Reemplazar imagen -->
                 <ImageView
                     android:id="@+id/imgProjectDetailInvestorProjectImage"
                     android:layout_width="match_parent"

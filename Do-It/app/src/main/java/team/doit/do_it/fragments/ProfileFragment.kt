@@ -45,7 +45,6 @@ class ProfileFragment : Fragment() {
     override fun onStart() {
         super.onStart()
 
-        //TODO: navegación a edición de perfil
         binding.imgProfileEditIcon.setOnClickListener {
             findNavController().navigate(R.id.action_profileFragmentMain_to_profileEditFragment)
         }
