@@ -19,7 +19,7 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:contentDescription="@string/img_project_image"
-            android:src="@drawable/arg_campeon"
+            android:src="@drawable/img_not_img"
             app:layout_constraintBottom_toTopOf="@+id/guidelineItemProjectInvestorHorizontal57"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
