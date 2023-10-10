@@ -50,7 +50,6 @@ class HomeInvestorFragment : Fragment(), OnViewItemClickedListener {
         binding.switchToHomeCreator.visibility = View.GONE
         binding.progressBarHomeInvestor.visibility = View.VISIBLE
 
-        // TODO: Hacer esto asincrono. (no se si ya lo es)
         db.collection("ideas")
             .orderBy("followersCount", Query.Direction.DESCENDING).limit(5)
             .get()
@@ -130,7 +129,7 @@ class HomeInvestorFragment : Fragment(), OnViewItemClickedListener {
     override fun onResume() {
         super.onResume()
 
-        // TODO: Cambiarlo para hacer que solo se agreguen los nuevos proyectos, no todos.
+        // TODO: Cambiarlo para hacer que solo se agreguen los nuevos proyectos, no todos. Con el ViewModel!
         allProjectList.clear()
         popularProjectList.clear()
         addProjects()

@@ -85,7 +85,6 @@ class ProjectCreationFragment : Fragment() {
         val project = createProject() ?: return
         // TODO: Verificar si el usuario es premium. Si no lo es, no dejarle crear mas de 2 proyectos.
 
-        // TODO: Hacer esto asincrono.
         saveProjectToDatabase(project)
         /*db.collection("ideas")
             .whereEqualTo("title", project.getTitle())

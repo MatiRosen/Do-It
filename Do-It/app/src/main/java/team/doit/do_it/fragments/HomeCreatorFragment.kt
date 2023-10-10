@@ -45,7 +45,6 @@ class HomeCreatorFragment : Fragment(), OnViewItemClickedListener {
     }
 
     private fun addProjects() {
-        // TODO: Hacer esto asincrono. (no se si ya lo es)
         binding.recyclerHomeCreatorProjects.visibility = View.GONE
         binding.progressBarHomeCreator.visibility = View.VISIBLE
 
@@ -97,7 +96,7 @@ class HomeCreatorFragment : Fragment(), OnViewItemClickedListener {
             v.findNavController().navigate(action)
         }
 
-        // TODO: Hacer que no se borren todos los proyectos, solo actualizar la lista.
+        // TODO: Hacer que no se borren todos los proyectos, solo actualizar la lista. Con el ViewModel!
         projectList.clear()
         addProjects()
         setupRecyclerView()
