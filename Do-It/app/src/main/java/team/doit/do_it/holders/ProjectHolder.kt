@@ -50,7 +50,7 @@ class ProjectHolder(view: View) : RecyclerView.ViewHolder(view){
     }
 
     fun setProjectImage(projectImage: String, projectCreatorEmail: String) {
-        val image = view.findViewById<ImageView>(R.id.imgPerfil)
+        val image = view.findViewById<ImageView>(R.id.imgItemProjectCreator)
         var storageReference = FirebaseStorage.getInstance().reference.child("images/$projectCreatorEmail/projects/$projectImage")
         var localFile = File.createTempFile("images", "jpg")
         storageReference.getFile(localFile)

@@ -71,7 +71,7 @@ class ProjectCreationFragment : Fragment() {
         return selectedImage?.let { File(it.path) }
     }
 
-    var resultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+    private var resultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
         if (result.resultCode == Activity.RESULT_OK) {
             val data: Intent? = result.data
             if(data != null) run {

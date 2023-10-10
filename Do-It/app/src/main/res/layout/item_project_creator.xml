@@ -15,7 +15,7 @@
 
       <!-- TODO: Arreglar el tamaño de imagen -->
       <ImageView
-          android:id="@+id/imgPerfil"
+          android:id="@+id/imgItemProjectCreator"
           android:layout_width="0dp"
           android:layout_height="0dp"
           android:contentDescription="@string/img_project_image"
