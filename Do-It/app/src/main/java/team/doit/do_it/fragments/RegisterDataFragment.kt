@@ -97,7 +97,7 @@ class RegisterDataFragment : Fragment() {
             }
         }
 
-        if (user.getTelephoneNumber().length != 9) {
+        if (user.getTelephoneNumber().length != 10) {
             Toast.makeText(activity, resources.getString(R.string.register_phone_format_error), Toast.LENGTH_SHORT).show()
             return false
         }

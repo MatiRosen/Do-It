@@ -24,7 +24,7 @@
     <string name="register_name_error">Ingrese su nombre</string>
     <string name="register_surname_error">Ingrese su apellido</string>
     <string name="register_birth_date_error">Ingrese su fecha de nacimiento</string>
-    <string name="register_phone_format_error">El número de teléfono debe tener 9 cáracteres</string>
+    <string name="register_phone_format_error">El número de teléfono debe tener 10 cáracteres</string>
     <string name="register_gender_error">Ingrese su género</string>
     <string name="register_phone_error">Ingrese su número de teléfono</string>
     <string name="register_address_error">Ingrese su dirección</string>
