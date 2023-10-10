@@ -6,7 +6,7 @@
     <string name="project_creation_project_description">Descripción del proyecto</string>
     <string name="project_creation_project_category">Categoría</string>
     <string name="project_creation_project_category_hint">Seleccione una categoría</string>
-    <string name="project_creation_project_image">Subir imágen</string>
+    <string name="project_creation_project_image">Subir imagen</string>
     <string name="project_creation_project_min_budget">Inversión mínima</string>
     <string name="project_creation_project_total_budget">Inversión total</string>
     <string name="project_creation_save">Guardar</string>
@@ -21,8 +21,8 @@
     <string name="project_creation_category_error">¡Debes seleccionar una categoría!</string>
     <string name="project_creation_min_budget_error">¡Debes ingresar un monto mínimo de inversión mayor o igual a 0!</string>
     <string name="project_creation_goal_error">¡Debes ingresar un monto objetivo de inversión mayor a 0!</string>
-    <string name="project_creation_image_error">¡Debes seleccionar una imágen!</string>
-    <string name="project_creation_image_upload_error">¡Hubo un error subiendo la imágen!</string>
+    <string name="project_creation_image_error">¡Debes seleccionar una imagen!</string>
+    <string name="project_creation_image_upload_error">¡Hubo un error subiendo la imagen!</string>
     <string name="project_creation_min_budget_higher_than_goal_error">¡El monto mínimo de inversión no puede ser mayor al monto objetivo!</string>
 
     <string name="project_creation_image_upload_failed">Error al subir imagen en la nube</string>
