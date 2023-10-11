@@ -121,11 +121,11 @@ class ProjectDetailCreatorFragment : Fragment() {
     }
 
     private fun setImage() {
-        var storageReference = FirebaseStorage.getInstance().reference.child("images/$creatorEmail/projects/$projectImage")
-        var localFile = File.createTempFile("images", "jpg")
+        val storageReference = FirebaseStorage.getInstance().reference.child("images/$creatorEmail/projects/$projectImage")
+        val localFile = File.createTempFile("images", "jpg")
         storageReference.getFile(localFile)
             .addOnSuccessListener {
-                var bitMap = BitmapFactory.decodeFile(localFile.absolutePath)
+                val bitMap = BitmapFactory.decodeFile(localFile.absolutePath)
                 binding.imgProjectDetailCreatorProjectImage.setImageBitmap(bitMap)
             }
     }
@@ -160,6 +160,7 @@ class ProjectDetailCreatorFragment : Fragment() {
             ViewGroup.LayoutParams.MATCH_PARENT
             )
     }
+
     private fun showMargins() {
         val constraintSet = ConstraintSet()
         constraintSet.connect(R.id.mainHost, ConstraintSet.TOP, R.id.guidelineMainActivityHorizontal3, ConstraintSet.BOTTOM)

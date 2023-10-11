@@ -10,22 +10,27 @@
         android:name="team.doit.do_it.fragments.ExampleFragment"
         android:label="fragment_example"
         tools:layout="@layout/fragment_example" />
+
     <fragment
         android:id="@+id/chat"
         android:name="team.doit.do_it.fragments.ChatFragment"
         android:label="fragment_chat"
         tools:layout="@layout/fragment_chat" />
+
     <fragment
         android:id="@+id/profileFragmentMain"
         android:name="team.doit.do_it.fragments.ProfileFragment"
         android:label="ProfileFragmentMain" >
+
         <argument
             android:name="CreatorEmail"
             app:argType="string"
             android:defaultValue=" " />
+
         <action
             android:id="@+id/action_profileFragmentMain_to_profileEditFragment"
             app:destination="@id/profileEditFragment" />
+
     </fragment>
 
     <!-- TODO: Preguntar si está bien construido... -->
@@ -33,89 +38,100 @@
         android:id="@+id/profileEditFragment"
         android:name="team.doit.do_it.fragments.ProfileEditFragment"
         android:label="ProfileEditFragment" />
-    <navigation android:id="@+id/home"
-        app:startDestination="@id/navigation">
-        <fragment
-            android:id="@+id/profileFragment"
-            android:name="team.doit.do_it.fragments.ProfileFragment"
-            android:label="ProfileFragment">
-            <argument
-                android:name="CreatorEmail"
-                android:defaultValue=" "
-                app:argType="string" />
-        </fragment>
-        <fragment
-            android:id="@+id/projectCreationFragment"
-            android:name="team.doit.do_it.fragments.ProjectCreationFragment"
-            android:label="fragment_project_creation"
-            tools:layout="@layout/fragment_project_creation" />
+
         <navigation
-            android:id="@+id/navigation"
-            app:startDestination="@id/homeCreatorFragment">
+            android:id="@+id/home"
+            app:startDestination="@id/navigation">
             <fragment
-                android:id="@+id/homeInvestorFragment"
-                android:name="team.doit.do_it.fragments.HomeInvestorFragment"
-                android:label="fragment_home_investor"
-                tools:layout="@layout/fragment_home_investor">
-                <action
-                    android:id="@+id/action_homeInvestorFragment_to_homeCreatorFragment"
-                    app:destination="@id/homeCreatorFragment"
-                    app:popUpTo="@id/homeInvestorFragment"
-                    app:popUpToInclusive="true" />
+                android:id="@+id/profileFragment"
+                android:name="team.doit.do_it.fragments.ProfileFragment"
+                android:label="ProfileFragment">
+                <argument
+                    android:name="CreatorEmail"
+                    android:defaultValue=" "
+                    app:argType="string" />
             </fragment>
+
             <fragment
-                android:id="@+id/homeCreatorFragment"
-                android:name="team.doit.do_it.fragments.HomeCreatorFragment"
-                android:label="fragment_home_creator"
-                tools:layout="@layout/fragment_home_creator">
+                android:id="@+id/projectCreationFragment"
+                android:name="team.doit.do_it.fragments.ProjectCreationFragment"
+                android:label="fragment_project_creation"
+                tools:layout="@layout/fragment_project_creation" />
+
+            <navigation
+                android:id="@+id/navigation"
+                app:startDestination="@id/homeCreatorFragment">
+
+                <fragment
+                    android:id="@+id/homeInvestorFragment"
+                    android:name="team.doit.do_it.fragments.HomeInvestorFragment"
+                    android:label="fragment_home_investor"
+                    tools:layout="@layout/fragment_home_investor">
+                    <action
+                        android:id="@+id/action_homeInvestorFragment_to_homeCreatorFragment"
+                        app:destination="@id/homeCreatorFragment"
+                        app:popUpTo="@id/homeInvestorFragment"
+                        app:popUpToInclusive="true" />
+                </fragment>
+
+                <fragment
+                    android:id="@+id/homeCreatorFragment"
+                    android:name="team.doit.do_it.fragments.HomeCreatorFragment"
+                    android:label="fragment_home_creator"
+                    tools:layout="@layout/fragment_home_creator">
+                    <action
+                        android:id="@+id/action_homeCreatorFragment_to_homeInversorFragment"
+                        app:destination="@id/homeInvestorFragment"
+                        app:popUpTo="@id/homeCreatorFragment"
+                        app:popUpToInclusive="true" />
+                </fragment>
+
                 <action
-                    android:id="@+id/action_homeCreatorFragment_to_homeInversorFragment"
-                    app:destination="@id/homeInvestorFragment"
-                    app:popUpTo="@id/homeCreatorFragment"
-                    app:popUpToInclusive="true" />
+                    android:id="@+id/action_global_projectCreationFragment"
+                    app:destination="@id/projectCreationFragment" />
+                <action
+                    android:id="@+id/action_global_projectDetailInvestorFragment"
+                    app:destination="@id/projectDetailInvestorFragment" />
+                <action
+                    android:id="@+id/action_global_projectDetailFragment"
+                    app:destination="@id/projectDetailFragment" />
+            </navigation>
+
+            <fragment
+                android:id="@+id/projectDetailFragment"
+                android:name="team.doit.do_it.fragments.ProjectDetailCreatorFragment"
+                android:label="fragment_project_detail"
+                tools:layout="@layout/fragment_project_detail_creator">
+                <argument
+                    android:name="project"
+                    app:argType="team.doit.do_it.entities.ProjectEntity" />
+                <action
+                    android:id="@+id/action_projectDetailFragment_to_editProjectFragment"
+                    app:destination="@id/editProjectFragment" />
             </fragment>
-            <action
-                android:id="@+id/action_global_projectCreationFragment"
-                app:destination="@id/projectCreationFragment" />
-            <action
-                android:id="@+id/action_global_projectDetailInvestorFragment"
-                app:destination="@id/projectDetailInvestorFragment" />
-            <action
-                android:id="@+id/action_global_projectDetailFragment"
-                app:destination="@id/projectDetailFragment" />
+
+            <fragment
+                android:id="@+id/projectDetailInvestorFragment"
+                android:name="team.doit.do_it.fragments.ProjectDetailInvestorFragment"
+                android:label="fragment_project_detail_investor"
+                tools:layout="@layout/fragment_project_detail_investor">
+                <argument
+                    android:name="project"
+                    app:argType="team.doit.do_it.entities.ProjectEntity" />
+                <action
+                    android:id="@+id/action_projectDetailInvestorFragment_to_profileFragment"
+                    app:destination="@id/profileFragment" />
+            </fragment>
+
+            <fragment
+                android:id="@+id/editProjectFragment"
+                android:name="team.doit.do_it.fragments.EditProjectFragment"
+                android:label="fragment_edit_project"
+                tools:layout="@layout/fragment_edit_project">
+                <argument
+                    android:name="project"
+                    app:argType="team.doit.do_it.entities.ProjectEntity" />
+            </fragment>
+
         </navigation>
-        <fragment
-            android:id="@+id/projectDetailFragment"
-            android:name="team.doit.do_it.fragments.ProjectDetailCreatorFragment"
-            android:label="fragment_project_detail"
-            tools:layout="@layout/fragment_project_detail_creator">
-            <argument
-                android:name="project"
-                app:argType="team.doit.do_it.entities.ProjectEntity" />
-            <action
-                android:id="@+id/action_projectDetailFragment_to_editProjectFragment"
-                app:destination="@id/editProjectFragment" />
-        </fragment>
-        <fragment
-            android:id="@+id/projectDetailInvestorFragment"
-            android:name="team.doit.do_it.fragments.ProjectDetailInvestorFragment"
-            android:label="fragment_project_detail_investor"
-            tools:layout="@layout/fragment_project_detail_investor">
-            <argument
-                android:name="project"
-                app:argType="team.doit.do_it.entities.ProjectEntity" />
-            <action
-                android:id="@+id/action_projectDetailInvestorFragment_to_profileFragment"
-                app:destination="@id/profileFragment" />
-        </fragment>
-        <fragment
-            android:id="@+id/editProjectFragment"
-            android:name="team.doit.do_it.fragments.EditProjectFragment"
-            android:label="fragment_edit_project"
-            tools:layout="@layout/fragment_edit_project">
-            <argument
-                android:name="project"
-                app:argType="team.doit.do_it.entities.ProjectEntity" />
-        </fragment>
-    </navigation>
 </navigation>

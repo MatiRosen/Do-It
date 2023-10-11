@@ -31,7 +31,6 @@ class HomeCreatorFragment : Fragment(), OnViewItemClickedListener {
     private lateinit var projectListAdapter: ProjectListAdapter
     private lateinit var linearLayoutManager: LinearLayoutManager
 
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?

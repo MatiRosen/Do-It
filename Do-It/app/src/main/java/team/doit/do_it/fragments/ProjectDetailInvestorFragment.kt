@@ -37,6 +37,7 @@ class ProjectDetailInvestorFragment : Fragment() {
     private var projectImage : String = ""
     private var creatorEmail : String = ""
     private val db = FirebaseFirestore.getInstance()
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -200,6 +201,7 @@ class ProjectDetailInvestorFragment : Fragment() {
             ViewGroup.LayoutParams.MATCH_PARENT
         )
     }
+
     private fun showMargins() {
         val constraintSet = ConstraintSet()
         constraintSet.connect(R.id.mainHost, ConstraintSet.TOP, R.id.guidelineMainActivityHorizontal3, ConstraintSet.BOTTOM)
