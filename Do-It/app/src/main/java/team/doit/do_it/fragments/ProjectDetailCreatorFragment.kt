@@ -16,6 +16,7 @@ import androidx.core.net.toUri
 import androidx.fragment.app.FragmentContainerView
 import androidx.navigation.findNavController
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import team.doit.do_it.R
@@ -113,6 +114,7 @@ class ProjectDetailCreatorFragment : Fragment() {
                     v.findNavController().navigateUp()
                 }
                 setImage()
+                setUserCreatorImage(creatorEmail)
             }
             .addOnFailureListener {
                 Toast.makeText(activity, resources.getString(R.string.project_detail_error), Toast.LENGTH_SHORT).show()
@@ -127,6 +129,45 @@ class ProjectDetailCreatorFragment : Fragment() {
             .addOnSuccessListener {
                 val bitMap = BitmapFactory.decodeFile(localFile.absolutePath)
                 binding.imgProjectDetailCreatorProjectImage.setImageBitmap(bitMap)
+            }
+    }
+
+    private fun setUserCreatorImage(creatorEmail: String) {
+        getUser(creatorEmail, object : ProfileFragment.OnUserFetchedListener {
+            override fun onUserFetched(user: DocumentSnapshot?) {
+                if (user != null) {
+                    val titleImg = user.getString("imgPerfil").toString()
+                    val storageReference = FirebaseStorage.getInstance().reference.child("images/$creatorEmail/imgProfile/$titleImg")
+                    val localFile = File.createTempFile("images", "jpg")
+
+                    storageReference.getFile(localFile)
+                        .addOnSuccessListener {
+                            val bitMap = BitmapFactory.decodeFile(localFile.absolutePath)
+                            binding.imgProjectDetailCreatorProfileImage.setImageBitmap(bitMap)
+                        }
+                } else {
+                    Toast.makeText(activity, resources.getString(R.string.profile_dataUser_error), Toast.LENGTH_SHORT).show()
+                }
+            }
+        })
+    }
+
+    private fun getUser(email: String, listener: ProfileFragment.OnUserFetchedListener) {
+        val db = FirebaseFirestore.getInstance()
+        val usersRef = db.collection("usuarios")
+
+        usersRef.whereEqualTo("email", email)
+            .get()
+            .addOnSuccessListener { documents ->
+                if (!documents.isEmpty) {
+                    val user = documents.documents[0]
+                    listener.onUserFetched(user)
+                } else {
+                    listener.onUserFetched(null)
+                }
+            }
+            .addOnFailureListener {
+                listener.onUserFetched(null)
             }
     }
 
