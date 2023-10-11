@@ -183,7 +183,7 @@ class ProfileEditFragment : Fragment() {
                             "telefono" to binding.editTextProfilePhone.text.toString(),
                             "genero" to binding.editTextProfileGender.text.toString(),
                             "direccion" to binding.editTextProfileAddress.text.toString(),
-                            "imgPerfil" to if(selectedImage != null) uploadImage(user.email.toString()) else ""
+                            "imgPerfil" to if(selectedImage != null) uploadImage(user.email.toString()) else userDoc.getString("imgPerfil").toString()
                         )
 
                         usersRef.update(updatedData)
