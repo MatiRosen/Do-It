@@ -1,15 +1,21 @@
 package team.doit.do_it.fragments
 
+import android.app.Activity
 import android.app.AlertDialog
 import android.content.Intent
+import android.graphics.BitmapFactory
+import android.net.Uri
 import android.os.Bundle
+import android.provider.MediaStore
 import android.text.Editable
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.navigation.fragment.findNavController
+import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
@@ -17,6 +23,9 @@ import team.doit.do_it.R
 import team.doit.do_it.activities.LoginActivity
 import team.doit.do_it.databinding.FragmentProfileEditBinding
 import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.storage.FirebaseStorage
+import java.io.File
+import java.util.Date
 
 class ProfileEditFragment : Fragment() {
 
@@ -24,6 +33,9 @@ class ProfileEditFragment : Fragment() {
     private val binding get() = _binding!!
     private lateinit var v : View
 
+    private var selectedImage: Uri? = null
+    private var photoFile: File? = null
+    private var lastImage: String = ""
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -60,6 +72,47 @@ class ProfileEditFragment : Fragment() {
         binding.imgCloseEditProfile.setOnClickListener {
             findNavController().navigateUp()
         }
+
+        binding.imgProfileCircular.setOnClickListener {
+            pickImage()
+        }
+    }
+
+    private fun pickImage() {
+        photoFile = pickImageFromGallery()
+    }
+
+    private fun pickImageFromGallery() : File?{
+        val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+        resultLauncher.launch(intent)
+        return selectedImage?.let { it.path?.let { it1 -> File(it1) } }
+    }
+
+    private var resultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+        if (result.resultCode == Activity.RESULT_OK) {
+            val data: Intent? = result.data
+            if(data != null) run {
+                val selectedImageFromGallery: Uri? = data.data
+                selectedImage = selectedImageFromGallery
+                if (selectedImageFromGallery != null) {
+                    binding.imgProfileCircular.setImageURI(selectedImageFromGallery)
+                }
+            }
+        }
+    }
+
+    private fun uploadImage(projectCreatorEmail: String): String {
+        var fileName = projectCreatorEmail + "-imgProfile-" + Date().time.toString()
+
+        val storeReference = FirebaseStorage.getInstance().getReference("images/$projectCreatorEmail/imgProfile/$fileName")
+        storeReference.putFile(selectedImage!!)
+            .addOnSuccessListener {
+                lastImage = "images/$projectCreatorEmail/imgProfile/$fileName"
+            }.addOnFailureListener {
+                Snackbar.make(v, resources.getString(R.string.project_creation_image_upload_failed), Snackbar.LENGTH_LONG).show()
+                fileName = ""
+            }
+        return fileName
     }
 
     private fun replaceData() {
@@ -69,18 +122,28 @@ class ProfileEditFragment : Fragment() {
         getUser(currentUser?.email.toString(), object : ProfileFragment.OnUserFetchedListener {
             override fun onUserFetched(user: DocumentSnapshot?) {
                 if (user != null) {
-                    //TODO: add profile photo
                     binding.editTextProfileName.text = editableFactory.newEditable(user.getString("nombre") ?: "")
                     binding.editTextProfileSurname.text = editableFactory.newEditable(user.getString("apellido") ?: "")
                     binding.editTextProfileEmail.text = editableFactory.newEditable(user.getString("email") ?: "")
                     binding.editTextProfilePhone.text = editableFactory.newEditable(user.getString("telefono") ?: "")
                     binding.editTextProfileGender.text = editableFactory.newEditable(user.getString("genero") ?: "")
                     binding.editTextProfileAddress.text = editableFactory.newEditable(user.getString("direccion") ?: "")
+                    setImage(currentUser?.email.toString(), user.getString("imgPerfil").toString())
                 } else {
                     Toast.makeText(activity, resources.getString(R.string.profile_dataUser_error), Toast.LENGTH_SHORT).show()
                 }
             }
         })
+    }
+
+    private fun setImage(creatorEmail: String, titleImg: String) {
+        val storageReference = FirebaseStorage.getInstance().reference.child("images/$creatorEmail/imgProfile/$titleImg")
+        val localFile = File.createTempFile("images", "jpg")
+        storageReference.getFile(localFile)
+            .addOnSuccessListener {
+                val bitMap = BitmapFactory.decodeFile(localFile.absolutePath)
+                binding.imgProfileCircular.setImageBitmap(bitMap)
+            }
     }
 
     private fun getUser(email: String, listener: ProfileFragment.OnUserFetchedListener) {
@@ -119,7 +182,8 @@ class ProfileEditFragment : Fragment() {
                             "email" to binding.editTextProfileEmail.text.toString(),
                             "telefono" to binding.editTextProfilePhone.text.toString(),
                             "genero" to binding.editTextProfileGender.text.toString(),
-                            "direccion" to binding.editTextProfileAddress.text.toString()
+                            "direccion" to binding.editTextProfileAddress.text.toString(),
+                            "imgPerfil" to if(selectedImage != null) uploadImage(user.email.toString()) else ""
                         )
 
                         usersRef.update(updatedData)

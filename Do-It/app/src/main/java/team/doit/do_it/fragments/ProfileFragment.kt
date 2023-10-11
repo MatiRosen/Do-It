@@ -1,5 +1,6 @@
 package team.doit.do_it.fragments
 
+import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,7 +11,9 @@ import androidx.navigation.fragment.findNavController
 import com.google.firebase.auth.FirebaseAuth
 import team.doit.do_it.databinding.FragmentProfileBinding
 import com.google.firebase.firestore.*
+import com.google.firebase.storage.FirebaseStorage
 import team.doit.do_it.R
+import java.io.File
 
 class ProfileFragment : Fragment() {
 
@@ -24,10 +27,6 @@ class ProfileFragment : Fragment() {
 
     interface OnUserUpdatedListener {
         fun onUserUpdated(successful: Boolean)
-    }
-
-    interface OnUserDeletedListener {
-        fun onUserDeleted(successful: Boolean)
     }
 
     override fun onCreateView(
@@ -58,26 +57,35 @@ class ProfileFragment : Fragment() {
     private fun replaceData() {
         val creatorEmail = ProfileFragmentArgs.fromBundle(requireArguments()).CreatorEmail
         val currentUser = FirebaseAuth.getInstance().currentUser
-        var userEmail = " "
-        if (creatorEmail == " "){
-            userEmail =  currentUser?.email.toString()
+        val userEmail = if (creatorEmail == " "){
+            currentUser?.email.toString()
         }else{
-            userEmail = creatorEmail
+            creatorEmail
         }
         getUser(userEmail, object : OnUserFetchedListener {
             override fun onUserFetched(user: DocumentSnapshot?) {
                 if (user != null) {
-                    //TODO: add profile photo
                     binding.txtProfileName.text = "${user.getString("nombre")} ${user.getString("apellido")}"
                     binding.txtProfileEmail.text = user.getString("email")
                     binding.txtProfilePhone.text = user.getString("telefono")
                     binding.txtProfileGender.text = user.getString("genero")
                     binding.txtProfileAddress.text = user.getString("direccion")
+                    setImage(userEmail, user.getString("imgPerfil").toString())
                 } else {
                     Toast.makeText(activity, resources.getString(R.string.profile_dataUser_error), Toast.LENGTH_SHORT).show()
                 }
             }
         })
+    }
+
+    private fun setImage(creatorEmail: String, titleImg: String) {
+        val storageReference = FirebaseStorage.getInstance().reference.child("images/$creatorEmail/imgProfile/$titleImg")
+        val localFile = File.createTempFile("images", "jpg")
+        storageReference.getFile(localFile)
+            .addOnSuccessListener {
+                val bitMap = BitmapFactory.decodeFile(localFile.absolutePath)
+                binding.imgProfileCircular.setImageBitmap(bitMap)
+            }
     }
 
     private fun getUser(email: String, listener: OnUserFetchedListener) {
