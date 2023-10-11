@@ -16,6 +16,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import team.doit.do_it.R
 import team.doit.do_it.activities.LoginActivity
 import team.doit.do_it.databinding.FragmentProfileEditBinding
+import com.google.firebase.auth.FirebaseUser
 
 class ProfileEditFragment : Fragment() {
 
@@ -143,70 +144,66 @@ class ProfileEditFragment : Fragment() {
         val db = FirebaseFirestore.getInstance()
 
         currentUser?.let { user ->
-            db.collection("ideas")
-                .whereEqualTo("creatorEmail", user.email.toString())
-                .get()
-                .addOnSuccessListener { querySnapshot ->
-
-                    for (document in querySnapshot.documents) {
-                        db.collection("ideas").document(document.id)
-                            .delete()
-                            .addOnFailureListener { exception ->
-                                Toast.makeText(
-                                    activity,
-                                    resources.getString(R.string.profile_deleteAccount_error),
-                                    Toast.LENGTH_SHORT
-                                ).show()
-                            }
-                    }
-
-                    db.collection("usuarios")
-                        .whereEqualTo("email", user.email.toString())
-                        .get()
-                        .addOnSuccessListener { querySnapshot ->
-                            for (document in querySnapshot.documents) {
-                                db.collection("usuarios").document(document.id)
-                                    .delete()
-                                    .addOnFailureListener {
-                                        Toast.makeText(
-                                            activity,
-                                            resources.getString(R.string.profile_deleteAccount_error),
-                                            Toast.LENGTH_SHORT
-                                        ).show()
-                                    }
-                            }
-
-                            user.delete()
-                                .addOnCompleteListener { task ->
-                                    if (task.isSuccessful) {
-                                        Toast.makeText(
-                                            activity,
-                                            resources.getString(R.string.profile_deleteAccount_complete),
-                                            Toast.LENGTH_SHORT
-                                        ).show()
-                                        val intent = Intent(activity, LoginActivity::class.java)
-                                        startActivity(intent)
-                                    } else {
-                                        Toast.makeText(
-                                            activity,
-                                            resources.getString(R.string.profile_deleteAccount_error),
-                                            Toast.LENGTH_SHORT
-                                        ).show()
-                                    }
-                                }
-                        }
-                        .addOnFailureListener {
-                            Toast.makeText(
-                                activity,
-                                resources.getString(R.string.profile_deleteAccount_error),
-                                Toast.LENGTH_SHORT
-                            ).show()
-                        }
-                }
+            deleteIdeas(db, user)
+            deleteUsers(db, user)
+            deleteUserAccount(user)
         }
     }
 
+    private fun deleteIdeas(db: FirebaseFirestore, user: FirebaseUser) {
+        db.collection("ideas")
+            .whereEqualTo("creatorEmail", user.email.toString())
+            .get()
+            .addOnSuccessListener { querySnapshot ->
+                for (document in querySnapshot.documents) {
+                    db.collection("ideas").document(document.id)
+                        .delete()
+                        .addOnFailureListener {
+                            handleDeleteFailure()
+                        }
+                }
+            }
+    }
 
+    private fun deleteUsers(db: FirebaseFirestore, user: FirebaseUser) {
+        db.collection("usuarios")
+            .whereEqualTo("email", user.email.toString())
+            .get()
+            .addOnSuccessListener { querySnapshot ->
+                for (document in querySnapshot.documents) {
+                    db.collection("usuarios").document(document.id)
+                        .delete()
+                        .addOnFailureListener {
+                            handleDeleteFailure()
+                        }
+                }
+            }
+    }
+
+    private fun deleteUserAccount(user: FirebaseUser) {
+        user.delete()
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    Toast.makeText(
+                        activity,
+                        resources.getString(R.string.profile_deleteAccount_complete),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    val intent = Intent(activity, LoginActivity::class.java)
+                    startActivity(intent)
+                } else {
+                    handleDeleteFailure()
+                }
+            }
+    }
+
+    private fun handleDeleteFailure() {
+        Toast.makeText(
+            activity,
+            resources.getString(R.string.profile_deleteAccount_error),
+            Toast.LENGTH_SHORT
+        ).show()
+    }
 
     private fun deleteAccountConfirm() {
         val alertDialogBuilder = AlertDialog.Builder(activity)
@@ -225,5 +222,4 @@ class ProfileEditFragment : Fragment() {
         val alertDialog = alertDialogBuilder.create()
         alertDialog.show()
     }
-
 }
