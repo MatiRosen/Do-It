@@ -15,8 +15,7 @@
     <string name="register_register_button">Registrarse</string>
     <string name="register_continue">Continuar</string>
     <string name="register_email_sent">Email de verificación enviado</string>
-
-
+    <string name="register_terms_and_conditions">He leído y acepto los Términos y Condiciones</string>
 
 
     <string name="register_wrong_format">Email o contraseña con formato inválido. Recuerde que la contraseña debe ser alfanumérica</string>
