@@ -230,7 +230,7 @@
                         android:layout_height="wrap_content"
                         android:background="@drawable/style_button"
                         android:padding="@dimen/button_text_padding"
-                        android:text="@string/project_invest"
+                        android:text="@string/project_contact_creator"
                         android:textColor="@color/white"
                         android:layout_margin="@dimen/divider_start_padding"
                         android:textStyle="bold"

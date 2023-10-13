@@ -61,15 +61,17 @@ class ProjectDetailInvestorFragment : Fragment() {
             v.findNavController().navigateUp()
         }
 
-        // TODO Hacer que cuando vas al perfil, puedas volver al proyecto.
         binding.linearLayoutProjectDetailInvestorData.setOnClickListener {
             val action = ProjectDetailInvestorFragmentDirections.actionProjectDetailInvestorFragmentToProfileFragment(creatorEmail)
             this.findNavController().navigate(action)
         }
 
         binding.btnProjectDetailInvestment.setOnClickListener {
-            saveInvest()
+            val action = ProjectDetailInvestorFragmentDirections.actionProjectDetailInvestorFragmentToProfileFragment(creatorEmail)
+            this.findNavController().navigate(action)
         }
+        // Se oculta el input para invertir y solo queda el boton visible
+       binding.txtProjectDetailBudgetInvestment.visibility = View.GONE
     }
     private fun saveInvest(){
         val invest = createInvest() ?: return
@@ -256,7 +258,6 @@ class ProjectDetailInvestorFragment : Fragment() {
 
     private fun showBottomNav() {
         requireActivity().findViewById<View>(R.id.bottomNavigationView).visibility = View.VISIBLE
-
     }
     private fun showBottomInvest(){
         requireActivity().findViewById<View>(R.id.btnProjectDetailInvestment).visibility = View.VISIBLE
@@ -275,7 +276,7 @@ class ProjectDetailInvestorFragment : Fragment() {
             .get()
             .addOnSuccessListener { documents ->
                 if (documents.isEmpty) {
-                    showBottomInvest()
+                   // showBottomInvest()
                 } else {
                     hideBottomInvest()
                 }

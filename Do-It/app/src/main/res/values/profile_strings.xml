@@ -19,4 +19,5 @@
     <string name="profile_editUser_complete">Usuario editado con éxito</string>
     <string name="profile_edit_confirm">Guardar datos</string>
     <string name="profile_delete_link">Eliminar cuenta</string>
+    <string name="profile_info_back">Volver atrás</string>
 </resources>

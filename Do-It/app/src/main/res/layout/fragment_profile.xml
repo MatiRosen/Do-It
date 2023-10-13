@@ -30,6 +30,18 @@
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/icon_edit" />
 
+    <ImageButton
+        android:id="@+id/imgBtnProfileCreatorBack"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:tint="@color/black"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:backgroundTint="@color/transparent"
+        android:contentDescription="@string/profile_info_back"
+        android:src="@drawable/icon_arrow_left" />
+
     <ImageView
         android:id="@+id/imgProfileLogo"
         android:layout_width="73dp"

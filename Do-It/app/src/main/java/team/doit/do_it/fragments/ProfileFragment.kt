@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import com.google.firebase.auth.FirebaseAuth
 import team.doit.do_it.databinding.FragmentProfileBinding
@@ -47,6 +48,9 @@ class ProfileFragment : Fragment() {
         binding.imgProfileEditIcon.setOnClickListener {
             findNavController().navigate(R.id.action_profileFragmentMain_to_profileEditFragment)
         }
+        binding.imgBtnProfileCreatorBack.setOnClickListener{
+            v.findNavController().navigateUp()
+        }
     }
 
     override fun onDestroyView() {
@@ -57,11 +61,15 @@ class ProfileFragment : Fragment() {
     private fun replaceData() {
         val creatorEmail = ProfileFragmentArgs.fromBundle(requireArguments()).CreatorEmail
         val currentUser = FirebaseAuth.getInstance().currentUser
-        val userEmail = if (creatorEmail == " "){
-            currentUser?.email.toString()
-        }else{
-            creatorEmail
+        var userEmail = currentUser?.email.toString()
+        binding.imgProfileEditIcon.visibility = View.VISIBLE
+        binding.imgBtnProfileCreatorBack.visibility = View.GONE
+        if (creatorEmail != " ") {
+            userEmail = creatorEmail
+            binding.imgProfileEditIcon.visibility = View.GONE
+            binding.imgBtnProfileCreatorBack.visibility = View.VISIBLE
         }
+
         getUser(userEmail, object : OnUserFetchedListener {
             override fun onUserFetched(user: DocumentSnapshot?) {
                 if (user != null) {
