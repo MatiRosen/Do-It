@@ -28,4 +28,5 @@
     <string name="register_phone_error">Ingrese su número de teléfono</string>
     <string name="register_address_error">Ingrese su dirección</string>
     <string name="register_email_sent_error">Error al enviar mensaje de validación</string>
+    <string name="register_terms_and_conditions_unchecked">Para avanzar debe aceptar nuestros Términos y Condiciones</string>
 </resources>

@@ -91,7 +91,7 @@
             app:layout_constraintTop_toBottomOf="@+id/editTxtRegisterPassword" />
 
         <TextView
-            android:id="@+id/textViewRegisterTermsAndConditionsCheckbox"
+            android:id="@+id/textViewRegisterTermsAndConditionsLink"
             android:layout_width="177dp"
             android:layout_height="38dp"
             android:layout_marginTop="26dp"

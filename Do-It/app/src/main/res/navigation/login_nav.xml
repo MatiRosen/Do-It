@@ -21,6 +21,9 @@
         <action
             android:id="@+id/action_registerFragment_to_registerDataFragment"
             app:destination="@id/registerDataFragment" />
+        <action
+            android:id="@+id/action_registerFragment_to_termsAndConditionsFragment"
+            app:destination="@id/termsAndConditionsFragment" />
     </fragment>
     <fragment
         android:id="@+id/registerDataFragment"
@@ -38,5 +41,14 @@
             app:destination="@id/loginFragment"
             app:popUpTo="@id/registerDataFragment"
             app:popUpToInclusive="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/termsAndConditionsFragment"
+        android:name="team.doit.do_it.fragments.TermsAndConditionsFragment"
+        android:label="fragment_terms_and_conditions"
+        tools:layout="@layout/fragment_terms_and_conditions" >
+        <action
+            android:id="@+id/action_termsAndConditionsFragment_to_registerFragment"
+            app:destination="@id/registerFragment" />
     </fragment>
 </navigation>
