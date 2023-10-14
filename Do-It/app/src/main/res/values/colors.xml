@@ -22,4 +22,7 @@
     <color name="green">#2BA99D</color>
     <color name="dark_green">#4C9685</color>
 
+    <!--Enlaces-->
+    <color name="link">#0000FF</color>
+
 </resources>
