@@ -11,6 +11,29 @@
         android:orientation="vertical"
         android:gravity="center_horizontal">
 
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top|start">
+
+            <View
+                android:id="@+id/viewTermsAndConditionsShadow"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_gravity="top|start"
+                android:background="@drawable/style_shadow_top_info" />
+
+            <ImageButton
+                android:id="@+id/imgBtnTermsAndConditionsBack"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:backgroundTint="@color/transparent"
+                android:layout_marginStart="8dp"
+                android:src="@drawable/icon_arrow_left"
+                android:contentDescription="@string/terms_and_conditions_back" />
+        </FrameLayout>
+
         <TextView
             android:id="@+id/txtTermsAndConditionsTitle"
             android:layout_width="match_parent"
@@ -31,15 +54,5 @@
                 android:layout_height="match_parent"
                 android:text="@string/terms_and_conditions" />
         </ScrollView>
-
-        <Button
-            android:id="@+id/btnTermsAndConditionsVolver"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="@dimen/txt_button_size"
-            android:text="@string/terms_and_conditions_back"
-            android:background="@drawable/style_button_verify_email"
-            android:layout_margin="@dimen/item_card_margin"/>
-
     </LinearLayout>
 </FrameLayout>
