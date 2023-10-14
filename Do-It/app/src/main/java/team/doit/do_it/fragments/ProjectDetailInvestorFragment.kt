@@ -95,12 +95,12 @@ class ProjectDetailInvestorFragment : Fragment() {
     private fun createInvest():InvestEntity? {
         val project = ProjectDetailCreatorFragmentArgs.fromBundle(requireArguments()).project
         val investorEmail = FirebaseAuth.getInstance().currentUser?.email.toString()
-        val creatorEmail = project.getCreatorEmail()
-        val projectTitle = project.getTitle()
+        val creatorEmail = project.creatorEmail
+        val projectTitle = project.title
         val budget = binding.txtProjectDetailBudgetInvestment.text.toString().toDoubleOrNull() ?: 0.0
         val estado = resources.getString(R.string.project_detail_estado_pendiente)
-        val invest = InvestEntity(investorEmail,creatorEmail,budget.toDouble(),projectTitle,estado)
-        return if (validateInvest(invest,project.getMinBudget())) invest else null
+        val invest = InvestEntity(investorEmail,creatorEmail, budget, projectTitle,estado)
+        return if (validateInvest(invest,project.minBudget)) invest else null
     }
     private fun validateInvest(invest:InvestEntity,minBudget:Double) : Boolean{
         if (invest.getBudgetInvest() < minBudget){
@@ -114,22 +114,22 @@ class ProjectDetailInvestorFragment : Fragment() {
     private fun setValues() {
         val project = ProjectDetailCreatorFragmentArgs.fromBundle(requireArguments()).project
 
-        binding.txtProjectDetailInvestorTitle.text = project.getTitle()
-        binding.txtProjectDetailInvestorSubtitle.text = project.getSubtitle()
-        binding.txtProjectDetailInvestorDescription.text = project.getDescription()
-        binding.txtProjectDetailInvestorCategory.text = project.getCategory()
+        binding.txtProjectDetailInvestorTitle.text = project.title
+        binding.txtProjectDetailInvestorSubtitle.text = project.subtitle
+        binding.txtProjectDetailInvestorDescription.text = project.description
+        binding.txtProjectDetailInvestorCategory.text = project.category
 
-        val projectGoal = this.formatMoney(project.getGoal())
+        val projectGoal = this.formatMoney(project.goal)
         val goalText = getString(R.string.project_detail_goal, projectGoal)
         binding.txtProjectDetailInvestorGoal.text = spannableText(goalText, goalText.indexOf(projectGoal[0]) - 1)
 
-        val projectMinBudget = this.formatMoney(project.getMinBudget())
+        val projectMinBudget = this.formatMoney(project.minBudget)
         val minBudgetText = getString(R.string.project_detail_min_budget, projectMinBudget)
         binding.txtProjectDetailInvestorMinBudget.text = spannableText(minBudgetText, minBudgetText.indexOf(projectMinBudget[0]) -1)
 
-        projectImage = project.getImage()
-        creatorEmail = project.getCreatorEmail()
-        showOrHideInvest(project.getTitle())
+        projectImage = project.image
+        creatorEmail = project.creatorEmail
+        showOrHideInvest(project.title)
         this.setCreatorData()
     }
 
@@ -166,11 +166,11 @@ class ProjectDetailInvestorFragment : Fragment() {
     }
 
     private fun setImage() {
-        var storageReference = FirebaseStorage.getInstance().reference.child("images/$creatorEmail/projects/$projectImage")
-        var localFile = File.createTempFile("images", "jpg")
+        val storageReference = FirebaseStorage.getInstance().reference.child("images/$creatorEmail/projects/$projectImage")
+        val localFile = File.createTempFile("images", "jpg")
         storageReference.getFile(localFile)
             .addOnSuccessListener {
-                var bitMap = BitmapFactory.decodeFile(localFile.absolutePath)
+                val bitMap = BitmapFactory.decodeFile(localFile.absolutePath)
                 binding.imgProjectDetailInvestorProjectImage.setImageBitmap(bitMap)
             }
     }

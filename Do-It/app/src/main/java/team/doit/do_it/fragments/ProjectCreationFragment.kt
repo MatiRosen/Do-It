@@ -150,13 +150,13 @@ class ProjectCreationFragment : Fragment() {
 
     private fun validateFields(project: ProjectEntity) : Boolean{
         val fieldsToCheck = listOf(
-            Pair(project.getTitle(), resources.getString(R.string.project_creation_title_error)),
-            Pair(project.getSubtitle(), resources.getString(R.string.project_creation_subtitle_error)),
-            Pair(project.getDescription(), resources.getString(R.string.project_creation_description_error)),
-            Pair(project.getCategory(), resources.getString(R.string.project_creation_category_error)),
-            Pair(project.getImage(), resources.getString(R.string.project_creation_image_error)),
-            Pair(project.getMinBudget(), resources.getString(R.string.project_creation_min_budget_error)),
-            Pair(project.getGoal(), resources.getString(R.string.project_creation_goal_error))
+            Pair(project.title, resources.getString(R.string.project_creation_title_error)),
+            Pair(project.subtitle, resources.getString(R.string.project_creation_subtitle_error)),
+            Pair(project.description, resources.getString(R.string.project_creation_description_error)),
+            Pair(project.category, resources.getString(R.string.project_creation_category_error)),
+            Pair(project.image, resources.getString(R.string.project_creation_image_error)),
+            Pair(project.minBudget, resources.getString(R.string.project_creation_min_budget_error)),
+            Pair(project.goal, resources.getString(R.string.project_creation_goal_error))
         )
 
         for ((property, errorMessage) in fieldsToCheck){
@@ -166,22 +166,22 @@ class ProjectCreationFragment : Fragment() {
             }
         }
 
-        if (project.getCategory() == resources.getString(R.string.project_creation_project_category_hint)){
+        if (project.category == resources.getString(R.string.project_creation_project_category_hint)){
             Snackbar.make(v, resources.getString(R.string.project_creation_category_error), Snackbar.LENGTH_LONG).show()
             return false
         }
 
-        if (project.getMinBudget() < 0.0){
+        if (project.minBudget < 0.0){
             Snackbar.make(v, resources.getString(R.string.project_creation_min_budget_error), Snackbar.LENGTH_LONG).show()
             return false
         }
 
-        if (project.getGoal() <= 0.0){
+        if (project.goal <= 0.0){
             Snackbar.make(v, resources.getString(R.string.project_creation_goal_error), Snackbar.LENGTH_LONG).show()
             return false
         }
 
-        if (project.getGoal() < project.getMinBudget()){
+        if (project.goal < project.minBudget){
             Snackbar.make(v, resources.getString(R.string.project_creation_min_budget_higher_than_goal_error), Snackbar.LENGTH_LONG).show()
             return false
         }

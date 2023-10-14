@@ -3,6 +3,7 @@ plugins {
     id("org.jetbrains.kotlin.android")
     id("androidx.navigation.safeargs.kotlin")
     id("com.google.gms.google-services")
+    id("com.google.devtools.ksp")
 }
 
 android {
@@ -32,6 +33,7 @@ android {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
     }
+
     kotlinOptions {
         jvmTarget = "1.8"
     }
@@ -65,4 +67,14 @@ dependencies {
     implementation(platform("com.google.firebase:firebase-auth:22.1.2"))
     implementation(platform("com.google.firebase:firebase-database:20.0.3"))
     implementation(platform("com.google.firebase:firebase-firestore:24.8.1"))
+    implementation("com.google.firebase:firebase-firestore-ktx")
+    implementation("com.firebaseui:firebase-ui-firestore:8.0.2")
+    implementation("com.firebaseui:firebase-ui-storage:7.2.0")
+
+    // Images
+    implementation("com.github.bumptech.glide:glide:4.16.0")
+    ksp("com.github.bumptech.glide:ksp:4.16.0")
+
+
+    implementation("androidx.paging:paging-runtime:3.2.1")
 }

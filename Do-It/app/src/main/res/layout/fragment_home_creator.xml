@@ -31,6 +31,15 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txtHomeCreatorTitle" />
 
+    <ProgressBar
+        android:id="@+id/progressBarHomeCreatorBottom"
+        android:layout_width="25dp"
+        android:layout_height="wrap_content"
+        android:indeterminateTint="@color/pantone"
+        app:layout_constraintBottom_toTopOf="@+id/btnHomeCreatorCreateProject"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerHomeCreatorProjects"
         android:layout_width="0dp"
@@ -56,6 +65,7 @@
         app:layout_constraintBottom_toTopOf="@+id/guidelineHomeCreatorHorizontal98"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guidelineHomeCreatorHorizontal98"

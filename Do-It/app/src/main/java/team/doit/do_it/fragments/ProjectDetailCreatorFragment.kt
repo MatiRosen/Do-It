@@ -72,21 +72,21 @@ class ProjectDetailCreatorFragment : Fragment() {
     private fun setValues() {
         val project = ProjectDetailCreatorFragmentArgs.fromBundle(requireArguments()).project
 
-        binding.txtProjectDetailCreatorTitle.text = project.getTitle()
-        binding.txtProjectDetailCreatorSubtitle.text = project.getSubtitle()
-        binding.txtProjectDetailCreatorDescription.text = project.getDescription()
-        binding.txtProjectDetailCreatorCategory.text = project.getCategory()
+        binding.txtProjectDetailCreatorTitle.text = project.title
+        binding.txtProjectDetailCreatorSubtitle.text = project.subtitle
+        binding.txtProjectDetailCreatorDescription.text = project.description
+        binding.txtProjectDetailCreatorCategory.text = project.category
 
-        val projectGoal = this.formatMoney(project.getGoal())
+        val projectGoal = this.formatMoney(project.goal)
         val goalText = getString(R.string.project_detail_goal, projectGoal)
         binding.txtProjectDetailCreatorGoal.text = spannableText(goalText, goalText.indexOf(projectGoal[0]) - 1)
 
-        val projectMinBudget = this.formatMoney(project.getMinBudget())
+        val projectMinBudget = this.formatMoney(project.minBudget)
         val minBudgetText = getString(R.string.project_detail_min_budget, projectMinBudget)
         binding.txtProjectDetailCreatorMinBudget.text = spannableText(minBudgetText, minBudgetText.indexOf(projectMinBudget[0]) -1)
 
-        projectImage = project.getImage()
-        creatorEmail = project.getCreatorEmail()
+        projectImage = project.image
+        creatorEmail = project.creatorEmail
 
         this.setCreatorData()
     }

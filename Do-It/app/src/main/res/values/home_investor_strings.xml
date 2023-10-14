@@ -5,4 +5,5 @@
     <string name="home_investor_title">Proyectos Populares</string>
     <string name="home_investor_secondary_title">Todos los Proyectos</string>
     <string name="home_investor_get_project_failed">Hubo un error cargando un proyecto!</string>
+    <string name="home_investor_get_projects_failed">Hubo un error cargando los proyectos!</string>
 </resources>
