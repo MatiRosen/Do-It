@@ -19,6 +19,10 @@
     <string name="project_contact_creator">Contactar</string>
     <string name="project_detail_budget_error">¡Debes ingresar un monto mínimo de inversión mayor o igual a %s!</string>
     <string name="project_detail_invest_success">¡Inversión generada con éxito!</string>
-    <string name="project_detail_estado_pendiente">Pendiente</string>
+    <string name="project_detail_state_pending">Pendiente</string>
+    <string name="project_detail_follow_success">¡Proyecto seguido con éxito!</string>
+    <string name="project_detail_unfollow_success">¡Ya no sigues el proyecto!</string>
+    <string name="project_detail_follow_error">¡Error al seguir el proyecto!</string>
+    <string name="project_detail_unfollow_error">¡Error al dejar de seguir el proyecto!</string>
 
 </resources>

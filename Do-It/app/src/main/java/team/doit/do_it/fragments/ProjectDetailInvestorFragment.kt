@@ -56,7 +56,10 @@ class ProjectDetailInvestorFragment : Fragment() {
         super.onStart()
 
         setValues()
+        setupButtons()
+    }
 
+    private fun setupButtons(){
         binding.imgBtnProjectDetailInvestorBack.setOnClickListener {
             v.findNavController().navigateUp()
         }
@@ -70,13 +73,61 @@ class ProjectDetailInvestorFragment : Fragment() {
             val action = ProjectDetailInvestorFragmentDirections.actionProjectDetailInvestorFragmentToProfileFragment(creatorEmail)
             this.findNavController().navigate(action)
         }
-        // Se oculta el input para invertir y solo queda el boton visible
-       binding.txtProjectDetailBudgetInvestment.visibility = View.GONE
+
+        binding.imgBtnProjectDetailInvestorFollowProject.setOnClickListener {
+            followProject()
+        }
     }
+
+    private fun followProject(){
+        val project = ProjectDetailCreatorFragmentArgs.fromBundle(requireArguments()).project
+        val investorEmail = FirebaseAuth.getInstance().currentUser?.email.toString()
+
+        if (project.isFollowedBy(investorEmail)){
+            binding.imgBtnProjectDetailInvestorFollowProject.setImageResource(R.drawable.icon_follow_project)
+            project.removeFollower(investorEmail)
+        }else{
+            binding.imgBtnProjectDetailInvestorFollowProject.setImageResource(R.drawable.icon_check)
+            project.addFollower(investorEmail)
+        }
+
+        updateProject(project, investorEmail)
+    }
+
+    private fun updateProject(project: ProjectEntity, investorEmail: String){
+        db.collection("ideas")
+            .whereEqualTo("creatorEmail", project.creatorEmail)
+            .whereEqualTo("creationDate", project.creationDate)
+            .get()
+            .addOnSuccessListener { documents ->
+                if (!documents.isEmpty) {
+                    val projectRef = documents.documents[0].reference
+                    projectRef.update("followers", project.followers)
+                    projectRef.update("followersCount", project.followersCount)
+                        .addOnSuccessListener {
+                            val message = if (project.isFollowedBy(investorEmail)) resources.getString(R.string.project_detail_follow_success) else resources.getString(R.string.project_detail_unfollow_success)
+                            Toast.makeText(activity, message, Toast.LENGTH_SHORT).show()
+                        }
+                        .addOnFailureListener {
+                            val message = if (project.isFollowedBy(investorEmail)) resources.getString(R.string.project_detail_follow_error) else resources.getString(R.string.project_detail_unfollow_error)
+                            Toast.makeText(activity, message, Toast.LENGTH_SHORT).show()
+                        }
+                } else {
+                    val message = if (project.isFollowedBy(investorEmail)) resources.getString(R.string.project_detail_follow_error) else resources.getString(R.string.project_detail_unfollow_error)
+                    Toast.makeText(activity, message, Toast.LENGTH_SHORT).show()
+                }
+            }
+            .addOnFailureListener {
+                val message = if (project.isFollowedBy(investorEmail)) resources.getString(R.string.project_detail_follow_error) else resources.getString(R.string.project_detail_unfollow_error)
+                Toast.makeText(activity, message, Toast.LENGTH_SHORT).show()
+            }
+    }
+
     private fun saveInvest(){
         val invest = createInvest() ?: return
         saveInvestToDatabase(invest)
     }
+
     private fun saveInvestToDatabase(invest: InvestEntity){
         db.collection("inversiones")
             .add(invest)
@@ -97,10 +148,12 @@ class ProjectDetailInvestorFragment : Fragment() {
         val investorEmail = FirebaseAuth.getInstance().currentUser?.email.toString()
         val creatorEmail = project.creatorEmail
         val projectTitle = project.title
-        val budget = binding.txtProjectDetailBudgetInvestment.text.toString().toDoubleOrNull() ?: 0.0
-        val estado = resources.getString(R.string.project_detail_estado_pendiente)
-        val invest = InvestEntity(investorEmail,creatorEmail, budget, projectTitle,estado)
-        return if (validateInvest(invest,project.minBudget)) invest else null
+        // TODO a la hora de invertir no se debe poner el monto.
+        //val budget = binding.txtProjectDetailBudgetInvestment.text.toString().toDoubleOrNull() ?: 0.0
+        //val estado = resources.getString(R.string.project_detail_estado_pendiente)
+        //val invest = InvestEntity(investorEmail,creatorEmail, budget, projectTitle,estado)
+        //return if (validateInvest(invest,project.minBudget)) invest else null
+        return null
     }
     private fun validateInvest(invest:InvestEntity,minBudget:Double) : Boolean{
         if (invest.getBudgetInvest() < minBudget){
@@ -131,6 +184,12 @@ class ProjectDetailInvestorFragment : Fragment() {
         creatorEmail = project.creatorEmail
         showOrHideInvest(project.title)
         this.setCreatorData()
+
+        if (project.isFollowedBy(FirebaseAuth.getInstance().currentUser?.email.toString())){
+            binding.imgBtnProjectDetailInvestorFollowProject.setImageResource(R.drawable.icon_check)
+        }else{
+            binding.imgBtnProjectDetailInvestorFollowProject.setImageResource(R.drawable.icon_follow_project)
+        }
     }
 
     private fun setCreatorData() {
@@ -261,11 +320,11 @@ class ProjectDetailInvestorFragment : Fragment() {
     }
     private fun showBottomInvest(){
         requireActivity().findViewById<View>(R.id.btnProjectDetailInvestment).visibility = View.VISIBLE
-        requireActivity().findViewById<View>(R.id.txtProjectDetailBudgetInvestment).visibility = View.VISIBLE
+        //requireActivity().findViewById<View>(R.id.txtProjectDetailBudgetInvestment).visibility = View.VISIBLE
     }
     private fun hideBottomInvest(){
         requireActivity().findViewById<View>(R.id.btnProjectDetailInvestment).visibility = View.GONE
-        requireActivity().findViewById<View>(R.id.txtProjectDetailBudgetInvestment).visibility = View.GONE
+        //requireActivity().findViewById<View>(R.id.txtProjectDetailBudgetInvestment).visibility = View.GONE
     }
     private fun showOrHideInvest(projectTitle : String){
         val investorEmail = FirebaseAuth.getInstance().currentUser?.email.toString()

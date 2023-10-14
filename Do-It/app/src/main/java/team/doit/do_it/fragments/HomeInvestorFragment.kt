@@ -13,6 +13,7 @@ import androidx.paging.PagingConfig
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.firebase.ui.firestore.paging.FirestorePagingOptions
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
 import kotlinx.coroutines.flow.collectLatest
@@ -190,7 +191,12 @@ class HomeInvestorFragment : Fragment(), OnViewItemClickedListener {
     }
 
     override fun onViewItemDetail(project: ProjectEntity) {
-        val action = HomeInvestorFragmentDirections.actionGlobalProjectDetailInvestorFragment(project)
+        val investorEmail = FirebaseAuth.getInstance().currentUser?.email.toString()
+        val action = if (project.creatorEmail == investorEmail) {
+            HomeInvestorFragmentDirections.actionGlobalProjectDetailFragment(project)
+        } else {
+            HomeInvestorFragmentDirections.actionGlobalProjectDetailInvestorFragment(project)
+        }
         this.findNavController().navigate(action)
     }
 

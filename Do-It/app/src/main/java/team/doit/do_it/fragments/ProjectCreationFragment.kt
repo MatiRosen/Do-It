@@ -24,6 +24,7 @@ import team.doit.do_it.databinding.FragmentProjectCreationBinding
 import team.doit.do_it.entities.ProjectEntity
 import java.io.File
 import java.util.Date
+import java.util.UUID
 
 
 class ProjectCreationFragment : Fragment() {
@@ -103,6 +104,7 @@ class ProjectCreationFragment : Fragment() {
     }
 
     private fun saveProjectToDatabase(project: ProjectEntity){
+        // Le ponemos el id al proyecto:
         db.collection("ideas")
             .add(project)
             .addOnSuccessListener {
@@ -129,7 +131,7 @@ class ProjectCreationFragment : Fragment() {
         val projectMinBudget = binding.editTxtProjectCreationMinBudget.text.toString().toDoubleOrNull() ?: 0.0
         val projectGoal = binding.editTxtProjectCreationGoal.text.toString().toDoubleOrNull() ?: 0.0
 
-        val project = ProjectEntity(projectCreatorEmail, projectTitle, projectSubtitle, projectDescription, projectCategory, projectImg, projectMinBudget, projectGoal, 0, 0, Date())
+        val project = ProjectEntity(projectCreatorEmail, projectTitle, projectSubtitle, projectDescription, projectCategory, projectImg, projectMinBudget, projectGoal, 0, 0, Date(), mutableListOf<String>())
 
         return if (validateFields(project)) project else null
     }
