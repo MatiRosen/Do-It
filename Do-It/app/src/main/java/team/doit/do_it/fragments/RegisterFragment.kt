@@ -6,7 +6,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.CheckBox
 import android.widget.EditText
+import android.widget.TextView
 import android.widget.Toast
 import androidx.navigation.fragment.findNavController
 import com.google.firebase.auth.FirebaseAuth
@@ -29,6 +31,9 @@ class RegisterFragment : Fragment() {
     private lateinit var etEmail : EditText
     private lateinit var etPassword : EditText
 
+    private lateinit var termsAndConditionsCheckbox: CheckBox
+    private lateinit var termsAndConditionsLink: TextView
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
@@ -49,18 +54,28 @@ class RegisterFragment : Fragment() {
         continueButton.setOnClickListener {
             register()
         }
+        termsAndConditionsLink = binding.textViewRegisterTermsAndConditionsLink
+        termsAndConditionsLink.setOnClickListener {
+            seeTermsAndConditions()
+        }
     }
 
     private fun register() {
         etEmail = binding.editTxtRegisterEmail
         etPassword = binding.editTxtRegisterPassword
+        termsAndConditionsCheckbox = binding.btnRegisterTermsAndConditionsCheckbox
 
         email = etEmail.text.toString()
         password = etPassword.text.toString()
 
         if(!email.isEmpty() && !password.isEmpty() && isEmailValid(email)){
-            val action = RegisterFragmentDirections.actionRegisterFragmentToRegisterDataFragment(email, password)
-            findNavController().navigate(action)
+            if(termsAndConditionsCheckbox.isChecked){
+                val action = RegisterFragmentDirections.actionRegisterFragmentToRegisterDataFragment(email, password)
+                findNavController().navigate(action)
+            }
+            else {
+                Toast.makeText(activity, resources.getString(R.string.register_terms_and_conditions_unchecked), Toast.LENGTH_SHORT).show()
+            }
         } else {
             Toast.makeText(activity, resources.getString(R.string.register_wrong_format), Toast.LENGTH_SHORT).show()
         }
@@ -68,6 +83,11 @@ class RegisterFragment : Fragment() {
 
     private fun isEmailValid(email: String): Boolean {
         return android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()
+    }
+
+    private fun seeTermsAndConditions() {
+        val action = RegisterFragmentDirections.actionRegisterFragmentToTermsAndConditionsFragment()
+        findNavController().navigate(action)
     }
 
     override fun onDestroyView() {
