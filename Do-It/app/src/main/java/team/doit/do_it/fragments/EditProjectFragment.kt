@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.findNavController
 import team.doit.do_it.databinding.FragmentEditProjectBinding
 
 class EditProjectFragment : Fragment() {
@@ -25,6 +26,8 @@ class EditProjectFragment : Fragment() {
 
     override fun onStart() {
         super.onStart()
-
+        binding.imgBtnProjectEditCreatorBack.setOnClickListener {
+            v.findNavController().navigateUp()
+        }
     }
 }
