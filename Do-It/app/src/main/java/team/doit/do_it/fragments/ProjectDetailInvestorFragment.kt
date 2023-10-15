@@ -1,19 +1,19 @@
 package team.doit.do_it.fragments
 
-import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.text.Spannable
 import android.text.SpannableString
 import android.text.style.ForegroundColorSpan
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintSet
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentContainerView
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
+import com.bumptech.glide.Glide
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentSnapshot
@@ -23,11 +23,8 @@ import team.doit.do_it.R
 import team.doit.do_it.databinding.FragmentProjectDetailInvestorBinding
 import team.doit.do_it.entities.InvestEntity
 import team.doit.do_it.entities.ProjectEntity
-import team.doit.do_it.entities.UserEntity
-import java.io.File
 import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
-import kotlin.math.min
 
 class ProjectDetailInvestorFragment : Fragment() {
 
@@ -50,6 +47,12 @@ class ProjectDetailInvestorFragment : Fragment() {
         hideBottomNav()
         removeMargins()
         return v
+    }
+
+    private fun safeAccessBinding(action: () -> Unit) {
+        if (_binding != null) {
+            action()
+        }
     }
 
     override fun onStart() {
@@ -100,21 +103,23 @@ class ProjectDetailInvestorFragment : Fragment() {
             .whereEqualTo("creationDate", project.creationDate)
             .get()
             .addOnSuccessListener { documents ->
-                if (!documents.isEmpty) {
-                    val projectRef = documents.documents[0].reference
-                    projectRef.update("followers", project.followers)
-                    projectRef.update("followersCount", project.followersCount)
-                        .addOnSuccessListener {
-                            val message = if (project.isFollowedBy(investorEmail)) resources.getString(R.string.project_detail_follow_success) else resources.getString(R.string.project_detail_unfollow_success)
-                            Toast.makeText(activity, message, Toast.LENGTH_SHORT).show()
-                        }
-                        .addOnFailureListener {
-                            val message = if (project.isFollowedBy(investorEmail)) resources.getString(R.string.project_detail_follow_error) else resources.getString(R.string.project_detail_unfollow_error)
-                            Toast.makeText(activity, message, Toast.LENGTH_SHORT).show()
-                        }
-                } else {
-                    val message = if (project.isFollowedBy(investorEmail)) resources.getString(R.string.project_detail_follow_error) else resources.getString(R.string.project_detail_unfollow_error)
-                    Toast.makeText(activity, message, Toast.LENGTH_SHORT).show()
+                safeAccessBinding {
+                    if (!documents.isEmpty) {
+                        val projectRef = documents.documents[0].reference
+                        projectRef.update("followers", project.followers)
+                        projectRef.update("followersCount", project.followersCount)
+                            .addOnSuccessListener {
+                                val message = if (project.isFollowedBy(investorEmail)) resources.getString(R.string.project_detail_follow_success) else resources.getString(R.string.project_detail_unfollow_success)
+                                Toast.makeText(activity, message, Toast.LENGTH_SHORT).show()
+                            }
+                            .addOnFailureListener {
+                                val message = if (project.isFollowedBy(investorEmail)) resources.getString(R.string.project_detail_follow_error) else resources.getString(R.string.project_detail_unfollow_error)
+                                Toast.makeText(activity, message, Toast.LENGTH_SHORT).show()
+                            }
+                    } else {
+                        val message = if (project.isFollowedBy(investorEmail)) resources.getString(R.string.project_detail_follow_error) else resources.getString(R.string.project_detail_unfollow_error)
+                        Toast.makeText(activity, message, Toast.LENGTH_SHORT).show()
+                    }
                 }
             }
             .addOnFailureListener {
@@ -171,6 +176,7 @@ class ProjectDetailInvestorFragment : Fragment() {
         binding.txtProjectDetailInvestorSubtitle.text = project.subtitle
         binding.txtProjectDetailInvestorDescription.text = project.description
         binding.txtProjectDetailInvestorCategory.text = project.category
+        binding.txtProjectDetailInvestorFollowers.text = project.followersCount.toString()
 
         val projectGoal = this.formatMoney(project.goal)
         val goalText = getString(R.string.project_detail_goal, projectGoal)
@@ -204,19 +210,21 @@ class ProjectDetailInvestorFragment : Fragment() {
         usersRef.whereEqualTo("email", creatorEmail)
             .get()
             .addOnSuccessListener { documents ->
-                if (!documents.isEmpty) {
-                    val user = documents.documents[0]
-                    binding.txtProjectDetailInvestorProfileName.text = user.getString("nombre")
-                    binding.progressBarProjectDetailInvestor.visibility = View.GONE
-                    binding.txtProjectDetailInvestorProfileName.visibility = View.VISIBLE
-                    binding.imgProjectDetailInvestorProfileImage.visibility = View.VISIBLE
-                    binding.imgBtnProjectDetailInvestorChat.visibility = View.VISIBLE
-                } else {
-                    Toast.makeText(activity, resources.getString(R.string.project_detail_error), Toast.LENGTH_SHORT).show()
-                    v.findNavController().navigateUp()
+                safeAccessBinding {
+                    if (!documents.isEmpty) {
+                        val user = documents.documents[0]
+                        binding.txtProjectDetailInvestorProfileName.text = user.getString("nombre")
+                        binding.progressBarProjectDetailInvestor.visibility = View.GONE
+                        binding.txtProjectDetailInvestorProfileName.visibility = View.VISIBLE
+                        binding.imgProjectDetailInvestorProfileImage.visibility = View.VISIBLE
+                        binding.imgBtnProjectDetailInvestorChat.visibility = View.VISIBLE
+                    } else {
+                        Toast.makeText(activity, resources.getString(R.string.project_detail_error), Toast.LENGTH_SHORT).show()
+                        v.findNavController().navigateUp()
+                    }
+                    setImage()
+                    setUserCreatorImage(creatorEmail)
                 }
-                setImage()
-                setUserCreatorImage(creatorEmail)
             }
             .addOnFailureListener {
                 Toast.makeText(activity, resources.getString(R.string.project_detail_error), Toast.LENGTH_SHORT).show()
@@ -225,30 +233,42 @@ class ProjectDetailInvestorFragment : Fragment() {
     }
 
     private fun setImage() {
-        val storageReference = FirebaseStorage.getInstance().reference.child("images/$creatorEmail/projects/$projectImage")
-        val localFile = File.createTempFile("images", "jpg")
-        storageReference.getFile(localFile)
-            .addOnSuccessListener {
-                val bitMap = BitmapFactory.decodeFile(localFile.absolutePath)
-                binding.imgProjectDetailInvestorProjectImage.setImageBitmap(bitMap)
-            }
+        if (projectImage == "") {
+            binding.imgProjectDetailInvestorProjectImage.setImageResource(R.drawable.img_not_img)
+            return
+        }
+
+        safeAccessBinding {
+            val storageReference = FirebaseStorage.getInstance().reference.child("images/$creatorEmail/projects/$projectImage")
+            Glide.with(v.context)
+                .load(storageReference)
+                .placeholder(R.drawable.img_not_img)
+                .error(R.drawable.img_not_img)
+                .into(binding.imgProjectDetailInvestorProjectImage)
+        }
     }
 
     private fun setUserCreatorImage(creatorEmail: String) {
         getUser(creatorEmail, object : ProfileFragment.OnUserFetchedListener {
             override fun onUserFetched(user: DocumentSnapshot?) {
-                if (user != null) {
-                    val titleImg = user.getString("imgPerfil").toString()
-                    val storageReference = FirebaseStorage.getInstance().reference.child("images/$creatorEmail/imgProfile/$titleImg")
-                    val localFile = File.createTempFile("images", "jpg")
-
-                    storageReference.getFile(localFile)
-                        .addOnSuccessListener {
-                            val bitMap = BitmapFactory.decodeFile(localFile.absolutePath)
-                            binding.imgProjectDetailInvestorProfileImage.setImageBitmap(bitMap)
+                safeAccessBinding {
+                    if (user != null) {
+                        val titleImg = user.getString("imgPerfil").toString()
+                        if (titleImg == "") {
+                            binding.imgProjectDetailInvestorProfileImage.setImageResource(R.drawable.img_avatar)
+                            return@safeAccessBinding
                         }
-                } else {
-                    Toast.makeText(activity, resources.getString(R.string.profile_dataUser_error), Toast.LENGTH_SHORT).show()
+
+                        val storageReference = FirebaseStorage.getInstance().reference.child("images/$creatorEmail/imgProfile/$titleImg")
+
+                        Glide.with(v.context)
+                            .load(storageReference)
+                            .placeholder(R.drawable.img_avatar)
+                            .error(R.drawable.img_avatar)
+                            .into(binding.imgProjectDetailInvestorProfileImage)
+                    } else {
+                        Toast.makeText(activity, resources.getString(R.string.profile_dataUser_error), Toast.LENGTH_SHORT).show()
+                    }
                 }
             }
         })
@@ -261,11 +281,13 @@ class ProjectDetailInvestorFragment : Fragment() {
         usersRef.whereEqualTo("email", email)
             .get()
             .addOnSuccessListener { documents ->
-                if (!documents.isEmpty) {
-                    val user = documents.documents[0]
-                    listener.onUserFetched(user)
-                } else {
-                    listener.onUserFetched(null)
+                safeAccessBinding {
+                    if (!documents.isEmpty) {
+                        val user = documents.documents[0]
+                        listener.onUserFetched(user)
+                    } else {
+                        listener.onUserFetched(null)
+                    }
                 }
             }
             .addOnFailureListener {
@@ -334,15 +356,17 @@ class ProjectDetailInvestorFragment : Fragment() {
             .whereEqualTo("projectTitle",projectTitle)
             .get()
             .addOnSuccessListener { documents ->
-                if (documents.isEmpty) {
-                   // showBottomInvest()
-                } else {
-                    hideBottomInvest()
+                safeAccessBinding {
+                    if (documents.isEmpty) {
+                        // showBottomInvest()
+                    } else {
+                        hideBottomInvest()
+                    }
                 }
+
             }
             .addOnFailureListener {
                 Toast.makeText(activity, resources.getString(R.string.project_detail_error), Toast.LENGTH_SHORT).show()
-
             }
     }
 
@@ -352,5 +376,4 @@ class ProjectDetailInvestorFragment : Fragment() {
         showMargins()
         _binding = null
     }
-
 }

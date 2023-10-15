@@ -52,16 +52,19 @@ class ProjectHolder(view: View) : RecyclerView.ViewHolder(view){
     fun setProjectImage(projectImage: String, projectCreatorEmail: String) {
         val imageView = view.findViewById<ImageView>(R.id.imgItemProjectCreator)
 
+        if (projectImage == "") {
+            imageView.setImageResource(R.drawable.img_not_img)
+            return
+        }
+
         val storageReference = FirebaseStorage.getInstance().reference
             .child("images/$projectCreatorEmail/projects/$projectImage")
 
-        // TODO ver por que tira error!
         Glide.with(view.context)
             .load(storageReference)
             .placeholder(R.drawable.img_not_img)
             .error(R.drawable.img_not_img)
             .into(imageView)
-
     }
 
     fun getCardLayout(): View {
