@@ -58,6 +58,9 @@ class ProfileEditFragment : Fragment() {
                     if (successful) {
                         Toast.makeText(activity, resources.getString(R.string.profile_editUser_complete), Toast.LENGTH_SHORT).show()
                         findNavController().navigateUp()
+
+                        //TODO: al editar el perfil, te devuelve al perfil pero no siempre carga la foto que acabas de modificar
+                        replaceData()
                     } else {
                         Toast.makeText(activity, resources.getString(R.string.profile_dataUser_error), Toast.LENGTH_SHORT).show()
                     }
@@ -176,6 +179,8 @@ class ProfileEditFragment : Fragment() {
                         val userId = userSnapshot.id
                         val usersRef = db.collection("usuarios").document(userId)
 
+                        deleteProfileImages(user)
+
                         val updatedData = hashMapOf<String, Any>(
                             "nombre" to binding.editTextProfileName.text.toString(),
                             "apellido" to binding.editTextProfileSurname.text.toString(),
@@ -190,8 +195,7 @@ class ProfileEditFragment : Fragment() {
                             .addOnSuccessListener {
                                 listener.onUserUpdated(true)
                             }
-                            .addOnFailureListener { exception ->
-                                println(exception)
+                            .addOnFailureListener {
                                 listener.onUserUpdated(false)
                             }
                     } ?: run {
@@ -203,6 +207,21 @@ class ProfileEditFragment : Fragment() {
         }
     }
 
+    private fun deleteProfileImages(user: FirebaseUser) {
+        val creatorEmail = user.email.toString()
+        val storageReference = FirebaseStorage.getInstance().reference.child("images/$creatorEmail/imgProfile")
+
+        storageReference.listAll()
+            .addOnSuccessListener { listResult ->
+                for (item in listResult.items) {
+                    item.delete()
+                        .addOnFailureListener {
+                            resources.getString(R.string.profile_deleteImages_error)
+                        }
+                }
+            }
+    }
+
     private fun deleteAccount() {
         val currentUser = FirebaseAuth.getInstance().currentUser
         val db = FirebaseFirestore.getInstance()
@@ -210,6 +229,8 @@ class ProfileEditFragment : Fragment() {
         currentUser?.let { user ->
             deleteIdeas(db, user)
             deleteUsers(db, user)
+            deleteIdeasImages(user)
+            deleteProfileImages(user)
             deleteUserAccount(user)
         }
     }
@@ -239,6 +260,21 @@ class ProfileEditFragment : Fragment() {
                         .delete()
                         .addOnFailureListener {
                             handleDeleteFailure()
+                        }
+                }
+            }
+    }
+
+    private fun deleteIdeasImages(user: FirebaseUser) {
+        val creatorEmail = user.email.toString()
+        val storageReference = FirebaseStorage.getInstance().reference.child("images/$creatorEmail/projects")
+
+        storageReference.listAll()
+            .addOnSuccessListener { listResult ->
+                for (item in listResult.items) {
+                    item.delete()
+                        .addOnFailureListener {
+                            resources.getString(R.string.profile_deleteImages_error)
                         }
                 }
             }
