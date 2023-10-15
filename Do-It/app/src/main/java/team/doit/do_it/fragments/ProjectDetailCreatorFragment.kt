@@ -1,5 +1,6 @@
 package team.doit.do_it.fragments
 
+import android.app.AlertDialog
 import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
@@ -66,6 +67,10 @@ class ProjectDetailCreatorFragment : Fragment() {
         binding.imgBtnProjectDetailCreatorEdit.setOnClickListener {
             val action = ProjectDetailCreatorFragmentDirections.actionProjectDetailFragmentToEditProjectFragment(project)
             v.findNavController().navigate(action)
+        }
+
+        binding.imgBtnProjectDetailCreatorTrash.setOnClickListener {
+            deleteProjectConfirm()
         }
     }
 
@@ -223,4 +228,71 @@ class ProjectDetailCreatorFragment : Fragment() {
         showMargins()
         _binding = null
     }
+
+    private fun deleteProjectConfirm() {
+        val alertDialogBuilder = AlertDialog.Builder(activity)
+
+        alertDialogBuilder.setTitle(resources.getString(R.string.project_detail_delete_title))
+
+        if(ProjectDetailCreatorFragmentArgs.fromBundle(requireArguments()).project.hasFollowers())
+            alertDialogBuilder.setMessage(resources.getString(R.string.project_detail_noDeletable_message))
+        else {
+            alertDialogBuilder.setMessage(resources.getString(R.string.project_detail_delete_message))
+            alertDialogBuilder.setPositiveButton(resources.getString(R.string.project_detail_delete_accept)) { _, _ ->
+                deleteProject()
+            }
+        }
+
+        alertDialogBuilder.setNegativeButton(resources.getString(R.string.project_detail_delete_decline)) { _, _ ->
+
+        }
+
+        val alertDialog = alertDialogBuilder.create()
+        alertDialog.show()
+    }
+
+    private fun deleteProject() {
+        val currentUser = FirebaseAuth.getInstance().currentUser
+        val db = FirebaseFirestore.getInstance()
+
+        currentUser?.let {
+            db.collection("ideas")
+                .whereEqualTo("creatorEmail", currentUser?.email)
+                .whereEqualTo("creationDate", ProjectDetailCreatorFragmentArgs.fromBundle(requireArguments()).project.creationDate)
+                .get()
+                .addOnSuccessListener { querySnapshot ->
+                    for (document in querySnapshot.documents) {
+                        db.collection("ideas").document(document.id)
+                            .delete()
+                            .addOnSuccessListener {
+                                v.findNavController().navigateUp()
+                            }
+                            .addOnFailureListener {
+                                handleDeleteFailure()
+                            }
+                    }
+                }
+        }
+    }
+
+    private fun handleDeleteFailure() {
+        Toast.makeText(activity, resources.getString(R.string.project_detail_delete_error), Toast.LENGTH_SHORT).show()
+    }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
