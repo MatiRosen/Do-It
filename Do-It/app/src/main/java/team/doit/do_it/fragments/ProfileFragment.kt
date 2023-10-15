@@ -1,6 +1,5 @@
 package team.doit.do_it.fragments
 
-import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,12 +8,13 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
+import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseAuth
-import team.doit.do_it.databinding.FragmentProfileBinding
-import com.google.firebase.firestore.*
+import com.google.firebase.firestore.DocumentSnapshot
+import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import team.doit.do_it.R
-import java.io.File
+import team.doit.do_it.databinding.FragmentProfileBinding
 
 class ProfileFragment : Fragment() {
 
@@ -87,13 +87,17 @@ class ProfileFragment : Fragment() {
     }
 
     private fun setImage(creatorEmail: String, titleImg: String) {
+        if (titleImg == "") {
+            binding.imgProfileCircular.setImageResource(R.drawable.img_avatar)
+            return
+        }
         val storageReference = FirebaseStorage.getInstance().reference.child("images/$creatorEmail/imgProfile/$titleImg")
-        val localFile = File.createTempFile("images", "jpg")
-        storageReference.getFile(localFile)
-            .addOnSuccessListener {
-                val bitMap = BitmapFactory.decodeFile(localFile.absolutePath)
-                binding.imgProfileCircular.setImageBitmap(bitMap)
-            }
+
+        Glide.with(v.context)
+            .load(storageReference)
+            .placeholder(R.drawable.img_avatar)
+            .error(R.drawable.img_avatar)
+            .into(binding.imgProfileCircular)
     }
 
     private fun getUser(email: String, listener: OnUserFetchedListener) {
