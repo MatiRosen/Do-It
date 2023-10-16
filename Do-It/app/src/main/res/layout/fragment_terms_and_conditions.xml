@@ -1,58 +1,70 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/frameLayout2"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".fragments.TermsAndConditionsFragment">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:gravity="center_horizontal">
 
-        <FrameLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="top|start">
+    <TextView
+        android:id="@+id/txtTermsAndConditionsTitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/terms_and_conditions_title"
+        android:textAlignment="center"
+        android:textColor="@color/dark_pantone"
+        android:textSize="@dimen/txt_main_title_size"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-            <View
-                android:id="@+id/viewTermsAndConditionsShadow"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_gravity="top|start"
-                android:background="@drawable/style_shadow_top_info" />
+    <ScrollView
+        android:id="@+id/scrollViewTermsAndConditions"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="@dimen/divider_top_padding"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtTermsAndConditionsTitle"
+        app:layout_constraintWidth_max="@dimen/input_max_width">
 
-            <ImageButton
-                android:id="@+id/imgBtnTermsAndConditionsBack"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:backgroundTint="@color/transparent"
-                android:layout_marginStart="8dp"
-                android:src="@drawable/icon_arrow_left"
-                android:contentDescription="@string/terms_and_conditions_back" />
-        </FrameLayout>
-
-        <TextView
-            android:id="@+id/txtTermsAndConditionsTitle"
+        <LinearLayout
+            android:id="@+id/linearLayoutTermsAndConditions"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/pantone"
-            android:text="@string/terms_and_conditions_title"
-            android:textAlignment="center"
-            android:layout_margin="@dimen/item_card_margin"
-            android:textSize="@dimen/txt_main_title_size" />
-
-        <ScrollView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:gravity="center"
+            android:orientation="vertical">
 
             <TextView
                 android:id="@+id/txtTermsAndConditions"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:text="@string/terms_and_conditions" />
-        </ScrollView>
-    </LinearLayout>
-</FrameLayout>
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/divider_bottom_padding"
+                android:layout_marginTop="@dimen/divider_top_padding"
+                android:text="@string/terms_and_conditions"
+                android:textColor="@color/black"
+                android:textSize="@dimen/txt_paragraph_size" />
+
+            <Button
+                android:id="@+id/btnTermsAndConditionsBack"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/style_button_pantone"
+                android:text="@string/terms_and_conditions_back"
+                android:padding="@dimen/button_text_padding"
+                android:textSize="@dimen/txt_button_size"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                android:layout_marginTop="@dimen/divider_top_padding"
+                android:layout_marginBottom="@dimen/divider_bottom_padding"/>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
