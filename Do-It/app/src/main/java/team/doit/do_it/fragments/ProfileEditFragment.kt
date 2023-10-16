@@ -13,6 +13,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.google.android.material.snackbar.Snackbar
@@ -64,9 +65,7 @@ class ProfileEditFragment : Fragment() {
                     if (successful) {
                         safeAccessBinding {
                             Toast.makeText(activity, resources.getString(R.string.profile_editUser_complete), Toast.LENGTH_SHORT).show()
-
-                            //TODO: al editar el perfil, te devuelve al perfil pero no siempre carga la foto que acabas de modificar
-                            replaceData()
+                            v.findNavController().navigateUp()
                         }
 
                     } else {
