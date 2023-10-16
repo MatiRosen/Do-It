@@ -64,7 +64,6 @@ class ProfileEditFragment : Fragment() {
                     if (successful) {
                         safeAccessBinding {
                             Toast.makeText(activity, resources.getString(R.string.profile_editUser_complete), Toast.LENGTH_SHORT).show()
-                            findNavController().navigateUp()
 
                             //TODO: al editar el perfil, te devuelve al perfil pero no siempre carga la foto que acabas de modificar
                             replaceData()
@@ -162,6 +161,7 @@ class ProfileEditFragment : Fragment() {
             .placeholder(R.drawable.img_avatar)
             .error(R.drawable.img_avatar)
             .into(binding.imgProfileCircular)
+
     }
 
     private fun getUser(email: String, listener: ProfileFragment.OnUserFetchedListener) {
@@ -205,6 +205,7 @@ class ProfileEditFragment : Fragment() {
                             "direccion" to binding.editTextProfileAddress.text.toString(),
                             "imgPerfil" to if(selectedImage != null) uploadImage(user.email.toString()) else userDoc.getString("imgPerfil").toString()
                         )
+                        // TODO para que se actualice la foto al volver atrás, el problema está aca!!
 
                         usersRef.update(updatedData)
                             .addOnSuccessListener {

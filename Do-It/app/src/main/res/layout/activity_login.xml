@@ -11,7 +11,7 @@
         android:name="androidx.navigation.fragment.NavHostFragment"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/guidelineLoginActivityHorizontal95"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/guidelineLoginActivityVertical95"
         app:layout_constraintStart_toStartOf="@+id/guidelineLoginActivityVertical5"
         app:layout_constraintTop_toTopOf="@+id/guidelineLoginActivityHorizontal3"

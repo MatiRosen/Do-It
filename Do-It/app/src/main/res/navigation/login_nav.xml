@@ -46,9 +46,5 @@
         android:id="@+id/termsAndConditionsFragment"
         android:name="team.doit.do_it.fragments.TermsAndConditionsFragment"
         android:label="fragment_terms_and_conditions"
-        tools:layout="@layout/fragment_terms_and_conditions" >
-        <action
-            android:id="@+id/action_termsAndConditionsFragment_to_registerFragment"
-            app:destination="@id/registerFragment" />
-    </fragment>
+        tools:layout="@layout/fragment_terms_and_conditions" />
 </navigation>
