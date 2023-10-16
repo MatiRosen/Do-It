@@ -89,9 +89,11 @@ class ProjectDetailInvestorFragment : Fragment() {
         if (project.isFollowedBy(investorEmail)){
             binding.imgBtnProjectDetailInvestorFollowProject.setImageResource(R.drawable.icon_follow_project)
             project.removeFollower(investorEmail)
+            binding.txtProjectDetailInvestorFollowers.text = project.followersCount.toString()
         }else{
             binding.imgBtnProjectDetailInvestorFollowProject.setImageResource(R.drawable.icon_check)
             project.addFollower(investorEmail)
+            binding.txtProjectDetailInvestorFollowers.text = project.followersCount.toString()
         }
 
         updateProject(project, investorEmail)
