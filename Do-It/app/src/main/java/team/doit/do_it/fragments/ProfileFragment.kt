@@ -105,6 +105,7 @@ class ProfileFragment : Fragment() {
                         binding.txtProfileGender.text = user.getString("genero")
                         binding.txtProfileAddress.text = user.getString("direccion")
                         setImage(userEmail, user.getString("imgPerfil").toString())
+                        println(user.getString("imgPerfil").toString())
 
                         hideProgressBar(creatorEmail == " ")
                     } else {

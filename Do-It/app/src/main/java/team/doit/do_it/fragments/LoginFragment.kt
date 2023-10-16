@@ -53,7 +53,7 @@ class LoginFragment : Fragment() {
 
         loginButton = binding.btnLoginLogin
         loginButton.setOnClickListener {
-            login(v)
+            login()
         }
 
         val btnTextRegister = binding.btnTxtLoginRegister
@@ -81,7 +81,7 @@ class LoginFragment : Fragment() {
         }
     }
 
-    private fun login(v: View) {
+    private fun login() {
         email = binding.editTxtLoginEmail.text.toString()
         password = binding.editTxtLoginPassword.text.toString()
 
