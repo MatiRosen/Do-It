@@ -5,10 +5,10 @@
     android:id="@+id/frameLayout2"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragments.EditProjectFragment">
+    tools:context=".fragments.ProjectEditFragment">
 
     <ScrollView
-        android:id="@+id/scrollViewProjectEditCreator"
+        android:id="@+id/scrollViewProjectEdit"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -18,19 +18,19 @@
         app:layout_constraintWidth_max="@dimen/input_max_width">
 
         <LinearLayout
-            android:id="@+id/linearLayoutProjectEditCreatorInfo"
+            android:id="@+id/linearLayoutProjectEditInfo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
             android:orientation="vertical">
 
             <FrameLayout
-                android:id="@+id/frameLayoutProjectEditCreatorImageContainer"
+                android:id="@+id/frameLayoutProjectEditImageContainer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <ImageView
-                    android:id="@+id/imgProjectEditCreatorProjectImage"
+                <ImageButton
+                    android:id="@+id/imgProjectEditImage"
                     android:layout_width="match_parent"
                     android:layout_height="250dp"
                     android:src="@drawable/img_not_img"
@@ -44,14 +44,14 @@
                     android:layout_gravity="top|start">
 
                     <View
-                        android:id="@+id/viewProjectEditCreatorShadow"
+                        android:id="@+id/viewProjectEditShadow"
                         android:layout_width="match_parent"
                         android:layout_height="50dp"
                         android:layout_gravity="top|start"
                         android:background="@drawable/style_shadow_top_info" />
 
                     <ImageButton
-                        android:id="@+id/imgBtnProjectEditCreatorBack"
+                        android:id="@+id/imgBtnProjectEditBack"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
@@ -60,73 +60,10 @@
                         android:src="@drawable/icon_arrow_left"
                         android:contentDescription="@string/project_detail_back" />
 
-                    <!--<LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:layout_gravity="center_vertical|end"
-                        android:layout_marginEnd="8dp">
-
-                        <ImageButton
-                            android:id="@+id/imgBtnProjectDetailCreatorEdit"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical|end"
-                            android:backgroundTint="@color/transparent"
-                            android:src="@drawable/icon_edit"
-                            app:tint="@color/white"
-                            android:contentDescription="@string/project_detail_edit" />
-
-                        <ImageButton
-                            android:id="@+id/imgBtnProjectDetailCreatorTrash"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical|end"
-                            android:backgroundTint="@color/transparent"
-                            android:src="@drawable/icon_trash"
-                            android:contentDescription="@string/project_detail_remove" />
-                    </LinearLayout>-->
                 </FrameLayout>
             </FrameLayout>
 
-            <!--<LinearLayout
-                android:id="@+id/linearLayoutProjectDetailCreatorData"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center_vertical"
-                android:background="@color/lighter_gray"
-                android:layout_marginBottom="@dimen/divider_bottom_padding">
 
-                <ProgressBar
-                    android:id="@+id/progressBarProjectDetailCreator"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_weight="1"
-                    android:indeterminateTint="@color/pantone"/>
-
-                <com.mikhaellopez.circularimageview.CircularImageView
-                    android:id="@+id/imgProjectDetailCreatorProfileImage"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:layout_margin="@dimen/divider_start_padding"
-                    android:src="@drawable/img_avatar"
-                    app:civ_border_width="1dp"
-                    app:civ_border_color="@color/pantone"
-                    android:scaleType="centerCrop"/>
-
-                <TextView
-                    android:id="@+id/txtProjectDetailCreatorProfileName"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Nombre"
-                    android:textColor="@color/black"
-                    android:maxLines="1"
-                    android:textSize="@dimen/txt_description_size" />
-
-            </LinearLayout>-->
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -138,8 +75,8 @@
                 android:layout_marginStart="@dimen/divider_start_padding"
                 android:layout_marginEnd="@dimen/divider_end_padding">
 
-                <TextView
-                    android:id="@+id/txtProjectDetailCreatorTitle"
+                <EditText
+                    android:id="@+id/txtProjectEditTitle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical"
@@ -150,7 +87,7 @@
                     android:textStyle="bold" />
 
                 <TextView
-                    android:id="@+id/txtProjectDetailCreatorCategory"
+                    android:id="@+id/txtProjectDetailCategory"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/divider_top_padding"
@@ -163,8 +100,8 @@
                     app:drawableStartCompat="@drawable/icon_label" />
 
 
-                <TextView
-                    android:id="@+id/txtProjectDetailCreatorSubtitle"
+                <EditText
+                    android:id="@+id/txtProjectEditSubtitle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/divider_top_padding"
@@ -173,8 +110,8 @@
                     android:textColor="@color/medium_gray"
                     android:textSize="@dimen/txt_description_size" />
 
-                <TextView
-                    android:id="@+id/txtProjectDetailCreatorDescription"
+                <EditText
+                    android:id="@+id/txtProjectEditDescription"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/divider_top_padding"
@@ -184,7 +121,7 @@
                     android:textSize="@dimen/txt_paragraph_size" />
 
                 <TextView
-                    android:id="@+id/txtProjectDetailCreatorGoal"
+                    android:id="@+id/txtProjectDetailGoal"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/divider_top_padding"
@@ -197,7 +134,7 @@
                     app:drawableStartCompat="@drawable/icon_cash" />
 
                 <TextView
-                    android:id="@+id/txtProjectDetailCreatorMinBudget"
+                    android:id="@+id/txtProjectDetailMinBudget"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/divider_top_padding"
@@ -209,6 +146,12 @@
                     android:drawablePadding="@dimen/input_txt_padding"
                     app:drawableStartCompat="@drawable/icon_cash" />
             </LinearLayout>
+
+            <Button
+                android:id="@+id/btnConfirmEditProject"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Button" />
         </LinearLayout>
     </ScrollView>
 
