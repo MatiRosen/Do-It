@@ -67,6 +67,7 @@ class ProfileEditFragment : Fragment() {
                             findNavController().navigateUp()
 
                             //TODO: al editar el perfil, te devuelve al perfil pero no siempre carga la foto que acabas de modificar
+                            //TODO: es necesario llamar a replace data devuelta? solo cambia los campos de los edit, pero aca termino de editar
                             replaceData()
                         }
 

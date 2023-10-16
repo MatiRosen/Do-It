@@ -125,9 +125,9 @@
 
             <fragment
                 android:id="@+id/editProjectFragment"
-                android:name="team.doit.do_it.fragments.EditProjectFragment"
+                android:name="team.doit.do_it.fragments.ProjectEditFragment"
                 android:label="fragment_edit_project"
-                tools:layout="@layout/fragment_edit_project">
+                tools:layout="@layout/fragment_project_edit">
                 <argument
                     android:name="project"
                     app:argType="team.doit.do_it.entities.ProjectEntity" />

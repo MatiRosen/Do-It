@@ -34,6 +34,10 @@ class ProjectDetailCreatorFragment : Fragment() {
     private var projectImage : String = ""
     private var creatorEmail : String = ""
 
+    interface OnProjectUpdatedListener {
+        fun onProjectUpdated(successful: Boolean)
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
