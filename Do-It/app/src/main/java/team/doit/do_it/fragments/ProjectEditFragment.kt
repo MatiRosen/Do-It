@@ -1,19 +1,36 @@
 package team.doit.do_it.fragments
 
+import android.app.Activity
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
+import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
+import android.widget.TextView
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
+import com.bumptech.glide.Glide
+import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.storage.FirebaseStorage
+import team.doit.do_it.R
 import team.doit.do_it.databinding.FragmentProjectEditBinding
+import java.io.File
+import java.util.Date
 
 class ProjectEditFragment : Fragment() {
 
     private var _binding : FragmentProjectEditBinding? = null
+
+    private var selectedImage: Uri? = null
+    private var photoFile: File? = null
+    private var lastImage: String = ""
     private val binding get() = _binding!!
 
     private lateinit var v : View
@@ -25,6 +42,9 @@ class ProjectEditFragment : Fragment() {
     ): View? {
         _binding = FragmentProjectEditBinding.inflate(inflater, container, false)
         v = binding.root
+
+        startSpinner()
+
         return v
     }
 
@@ -34,8 +54,8 @@ class ProjectEditFragment : Fragment() {
             v.findNavController().navigateUp()
         }
 
-        binding.imgProjectEditImage.setOnClickListener {
-            Toast.makeText(activity, "WIP", Toast.LENGTH_SHORT).show()
+        binding.imgProjectEditImage.setOnClickListener{
+            pickImage()
         }
 
         binding.btnConfirmEditProject.setOnClickListener {
@@ -56,6 +76,58 @@ class ProjectEditFragment : Fragment() {
         replaceData()
     }
 
+    private fun pickImage() {
+        photoFile = pickImageFromGallery()
+    }
+
+    private fun pickImageFromGallery() : File?{
+        val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+        resultLauncher.launch(intent)
+        return selectedImage?.let { it.path?.let { it1 -> File(it1) } }
+    }
+
+    private var resultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+        if (result.resultCode == Activity.RESULT_OK) {
+            val data: Intent? = result.data
+            if(data != null) run {
+                val selectedImageFromGallery: Uri? = data.data
+                selectedImage = selectedImageFromGallery
+                if (selectedImageFromGallery != null) {
+                    binding.imgProjectEditImage.setImageURI(selectedImageFromGallery)
+                }
+            }
+        }
+    }
+
+    private fun setImage(creatorEmail: String, titleImg: String) {
+        if (titleImg == "") {
+            binding.imgProjectEditImage.setImageResource(R.drawable.img_not_img)
+            return
+        }
+        val storageReference = FirebaseStorage.getInstance().reference.child("images/$creatorEmail/projects/$titleImg")
+
+        Glide.with(v.context)
+            .load(storageReference)
+            .placeholder(R.drawable.img_avatar)
+            .error(R.drawable.img_avatar)
+            .into(binding.imgProjectEditImage)
+
+    }
+
+    private fun uploadImage(projectCreatorEmail: String): String {
+        var fileName = projectCreatorEmail + "-projects-" + Date().time.toString()
+
+        val storeReference = FirebaseStorage.getInstance().getReference("images/$projectCreatorEmail/projects/$fileName")
+        storeReference.putFile(selectedImage!!)
+            .addOnSuccessListener {
+                lastImage = "images/$projectCreatorEmail/projects/$fileName"
+            }.addOnFailureListener {
+                Snackbar.make(v, resources.getString(R.string.project_creation_image_upload_failed), Snackbar.LENGTH_LONG).show()
+                fileName = ""
+            }
+        return fileName
+    }
+
     private fun safeAccesBinding(action : () -> Unit) {
         if (_binding != null) {
             action()
@@ -67,6 +139,9 @@ class ProjectEditFragment : Fragment() {
             binding.txtProjectEditTitle.setText(ProjectEditFragmentArgs.fromBundle(requireArguments()).project.title)
             binding.txtProjectEditDescription.setText(ProjectEditFragmentArgs.fromBundle(requireArguments()).project.description)
             binding.txtProjectEditSubtitle.setText(ProjectEditFragmentArgs.fromBundle(requireArguments()).project.subtitle)
+            binding.txtProjectEditGoal.setText(ProjectEditFragmentArgs.fromBundle(requireArguments()).project.goal.toString())
+            binding.txtProjectEditMinBudget.setText(ProjectEditFragmentArgs.fromBundle(requireArguments()).project.minBudget.toString())
+            setImage(ProjectEditFragmentArgs.fromBundle(requireArguments()).project.creatorEmail, ProjectEditFragmentArgs.fromBundle(requireArguments()).project.image)
         }
     }
 
@@ -79,12 +154,28 @@ class ProjectEditFragment : Fragment() {
             val project = hashMapOf<String, Any>(
                 "title" to binding.txtProjectEditTitle.text.toString(),
                 "description" to binding.txtProjectEditDescription.text.toString(),
-                "subtitle" to binding.txtProjectEditSubtitle.text.toString()
+                "subtitle" to binding.txtProjectEditSubtitle.text.toString(),
+                "goal" to binding.txtProjectEditGoal.text.toString().toDouble().toInt(),
+                "minBudget" to binding.txtProjectEditMinBudget.text.toString().toDouble().toInt(),
+                "category" to binding.spinnerProjectEditCategory.selectedItem.toString(),
+                "image" to if(selectedImage != null) uploadImage(currentUser.email.toString()) else ProjectEditFragmentArgs.fromBundle(requireArguments()).project.image
             )
+
+            if(selectedImage != null){
+                FirebaseStorage.getInstance().reference.child("images/${currentUser.email.toString()}/projects/${ProjectEditFragmentArgs.fromBundle(requireArguments()).project.image}")
+                    .listAll().addOnSuccessListener { listResult ->
+                        for (item in listResult.items) {
+                            item.delete()
+                                .addOnFailureListener {
+                                    resources.getString(R.string.profile_deleteImages_error)
+                                }
+                        }
+                    }
+            }
 
             db.collection("ideas")
                 .whereEqualTo("creatorEmail", currentUser?.email)
-                .whereEqualTo("creationDate", ProjectDetailCreatorFragmentArgs.fromBundle(requireArguments()).project.creationDate)
+                .whereEqualTo("creationDate", ProjectEditFragmentArgs.fromBundle(requireArguments()).project.creationDate)
                 .get()
                 .addOnSuccessListener {querySnapshot ->
                     for (document in querySnapshot.documents) {
@@ -102,5 +193,31 @@ class ProjectEditFragment : Fragment() {
 
 
         }
+    }
+
+    private fun startSpinner(){
+        val categoryList = resources.getStringArray(R.array.categories_array).toMutableList()
+        val hint = ProjectEditFragmentArgs.fromBundle(requireArguments()).project.category
+        categoryList.remove(hint)
+        categoryList.add(0, hint)
+
+        val adapter = object : ArrayAdapter<String>(v.context, android.R.layout.simple_list_item_activated_1, categoryList){
+            override fun isEnabled(position: Int): Boolean {
+                return position != 0
+            }
+
+            override fun getDropDownView(position: Int, convertView: View?, parent: ViewGroup): View {
+                val view = super.getDropDownView(position, convertView, parent)
+
+                if (position == 0) {
+                    (view as TextView).setTextColor(resources.getColor(R.color.medium_gray, null))
+                    view.setBackgroundColor(0)
+                }
+
+                return view
+            }
+        }
+
+        binding.spinnerProjectEditCategory.adapter = adapter
     }
 }

@@ -7,8 +7,8 @@ import java.util.Date
 
 // TODO: Categoria es string o enum? Imagen es string?
 data class ProjectEntity(
-    val creatorEmail: String, val title: String, val subtitle: String, val description: String, val category: String, val image: String,
-    val minBudget: Double, val goal: Double, var visitorsCount: Int, var followersCount: Int, val creationDate: Date, val followers : MutableList<String>) : Parcelable {
+    val creatorEmail: String, var title: String, var subtitle: String, var description: String, var category: String, val image: String,
+    var minBudget: Double, var goal: Double, var visitorsCount: Int, var followersCount: Int, val creationDate: Date, val followers : MutableList<String>) : Parcelable {
 
     constructor(parcel: Parcel) : this(
         parcel.readString()!!,

@@ -33,10 +33,10 @@
                     android:id="@+id/imgProjectEditImage"
                     android:layout_width="match_parent"
                     android:layout_height="250dp"
-                    android:src="@drawable/img_not_img"
-                    android:scaleType="centerCrop"
                     android:adjustViewBounds="true"
-                    android:contentDescription="@string/project_detail_image" />
+                    android:contentDescription="@string/project_detail_image"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/img_not_img" />
 
                 <FrameLayout
                     android:layout_width="wrap_content"
@@ -55,49 +55,62 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
-                        android:backgroundTint="@color/transparent"
                         android:layout_marginStart="8dp"
-                        android:src="@drawable/icon_arrow_left"
-                        android:contentDescription="@string/project_detail_back" />
+                        android:backgroundTint="@color/transparent"
+                        android:contentDescription="@string/project_detail_back"
+                        android:src="@drawable/icon_arrow_left" />
 
                 </FrameLayout>
             </FrameLayout>
 
 
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
                 android:layout_gravity="start"
-                android:layout_marginTop="@dimen/divider_top_padding"
-                android:layout_marginBottom="@dimen/divider_bottom_padding"
                 android:layout_marginStart="@dimen/divider_start_padding"
-                android:layout_marginEnd="@dimen/divider_end_padding">
+                android:layout_marginTop="@dimen/divider_top_padding"
+                android:layout_marginEnd="@dimen/divider_end_padding"
+                android:layout_marginBottom="@dimen/divider_bottom_padding"
+                android:orientation="vertical">
 
                 <EditText
                     android:id="@+id/txtProjectEditTitle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
                     android:layout_marginBottom="@dimen/divider_bottom_padding"
+                    android:gravity="center_vertical"
                     android:text="Título"
                     android:textColor="@color/dark_pantone"
                     android:textSize="@dimen/txt_secondary_title_size"
                     android:textStyle="bold" />
 
-                <TextView
-                    android:id="@+id/txtProjectDetailCategory"
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/divider_top_padding"
-                    android:layout_marginBottom="@dimen/divider_bottom_padding"
-                    android:text="Categoría"
-                    android:textColor="@color/green"
-                    android:textSize="@dimen/txt_paragraph_size"
-                    android:paddingVertical="@dimen/input_txt_padding"
-                    android:drawablePadding="@dimen/input_txt_padding"
-                    app:drawableStartCompat="@drawable/icon_label" />
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/txtProjectDetailCategory"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/divider_top_padding"
+                        android:layout_marginBottom="@dimen/divider_bottom_padding"
+                        android:drawablePadding="@dimen/input_txt_padding"
+                        android:paddingVertical="@dimen/input_txt_padding"
+                        android:textColor="@color/green"
+                        android:textSize="@dimen/txt_paragraph_size"
+                        app:drawableStartCompat="@drawable/icon_label" />
+
+                    <Spinner
+                        android:id="@+id/spinnerProjectEditCategory"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/input_txt_height"
+                        android:layout_marginTop="@dimen/divider_top_padding"
+                        android:layout_marginBottom="@dimen/divider_bottom_padding"
+                        android:background="@drawable/style_edittext" />
+
+                </LinearLayout>
 
 
                 <EditText
@@ -120,31 +133,69 @@
                     android:textColor="@color/black"
                     android:textSize="@dimen/txt_paragraph_size" />
 
-                <TextView
-                    android:id="@+id/txtProjectDetailGoal"
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/divider_top_padding"
-                    android:layout_marginBottom="@dimen/divider_bottom_padding"
-                    android:text="Presupuesto total"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/txt_paragraph_size"
-                    android:paddingVertical="@dimen/input_txt_padding"
-                    android:drawablePadding="@dimen/input_txt_padding"
-                    app:drawableStartCompat="@drawable/icon_cash" />
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
 
-                <TextView
-                    android:id="@+id/txtProjectDetailMinBudget"
+                    <TextView
+                        android:id="@+id/txtProjectDetailGoal"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/divider_top_padding"
+                        android:layout_marginBottom="@dimen/divider_bottom_padding"
+                        android:drawablePadding="@dimen/input_txt_padding"
+                        android:paddingVertical="@dimen/input_txt_padding"
+                        android:text="Presupuesto total"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/txt_paragraph_size"
+                        app:drawableStartCompat="@drawable/icon_cash" />
+
+                    <EditText
+                        android:id="@+id/txtProjectEditGoal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/divider_top_padding"
+                        android:layout_marginBottom="@dimen/divider_bottom_padding"
+                        android:drawablePadding="@dimen/input_txt_padding"
+                        android:paddingVertical="@dimen/input_txt_padding"
+                        android:textSize="@dimen/txt_paragraph_size"
+                        android:layout_weight="1"
+                        android:ems="10"
+                        android:inputType="number" />
+                </LinearLayout>
+
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/divider_top_padding"
-                    android:layout_marginBottom="@dimen/divider_bottom_padding"
-                    android:text="Presupuesto Minimo"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/txt_paragraph_size"
-                    android:paddingVertical="@dimen/input_txt_padding"
-                    android:drawablePadding="@dimen/input_txt_padding"
-                    app:drawableStartCompat="@drawable/icon_cash" />
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:id="@+id/txtProjectDetailMinBudget"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/divider_top_padding"
+                        android:layout_marginBottom="@dimen/divider_bottom_padding"
+                        android:drawablePadding="@dimen/input_txt_padding"
+                        android:paddingVertical="@dimen/input_txt_padding"
+                        android:text="Presupuesto Minimo"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/txt_paragraph_size"
+                        app:drawableStartCompat="@drawable/icon_cash" />
+
+                    <EditText
+                        android:id="@+id/txtProjectEditMinBudget"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/divider_top_padding"
+                        android:layout_marginBottom="@dimen/divider_bottom_padding"
+                        android:drawablePadding="@dimen/input_txt_padding"
+                        android:paddingVertical="@dimen/input_txt_padding"
+                        android:textSize="@dimen/txt_paragraph_size"
+                        android:layout_weight="1"
+                        android:ems="10"
+                        android:inputType="number" />
+                </LinearLayout>
+
             </LinearLayout>
 
             <Button

@@ -5,12 +5,12 @@ import android.os.Bundle
 import android.text.Spannable
 import android.text.SpannableString
 import android.text.style.ForegroundColorSpan
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintSet
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentContainerView
 import androidx.navigation.findNavController
 import com.bumptech.glide.Glide
@@ -20,6 +20,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import team.doit.do_it.R
 import team.doit.do_it.databinding.FragmentProjectDetailCreatorBinding
+import team.doit.do_it.entities.ProjectEntity
 import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
 
@@ -30,6 +31,8 @@ class ProjectDetailCreatorFragment : Fragment() {
     private val binding get() = _binding!!
 
     private lateinit var v : View
+
+    private lateinit var project: ProjectEntity
 
     private var projectImage : String = ""
     private var creatorEmail : String = ""
@@ -60,10 +63,38 @@ class ProjectDetailCreatorFragment : Fragment() {
     override fun onStart() {
         super.onStart()
 
+        project = ProjectDetailCreatorFragmentArgs.fromBundle(requireArguments()).project
+
         setValues()
         initializeButtons()
     }
 
+    override fun onResume() {
+        super.onResume()
+
+        val db = FirebaseFirestore.getInstance()
+        val query = db.collection("ideas")
+            .whereEqualTo("creatorEmail", FirebaseAuth.getInstance().currentUser?.email)
+            .whereEqualTo("creationDate", project.creationDate)
+            .get()
+            .addOnSuccessListener { documents ->
+                if (!documents.isEmpty) {
+                    val p = documents.documents[0]
+                    project.title = p.getString("title").toString()
+                    project.subtitle = p.getString("subtitle").toString()
+                    project.description = p.getString("description").toString()
+                    project.category = p.getString("category").toString()
+                    project.goal = p.getDouble("goal")!!
+                    project.minBudget = p.getDouble("minBudget")!!
+
+
+                    setValues()
+                } else {
+                    Toast.makeText(activity, resources.getString(R.string.project_detail_error), Toast.LENGTH_SHORT).show()
+                    v.findNavController().navigateUp()
+                }
+            }
+    }
     private fun initializeButtons() {
         binding.imgBtnProjectDetailCreatorBack.setOnClickListener {
             v.findNavController().navigateUp()
@@ -82,8 +113,6 @@ class ProjectDetailCreatorFragment : Fragment() {
     }
 
     private fun setValues() {
-        val project = ProjectDetailCreatorFragmentArgs.fromBundle(requireArguments()).project
-
         binding.txtProjectDetailCreatorTitle.text = project.title
         binding.txtProjectDetailCreatorSubtitle.text = project.subtitle
         binding.txtProjectDetailCreatorDescription.text = project.description
