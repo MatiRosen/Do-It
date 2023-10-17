@@ -166,7 +166,7 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="@dimen/profile_height_spinnerGender"
                 android:orientation="horizontal">
 
                 <TextView
@@ -175,14 +175,15 @@
                     android:layout_height="wrap_content"
                     android:paddingStart="@dimen/profile_txt_start_padding"
                     android:paddingEnd="0dp"
-                    android:text="@string/profile_gender" />
+                    android:text="@string/profile_gender"
+                    android:layout_gravity="center_vertical"/>
 
-                <EditText
-                    android:id="@+id/editTextProfileGender"
-                    android:layout_width="0dp"
+                <Spinner
+                    android:id="@+id/editSpinnerProfileGender"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:inputType="text" />
+                    android:layout_gravity="center_vertical"/>
             </LinearLayout>
 
             <View

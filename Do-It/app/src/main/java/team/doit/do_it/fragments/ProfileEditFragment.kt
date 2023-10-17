@@ -10,6 +10,9 @@ import android.text.Editable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
+import android.widget.Spinner
+import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
@@ -37,6 +40,7 @@ class ProfileEditFragment : Fragment() {
     private var selectedImage: Uri? = null
     private var photoFile: File? = null
     private var lastImage: String = ""
+    private lateinit var spinnerGender : Spinner
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -58,6 +62,8 @@ class ProfileEditFragment : Fragment() {
 
     override fun onStart() {
         super.onStart()
+
+        startSpinner()
 
         binding.btnConfirmEditProfile.setOnClickListener {
             updateUser(object : ProfileFragment.OnUserUpdatedListener {
@@ -137,7 +143,7 @@ class ProfileEditFragment : Fragment() {
                         binding.editTextProfileSurname.text = editableFactory.newEditable(user.getString("apellido") ?: "")
                         binding.editTextProfileEmail.text = editableFactory.newEditable(user.getString("email") ?: "")
                         binding.editTextProfilePhone.text = editableFactory.newEditable(user.getString("telefono") ?: "")
-                        binding.editTextProfileGender.text = editableFactory.newEditable(user.getString("genero") ?: "")
+                        spinnerGender.setSelection(getGenderIndex(user.getString("genero")))
                         binding.editTextProfileAddress.text = editableFactory.newEditable(user.getString("direccion") ?: "")
                         setImage(currentUser?.email.toString(), user.getString("imgPerfil").toString())
                     }
@@ -161,6 +167,44 @@ class ProfileEditFragment : Fragment() {
             .error(R.drawable.img_avatar)
             .into(binding.imgProfileCircular)
 
+    }
+
+    private fun startSpinner() {
+        spinnerGender = binding.editSpinnerProfileGender
+        val genders = resources.getStringArray(R.array.genders).toMutableList()
+        val hint = resources.getString(R.string.register_gender)
+        genders.add(0, hint)
+
+        val adapter = object : ArrayAdapter<String>(v.context, android.R.layout.simple_list_item_activated_1, genders) {
+            override fun isEnabled(position: Int): Boolean {
+                return position != 0
+            }
+
+            override fun getDropDownView(position: Int, convertView: View?, parent: ViewGroup): View {
+                val view = super.getDropDownView(position, convertView, parent)
+
+                if (position == 0) {
+                    (view as TextView).setTextColor(resources.getColor(R.color.medium_gray, null))
+                    view.setBackgroundColor(0)
+                }
+                return view
+            }
+        }
+        spinnerGender.adapter = adapter
+    }
+
+    private fun getGenderIndex(gender: String?): Int {
+        var index = 1
+
+        if (gender == "Mujer") {
+            index = 2
+        }
+
+        if (gender == "Otro") {
+            index = 3
+        }
+
+        return index
     }
 
     private fun getUser(email: String, listener: ProfileFragment.OnUserFetchedListener) {
@@ -206,7 +250,7 @@ class ProfileEditFragment : Fragment() {
                             "apellido" to binding.editTextProfileSurname.text.toString(),
                             "email" to binding.editTextProfileEmail.text.toString(),
                             "telefono" to binding.editTextProfilePhone.text.toString(),
-                            "genero" to binding.editTextProfileGender.text.toString(),
+                            "genero" to spinnerGender.selectedItem.toString(),
                             "direccion" to binding.editTextProfileAddress.text.toString(),
                             "imgPerfil" to imgUrl
                         )
