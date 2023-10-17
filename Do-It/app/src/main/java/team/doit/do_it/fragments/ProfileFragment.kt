@@ -1,6 +1,8 @@
 package team.doit.do_it.fragments
 
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -105,8 +107,6 @@ class ProfileFragment : Fragment() {
                         binding.txtProfileGender.text = user.getString("genero")
                         binding.txtProfileAddress.text = user.getString("direccion")
                         setImage(userEmail, user.getString("imgPerfil").toString())
-                        println(user.getString("imgPerfil").toString())
-
                         hideProgressBar(creatorEmail == " ")
                     } else {
                         Toast.makeText(activity, resources.getString(R.string.profile_dataUser_error), Toast.LENGTH_SHORT).show()
@@ -118,19 +118,22 @@ class ProfileFragment : Fragment() {
     }
 
     private fun setImage(creatorEmail: String, titleImg: String) {
-        safeAccessBinding {
-            if (titleImg == "") {
-                binding.imgProfileCircular.setImageResource(R.drawable.img_avatar)
-                return@safeAccessBinding
-            }
-            val storageReference = FirebaseStorage.getInstance().reference.child("images/$creatorEmail/imgProfile/$titleImg")
 
-            Glide.with(v.context)
-                .load(storageReference)
-                .placeholder(R.drawable.img_avatar)
-                .error(R.drawable.img_avatar)
-                .into(binding.imgProfileCircular)
-        }
+        Handler(Looper.getMainLooper()).postDelayed({
+            safeAccessBinding {
+                if (titleImg == "") {
+                    binding.imgProfileCircular.setImageResource(R.drawable.img_avatar)
+                    return@safeAccessBinding
+                }
+                val storageReference = FirebaseStorage.getInstance().reference.child("images/$creatorEmail/imgProfile/$titleImg")
+
+                Glide.with(v.context)
+                    .load(storageReference)
+                    .placeholder(R.drawable.img_avatar)
+                    .error(R.drawable.img_avatar)
+                    .into(binding.imgProfileCircular)
+            }
+        }, 500)
 
     }
 
