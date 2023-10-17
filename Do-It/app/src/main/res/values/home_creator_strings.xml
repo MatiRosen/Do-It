@@ -4,4 +4,5 @@
     <string name="home_creator_title">Mis proyectos</string>
     <string name="home_creation_add_project">Agregar proyecto</string>
     <string name="home_creation_get_project_failed">Hubo un error cargando un proyecto!</string>
+    <string name="home_creation_premium_user">LLlegaste al limite de proyectos! Para subir más conviertete en usuario Premium</string>
 </resources>

@@ -78,7 +78,7 @@ class RegisterDataFragment : Fragment() {
             spinnerGender.selectedItem.toString(),
             binding.txtRegisterDataPhone.text.toString(),
             binding.txtRegisterDataAddress.text.toString(),
-            0)
+            false)
     }
 
     private fun isValidUser(): Boolean {
@@ -137,7 +137,7 @@ class RegisterDataFragment : Fragment() {
                             "genero" to user.getGender(),
                             "telefono" to user.getTelephoneNumber(),
                             "direccion" to user.getAddress(),
-                            "premium" to user.getIsPremium().toInt()
+                            "premium" to user.getIsPremium()
                         ))
 
                     validateEmail(email)

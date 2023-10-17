@@ -1,11 +1,13 @@
 package team.doit.do_it.entities
 
+import android.os.Build
 import android.os.Parcel
 import android.os.Parcelable
+import androidx.annotation.RequiresApi
 import java.util.Date
 
 class UserEntity(firstName: String, surname: String, email: String,
-                 birthDate: String, gender: String, telephoneNumber: String, address: String, isPremium: Byte) : Parcelable {
+                 birthDate: String, gender: String, telephoneNumber: String, address: String, isPremium: Boolean) : Parcelable {
 
     private var firstName: String
     private var surname : String
@@ -14,7 +16,7 @@ class UserEntity(firstName: String, surname: String, email: String,
     private var gender : String
     private var telephoneNumber : String
     private var address : String // TODO: Change to Address data type
-    private var isPremium : Byte
+    private var isPremium : Boolean
 
     constructor(parcel: Parcel) : this(
         parcel.readString()!!,
@@ -24,7 +26,7 @@ class UserEntity(firstName: String, surname: String, email: String,
         parcel.readString()!!,
         parcel.readString()!!,
         parcel.readString()!!,
-        parcel.readByte()
+        parcel.readByte() != 0.toByte()
     )
 
     init {
@@ -46,7 +48,7 @@ class UserEntity(firstName: String, surname: String, email: String,
         parcel.writeString(gender)
         parcel.writeString(telephoneNumber)
         parcel.writeString(address)
-        parcel.writeByte(isPremium)
+        if (isPremium) parcel.writeByte(1) else parcel.writeByte(0)
     }
 
     override fun describeContents(): Int {
@@ -92,7 +94,7 @@ class UserEntity(firstName: String, surname: String, email: String,
         return address
     }
 
-    fun getIsPremium(): Byte {
+    fun getIsPremium(): Boolean {
         return isPremium
     }
     //endregion

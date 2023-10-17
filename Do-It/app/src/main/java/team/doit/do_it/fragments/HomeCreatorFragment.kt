@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.firebase.ui.firestore.paging.FirestorePagingOptions
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -34,6 +35,9 @@ class HomeCreatorFragment : Fragment(), OnViewItemClickedListener {
 
     private lateinit var projectListAdapter: ProjectListAdapter
 
+    interface OnUserFetchedListener {
+        fun onUserFetched(user: DocumentSnapshot?)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -56,14 +60,54 @@ class HomeCreatorFragment : Fragment(), OnViewItemClickedListener {
 
     private fun setupButtons() {
         binding.btnHomeCreatorCreateProject.setOnClickListener {
-            val action = HomeCreatorFragmentDirections.actionGlobalProjectCreationFragment()
-            this.findNavController().navigate(action)
+            isPremiumUser { isPremium ->
+                if(isPremium || projectListAdapter.itemCount < 2){
+                    val action = HomeCreatorFragmentDirections.actionGlobalProjectCreationFragment()
+                    this.findNavController().navigate(action)
+                }
+                else {
+                    Toast.makeText(context, resources.getString(R.string.home_creation_premium_user), Toast.LENGTH_SHORT).show()
+                }
+            }
         }
 
         binding.switchToHomeInvestor.setOnClickListener {
             val action = HomeCreatorFragmentDirections.actionHomeCreatorFragmentToHomeInversorFragment()
             v.findNavController().navigate(action)
         }
+    }
+
+    private fun isPremiumUser(action: (Boolean) -> Unit): Boolean {
+        var isPremium = false
+
+        val currentUser = FirebaseAuth.getInstance().currentUser
+        getUser(currentUser?.email.toString(), object : ProfileFragment.OnUserFetchedListener {
+            override fun onUserFetched(user: DocumentSnapshot?) {
+                if (user != null) {
+                    isPremium = user.getBoolean("premium")!!
+                    action(isPremium)
+                }
+            }
+        })
+        return isPremium
+    }
+
+    private fun getUser(email: String, listener: ProfileFragment.OnUserFetchedListener) {
+        val db = FirebaseFirestore.getInstance()
+        val usersRef = db.collection("usuarios")
+
+        usersRef.whereEqualTo("email", email)
+            .get()
+            .addOnSuccessListener { documents ->
+                if (documents != null) {
+                    listener.onUserFetched(documents.documents[0])
+                } else {
+                    listener.onUserFetched(null)
+                }
+            }
+            .addOnFailureListener {
+                listener.onUserFetched(null)
+            }
     }
 
     private fun setupRecyclerView() {
