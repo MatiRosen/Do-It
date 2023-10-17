@@ -192,8 +192,14 @@ class ProfileEditFragment : Fragment() {
                     userDoc?.let { userSnapshot ->
                         val userId = userSnapshot.id
                         val usersRef = db.collection("usuarios").document(userId)
+                        var imgUrl = ""
 
-                        deleteProfileImages(user)
+                        imgUrl = if(selectedImage != null) {
+                            deleteProfileImage(user)
+                            uploadImage(user.email.toString())
+                        } else {
+                            userDoc.getString("imgPerfil").toString()
+                        }
 
                         val updatedData = hashMapOf<String, Any>(
                             "nombre" to binding.editTextProfileName.text.toString(),
@@ -202,7 +208,7 @@ class ProfileEditFragment : Fragment() {
                             "telefono" to binding.editTextProfilePhone.text.toString(),
                             "genero" to binding.editTextProfileGender.text.toString(),
                             "direccion" to binding.editTextProfileAddress.text.toString(),
-                            "imgPerfil" to if(selectedImage != null) uploadImage(user.email.toString()) else userDoc.getString("imgPerfil").toString()
+                            "imgPerfil" to imgUrl
                         )
                         // TODO para que se actualice la foto al volver atrás, el problema está aca!!
 
@@ -222,18 +228,16 @@ class ProfileEditFragment : Fragment() {
         }
     }
 
-    private fun deleteProfileImages(user: FirebaseUser) {
+    private fun deleteProfileImage(user: FirebaseUser) {
         val creatorEmail = user.email.toString()
         val storageReference = FirebaseStorage.getInstance().reference.child("images/$creatorEmail/imgProfile")
 
         storageReference.listAll()
             .addOnSuccessListener { listResult ->
-                for (item in listResult.items) {
-                    item.delete()
-                        .addOnFailureListener {
-                            resources.getString(R.string.profile_deleteImages_error)
-                        }
-                }
+                listResult.items[0].delete()
+                    .addOnFailureListener {
+                        resources.getString(R.string.profile_deleteImages_error)
+                    }
             }
     }
 
@@ -245,7 +249,7 @@ class ProfileEditFragment : Fragment() {
             deleteIdeas(db, user)
             deleteUsers(db, user)
             deleteIdeasImages(user)
-            deleteProfileImages(user)
+            deleteProfileImage(user)
             deleteUserAccount(user)
         }
     }

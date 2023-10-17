@@ -134,4 +134,9 @@
             </fragment>
 
         </navigation>
+    <fragment
+        android:id="@+id/options"
+        android:name="team.doit.do_it.fragments.OptionsFragment"
+        android:label="fragment_settings"
+        tools:layout="@layout/fragment_options" />
 </navigation>
