@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="premiumTitle">Usuario Premium</string>
+    <string name="premiumSubtitule">¿Qué obtienes al ser usuario premium?</string>
+    <string name="premiumInfo">Al convertirte en usuario premium consigues:\n\n
+    1. Sin restricciones al subir proyectos.\n\n
+    2. Sin publicidad.</string>
+    <string name="btnGetPremium">Comprar</string>
+</resources>

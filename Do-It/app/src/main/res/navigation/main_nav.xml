@@ -138,5 +138,14 @@
         android:id="@+id/options"
         android:name="team.doit.do_it.fragments.OptionsFragment"
         android:label="fragment_settings"
-        tools:layout="@layout/fragment_options" />
+        tools:layout="@layout/fragment_options" >
+        <action
+            android:id="@+id/action_options_to_premiumFragment"
+            app:destination="@id/premiumFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/premiumFragment"
+        android:name="team.doit.do_it.fragments.PremiumFragment"
+        android:label="fragment_premium"
+        tools:layout="@layout/fragment_premium" />
 </navigation>
