@@ -18,7 +18,7 @@
         app:srcCompat="@drawable/icon_close" />
 
     <com.mikhaellopez.circularimageview.CircularImageView
-        android:id="@+id/imgProfileCircular"
+        android:id="@+id/editImgProfileCircular"
         android:layout_width="250dp"
         android:layout_height="250dp"
         android:layout_marginTop="30dp"
@@ -34,8 +34,8 @@
         android:layout_width="73dp"
         android:layout_height="70dp"
         android:contentDescription="@string/profile_logoIcon_description"
-        app:layout_constraintEnd_toEndOf="@+id/imgProfileCircular"
-        app:layout_constraintTop_toTopOf="@+id/imgProfileCircular"
+        app:layout_constraintEnd_toEndOf="@+id/editImgProfileCircular"
+        app:layout_constraintTop_toTopOf="@+id/editImgProfileCircular"
         app:srcCompat="@drawable/img_do_it_logo" />
 
     <ScrollView
@@ -45,7 +45,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imgProfileCircular"
+        app:layout_constraintTop_toBottomOf="@+id/editImgProfileCircular"
         android:paddingTop="@dimen/profile_paddingTop_info"
         app:layout_constraintWidth_max="@dimen/input_max_width">
 

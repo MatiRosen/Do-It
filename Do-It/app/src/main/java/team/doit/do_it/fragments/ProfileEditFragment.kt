@@ -5,6 +5,8 @@ import android.app.AlertDialog
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.provider.MediaStore
 import android.text.Editable
 import android.view.LayoutInflater
@@ -89,7 +91,7 @@ class ProfileEditFragment : Fragment() {
             findNavController().navigateUp()
         }
 
-        binding.imgProfileCircular.setOnClickListener {
+        binding.editImgProfileCircular.setOnClickListener {
             pickImage()
         }
     }
@@ -111,7 +113,7 @@ class ProfileEditFragment : Fragment() {
                 val selectedImageFromGallery: Uri? = data.data
                 selectedImage = selectedImageFromGallery
                 if (selectedImageFromGallery != null) {
-                    binding.imgProfileCircular.setImageURI(selectedImageFromGallery)
+                    binding.editImgProfileCircular.setImageURI(selectedImageFromGallery)
                 }
             }
         }
@@ -155,17 +157,22 @@ class ProfileEditFragment : Fragment() {
     }
 
     private fun setImage(creatorEmail: String, titleImg: String) {
-        if (titleImg == "") {
-            binding.imgProfileCircular.setImageResource(R.drawable.img_avatar)
-            return
-        }
-        val storageReference = FirebaseStorage.getInstance().reference.child("images/$creatorEmail/imgProfile/$titleImg")
 
-        Glide.with(v.context)
-            .load(storageReference)
-            .placeholder(R.drawable.img_avatar)
-            .error(R.drawable.img_avatar)
-            .into(binding.imgProfileCircular)
+        Handler(Looper.getMainLooper()).postDelayed({
+            safeAccessBinding {
+                if (titleImg == "") {
+                    binding.editImgProfileCircular.setImageResource(R.drawable.img_avatar)
+                    return@safeAccessBinding
+                }
+                val storageReference = FirebaseStorage.getInstance().reference.child("images/$creatorEmail/imgProfile/$titleImg")
+
+                Glide.with(v.context)
+                    .load(storageReference)
+                    .placeholder(R.drawable.img_avatar)
+                    .error(R.drawable.img_avatar)
+                    .into(binding.editImgProfileCircular)
+            }
+        }, 500)
 
     }
 
@@ -236,13 +243,11 @@ class ProfileEditFragment : Fragment() {
                     userDoc?.let { userSnapshot ->
                         val userId = userSnapshot.id
                         val usersRef = db.collection("usuarios").document(userId)
-                        var imgUrl = ""
+                        var imgUrl = userDoc.getString("imgPerfil").toString()
 
-                        imgUrl = if(selectedImage != null) {
+                        if(selectedImage != null) {
                             deleteProfileImage(user)
-                            uploadImage(user.email.toString())
-                        } else {
-                            userDoc.getString("imgPerfil").toString()
+                            imgUrl = uploadImage(user.email.toString())
                         }
 
                         val updatedData = hashMapOf<String, Any>(
@@ -278,10 +283,12 @@ class ProfileEditFragment : Fragment() {
 
         storageReference.listAll()
             .addOnSuccessListener { listResult ->
-                listResult.items[0].delete()
-                    .addOnFailureListener {
-                        resources.getString(R.string.profile_deleteImages_error)
-                    }
+                if (listResult.items.isNotEmpty()) {
+                    listResult.items[0].delete()
+                        .addOnFailureListener {
+                            resources.getString(R.string.profile_deleteImages_error)
+                        }
+                }
             }
     }
 
