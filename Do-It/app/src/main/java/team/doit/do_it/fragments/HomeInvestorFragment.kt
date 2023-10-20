@@ -200,6 +200,11 @@ class HomeInvestorFragment : Fragment(), OnViewItemClickedListener {
         this.findNavController().navigate(action)
     }
 
+    override fun onResume() {
+        super.onResume()
+        binding.switchToHomeCreator.isChecked = true
+    }
+
     override fun onStop() {
         super.onStop()
         popularProjectListAdapter.stopListening()

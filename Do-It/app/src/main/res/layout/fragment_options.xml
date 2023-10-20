@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/frameLayout4"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".fragments.OptionsFragment">
 
     <ScrollView
+        android:id="@+id/scrollOptions"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -39,6 +42,20 @@
                 android:textStyle="bold"/>
 
             <Button
+                android:id="@+id/btnOptionsFollowingProjects"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical|start"
+                android:background="@drawable/style_buttons_options"
+                android:drawableStart="@drawable/icon_follow_project"
+                android:drawableTint="@color/black"
+                android:drawablePadding="@dimen/input_txt_padding"
+                android:text="@string/option_following_projects"
+                android:textColor="@color/black"
+                android:textSize="@dimen/txt_paragraph_size"
+                android:textStyle="bold" />
+
+            <Button
                 android:id="@+id/btnOptionsLogout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -53,5 +70,4 @@
 
 
         </LinearLayout>
-    </ScrollView>
-</FrameLayout>
+    </ScrollView></androidx.constraintlayout.widget.ConstraintLayout>
