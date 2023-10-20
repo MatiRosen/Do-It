@@ -7,7 +7,7 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent" >
+        android:layout_height="match_parent">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -15,25 +15,43 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/txtCategoryPro"
+                android:id="@+id/txtProjectCreationTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/category_pro"
-                android:textColor="@color/green"
-                android:textSize="@dimen/txt_secondary_title_size"/>
+                android:paddingBottom="@dimen/divider_bottom_padding"
+                android:text="@string/option_title"
+                android:textColor="@color/dark_pantone"
+                android:textSize="@dimen/txt_main_title_size"
+                android:textStyle="bold"
+                android:gravity="center" />
 
             <Button
-                android:id="@+id/btnPro"
+                android:id="@+id/btnOptionsPro"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:gravity="center_vertical|start"
+                android:background="@drawable/style_buttons_options"
+                android:drawableStart="@drawable/icon_premium"
+                android:drawablePadding="@dimen/input_txt_padding"
                 android:text="@string/option_pro"
-                android:textAlignment="textStart"
-                android:background="@color/transparent"
-                android:drawableLeft="@drawable/icon_premium"
                 android:textColor="@color/black"
                 android:textSize="@dimen/txt_paragraph_size"
-                android:paddingVertical="@dimen/input_txt_padding"
-                android:drawablePadding="@dimen/input_txt_padding"/>
+                android:textStyle="bold"/>
+
+            <Button
+                android:id="@+id/btnOptionsLogout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical|start"
+                android:background="@drawable/style_buttons_options"
+                android:drawableStart="@drawable/icon_logout"
+                android:drawablePadding="@dimen/input_txt_padding"
+                android:text="@string/option_logout"
+                android:textColor="@color/pantone"
+                android:textSize="@dimen/txt_paragraph_size"
+                android:textStyle="bold"/>
+
+
         </LinearLayout>
     </ScrollView>
 </FrameLayout>
