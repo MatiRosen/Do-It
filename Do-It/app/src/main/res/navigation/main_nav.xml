@@ -24,7 +24,6 @@
         <action
             android:id="@+id/action_profileFragmentMain_to_profileEditFragment"
             app:destination="@id/profileEditFragment" />
-
     </fragment>
 
     <!-- TODO: Preguntar si está bien construido... -->
@@ -35,7 +34,7 @@
 
     <navigation
         android:id="@+id/home"
-        app:startDestination="@id/navigation">
+        app:startDestination="@id/homeNavigation">
         <fragment
             android:id="@+id/profileFragment"
             android:name="team.doit.do_it.fragments.ProfileFragment"
@@ -53,7 +52,7 @@
             tools:layout="@layout/fragment_project_creation" />
 
         <navigation
-            android:id="@+id/navigation"
+            android:id="@+id/homeNavigation"
             app:startDestination="@id/homeCreatorFragment">
 
             <fragment
@@ -126,6 +125,28 @@
         </fragment>
     </navigation>
 
+    <fragment
+        android:id="@+id/profileInvestorFragment"
+        android:name="team.doit.do_it.fragments.ProfileFragment"
+        android:label="ProfileFragment">
+        <argument
+            android:name="CreatorEmail"
+            android:defaultValue=" "
+            app:argType="string" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/projectDetailInvestorFragmentMain"
+        android:name="team.doit.do_it.fragments.ProjectDetailInvestorFragment"
+        android:label="fragment_project_detail_investor"
+        tools:layout="@layout/fragment_project_detail_investor">
+        <argument
+            android:name="project"
+            app:argType="team.doit.do_it.entities.ProjectEntity" />
+        <action
+            android:id="@+id/action_projectDetailInvestorFragment_to_profileFragment"
+            app:destination="@id/profileInvestorFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/options"
@@ -147,6 +168,7 @@
             app:popUpTo="@id/options"
             app:popUpToSaveState="true"/>
     </fragment>
+
     <fragment
         android:id="@+id/premiumFragment"
         android:name="team.doit.do_it.fragments.PremiumFragment"
@@ -169,5 +191,13 @@
             app:destination="@id/options"
             app:popUpTo="@id/followingProjectFragment"
             app:popUpToInclusive="true"/>
+
+        <action
+            android:id="@+id/action_followingProjectFragment_to_projectDetailInvestorFragment"
+            app:destination="@id/projectDetailInvestorFragmentMain"
+            app:popUpTo="@id/followingProjectFragment"
+            app:popUpToInclusive="true"/>
     </fragment>
+
+
 </navigation>
