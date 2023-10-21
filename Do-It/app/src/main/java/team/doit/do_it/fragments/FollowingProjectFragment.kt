@@ -45,6 +45,7 @@ class FollowingProjectFragment : Fragment(), OnViewItemClickedListener {
         return v
     }
 
+    // TODO arreglar que al ir atrás en un proyecto te lleva al home. Es problema del navigation.
     override fun onStart() {
         super.onStart()
         overrideBackButton()
