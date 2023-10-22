@@ -138,69 +138,76 @@
                     android:layout_height="match_parent"
                     android:orientation="horizontal">
 
-                    <TextView
-                        android:id="@+id/txtProjectDetailGoal"
+                    <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/divider_top_padding"
-                        android:layout_marginBottom="@dimen/divider_bottom_padding"
-                        android:drawablePadding="@dimen/input_txt_padding"
-                        android:paddingVertical="@dimen/input_txt_padding"
-                        android:text="Presupuesto total"
-                        android:textColor="@color/black"
-                        android:textSize="@dimen/txt_paragraph_size"
-                        app:drawableStartCompat="@drawable/icon_cash" />
+                        android:orientation="vertical">
+                        <TextView
+                            android:id="@+id/txtProjectDetailGoal"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/divider_top_padding"
+                            android:layout_marginBottom="@dimen/divider_bottom_padding"
+                            android:drawablePadding="@dimen/input_txt_padding"
+                            android:paddingVertical="@dimen/input_txt_padding"
+                            android:text="Presupuesto total"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/txt_paragraph_size"
+                            app:drawableStartCompat="@drawable/icon_cash" />
 
-                    <EditText
-                        android:id="@+id/txtProjectEditGoal"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/divider_top_padding"
-                        android:layout_marginBottom="@dimen/divider_bottom_padding"
-                        android:drawablePadding="@dimen/input_txt_padding"
-                        android:paddingVertical="@dimen/input_txt_padding"
-                        android:textSize="@dimen/txt_paragraph_size"
-                        android:layout_weight="1"
-                        android:ems="10"
-                        android:inputType="number" />
-                </LinearLayout>
+                        <TextView
+                            android:id="@+id/txtProjectDetailMinBudget"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/divider_top_padding"
+                            android:layout_marginBottom="@dimen/divider_bottom_padding"
+                            android:drawablePadding="@dimen/input_txt_padding"
+                            android:paddingVertical="@dimen/input_txt_padding"
+                            android:text="Presupuesto Minimo"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/txt_paragraph_size"
+                            app:drawableStartCompat="@drawable/icon_cash" />
+                    </LinearLayout>
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-
-                    <TextView
-                        android:id="@+id/txtProjectDetailMinBudget"
+                    <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/divider_top_padding"
-                        android:layout_marginBottom="@dimen/divider_bottom_padding"
-                        android:drawablePadding="@dimen/input_txt_padding"
-                        android:paddingVertical="@dimen/input_txt_padding"
-                        android:text="Presupuesto Minimo"
-                        android:textColor="@color/black"
-                        android:textSize="@dimen/txt_paragraph_size"
-                        app:drawableStartCompat="@drawable/icon_cash" />
+                        android:orientation="vertical">
+                        <EditText
+                            android:id="@+id/txtProjectEditGoal"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/divider_top_padding"
+                            android:layout_marginBottom="@dimen/divider_bottom_padding"
+                            android:drawablePadding="@dimen/input_txt_padding"
+                            android:paddingVertical="@dimen/input_txt_padding"
+                            android:textSize="@dimen/txt_paragraph_size"
+                            android:layout_weight="1"
+                            android:ems="10"
+                            android:inputType="number" />
 
-                    <EditText
-                        android:id="@+id/txtProjectEditMinBudget"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/divider_top_padding"
-                        android:layout_marginBottom="@dimen/divider_bottom_padding"
-                        android:drawablePadding="@dimen/input_txt_padding"
-                        android:paddingVertical="@dimen/input_txt_padding"
-                        android:textSize="@dimen/txt_paragraph_size"
-                        android:layout_weight="1"
-                        android:ems="10"
-                        android:inputType="number" />
+                        <EditText
+                            android:id="@+id/txtProjectEditMinBudget"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/divider_top_padding"
+                            android:layout_marginBottom="@dimen/divider_bottom_padding"
+                            android:drawablePadding="@dimen/input_txt_padding"
+                            android:paddingVertical="@dimen/input_txt_padding"
+                            android:textSize="@dimen/txt_paragraph_size"
+                            android:layout_weight="1"
+                            android:ems="10"
+                            android:inputType="number" />
+
+                    </LinearLayout>
                 </LinearLayout>
-
             </LinearLayout>
 
             <Button
                 android:id="@+id/btnConfirmEditProject"
-                android:layout_width="match_parent"
+                android:background="@drawable/style_button"
+                android:textColor="@color/white"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Button" />
         </LinearLayout>
