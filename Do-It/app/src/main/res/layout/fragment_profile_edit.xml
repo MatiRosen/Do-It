@@ -114,8 +114,8 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:layout_height="@dimen/profile_height_spinnerGender">
 
                 <TextView
                     android:id="@+id/txtProfileTitleEmail"
@@ -123,14 +123,22 @@
                     android:layout_height="wrap_content"
                     android:paddingStart="@dimen/profile_txt_start_padding"
                     android:paddingEnd="0dp"
-                    android:text="@string/profile_email" />
+                    android:text="@string/profile_email"
+                    android:layout_gravity="center_vertical"/>
 
-                <EditText
+                <TextView
                     android:id="@+id/editTextProfileEmail"
-                    android:layout_width="0dp"
+                    android:layout_width="@dimen/profile_titles_width"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:inputType="text" />
+                    android:paddingEnd="0dp"
+                    android:layout_gravity="center_vertical"/>
+
+<!--                <EditText-->
+<!--                    android:id="@+id/editTextProfileEmail"-->
+<!--                    android:layout_width="0dp"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_weight="1"-->
+<!--                    android:inputType="text" />-->
             </LinearLayout>
 
             <View

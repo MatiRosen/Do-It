@@ -68,19 +68,21 @@ class ProfileEditFragment : Fragment() {
         startSpinner()
 
         binding.btnConfirmEditProfile.setOnClickListener {
-            updateUser(object : ProfileFragment.OnUserUpdatedListener {
-                override fun onUserUpdated(successful: Boolean) {
-                    if (successful) {
-                        safeAccessBinding {
-                            Toast.makeText(activity, resources.getString(R.string.profile_editUser_complete), Toast.LENGTH_SHORT).show()
-                            v.findNavController().navigateUp()
-                        }
+            if(isValidUser()) {
+                updateUser(object : ProfileFragment.OnUserUpdatedListener {
+                    override fun onUserUpdated(successful: Boolean) {
+                        if (successful) {
+                            safeAccessBinding {
+                                Toast.makeText(activity, resources.getString(R.string.profile_editUser_complete), Toast.LENGTH_SHORT).show()
+                                v.findNavController().navigateUp()
+                            }
 
-                    } else {
-                        Toast.makeText(activity, resources.getString(R.string.profile_dataUser_error), Toast.LENGTH_SHORT).show()
+                        } else {
+                            Toast.makeText(activity, resources.getString(R.string.profile_dataUser_error), Toast.LENGTH_SHORT).show()
+                        }
                     }
-                }
-            })
+                })
+            }
         }
 
         binding.txtDeleteAccount.setOnClickListener {
@@ -233,6 +235,29 @@ class ProfileEditFragment : Fragment() {
             }
     }
 
+    private fun isValidUser(): Boolean {
+        val propertiesToCheck = listOf(
+            Pair(binding.editTextProfileName.text.toString(), resources.getString(R.string.register_name_error)),
+            Pair(binding.editTextProfileSurname.text.toString(), resources.getString(R.string.register_surname_error)),
+            Pair(binding.editTextProfilePhone.text.toString(), resources.getString(R.string.register_phone_error)),
+            Pair(binding.editTextProfileAddress.text.toString(), resources.getString(R.string.register_address_error))
+        )
+
+        for ((property, errorMessage) in propertiesToCheck) {
+            if (property.isEmpty()) {
+                Toast.makeText(activity, errorMessage, Toast.LENGTH_SHORT).show()
+                return false
+            }
+        }
+
+        if (binding.editTextProfilePhone.text.toString().length != 10) {
+            Toast.makeText(activity, resources.getString(R.string.register_phone_format_error), Toast.LENGTH_SHORT).show()
+            return false
+        }
+
+        return true
+    }
+
     private fun updateUser(listener: ProfileFragment.OnUserUpdatedListener) {
         val db = FirebaseFirestore.getInstance()
         val currentUser = FirebaseAuth.getInstance().currentUser
@@ -253,7 +278,6 @@ class ProfileEditFragment : Fragment() {
                         val updatedData = hashMapOf<String, Any>(
                             "nombre" to binding.editTextProfileName.text.toString(),
                             "apellido" to binding.editTextProfileSurname.text.toString(),
-                            "email" to binding.editTextProfileEmail.text.toString(),
                             "telefono" to binding.editTextProfilePhone.text.toString(),
                             "genero" to spinnerGender.selectedItem.toString(),
                             "direccion" to binding.editTextProfileAddress.text.toString(),
