@@ -1,5 +1,6 @@
 package team.doit.do_it.fragments
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -13,6 +14,9 @@ import androidx.paging.PagingConfig
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.firebase.ui.firestore.paging.FirestorePagingOptions
+import com.google.android.gms.ads.LoadAdError
+import com.google.android.gms.ads.interstitial.InterstitialAd
+import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
@@ -34,6 +38,9 @@ class HomeInvestorFragment : Fragment(), OnViewItemClickedListener {
 
     private lateinit var popularProjectListAdapter: ProjectListAdapter
     private lateinit var allProjectListAdapter: ProjectListAdapter
+
+    private var interstitial: InterstitialAd? = null
+    private val quantityClicksToShowAds: Int = 3
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -197,7 +204,88 @@ class HomeInvestorFragment : Fragment(), OnViewItemClickedListener {
         } else {
             HomeInvestorFragmentDirections.actionGlobalProjectDetailInvestorFragment(project)
         }
+
+        isUserPremium(investorEmail, object : OnUserFetchedListener {
+            override fun onUserFetched(user: Boolean?) {
+                if (user == false) {
+                    if(context?.let { getClicksCounter(it) }!! % quantityClicksToShowAds == 0) {
+                        showAds()
+                    } else {
+                        context?.let { updateClicksCounter(it) }
+                    }
+                }
+            }
+        })
+
         this.findNavController().navigate(action)
+    }
+
+    private fun showAds() {
+        if(interstitial != null){
+            activity?.let { interstitial!!.show(it) }
+            interstitial = null
+        } else{
+            context?.let { updateClicksCounter(it) }
+            initAds()
+        }
+    }
+
+    private fun initAds() {
+        var adRequest = com.google.android.gms.ads.AdRequest.Builder().build()
+
+        InterstitialAd.load(
+            v.context,
+            "ca-app-pub-3940256099942544/1033173712",
+            adRequest,
+            object : InterstitialAdLoadCallback(){
+                override fun onAdLoaded(interstitialAd: InterstitialAd) {
+                    interstitial = interstitialAd
+                    showAds()
+                }
+
+                override fun onAdFailedToLoad(p0: LoadAdError) {
+                    interstitial = null
+
+                }
+            }
+        )
+    }
+
+    private fun getClicksCounter(context: Context): Int {
+        val sharedPreferences = context.getSharedPreferences("MyCounterPrefs", Context.MODE_PRIVATE)
+        return sharedPreferences.getInt("counter", 0)
+    }
+
+    private fun updateClicksCounter(context: Context) {
+        val retrievedCounter = getClicksCounter(context)
+        val counter = retrievedCounter + 1
+        val sharedPreferences = context.getSharedPreferences("MyCounterPrefs", Context.MODE_PRIVATE)
+        val editor = sharedPreferences.edit()
+        editor.putInt("counter", counter)
+        editor.apply()
+    }
+
+    private fun isUserPremium(email: String, listener: OnUserFetchedListener) {
+        val db = FirebaseFirestore.getInstance()
+        val usersRef = db.collection("usuarios")
+
+        usersRef.whereEqualTo("email", email)
+            .get()
+            .addOnSuccessListener { documents ->
+                if (!documents.isEmpty) {
+                    val user = documents.documents[0].get("premium") as? Boolean
+                    listener.onUserFetched(user)
+                } else {
+                    listener.onUserFetched(null)
+                }
+            }
+            .addOnFailureListener {
+                listener.onUserFetched(null)
+            }
+    }
+
+    interface OnUserFetchedListener {
+        fun onUserFetched(user: Boolean?)
     }
 
     override fun onResume() {

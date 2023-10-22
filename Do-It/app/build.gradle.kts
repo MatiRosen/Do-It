@@ -75,6 +75,8 @@ dependencies {
     implementation("com.github.bumptech.glide:glide:4.16.0")
     ksp("com.github.bumptech.glide:ksp:4.16.0")
 
+    // Google AdMob
+    implementation ("com.google.android.gms:play-services-ads:22.4.0")
 
     implementation("androidx.paging:paging-runtime:3.2.1")
 }
