@@ -91,7 +91,7 @@ class RegisterDataFragment : Fragment() {
         )
 
         for ((property, errorMessage) in propertiesToCheck) {
-            if (property.isNullOrEmpty()) {
+            if (property.isNullOrEmpty() || property.isBlank()) {
                 Toast.makeText(activity, errorMessage, Toast.LENGTH_SHORT).show()
                 return false
             }

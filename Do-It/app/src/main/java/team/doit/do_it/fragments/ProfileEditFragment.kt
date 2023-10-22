@@ -244,7 +244,7 @@ class ProfileEditFragment : Fragment() {
         )
 
         for ((property, errorMessage) in propertiesToCheck) {
-            if (property.isEmpty()) {
+            if (property.isEmpty() || property.isBlank()) {
                 Toast.makeText(activity, errorMessage, Toast.LENGTH_SHORT).show()
                 return false
             }
