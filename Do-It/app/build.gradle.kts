@@ -18,6 +18,13 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        configurations.all {
+            resolutionStrategy {
+                force("androidx.emoji2:emoji2-views-helper:1.3.0")
+                force("androidx.emoji2:emoji2:1.3.0")
+            }
+        }
     }
 
     buildTypes {
@@ -74,6 +81,12 @@ dependencies {
     // Images
     implementation("com.github.bumptech.glide:glide:4.16.0")
     ksp("com.github.bumptech.glide:ksp:4.16.0")
+
+    //Stripe
+    implementation("com.stripe:stripecardscan:20.33.0")
+    implementation("com.stripe:stripe-android:20.33.0")
+
+    implementation("com.squareup.okhttp3:okhttp:4.9.2")
 
     // Google AdMob
     implementation ("com.google.android.gms:play-services-ads:22.4.0")

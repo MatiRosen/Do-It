@@ -6,4 +6,5 @@
     1. Sin restricciones al subir proyectos.\n\n
     2. Sin publicidad.</string>
     <string name="btnGetPremium">Comprar</string>
+    <string name="alreadyPremium">Ya eres cliente Premium</string>
 </resources>
