@@ -29,7 +29,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <ImageButton
+                <ImageView
                     android:id="@+id/imgProjectEditImage"
                     android:layout_width="match_parent"
                     android:layout_height="250dp"
@@ -150,7 +150,7 @@
                             android:layout_marginBottom="@dimen/divider_bottom_padding"
                             android:drawablePadding="@dimen/input_txt_padding"
                             android:paddingVertical="@dimen/input_txt_padding"
-                            android:text="Presupuesto total"
+                            android:text="@string/project_edit_goal"
                             android:textColor="@color/black"
                             android:textSize="@dimen/txt_paragraph_size"
                             app:drawableStartCompat="@drawable/icon_cash" />
@@ -163,7 +163,7 @@
                             android:layout_marginBottom="@dimen/divider_bottom_padding"
                             android:drawablePadding="@dimen/input_txt_padding"
                             android:paddingVertical="@dimen/input_txt_padding"
-                            android:text="Presupuesto Minimo"
+                            android:text="@string/project_edit_min_budget"
                             android:textColor="@color/black"
                             android:textSize="@dimen/txt_paragraph_size"
                             app:drawableStartCompat="@drawable/icon_cash" />
@@ -209,7 +209,7 @@
                 android:textColor="@color/white"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Button" />
+                android:text="@string/project_edit_confirm" />
         </LinearLayout>
     </ScrollView>
 

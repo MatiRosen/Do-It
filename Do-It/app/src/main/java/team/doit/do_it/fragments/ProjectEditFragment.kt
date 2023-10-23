@@ -50,6 +50,8 @@ class ProjectEditFragment : Fragment() {
 
     override fun onStart() {
         super.onStart()
+
+
         binding.imgBtnProjectEditBack.setOnClickListener {
             v.findNavController().navigateUp()
         }

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="project_edit_title">Title</string>
+    <string name="project_edit_subtitle">Subtitle</string>
+    <string name="project_edit_description">Description</string>
+    <string name="project_edit_category">Category</string>
+    <string name="project_edit_min_budget">Presupuesto minimo:</string>
+    <string name="project_edit_goal">Presupuesto total:</string>
+    <string name="project_edit_confirm">guardar cambios</string>
+
+</resources>

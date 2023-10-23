@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.constraintlayout.widget.ConstraintSet
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
@@ -56,6 +57,18 @@ class HomeCreatorFragment : Fragment(), OnViewItemClickedListener {
         super.onStart()
         setupButtons()
         setupRecyclerView()
+        showMargins()
+    }
+
+    private fun showMargins() {
+        val constraintSet = ConstraintSet()
+        constraintSet.connect(R.id.mainHost, ConstraintSet.TOP, R.id.guidelineMainActivityHorizontal3, ConstraintSet.BOTTOM)
+        constraintSet.connect(R.id.mainHost, ConstraintSet.BOTTOM, R.id.bottomNavigationView, ConstraintSet.TOP)
+        constraintSet.connect(R.id.mainHost, ConstraintSet.START, R.id.guidelineMainActivityVertical2, ConstraintSet.END)
+        constraintSet.connect(R.id.mainHost, ConstraintSet.END, R.id.guidelineMainActivityVertical98, ConstraintSet.START)
+
+
+        constraintSet.applyTo(requireActivity().findViewById(R.id.frameLayoutMainActivity))
     }
 
     private fun setupButtons() {
