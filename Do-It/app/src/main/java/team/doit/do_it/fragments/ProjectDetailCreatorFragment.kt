@@ -63,11 +63,15 @@ class ProjectDetailCreatorFragment : Fragment() {
     override fun onStart() {
         super.onStart()
 
+        removeMargins()
+
         project = ProjectDetailCreatorFragmentArgs.fromBundle(requireArguments()).project
 
         setValues()
         initializeButtons()
     }
+
+
 
     override fun onResume() {
         super.onResume()
@@ -86,7 +90,7 @@ class ProjectDetailCreatorFragment : Fragment() {
                     project.category = p.getString("category").toString()
                     project.goal = p.getDouble("goal")!!
                     project.minBudget = p.getDouble("minBudget")!!
-
+                    project.image = p.getString("image").toString()
 
                     setValues()
                 } else {
@@ -331,6 +335,8 @@ class ProjectDetailCreatorFragment : Fragment() {
     private fun handleDeleteFailure() {
         Toast.makeText(activity, resources.getString(R.string.project_detail_delete_error), Toast.LENGTH_SHORT).show()
     }
+
+
 }
 
 
