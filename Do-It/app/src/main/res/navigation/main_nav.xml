@@ -195,8 +195,7 @@
         <action
             android:id="@+id/action_followingProjectFragment_to_projectDetailInvestorFragment"
             app:destination="@id/projectDetailInvestorFragmentMain"
-            app:popUpTo="@id/followingProjectFragment"
-            app:popUpToInclusive="true"/>
+            app:popUpTo="@id/followingProjectFragment" />
     </fragment>
 
 
