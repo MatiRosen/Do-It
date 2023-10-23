@@ -77,6 +77,15 @@
                 android:text="@string/btnGetPremium"
                 android:textColor="@color/black"
                 android:textSize="@dimen/txt_button_size" />
+
+            <ProgressBar
+                android:id="@+id/progressBarPremium"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:indeterminateTint="@color/pantone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
         </LinearLayout>
     </ScrollView>
 

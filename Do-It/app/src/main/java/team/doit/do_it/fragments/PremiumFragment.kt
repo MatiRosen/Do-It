@@ -55,19 +55,30 @@ class PremiumFragment : Fragment() {
         v = binding.root
 
         removeMargins()
-
-        isPremiumUser { isPremium ->
-            if(isPremium){
-                binding.btnComprar.visibility = View.GONE
-            }
-        }
+        showProgressBar()
 
         return v
+    }
+
+    private fun showProgressBar() {
+        binding.progressBarPremium.visibility = View.VISIBLE
+        binding.btnComprar.visibility = View.GONE
+    }
+
+    private fun hideProgressBar() {
+        binding.progressBarPremium.visibility = View.GONE
     }
 
     override fun onStart() {
         super.onStart()
         overrideBackButton()
+
+        isPremiumUser { isPremium ->
+            if(isPremium){
+                binding.btnComprar.visibility = View.GONE
+            } else binding.btnComprar.visibility = View.VISIBLE
+            hideProgressBar()
+        }
 
         binding.imgBtnPremiumBack.setOnClickListener {
             v.findNavController().navigateUp()
