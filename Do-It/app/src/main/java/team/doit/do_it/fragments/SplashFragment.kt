@@ -41,7 +41,7 @@ class SplashFragment : Fragment() {
     }
 
     private fun checkUser() {
-        if (mAuth.currentUser != null) {
+        if (mAuth.currentUser != null && mAuth.currentUser?.isEmailVerified == true) {
             val intent = Intent(activity, MainActivity::class.java)
             startActivity(intent)
             requireActivity().finish()

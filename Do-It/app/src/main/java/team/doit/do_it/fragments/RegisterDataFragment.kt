@@ -78,7 +78,8 @@ class RegisterDataFragment : Fragment() {
             spinnerGender.selectedItem.toString(),
             binding.txtRegisterDataPhone.text.toString(),
             binding.txtRegisterDataAddress.text.toString(),
-            false)
+            false,
+            "")
     }
 
     private fun isValidUser(): Boolean {
@@ -127,7 +128,8 @@ class RegisterDataFragment : Fragment() {
         FirebaseAuth.getInstance().createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener {
                 if (it.isSuccessful) {
-                    var dbRegister = FirebaseFirestore.getInstance()
+                    val dbRegister = FirebaseFirestore.getInstance()
+                    user.setUUID(FirebaseAuth.getInstance().currentUser?.uid!!)
                     dbRegister.collection("usuarios").document(email).set(
                         hashMapOf(
                             "nombre" to user.getFirstName(),
@@ -137,7 +139,8 @@ class RegisterDataFragment : Fragment() {
                             "genero" to user.getGender(),
                             "telefono" to user.getTelephoneNumber(),
                             "direccion" to user.getAddress(),
-                            "premium" to user.getIsPremium()
+                            "premium" to user.getIsPremium(),
+                            "uuid" to user.getUUID(),
                         ))
 
                     validateEmail(email)

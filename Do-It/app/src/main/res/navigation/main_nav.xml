@@ -7,9 +7,9 @@
 
     <fragment
         android:id="@+id/chat"
-        android:name="team.doit.do_it.fragments.ChatFragment"
-        android:label="fragment_chat"
-        tools:layout="@layout/fragment_chat" />
+        android:name="team.doit.do_it.fragments.UserChatFragment"
+        android:label="fragment_user_chat"
+        tools:layout="@layout/fragment_user_chat" />
 
     <fragment
         android:id="@+id/profileFragmentMain"
@@ -197,6 +197,7 @@
             app:destination="@id/projectDetailInvestorFragmentMain"
             app:popUpTo="@id/followingProjectFragment" />
     </fragment>
+
 
 
 </navigation>

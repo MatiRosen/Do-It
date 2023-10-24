@@ -75,6 +75,7 @@ dependencies {
     implementation(platform("com.google.firebase:firebase-database:20.0.3"))
     implementation(platform("com.google.firebase:firebase-firestore:24.8.1"))
     implementation("com.google.firebase:firebase-firestore-ktx")
+    implementation("com.google.firebase:firebase-database-ktx")
     implementation("com.firebaseui:firebase-ui-firestore:8.0.2")
     implementation("com.firebaseui:firebase-ui-storage:7.2.0")
 

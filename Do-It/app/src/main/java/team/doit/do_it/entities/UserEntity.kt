@@ -7,7 +7,8 @@ import androidx.annotation.RequiresApi
 import java.util.Date
 
 class UserEntity(firstName: String, surname: String, email: String,
-                 birthDate: String, gender: String, telephoneNumber: String, address: String, isPremium: Boolean) : Parcelable {
+                 birthDate: String, gender: String, telephoneNumber: String, address: String,
+                 isPremium: Boolean, uuid: String) : Parcelable {
 
     private var firstName: String
     private var surname : String
@@ -17,6 +18,7 @@ class UserEntity(firstName: String, surname: String, email: String,
     private var telephoneNumber : String
     private var address : String // TODO: Change to Address data type
     private var isPremium : Boolean
+    private var uuid : String
 
     constructor(parcel: Parcel) : this(
         parcel.readString()!!,
@@ -26,7 +28,8 @@ class UserEntity(firstName: String, surname: String, email: String,
         parcel.readString()!!,
         parcel.readString()!!,
         parcel.readString()!!,
-        parcel.readByte() != 0.toByte()
+        parcel.readByte() != 0.toByte(),
+        parcel.readString()!!
     )
 
     init {
@@ -38,6 +41,7 @@ class UserEntity(firstName: String, surname: String, email: String,
         this.telephoneNumber = telephoneNumber
         this.address = address
         this.isPremium = isPremium
+        this.uuid = uuid
     }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
@@ -49,6 +53,7 @@ class UserEntity(firstName: String, surname: String, email: String,
         parcel.writeString(telephoneNumber)
         parcel.writeString(address)
         if (isPremium) parcel.writeByte(1) else parcel.writeByte(0)
+        parcel.writeString(uuid)
     }
 
     override fun describeContents(): Int {
@@ -97,5 +102,13 @@ class UserEntity(firstName: String, surname: String, email: String,
     fun getIsPremium(): Boolean {
         return isPremium
     }
+
+    fun getUUID(): String {
+        return uuid
+    }
     //endregion
+
+    fun setUUID(uuid: String) {
+        this.uuid = uuid
+    }
 }
