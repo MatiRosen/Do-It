@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/card_chat_height"
+    android:id="@+id/cardViewItemChat"
+    android:layout_margin="@dimen/item_card_margin"
+    android:backgroundTintMode="@color/white"
+    app:cardCornerRadius="@dimen/card_radius"
+    app:cardElevation="@dimen/card_elevation">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.mikhaellopez.circularimageview.CircularImageView
+            android:id="@+id/imgChatProfileImage"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_margin="@dimen/divider_start_padding"
+            android:scaleType="centerCrop"
+            android:src="@drawable/img_avatar"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/guidelineItemChatVertical20"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/txtItemChatUserName"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:gravity="start|center_vertical"
+            android:maxLines="1"
+            android:text="@string/chat_name"
+            android:textColor="@color/black"
+            android:textSize="@dimen/txt_secondary_title_size"
+            app:layout_constraintBottom_toTopOf="@+id/guidelineItemChatHorizontal50"
+            app:layout_constraintEnd_toStartOf="@+id/guidelineItemChatVertical82"
+            app:layout_constraintStart_toStartOf="@+id/guidelineItemChatVertical20"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/txtItemChatLastMessage"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:gravity="start|center_vertical"
+            android:maxLines="1"
+            android:text="@string/chat_last_message"
+            android:textColor="@color/dark_gray"
+            android:textSize="@dimen/txt_description_size"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/guidelineItemChatVertical82"
+            app:layout_constraintStart_toStartOf="@+id/guidelineItemChatVertical20"
+            app:layout_constraintTop_toTopOf="@+id/guidelineItemChatHorizontal50" />
+
+        <TextView
+            android:id="@+id/txtItemChatLastTime"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:gravity="start|center_vertical"
+            android:maxLines="1"
+            android:text="@string/chat_date"
+            android:textColor="@color/black"
+            android:textSize="@dimen/txt_mini_size"
+            app:layout_constraintBottom_toTopOf="@+id/guidelineItemChatHorizontal50"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/guidelineItemChatVertical82"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guidelineItemChatVertical20"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="@dimen/guideline_20" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guidelineItemChatVertical82"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="@dimen/guideline_82" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guidelineItemChatHorizontal50"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="@dimen/guideline_50" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.cardview.widget.CardView>

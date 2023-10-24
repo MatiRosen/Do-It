@@ -197,7 +197,9 @@ class HomeInvestorFragment : Fragment(), OnViewItemClickedListener {
         binding.recyclerHomeInvestorPopularProjects.setPadding(startPadding, topPadding, endPadding, bottomPadding)
     }
 
-    override fun onViewItemDetail(project: ProjectEntity) {
+    override fun onViewItemDetail(item: Any) {
+        val project = if (item is ProjectEntity) item else return
+
         val investorEmail = FirebaseAuth.getInstance().currentUser?.email.toString()
         val action = if (project.creatorEmail == investorEmail) {
             HomeInvestorFragmentDirections.actionGlobalProjectDetailFragment(project)

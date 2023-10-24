@@ -134,8 +134,10 @@ class FollowingProjectFragment : Fragment(), OnViewItemClickedListener {
         requireActivity().onBackPressedDispatcher.addCallback(this, callback)
     }
 
-    override fun onViewItemDetail(project: ProjectEntity) {
-        val action = FollowingProjectFragmentDirections.actionFollowingProjectFragmentToProjectDetailInvestorFragment(project)
+    override fun onViewItemDetail(item: Any) {
+        val project = if (item is ProjectEntity) item else return
+        val action = FollowingProjectFragmentDirections
+            .actionFollowingProjectFragmentToProjectDetailInvestorFragment(project)
         this.findNavController().navigate(action)
     }
 

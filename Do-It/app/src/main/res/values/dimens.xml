@@ -43,6 +43,7 @@
     <dimen name="guideline_3">0.03</dimen>
     <dimen name="guideline_5">0.05</dimen>
     <dimen name="guideline_8">0.08</dimen>
+    <dimen name="guideline_15">0.15</dimen>
     <dimen name="guideline_22">0.22</dimen>
     <dimen name="guideline_32">0.32</dimen>
     <dimen name="guideline_35">0.35</dimen>
@@ -55,6 +56,8 @@
     <dimen name="guideline_65">0.65</dimen>
     <dimen name="guideline_75">0.75</dimen>
     <dimen name="guideline_78">0.78</dimen>
+    <dimen name="guideline_82">0.82</dimen>
+    <dimen name="guideline_85">0.85</dimen>
     <dimen name="guideline_93">0.93</dimen>
     <dimen name="guideline_95">0.95</dimen>
     <dimen name="guideline_98">0.98</dimen>
@@ -118,4 +121,6 @@
     <dimen name="profile_marginBottom_btnEdit">10dp</dimen>
     <dimen name="profile_height_spinnerGender">45dp</dimen>
 
+    <!-- Chat view -->
+    <dimen name="card_chat_height">80dp</dimen>
 </resources>

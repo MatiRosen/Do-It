@@ -2,20 +2,141 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/frameLayout3"
+    android:id="@+id/constraintLayoutUserChat"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".fragments.UserChatFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:id="@+id/textView5"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:text="@string/hello_blank_fragment"
-        app:layout_constraintBottom_toBottomOf="parent"
+    <FrameLayout
+        android:id="@+id/frameLayoutUserChatTop"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|start"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <View
+            android:id="@+id/viewProjectDetailCreatorShadow"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_gravity="top|start"
+            android:background="@drawable/style_chat_top" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical|start"
+            android:orientation="horizontal">
+
+            <ImageButton
+                android:id="@+id/imgBtnUserChatBack"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="8dp"
+                android:backgroundTint="@color/transparent"
+                android:contentDescription="@string/user_chat_back"
+                android:src="@drawable/icon_arrow_left" />
+
+            <com.mikhaellopez.circularimageview.CircularImageView
+                android:id="@+id/imgProjectDetailCreatorProfileImage"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center_vertical"
+                android:src="@drawable/img_avatar"
+                app:civ_border_width="1dp"
+                app:civ_border_color="@color/green"
+                android:scaleType="centerCrop"/>
+
+            <TextView
+                android:id="@+id/txtProjectDetailCreatorProfileName"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="@dimen/divider_start_padding"
+                android:layout_weight="1"
+                android:text="@string/user_chat_name"
+                android:textColor="@color/white"
+                android:maxLines="1"
+                android:textSize="@dimen/txt_description_size" />
+        </LinearLayout>
+
+
+        <!--
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical|end"
+            android:layout_marginEnd="8dp"
+            android:orientation="horizontal">
+
+            <ImageButton
+                android:id="@+id/imgBtnUserChatTrash"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical|end"
+                android:backgroundTint="@color/transparent"
+                android:contentDescription="@string/user_chat_remove"
+                android:src="@drawable/icon_trash" />
+
+        </LinearLayout>
+        -->
+    </FrameLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/frameLayoutUserChatBottom"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/frameLayoutUserChatTop" />
+
+
+    <LinearLayout
+        android:id="@+id/frameLayoutUserChatBottom"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical|start"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="@id/guidelineUserChatHorizontal97"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <EditText
+            android:id="@+id/editTxtUserChatMessage"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="8dp"
+            android:layout_weight="1"
+            android:autofillHints=""
+            android:background="@drawable/style_send_message"
+            android:hint="@string/user_chat_message"
+            android:inputType="textMultiLine"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:textColor="@color/black"
+            android:textColorHint="@color/black"
+            android:textSize="16sp" />
+
+        <ImageButton
+            android:id="@+id/imgBtnUserChatSend"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical|end"
+            android:backgroundTint="@color/transparent"
+            android:contentDescription="@string/user_chat_send"
+            android:src="@drawable/icon_send"
+            app:tint="@color/pantone" />
+
+    </LinearLayout>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidelineUserChatHorizontal97"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="@dimen/guideline_98" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

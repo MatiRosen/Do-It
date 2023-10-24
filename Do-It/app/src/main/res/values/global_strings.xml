@@ -6,4 +6,11 @@
     <string name="chat">Chat</string>
     <string name="img_project_image">Imagen del Proyecto</string>
     <string name="currency">$</string>
+    <string name="hour">Hora</string>
+    <string name="hours">Horas</string>
+    <string name="minute">Minuto</string>
+    <string name="minutes">Minutos</string>
+    <string name="day">Dia</string>
+    <string name="days">Dias</string>
+    <string name="now">Ahora</string>
 </resources>
