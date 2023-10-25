@@ -11,7 +11,7 @@ data class MessageEntity(
     constructor(parcel: Parcel) : this(
         parcel.readString()!!,
         parcel.readString()!!,
-        parcel.readLong()
+        parcel.readLong(),
     )
 
     constructor() : this("", "", 0)

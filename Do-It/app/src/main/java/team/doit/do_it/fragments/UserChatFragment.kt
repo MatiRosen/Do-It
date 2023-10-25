@@ -8,11 +8,24 @@ import android.view.ViewGroup
 import androidx.constraintlayout.widget.ConstraintSet
 import androidx.fragment.app.FragmentContainerView
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.firebase.ui.database.FirebaseRecyclerOptions
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ktx.database
+import com.google.firebase.database.ktx.snapshots
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.FirebaseStorage
+import kotlinx.coroutines.flow.last
 import team.doit.do_it.R
+import team.doit.do_it.adapters.MessageListAdapter
 import team.doit.do_it.databinding.FragmentUserChatBinding
+import team.doit.do_it.entities.ChatEntity
+import team.doit.do_it.entities.MessageEntity
+import team.doit.do_it.listeners.OnViewItemClickedListener
 
 class UserChatFragment : Fragment() {
 
@@ -22,12 +35,16 @@ class UserChatFragment : Fragment() {
     private val binding get() = _binding!!
 
     private lateinit var db: FirebaseDatabase
+    private lateinit var chat : ChatEntity
+    private lateinit var messageListAdapter : MessageListAdapter
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentUserChatBinding.inflate(inflater, container, false)
         v = binding.root
+        chat = UserChatFragmentArgs.fromBundle(requireArguments()).chat
+        db = Firebase.database
 
         hideBottomNav()
         removeMargins()
@@ -49,20 +66,96 @@ class UserChatFragment : Fragment() {
     }
 
     private fun startChat() {
-        db = Firebase.database
-        val ref = db.getReference("messages")
+        val ownUserUUID = FirebaseAuth.getInstance().currentUser?.uid ?: return
+
+        val ref = db.getReference("messages/${ownUserUUID}").child("${chat.userUUID}/messages")
+        val query = ref.orderByChild("date")
+
+        val options = FirebaseRecyclerOptions.Builder<MessageEntity>()
+            .setQuery(query, MessageEntity::class.java)
+            .build()
+
+        messageListAdapter = MessageListAdapter(options)
+        binding.recyclerViewUserChat.adapter = messageListAdapter
+        setupRecyclerViewSettings(binding.recyclerViewUserChat)
+        //binding.recyclerViewUserChat.scrollToPosition(messageListAdapter.itemCount - 1)
+        messageListAdapter.startListening()
     }
 
+    private fun setupRecyclerViewSettings(recycler : RecyclerView) {
+        recycler.setHasFixedSize(true)
+        val linearLayoutManager = LinearLayoutManager(context)
+        recycler.layoutManager = linearLayoutManager
+    }
 
     private fun startButtons() {
         binding.imgBtnUserChatBack.setOnClickListener {
             findNavController().navigateUp()
         }
+
+        binding.imgBtnUserChatSend.setOnClickListener {
+            sendMessage()
+        }
+    }
+
+    private fun sendMessage() {
+        val ownUserUUID = FirebaseAuth.getInstance().currentUser?.uid ?: return
+        val message = binding.editTxtUserChatMessage.text.toString()
+        val otherUserUUID = chat.userUUID
+        val sender = ownUserUUID
+
+        if (message == "") return
+
+        saveMessageOnDatabase(ownUserUUID, otherUserUUID, message, sender)
+
+        saveMessageOnDatabase(otherUserUUID, ownUserUUID, message, sender)
+    }
+
+    private fun saveMessageOnDatabase(ownUserUUID : String, otherUserUUID : String, message : String, sender : String) {
+        val ref = db.getReference("messages/${ownUserUUID}/${otherUserUUID}/messages")
+
+        ref.get().addOnCompleteListener {
+            if (it.isSuccessful) {
+                if (it.result?.children?.count() == 0) {
+                    ref.child("0").setValue(MessageEntity(message, sender, System.currentTimeMillis()))
+                    binding.editTxtUserChatMessage.text.clear()
+                    return@addOnCompleteListener
+                }
+
+                val lastMessageKey = it.result?.children?.last()?.key?.toInt() ?: 0
+                ref.child("${lastMessageKey + 1}").setValue(MessageEntity(message, sender, System.currentTimeMillis()))
+
+                binding.editTxtUserChatMessage.text.clear()
+            }
+        }
     }
 
     private fun setBindings() {
+        binding.txtProjectDetailCreatorProfileName.text = chat.userName
+
+        setUserImage()
+
+    }
+
+    private fun setUserImage() {
+        val imageView = binding.imgProjectDetailCreatorProfileImage
+        val userImage = chat.userImage
+        val userEmail = chat.userEmail
+
+        if (userImage == "") {
+            imageView.setImageResource(R.drawable.img_avatar)
+            return
+        }
+
+        val storageReference = FirebaseStorage.getInstance().reference
+            .child("images/$userEmail/imgProfile/$userImage")
 
 
+        Glide.with(this)
+            .load(storageReference)
+            .placeholder(R.drawable.img_avatar)
+            .error(R.drawable.img_avatar)
+            .into(imageView)
     }
 
     private fun hideBottomNav() {
@@ -97,6 +190,7 @@ class UserChatFragment : Fragment() {
         showBottomNav()
         showMargins()
         _binding = null
+        messageListAdapter.stopListening()
     }
 
 }

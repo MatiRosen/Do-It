@@ -24,8 +24,7 @@ class ChatFragment : Fragment(), OnViewItemClickedListener {
     private lateinit var v : View
 
     private lateinit var db: FirebaseDatabase
-
-    private lateinit var concatAdapter : ConcatAdapter
+    private lateinit var chatListAdapter : ChatListAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -42,27 +41,20 @@ class ChatFragment : Fragment(), OnViewItemClickedListener {
 
     override fun onStart() {
         super.onStart()
-        setupButtons()
         setupRecyclerView()
-    }
-
-    private fun setupButtons() {
-
     }
 
     private fun setupRecyclerView() {
         val ownUserUUID = FirebaseAuth.getInstance().currentUser?.uid ?: return
         val ref = db.getReference("messages/$ownUserUUID")
-        concatAdapter = ConcatAdapter()
 
         val query = ref.orderByChild("date")
         val options = FirebaseRecyclerOptions.Builder<ChatEntity>()
             .setQuery(query, ChatEntity::class.java)
             .build()
-        val chatListAdapter = ChatListAdapter(options, this@ChatFragment)
-        concatAdapter.addAdapter(chatListAdapter)
 
-        binding.recyclerChats.adapter = concatAdapter
+        chatListAdapter = ChatListAdapter(options, this)
+        binding.recyclerChats.adapter = chatListAdapter
         setupRecyclerViewSettings(binding.recyclerChats)
         binding.recyclerChats.visibility = View.VISIBLE
         binding.progressBarChat.visibility = View.GONE
@@ -83,11 +75,7 @@ class ChatFragment : Fragment(), OnViewItemClickedListener {
 
     override fun onStop() {
         super.onStop()
-        concatAdapter.adapters.forEach { adapter ->
-            if (adapter is ChatListAdapter) {
-                adapter.stopListening()
-            }
-        }
+        chatListAdapter.stopListening()
     }
 
     override fun onViewItemDetail(item: Any) {
