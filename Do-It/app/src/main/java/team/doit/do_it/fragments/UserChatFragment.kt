@@ -17,6 +17,7 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ktx.database
 import com.google.firebase.database.ktx.snapshots
+import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import kotlinx.coroutines.flow.last
@@ -63,6 +64,12 @@ class UserChatFragment : Fragment() {
         super.onStart()
 
         startChat()
+    }
+
+    private fun safeAccessBinding(action: () -> Unit) {
+        if (_binding != null) {
+            action()
+        }
     }
 
     private fun startChat() {
@@ -117,8 +124,7 @@ class UserChatFragment : Fragment() {
         ref.get().addOnCompleteListener {
             if (it.isSuccessful) {
                 if (it.result?.children?.count() == 0) {
-                    ref.child("0").setValue(MessageEntity(message, sender, System.currentTimeMillis()))
-                    binding.editTxtUserChatMessage.text.clear()
+                    createUserChat(ownUserUUID, otherUserUUID, message)
                     return@addOnCompleteListener
                 }
 
@@ -130,11 +136,32 @@ class UserChatFragment : Fragment() {
         }
     }
 
+    private fun createUserChat(ownUserUUID: String, otherUserUUID: String, message: String){
+        val ref = db.getReference("messages/${ownUserUUID}/${otherUserUUID}")
+        val db = FirebaseFirestore.getInstance()
+        val usersRef = db.collection("usuarios")
+
+        usersRef.whereEqualTo("uuid", otherUserUUID)
+            .get()
+            .addOnSuccessListener { documents ->
+                safeAccessBinding {
+                    if (!documents.isEmpty) {
+                        val user = documents.documents[0]
+                        ref.child("userName").setValue("${user.getString("nombre")} ${user.getString("apellido")}")
+                        ref.child("userImage").setValue(user.getString("imgPerfil"))
+                        ref.child("userEmail").setValue(user.getString("email"))
+                        ref.child("userUUID").setValue(otherUserUUID)
+                        ref.child("messages").child("0").setValue(MessageEntity(message, otherUserUUID, System.currentTimeMillis()))
+                        binding.editTxtUserChatMessage.text.clear()
+                    }
+                }
+            }
+    }
+
     private fun setBindings() {
         binding.txtProjectDetailCreatorProfileName.text = chat.userName
 
         setUserImage()
-
     }
 
     private fun setUserImage() {
