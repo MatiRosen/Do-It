@@ -194,7 +194,8 @@ class HomeCreatorFragment : Fragment(), OnViewItemClickedListener {
         binding.recyclerHomeCreatorProjects.setPadding(startPadding, topPadding, endPadding, bottomPadding)
     }
 
-    override fun onViewItemDetail(project: ProjectEntity) {
+    override fun onViewItemDetail(item: Any) {
+        val project = if (item is ProjectEntity) item else return
         val action = HomeCreatorFragmentDirections.actionGlobalProjectDetailFragment(project)
         this.findNavController().navigate(action)
     }

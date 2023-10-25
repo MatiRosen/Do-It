@@ -7,9 +7,25 @@
 
     <fragment
         android:id="@+id/chat"
+        android:name="team.doit.do_it.fragments.ChatFragment"
+        android:label="ChatFragment" >
+
+        <action
+            android:id="@+id/action_chat_to_user_chat"
+            app:destination="@id/user_chat" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/user_chat"
         android:name="team.doit.do_it.fragments.UserChatFragment"
-        android:label="fragment_user_chat"
-        tools:layout="@layout/fragment_user_chat" />
+        android:label="UserChatFragment" >
+
+        <argument
+            android:name="chat"
+            app:argType="team.doit.do_it.entities.ChatEntity" />
+
+    </fragment>
 
     <fragment
         android:id="@+id/profileFragmentMain"

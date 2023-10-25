@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="user_chat_back">Volver atrás</string>
+    <string name="user_chat_remove">Eliminar</string>
+    <string name="user_chat_message">Escribir mensaje…</string>
+    <string name="user_chat_send">Enviar</string>
+    <string name="user_chat_name">Nombre</string>
+</resources>
