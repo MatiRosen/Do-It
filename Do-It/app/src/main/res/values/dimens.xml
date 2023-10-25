@@ -118,4 +118,6 @@
     <dimen name="profile_marginBottom_btnEdit">10dp</dimen>
     <dimen name="profile_height_spinnerGender">45dp</dimen>
 
+    <!-- Project Edit -->
+    <dimen name="project_marginBottom_btnEdit">10dp</dimen>
 </resources>

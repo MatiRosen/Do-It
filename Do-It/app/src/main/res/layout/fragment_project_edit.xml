@@ -80,7 +80,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/divider_bottom_padding"
                     android:gravity="center_vertical"
-                    android:text="Título"
+                    android:text="@string/project_edit_title"
                     android:textColor="@color/dark_pantone"
                     android:textSize="@dimen/txt_secondary_title_size"
                     android:textStyle="bold" />
@@ -119,7 +119,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/divider_top_padding"
                     android:layout_marginBottom="@dimen/divider_bottom_padding"
-                    android:text="Subtítulo"
+                    android:text="@string/project_edit_subtitle"
                     android:textColor="@color/medium_gray"
                     android:textSize="@dimen/txt_description_size" />
 
@@ -129,7 +129,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/divider_top_padding"
                     android:layout_marginBottom="@dimen/divider_bottom_padding"
-                    android:text="Descripción"
+                    android:text="@string/project_edit_description"
                     android:textColor="@color/black"
                     android:textSize="@dimen/txt_paragraph_size" />
 
@@ -150,7 +150,7 @@
                             android:layout_marginBottom="@dimen/divider_bottom_padding"
                             android:drawablePadding="@dimen/input_txt_padding"
                             android:paddingVertical="@dimen/input_txt_padding"
-                            android:text="@string/project_edit_goal"
+                            android:text="@string/project_edit_total_budget"
                             android:textColor="@color/black"
                             android:textSize="@dimen/txt_paragraph_size"
                             app:drawableStartCompat="@drawable/icon_cash" />
@@ -209,7 +209,9 @@
                 android:textColor="@color/white"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/project_edit_confirm" />
+                android:text="@string/project_edit_confirm"
+                android:padding="@dimen/button_text_padding"
+                android:layout_marginBottom="@dimen/project_marginBottom_btnEdit" />
         </LinearLayout>
     </ScrollView>
 
