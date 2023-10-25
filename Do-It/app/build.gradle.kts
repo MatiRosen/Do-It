@@ -18,6 +18,13 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        configurations.all {
+            resolutionStrategy {
+                force("androidx.emoji2:emoji2-views-helper:1.3.0")
+                force("androidx.emoji2:emoji2:1.3.0")
+            }
+        }
     }
 
     buildTypes {
@@ -68,13 +75,23 @@ dependencies {
     implementation(platform("com.google.firebase:firebase-database:20.0.3"))
     implementation(platform("com.google.firebase:firebase-firestore:24.8.1"))
     implementation("com.google.firebase:firebase-firestore-ktx")
+    implementation("com.google.firebase:firebase-database-ktx")
     implementation("com.firebaseui:firebase-ui-firestore:8.0.2")
     implementation("com.firebaseui:firebase-ui-storage:7.2.0")
+    implementation("com.firebaseui:firebase-ui-database:8.0.2")
 
     // Images
     implementation("com.github.bumptech.glide:glide:4.16.0")
     ksp("com.github.bumptech.glide:ksp:4.16.0")
 
+    //Stripe
+    implementation("com.stripe:stripecardscan:20.33.0")
+    implementation("com.stripe:stripe-android:20.33.0")
+
+    implementation("com.squareup.okhttp3:okhttp:4.9.2")
+
+    // Google AdMob
+    implementation ("com.google.android.gms:play-services-ads:22.4.0")
 
     implementation("androidx.paging:paging-runtime:3.2.1")
 }

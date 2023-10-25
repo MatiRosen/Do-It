@@ -1,6 +1,9 @@
 package team.doit.do_it.fragments
 
+import android.app.Activity
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,6 +12,9 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
+import com.google.android.gms.ads.LoadAdError
+import com.google.android.gms.ads.interstitial.InterstitialAd
+import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
@@ -105,8 +111,6 @@ class ProfileFragment : Fragment() {
                         binding.txtProfileGender.text = user.getString("genero")
                         binding.txtProfileAddress.text = user.getString("direccion")
                         setImage(userEmail, user.getString("imgPerfil").toString())
-                        println(user.getString("imgPerfil").toString())
-
                         hideProgressBar(creatorEmail == " ")
                     } else {
                         Toast.makeText(activity, resources.getString(R.string.profile_dataUser_error), Toast.LENGTH_SHORT).show()
@@ -118,19 +122,22 @@ class ProfileFragment : Fragment() {
     }
 
     private fun setImage(creatorEmail: String, titleImg: String) {
-        safeAccessBinding {
-            if (titleImg == "") {
-                binding.imgProfileCircular.setImageResource(R.drawable.img_avatar)
-                return@safeAccessBinding
-            }
-            val storageReference = FirebaseStorage.getInstance().reference.child("images/$creatorEmail/imgProfile/$titleImg")
 
-            Glide.with(v.context)
-                .load(storageReference)
-                .placeholder(R.drawable.img_avatar)
-                .error(R.drawable.img_avatar)
-                .into(binding.imgProfileCircular)
-        }
+        Handler(Looper.getMainLooper()).postDelayed({
+            safeAccessBinding {
+                if (titleImg == "") {
+                    binding.imgProfileCircular.setImageResource(R.drawable.img_avatar)
+                    return@safeAccessBinding
+                }
+                val storageReference = FirebaseStorage.getInstance().reference.child("images/$creatorEmail/imgProfile/$titleImg")
+
+                Glide.with(v.context)
+                    .load(storageReference)
+                    .placeholder(R.drawable.img_avatar)
+                    .error(R.drawable.img_avatar)
+                    .into(binding.imgProfileCircular)
+            }
+        }, 500)
 
     }
 

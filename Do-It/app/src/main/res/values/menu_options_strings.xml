@@ -1,5 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="category_pro">Cliente PRO</string>
-    <string name="option_pro">Obtener plan PRO</string>
+    <string name="option_category_pro">Cliente Premium</string>
+    <string name="option_pro">Plan Premium</string>
+    <string name="option_logout">Cerrar sesión</string>
+    <string name="option_logout_confirmation">¿Estás seguro que deseas cerrar sesión?</string>
+    <string name="option_logout_positive">Sí</string>
+    <string name="option_logout_negative">No</string>
+    <string name="option_logout_success">Sesión cerrada correctamente</string>
+    <string name="option_title">Opciones</string>
+    <string name="option_following_projects">Proyectos seguidos</string>
 </resources>

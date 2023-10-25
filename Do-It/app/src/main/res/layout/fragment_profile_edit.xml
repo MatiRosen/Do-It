@@ -18,7 +18,7 @@
         app:srcCompat="@drawable/icon_close" />
 
     <com.mikhaellopez.circularimageview.CircularImageView
-        android:id="@+id/imgProfileCircular"
+        android:id="@+id/editImgProfileCircular"
         android:layout_width="250dp"
         android:layout_height="250dp"
         android:layout_marginTop="30dp"
@@ -34,8 +34,8 @@
         android:layout_width="73dp"
         android:layout_height="70dp"
         android:contentDescription="@string/profile_logoIcon_description"
-        app:layout_constraintEnd_toEndOf="@+id/imgProfileCircular"
-        app:layout_constraintTop_toTopOf="@+id/imgProfileCircular"
+        app:layout_constraintEnd_toEndOf="@+id/editImgProfileCircular"
+        app:layout_constraintTop_toTopOf="@+id/editImgProfileCircular"
         app:srcCompat="@drawable/img_do_it_logo" />
 
     <ScrollView
@@ -45,7 +45,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imgProfileCircular"
+        app:layout_constraintTop_toBottomOf="@+id/editImgProfileCircular"
         android:paddingTop="@dimen/profile_paddingTop_info"
         app:layout_constraintWidth_max="@dimen/input_max_width">
 
@@ -114,8 +114,8 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:layout_height="@dimen/profile_height_spinnerGender">
 
                 <TextView
                     android:id="@+id/txtProfileTitleEmail"
@@ -123,14 +123,22 @@
                     android:layout_height="wrap_content"
                     android:paddingStart="@dimen/profile_txt_start_padding"
                     android:paddingEnd="0dp"
-                    android:text="@string/profile_email" />
+                    android:text="@string/profile_email"
+                    android:layout_gravity="center_vertical"/>
 
-                <EditText
+                <TextView
                     android:id="@+id/editTextProfileEmail"
-                    android:layout_width="0dp"
+                    android:layout_width="@dimen/profile_titles_width"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:inputType="text" />
+                    android:paddingEnd="0dp"
+                    android:layout_gravity="center_vertical"/>
+
+<!--                <EditText-->
+<!--                    android:id="@+id/editTextProfileEmail"-->
+<!--                    android:layout_width="0dp"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_weight="1"-->
+<!--                    android:inputType="text" />-->
             </LinearLayout>
 
             <View
@@ -166,7 +174,7 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="@dimen/profile_height_spinnerGender"
                 android:orientation="horizontal">
 
                 <TextView
@@ -175,14 +183,15 @@
                     android:layout_height="wrap_content"
                     android:paddingStart="@dimen/profile_txt_start_padding"
                     android:paddingEnd="0dp"
-                    android:text="@string/profile_gender" />
+                    android:text="@string/profile_gender"
+                    android:layout_gravity="center_vertical"/>
 
-                <EditText
-                    android:id="@+id/editTextProfileGender"
-                    android:layout_width="0dp"
+                <Spinner
+                    android:id="@+id/editSpinnerProfileGender"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:inputType="text" />
+                    android:layout_gravity="center_vertical"/>
             </LinearLayout>
 
             <View

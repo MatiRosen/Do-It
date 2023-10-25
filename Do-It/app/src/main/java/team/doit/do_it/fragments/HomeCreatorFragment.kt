@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.constraintlayout.widget.ConstraintSet
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
@@ -15,6 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.firebase.ui.firestore.paging.FirestorePagingOptions
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -34,6 +36,9 @@ class HomeCreatorFragment : Fragment(), OnViewItemClickedListener {
 
     private lateinit var projectListAdapter: ProjectListAdapter
 
+    interface OnUserFetchedListener {
+        fun onUserFetched(user: DocumentSnapshot?)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -52,18 +57,70 @@ class HomeCreatorFragment : Fragment(), OnViewItemClickedListener {
         super.onStart()
         setupButtons()
         setupRecyclerView()
+        showMargins()
+    }
+
+    private fun showMargins() {
+        val constraintSet = ConstraintSet()
+        constraintSet.connect(R.id.mainHost, ConstraintSet.TOP, R.id.guidelineMainActivityHorizontal3, ConstraintSet.BOTTOM)
+        constraintSet.connect(R.id.mainHost, ConstraintSet.BOTTOM, R.id.bottomNavigationView, ConstraintSet.TOP)
+        constraintSet.connect(R.id.mainHost, ConstraintSet.START, R.id.guidelineMainActivityVertical2, ConstraintSet.END)
+        constraintSet.connect(R.id.mainHost, ConstraintSet.END, R.id.guidelineMainActivityVertical98, ConstraintSet.START)
+
+
+        constraintSet.applyTo(requireActivity().findViewById(R.id.frameLayoutMainActivity))
     }
 
     private fun setupButtons() {
         binding.btnHomeCreatorCreateProject.setOnClickListener {
-            val action = HomeCreatorFragmentDirections.actionGlobalProjectCreationFragment()
-            this.findNavController().navigate(action)
+            isPremiumUser { isPremium ->
+                if(isPremium || projectListAdapter.itemCount < 2){
+                    val action = HomeCreatorFragmentDirections.actionGlobalProjectCreationFragment()
+                    this.findNavController().navigate(action)
+                }
+                else {
+                    Toast.makeText(context, resources.getString(R.string.home_creation_premium_user), Toast.LENGTH_SHORT).show()
+                }
+            }
         }
 
         binding.switchToHomeInvestor.setOnClickListener {
             val action = HomeCreatorFragmentDirections.actionHomeCreatorFragmentToHomeInversorFragment()
             v.findNavController().navigate(action)
         }
+    }
+
+    private fun isPremiumUser(action: (Boolean) -> Unit): Boolean {
+        var isPremium = false
+
+        val currentUser = FirebaseAuth.getInstance().currentUser
+        getUser(currentUser?.email.toString(), object : ProfileFragment.OnUserFetchedListener {
+            override fun onUserFetched(user: DocumentSnapshot?) {
+                if (user != null) {
+                    isPremium = user.getBoolean("premium")!!
+                    action(isPremium)
+                }
+            }
+        })
+        return isPremium
+    }
+
+    private fun getUser(email: String, listener: ProfileFragment.OnUserFetchedListener) {
+        val db = FirebaseFirestore.getInstance()
+        val usersRef = db.collection("usuarios")
+
+        usersRef.whereEqualTo("email", email)
+            .get()
+            .addOnSuccessListener { documents ->
+                if (documents != null) {
+                    listener.onUserFetched(documents.documents[0])
+                } else {
+                    listener.onUserFetched(null)
+                }
+            }
+            .addOnFailureListener {
+                listener.onUserFetched(null)
+            }
     }
 
     private fun setupRecyclerView() {
@@ -137,13 +194,19 @@ class HomeCreatorFragment : Fragment(), OnViewItemClickedListener {
         binding.recyclerHomeCreatorProjects.setPadding(startPadding, topPadding, endPadding, bottomPadding)
     }
 
-    override fun onViewItemDetail(project: ProjectEntity) {
+    override fun onViewItemDetail(item: Any) {
+        val project = if (item is ProjectEntity) item else return
         val action = HomeCreatorFragmentDirections.actionGlobalProjectDetailFragment(project)
         this.findNavController().navigate(action)
     }
 
+    private fun showBottomNav() {
+        requireActivity().findViewById<View>(R.id.bottomNavigationView).visibility = View.VISIBLE
+    }
+
     override fun onResume() {
         super.onResume()
+        showBottomNav()
         binding.switchToHomeInvestor.isChecked = false
     }
 

@@ -2,17 +2,17 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/constraintLayoutChat"
+    android:id="@+id/frameLayoutFollowingProject"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragments.ChatFragment">
+    tools:context=".fragments.FollowingProjectFragment">
 
     <TextView
-        android:id="@+id/txtChatTitle"
+        android:id="@+id/txtFollowingProjectTitle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:text="@string/chat_title"
+        android:text="@string/follow_project_title"
         android:textColor="@color/dark_pantone"
         android:textSize="@dimen/txt_main_title_size"
         android:textStyle="bold"
@@ -21,24 +21,32 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ProgressBar
-        android:id="@+id/progressBarChat"
+        android:id="@+id/progressBarFollowingProject"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:indeterminateTint="@color/pantone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtChatTitle" />
+        app:layout_constraintTop_toBottomOf="@+id/txtFollowingProjectTitle" />
 
+    <ProgressBar
+        android:id="@+id/progressBarFollowingProjectBottom"
+        android:layout_width="25dp"
+        android:layout_height="wrap_content"
+        android:indeterminateTint="@color/pantone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerChats"
+        android:id="@+id/recyclerFollowingProjects"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginTop="@dimen/divider_top_padding"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtChatTitle" />
+        app:layout_constraintTop_toBottomOf="@+id/txtFollowingProjectTitle" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

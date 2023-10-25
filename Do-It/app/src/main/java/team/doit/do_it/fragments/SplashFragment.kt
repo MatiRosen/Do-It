@@ -36,14 +36,12 @@ class SplashFragment : Fragment() {
         mAuth = FirebaseAuth.getInstance()
 
         Handler(Looper.getMainLooper()).postDelayed({
-            //checkUser()
-            // TODO: Descomentamos esto y borramos el navigate cuando este terminado el logout
-            v.findNavController().navigate(SplashFragmentDirections.actionSplashFragmentToLoginFragment())
+            checkUser()
         }, 1500)
     }
 
     private fun checkUser() {
-        if (mAuth.currentUser != null) {
+        if (mAuth.currentUser != null && mAuth.currentUser?.isEmailVerified == true) {
             val intent = Intent(activity, MainActivity::class.java)
             startActivity(intent)
             requireActivity().finish()

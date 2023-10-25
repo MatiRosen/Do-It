@@ -9,7 +9,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.constraintlayout.widget.ConstraintSet
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentContainerView
 import androidx.navigation.findNavController
@@ -69,6 +68,8 @@ class ProjectDetailCreatorFragment : Fragment() {
         initializeButtons()
     }
 
+
+
     override fun onResume() {
         super.onResume()
 
@@ -86,7 +87,7 @@ class ProjectDetailCreatorFragment : Fragment() {
                     project.category = p.getString("category").toString()
                     project.goal = p.getDouble("goal")!!
                     project.minBudget = p.getDouble("minBudget")!!
-
+                    project.image = p.getString("image").toString()
 
                     setValues()
                 } else {
@@ -260,25 +261,9 @@ class ProjectDetailCreatorFragment : Fragment() {
             )
     }
 
-    private fun showMargins() {
-        val constraintSet = ConstraintSet()
-        constraintSet.connect(R.id.mainHost, ConstraintSet.TOP, R.id.guidelineMainActivityHorizontal3, ConstraintSet.BOTTOM)
-        constraintSet.connect(R.id.mainHost, ConstraintSet.BOTTOM, R.id.bottomNavigationView, ConstraintSet.TOP)
-        constraintSet.connect(R.id.mainHost, ConstraintSet.START, R.id.guidelineMainActivityVertical2, ConstraintSet.END)
-        constraintSet.connect(R.id.mainHost, ConstraintSet.END, R.id.guidelineMainActivityVertical98, ConstraintSet.START)
-
-
-        constraintSet.applyTo(requireActivity().findViewById(R.id.frameLayoutMainActivity))
-    }
-
-    private fun showBottomNav() {
-        requireActivity().findViewById<View>(R.id.bottomNavigationView).visibility = View.VISIBLE
-    }
-
     override fun onDestroyView() {
         super.onDestroyView()
-        showBottomNav()
-        showMargins()
+
         _binding = null
     }
 
@@ -331,6 +316,8 @@ class ProjectDetailCreatorFragment : Fragment() {
     private fun handleDeleteFailure() {
         Toast.makeText(activity, resources.getString(R.string.project_detail_delete_error), Toast.LENGTH_SHORT).show()
     }
+
+
 }
 
 
