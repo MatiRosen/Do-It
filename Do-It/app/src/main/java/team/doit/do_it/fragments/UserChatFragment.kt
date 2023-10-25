@@ -13,20 +13,16 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.firebase.ui.database.FirebaseRecyclerOptions
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ktx.database
-import com.google.firebase.database.ktx.snapshots
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
-import kotlinx.coroutines.flow.last
 import team.doit.do_it.R
 import team.doit.do_it.adapters.MessageListAdapter
 import team.doit.do_it.databinding.FragmentUserChatBinding
 import team.doit.do_it.entities.ChatEntity
 import team.doit.do_it.entities.MessageEntity
-import team.doit.do_it.listeners.OnViewItemClickedListener
 
 class UserChatFragment : Fragment() {
 
@@ -109,13 +105,12 @@ class UserChatFragment : Fragment() {
         val ownUserUUID = FirebaseAuth.getInstance().currentUser?.uid ?: return
         val message = binding.editTxtUserChatMessage.text.toString()
         val otherUserUUID = chat.userUUID
-        val sender = ownUserUUID
 
         if (message == "") return
 
-        saveMessageOnDatabase(ownUserUUID, otherUserUUID, message, sender)
+        saveMessageOnDatabase(ownUserUUID, otherUserUUID, message, ownUserUUID)
 
-        saveMessageOnDatabase(otherUserUUID, ownUserUUID, message, sender)
+        saveMessageOnDatabase(otherUserUUID, ownUserUUID, message, ownUserUUID)
     }
 
     private fun saveMessageOnDatabase(ownUserUUID : String, otherUserUUID : String, message : String, sender : String) {
@@ -124,7 +119,7 @@ class UserChatFragment : Fragment() {
         ref.get().addOnCompleteListener {
             if (it.isSuccessful) {
                 if (it.result?.children?.count() == 0) {
-                    createUserChat(ownUserUUID, otherUserUUID, message)
+                    createUserChat(ownUserUUID, otherUserUUID, message, sender)
                     return@addOnCompleteListener
                 }
 
@@ -136,7 +131,7 @@ class UserChatFragment : Fragment() {
         }
     }
 
-    private fun createUserChat(ownUserUUID: String, otherUserUUID: String, message: String){
+    private fun createUserChat(ownUserUUID: String, otherUserUUID: String, message: String, sender: String){
         val ref = db.getReference("messages/${ownUserUUID}/${otherUserUUID}")
         val db = FirebaseFirestore.getInstance()
         val usersRef = db.collection("usuarios")
@@ -151,7 +146,7 @@ class UserChatFragment : Fragment() {
                         ref.child("userImage").setValue(user.getString("imgPerfil"))
                         ref.child("userEmail").setValue(user.getString("email"))
                         ref.child("userUUID").setValue(otherUserUUID)
-                        ref.child("messages").child("0").setValue(MessageEntity(message, otherUserUUID, System.currentTimeMillis()))
+                        ref.child("messages").child("0").setValue(MessageEntity(message, sender, System.currentTimeMillis()))
                         binding.editTxtUserChatMessage.text.clear()
                     }
                 }
@@ -212,12 +207,16 @@ class UserChatFragment : Fragment() {
         constraintSet.applyTo(requireActivity().findViewById(R.id.frameLayoutMainActivity))
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
+    override fun onStop() {
+        super.onStop()
         showBottomNav()
         showMargins()
-        _binding = null
         messageListAdapter.stopListening()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
 }

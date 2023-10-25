@@ -16,13 +16,18 @@ import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.ktx.database
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import team.doit.do_it.R
 import team.doit.do_it.databinding.FragmentProjectDetailInvestorBinding
+import team.doit.do_it.entities.ChatEntity
 import team.doit.do_it.entities.InvestEntity
+import team.doit.do_it.entities.MessageEntity
 import team.doit.do_it.entities.ProjectEntity
+import team.doit.do_it.entities.UserEntity
 import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
 
@@ -79,6 +84,72 @@ class ProjectDetailInvestorFragment : Fragment() {
 
         binding.imgBtnProjectDetailInvestorFollowProject.setOnClickListener {
             followProject()
+        }
+
+        binding.imgBtnProjectDetailInvestorChat.setOnClickListener {
+            val ownUserUUID = FirebaseAuth.getInstance().currentUser?.uid ?: return@setOnClickListener
+            val usersRef = db.collection("usuarios")
+
+            usersRef.whereEqualTo("email", creatorEmail)
+                .get()
+                .addOnSuccessListener { documents ->
+                    safeAccessBinding {
+                        if (!documents.isEmpty) {
+                            val user = documents.documents[0]
+                            val otherUserUUID = user.getString("uuid").toString()
+                            val ref = Firebase.database.getReference("messages/${ownUserUUID}/${otherUserUUID}/messages")
+
+                            ref.get().addOnCompleteListener {
+                                if (it.isSuccessful) {
+                                    if (it.result?.children?.count() == 0) {
+                                        createUserChat(ownUserUUID, user)
+                                        return@addOnCompleteListener
+                                    }
+
+                                    openUserChat(ownUserUUID, otherUserUUID)
+                                }
+                            }
+                        }
+                    }
+                }
+        }
+    }
+
+    private fun createUserChat(ownUserUUID : String, user : DocumentSnapshot){
+        val otherUserUUID = user.getString("uuid").toString()
+        val ref = Firebase.database.getReference("messages/${ownUserUUID}/${otherUserUUID}")
+        ref.child("userName").setValue("${user.getString("nombre")} ${user.getString("apellido")}")
+        ref.child("userImage").setValue(user.getString("imgPerfil"))
+        ref.child("userEmail").setValue(user.getString("email"))
+        ref.child("userUUID").setValue(otherUserUUID)
+
+        val chat = ChatEntity(
+            "${user.getString("nombre")} ${user.getString("apellido")}",
+            creatorEmail,
+            user.getString("imgPerfil")!!,
+            user.getString("uuid")!!,
+            mutableListOf())
+
+        val action = ProjectDetailInvestorFragmentDirections.actionProjectDetailInvestorFragmentToUserChatHome(chat)
+        this.findNavController().navigate(action)
+    }
+
+    private fun openUserChat(ownUserUUID : String, otherUserUUID : String){
+        val ref = Firebase.database.getReference("messages/$ownUserUUID/$otherUserUUID")
+
+        ref.get().addOnSuccessListener {
+            if (it.exists()) {
+                val chat = ChatEntity(
+                    it.child("userName").value.toString(),
+                    it.child("userEmail").value.toString(),
+                    it.child("userImage").value.toString(),
+                    it.child("userUUID").value.toString(),
+                    mutableListOf()
+                )
+
+                val action = ProjectDetailInvestorFragmentDirections.actionProjectDetailInvestorFragmentToUserChatHome(chat)
+                this.findNavController().navigate(action)
+            }
         }
     }
 
@@ -372,10 +443,14 @@ class ProjectDetailInvestorFragment : Fragment() {
             }
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
+    override fun onStop(){
+        super.onStop()
         showBottomNav()
         showMargins()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
         _binding = null
     }
 }
