@@ -5,8 +5,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
@@ -290,8 +290,13 @@ class HomeInvestorFragment : Fragment(), OnViewItemClickedListener {
         fun onUserFetched(user: Boolean?)
     }
 
+    private fun showBottomNav() {
+        requireActivity().findViewById<View>(R.id.bottomNavigationView).visibility = View.VISIBLE
+    }
+
     override fun onResume() {
         super.onResume()
+        showBottomNav()
         binding.switchToHomeCreator.isChecked = true
     }
 

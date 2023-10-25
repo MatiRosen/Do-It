@@ -260,7 +260,7 @@ class ProjectDetailCreatorFragment : Fragment() {
             ViewGroup.LayoutParams.MATCH_PARENT
             )
     }
-    
+
     override fun onDestroyView() {
         super.onDestroyView()
 
