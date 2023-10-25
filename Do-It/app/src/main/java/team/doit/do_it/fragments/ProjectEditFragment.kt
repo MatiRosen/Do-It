@@ -41,7 +41,6 @@ class ProjectEditFragment : Fragment() {
         _binding = FragmentProjectEditBinding.inflate(inflater, container, false)
         v = binding.root
 
-        hideBottomNav()
         startSpinner()
 
         return v
@@ -49,7 +48,6 @@ class ProjectEditFragment : Fragment() {
 
     override fun onStart() {
         super.onStart()
-
 
         binding.imgBtnProjectEditBack.setOnClickListener {
             v.findNavController().navigateUp()
@@ -75,10 +73,6 @@ class ProjectEditFragment : Fragment() {
         }
 
         replaceData()
-    }
-
-    private fun hideBottomNav() {
-        requireActivity().findViewById<View>(R.id.bottomNavigationView).visibility = View.GONE
     }
 
     private fun pickImage() {

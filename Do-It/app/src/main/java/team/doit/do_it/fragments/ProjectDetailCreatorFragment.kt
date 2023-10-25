@@ -260,16 +260,10 @@ class ProjectDetailCreatorFragment : Fragment() {
             ViewGroup.LayoutParams.MATCH_PARENT
             )
     }
-
-
-
-    private fun showBottomNav() {
-        requireActivity().findViewById<View>(R.id.bottomNavigationView).visibility = View.VISIBLE
-    }
-
+    
     override fun onDestroyView() {
         super.onDestroyView()
-        showBottomNav()
+
         _binding = null
     }
 
