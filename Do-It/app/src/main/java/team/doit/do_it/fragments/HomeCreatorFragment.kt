@@ -200,8 +200,13 @@ class HomeCreatorFragment : Fragment(), OnViewItemClickedListener {
         this.findNavController().navigate(action)
     }
 
+    private fun showBottomNav() {
+        requireActivity().findViewById<View>(R.id.bottomNavigationView).visibility = View.VISIBLE
+    }
+
     override fun onResume() {
         super.onResume()
+        showBottomNav()
         binding.switchToHomeInvestor.isChecked = false
     }
 
