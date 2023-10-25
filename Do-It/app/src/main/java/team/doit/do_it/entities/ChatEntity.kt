@@ -10,9 +10,9 @@ data class ChatEntity(
     var messages: MutableList<MessageEntity>) : Parcelable {
 
     constructor(parcel: Parcel) : this(
-        parcel.readString() ?: "",
-        parcel.readString() ?: "",
-        parcel.readString() ?: "",
+        parcel.readString()!!,
+        parcel.readString()!!,
+        parcel.readString()!!,
         parcel.createTypedArrayList(MessageEntity.CREATOR) ?: mutableListOf<MessageEntity>()
     )
 
