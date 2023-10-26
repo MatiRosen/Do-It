@@ -51,6 +51,7 @@
                 android:text="@string/premiumTitle"
                 android:textAlignment="center"
                 android:textColor="@color/pantone"
+                android:padding="@dimen/input_txt_padding"
                 android:textSize="@dimen/txt_main_title_size" />
 
             <TextView
@@ -58,16 +59,45 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/premiumSubtitule"
+                android:padding="@dimen/input_txt_padding"
                 android:textAlignment="center"
                 android:textColor="@color/green"
                 android:textSize="@dimen/txt_secondary_title_size" />
 
             <TextView
-                android:id="@+id/txtPremiumInfo"
+                android:id="@+id/premiumInfo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/txt_input_size"
+                android:gravity="center_horizontal"
+                android:padding="@dimen/input_txt_padding"
+                android:textColor="@color/black"
+                android:textSize="@dimen/txt_paragraph_size"
                 android:text="@string/premiumInfo" />
+
+            <TextView
+                android:id="@+id/txtFirstBenefit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical|start"
+                android:drawableStart="@drawable/icon_upload_more_projects"
+                android:drawablePadding="@dimen/input_txt_padding"
+                android:padding="@dimen/input_txt_padding"
+                android:textColor="@color/black"
+                android:textSize="@dimen/txt_paragraph_size"
+                android:text="@string/firstBenefit" />
+
+            <TextView
+                android:id="@+id/txtSecondBenefit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical|start"
+                android:drawableStart="@drawable/icon_remove_ads"
+                android:drawablePadding="@dimen/input_txt_padding"
+                android:textColor="@color/black"
+                android:padding="@dimen/input_txt_padding"
+                android:textSize="@dimen/txt_paragraph_size"
+                android:text="@string/secondBenefit" />
+
 
             <Button
                 android:id="@+id/btnComprar"
@@ -76,6 +106,7 @@
                 android:background="@drawable/style_button_verify_email"
                 android:text="@string/btnGetPremium"
                 android:textColor="@color/black"
+                android:padding="@dimen/input_txt_padding"
                 android:textSize="@dimen/txt_button_size" />
 
             <ProgressBar
@@ -86,6 +117,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
+
         </LinearLayout>
     </ScrollView>
 
