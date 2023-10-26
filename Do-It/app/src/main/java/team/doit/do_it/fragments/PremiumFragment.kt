@@ -28,7 +28,7 @@ import java.io.IOException
 class PremiumFragment : Fragment() {
 
     companion object {
-        private const val BACKEND_URL = "http://10.0.2.2:4242"
+        private const val BACKEND_URL = "https://enchanting-sprout-agate.glitch.me"
     }
 
     private lateinit var v : View
