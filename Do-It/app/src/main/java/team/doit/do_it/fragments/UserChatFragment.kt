@@ -124,7 +124,9 @@ class UserChatFragment : Fragment() {
                 }
 
                 val lastMessageKey = it.result?.children?.last()?.key?.toInt() ?: 0
-                ref.child("${lastMessageKey + 1}").setValue(MessageEntity(message, sender, System.currentTimeMillis()))
+                val currentTime = System.currentTimeMillis()
+                ref.child("${lastMessageKey + 1}").setValue(MessageEntity(message, sender, currentTime))
+                db.getReference("messages/${ownUserUUID}/${otherUserUUID}/lastMessageDate").setValue(-currentTime)
 
                 binding.editTxtUserChatMessage.text.clear()
             }
@@ -146,7 +148,9 @@ class UserChatFragment : Fragment() {
                         ref.child("userImage").setValue(user.getString("imgPerfil"))
                         ref.child("userEmail").setValue(user.getString("email"))
                         ref.child("userUUID").setValue(otherUserUUID)
-                        ref.child("messages").child("0").setValue(MessageEntity(message, sender, System.currentTimeMillis()))
+                        val currentTime = System.currentTimeMillis()
+                        ref.child("messages").child("0").setValue(MessageEntity(message, sender, currentTime))
+                        ref.child("lastMessageDate").setValue(-currentTime)
                         binding.editTxtUserChatMessage.text.clear()
                     }
                 }
@@ -207,10 +211,24 @@ class UserChatFragment : Fragment() {
         constraintSet.applyTo(requireActivity().findViewById(R.id.frameLayoutMainActivity))
     }
 
+    private fun deleteChatIfNoMessages() {
+        val ownUserUUID = FirebaseAuth.getInstance().currentUser?.uid ?: return
+        val ref = db.getReference("messages/${ownUserUUID}/${chat.userUUID}/messages")
+
+        ref.get().addOnCompleteListener {
+            if (it.isSuccessful) {
+                if (it.result?.children?.count() == 0) {
+                    ref.parent?.removeValue()
+                }
+            }
+        }
+    }
+
     override fun onStop() {
         super.onStop()
         showBottomNav()
         showMargins()
+        deleteChatIfNoMessages()
         messageListAdapter.stopListening()
     }
 

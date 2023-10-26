@@ -8,17 +8,19 @@ data class ChatEntity(
     var userEmail: String,
     var userImage: String,
     var userUUID: String,
-    var messages: MutableList<MessageEntity>) : Parcelable {
+    var messages: MutableList<MessageEntity>,
+    var lastMessageDate: Long) : Parcelable {
 
     constructor(parcel: Parcel) : this(
         parcel.readString()!!,
         parcel.readString()!!,
         parcel.readString()!!,
         parcel.readString()!!,
-        parcel.createTypedArrayList(MessageEntity.CREATOR) ?: mutableListOf<MessageEntity>()
+        parcel.createTypedArrayList(MessageEntity.CREATOR) ?: mutableListOf<MessageEntity>(),
+        parcel.readLong()
     )
 
-    constructor() : this("", "", "", "", mutableListOf<MessageEntity>())
+    constructor() : this("", "", "", "", mutableListOf<MessageEntity>(), 0)
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeString(userName)
@@ -26,6 +28,7 @@ data class ChatEntity(
         parcel.writeString(userImage)
         parcel.writeString(userUUID)
         parcel.writeTypedList(messages)
+        parcel.writeLong(lastMessageDate)
     }
 
     override fun describeContents(): Int {

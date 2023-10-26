@@ -12,6 +12,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.firebase.ui.database.FirebaseRecyclerOptions
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ktx.snapshots
+import kotlinx.coroutines.flow.map
 import team.doit.do_it.adapters.ChatListAdapter
 import team.doit.do_it.databinding.FragmentChatBinding
 import team.doit.do_it.entities.ChatEntity
@@ -48,7 +50,8 @@ class ChatFragment : Fragment(), OnViewItemClickedListener {
         val ownUserUUID = FirebaseAuth.getInstance().currentUser?.uid ?: return
         val ref = db.getReference("messages/$ownUserUUID")
 
-        val query = ref.orderByChild("date")
+        val query = ref.orderByChild("lastMessageDate")
+
         val options = FirebaseRecyclerOptions.Builder<ChatEntity>()
             .setQuery(query, ChatEntity::class.java)
             .build()

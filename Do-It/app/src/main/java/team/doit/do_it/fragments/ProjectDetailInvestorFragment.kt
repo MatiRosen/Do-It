@@ -122,13 +122,16 @@ class ProjectDetailInvestorFragment : Fragment() {
         ref.child("userImage").setValue(user.getString("imgPerfil"))
         ref.child("userEmail").setValue(user.getString("email"))
         ref.child("userUUID").setValue(otherUserUUID)
+        val currentTime = System.currentTimeMillis()
+        ref.child("lastMessageDate").setValue(-currentTime)
 
         val chat = ChatEntity(
             "${user.getString("nombre")} ${user.getString("apellido")}",
             creatorEmail,
             user.getString("imgPerfil")!!,
             user.getString("uuid")!!,
-            mutableListOf())
+            mutableListOf(),
+            currentTime)
 
         val action = ProjectDetailInvestorFragmentDirections.actionProjectDetailInvestorFragmentToUserChatHome(chat)
         this.findNavController().navigate(action)
@@ -144,7 +147,8 @@ class ProjectDetailInvestorFragment : Fragment() {
                     it.child("userEmail").value.toString(),
                     it.child("userImage").value.toString(),
                     it.child("userUUID").value.toString(),
-                    mutableListOf()
+                    mutableListOf(),
+                    it.child("lastMessageDate").value.toString().toLong()
                 )
 
                 val action = ProjectDetailInvestorFragmentDirections.actionProjectDetailInvestorFragmentToUserChatHome(chat)

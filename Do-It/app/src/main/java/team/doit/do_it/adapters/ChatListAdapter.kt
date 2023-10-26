@@ -24,9 +24,9 @@ class ChatListAdapter(
 
     override fun onBindViewHolder(holder: ChatHolder, position: Int, model: ChatEntity) {
         holder.setUserName(model.userName)
-        holder.setLastMessage(model.messages.last().message)
-        holder.setLastMessageDate(humanizeTime(model.messages.last().date, holder))
-        println(model)
+        val lastMessage = model.messages.lastOrNull()
+        holder.setLastMessage(lastMessage?.message ?: "")
+        holder.setLastMessageDate(humanizeTime(lastMessage?.date ?: System.currentTimeMillis(), holder))
         holder.setUserImage(model.userImage, model.userEmail)
 
         holder.getCardLayout().setOnClickListener {
