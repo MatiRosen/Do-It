@@ -7,6 +7,7 @@
     android:layout_height="match_parent"
     tools:context=".fragments.HomeInvestorFragment">
 
+
     <androidx.appcompat.widget.SearchView
         android:id="@+id/searchViewHomeInvestor"
         android:layout_width="0dp"
@@ -14,17 +15,28 @@
         android:background="@drawable/style_edittext"
         android:textAppearance="@style/Base.Theme.DoIt"
         app:iconifiedByDefault="false"
+        android:layout_marginBottom="@dimen/divider_bottom_padding"
+        app:layout_constraintBottom_toTopOf="@+id/spinnerFilterCategory"
         app:layout_constraintEnd_toStartOf="@+id/guidelineHomeInvestorVertical80"
-        app:layout_constraintHorizontal_bias="0.144"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:queryHint="@string/home_investor_search_project" />
+
+    <Spinner
+        android:id="@+id/spinnerFilterCategory"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/divider_bottom_padding"
+        app:layout_constraintBottom_toTopOf="@+id/guidelineHomeInvestorHorizontal14"
+        app:layout_constraintEnd_toStartOf="@+id/guidelineHomeInvestorVertical80"
+        app:layout_constraintTop_toBottomOf="@+id/guidelineHomeInvestorHorizontal8"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/txtHomeInvestorTitle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/divider_top_padding"
+        android:layout_marginTop="@dimen/title_proyect_padding_top"
         android:layout_marginBottom="@dimen/divider_bottom_padding"
         android:layout_marginStart="@dimen/card_global_project_margin"
         android:text="@string/home_investor_title"
@@ -33,7 +45,8 @@
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/searchViewHomeInvestor" />
+        app:layout_constraintEnd_toStartOf="@+id/guidelineHomeInvestorVertical80"
+        app:layout_constraintTop_toBottomOf="@+id/guidelineHomeInvestorHorizontal14" />
 
     <ProgressBar
         android:id="@+id/progressBarHomeInvestorTop"
@@ -53,6 +66,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/searchViewHomeInvestor" />
 
+
     <ProgressBar
         android:id="@+id/progressBarHomeInvestorBottom"
         android:layout_width="wrap_content"
@@ -62,6 +76,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/guidelineHomeInvestorHorizontal95" />
+
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerHomeInvestorPopularProjects"
@@ -85,9 +100,9 @@
         android:textColor="@color/dark_pantone"
         android:textSize="@dimen/txt_description_size"
         android:textStyle="bold"
-        app:layout_constraintTop_toBottomOf="@+id/recyclerHomeInvestorPopularProjects"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/recyclerHomeInvestorPopularProjects" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerHomeInvestorAllProjects"
@@ -125,5 +140,32 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="@dimen/guideline_95" />
+
+    <Button
+        android:id="@+id/btnFiltrarCategoria"
+        android:layout_width="@dimen/home_investor_filter_button_width"
+        android:layout_height="@dimen/home_investor_filter_button_height"
+        android:background="@drawable/style_button"
+        android:text="@string/home_investor_filter_category"
+        android:textColor="@color/white"
+        android:textSize="10dp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/spinnerFilterCategory"
+        app:layout_constraintTop_toBottomOf="@+id/guidelineHomeInvestorHorizontal8" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidelineHomeInvestorHorizontal14"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="@dimen/guideline_14" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidelineHomeInvestorHorizontal8"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="@dimen/guideline_10" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

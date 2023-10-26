@@ -26,6 +26,7 @@
     <dimen name="divider_start_padding">10dp</dimen>
     <dimen name="divider_end_padding">10dp</dimen>
     <dimen name="title_bottom_padding">20dp</dimen>
+    <dimen name="title_proyect_padding_top">15dp</dimen>
 
     <!-- GuideLines -->
     <dimen name="guideline_10">0.10</dimen>
@@ -43,6 +44,7 @@
     <dimen name="guideline_3">0.03</dimen>
     <dimen name="guideline_5">0.05</dimen>
     <dimen name="guideline_8">0.08</dimen>
+    <dimen name="guideline_14">0.14</dimen>
     <dimen name="guideline_15">0.15</dimen>
     <dimen name="guideline_22">0.22</dimen>
     <dimen name="guideline_32">0.32</dimen>
@@ -108,6 +110,9 @@
     <dimen name="home_creator_project_margin">15dp</dimen>
     <dimen name="home_creator_project_category_margin_top">5dp</dimen>
     <dimen name="home_creator_project_budget_margin_top">5dp</dimen>
+    <!-- Home Investor view -->
+    <dimen name="home_investor_filter_button_width">70dp</dimen>
+    <dimen name="home_investor_filter_button_height">30dp</dimen>
 
     <!-- Project Detail View -->
     <dimen name="project_detail_top_padding">40dp</dimen>

@@ -5,8 +5,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
+
+import android.widget.ArrayAdapter
+import android.widget.TextView
 import androidx.fragment.app.Fragment
+import android.widget.Toast
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
@@ -14,6 +17,7 @@ import androidx.paging.PagingConfig
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.firebase.ui.firestore.paging.FirestorePagingOptions
+import com.google.android.material.snackbar.Snackbar
 import com.google.android.gms.ads.LoadAdError
 import com.google.android.gms.ads.interstitial.InterstitialAd
 import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
@@ -35,7 +39,6 @@ class HomeInvestorFragment : Fragment(), OnViewItemClickedListener {
     private val binding get() = _binding!!
     private lateinit var v : View
     private val db = FirebaseFirestore.getInstance()
-
     private lateinit var popularProjectListAdapter: ProjectListAdapter
     private lateinit var allProjectListAdapter: ProjectListAdapter
 
@@ -48,11 +51,10 @@ class HomeInvestorFragment : Fragment(), OnViewItemClickedListener {
     ): View? {
         _binding = FragmentHomeInvestorBinding.inflate(inflater, container, false)
         v = binding.root
-
         binding.progressBarHomeInvestor.visibility = View.GONE
         binding.progressBarHomeInvestorTop.visibility = View.GONE
         binding.progressBarHomeInvestorBottom.visibility = View.GONE
-
+        startSpinner()
         return v
     }
 
@@ -67,6 +69,26 @@ class HomeInvestorFragment : Fragment(), OnViewItemClickedListener {
         binding.switchToHomeCreator.setOnClickListener {
             val action = HomeInvestorFragmentDirections.actionHomeInvestorFragmentToHomeCreatorFragment()
             this.findNavController().navigate(action)
+        }
+        binding.searchViewHomeInvestor.setOnClickListener{
+            binding.txtHomeInvestorTitle.visibility = View.GONE
+            binding.recyclerHomeInvestorPopularProjects.visibility = View.GONE
+            filterAllProjectsByfoneticSearch()
+            binding.spinnerFilterCategory.setSelection(0)
+        }
+        binding.btnFiltrarCategoria.setOnClickListener {
+            binding.txtHomeInvestorTitle.visibility = View.GONE
+            binding.recyclerHomeInvestorPopularProjects.visibility = View.GONE
+            val categoryfilter = binding.spinnerFilterCategory.selectedItem.toString()
+            if (categoryfilter == resources.getString(R.string.project_creation_project_category_hint)){
+                binding.txtHomeInvestorTitle.visibility = View.VISIBLE
+                binding.recyclerHomeInvestorPopularProjects.visibility = View.VISIBLE
+                Snackbar.make(v, resources.getString(R.string.project_creation_category_error), Snackbar.LENGTH_LONG).show()
+                setupAllProjectsRecyclerView()
+            }else{
+                binding.searchViewHomeInvestor.setQuery("",false)
+                filterAllProjectsByCategory()
+            }
         }
     }
 
@@ -92,8 +114,8 @@ class HomeInvestorFragment : Fragment(), OnViewItemClickedListener {
     }
 
     private fun setupAllProjectsRecyclerView() {
-        val query = db.collection("ideas")
-            .orderBy("creationDate", Query.Direction.DESCENDING)
+
+        var query = db.collection("ideas").orderBy("creationDate", Query.Direction.DESCENDING)
 
         val config = PagingConfig(20, 10, false)
 
@@ -109,7 +131,40 @@ class HomeInvestorFragment : Fragment(), OnViewItemClickedListener {
         allProjectListAdapter.startListening()
         binding.recyclerHomeInvestorAllProjects.adapter = allProjectListAdapter
     }
+    private fun filterAllProjectsByCategory(){
+        allProjectListAdapter.stopListening()
+        val categorySearch = binding.spinnerFilterCategory.selectedItem.toString()
+        var query = db.collection("ideas").whereEqualTo("category", categorySearch)
 
+        val config = PagingConfig(20, 10, false)
+        val options = FirestorePagingOptions.Builder<ProjectEntity>()
+            .setLifecycleOwner(this)
+            .setQuery(query, config, ProjectEntity::class.java)
+            .build()
+
+        allProjectListAdapter.updateOptions(options)
+        allProjectListAdapter.startListening()
+        binding.recyclerHomeInvestorAllProjects.adapter = allProjectListAdapter
+    }
+    private fun filterAllProjectsByfoneticSearch(){
+        allProjectListAdapter.stopListening()
+        val foneticSearch = binding.searchViewHomeInvestor.query.toString()
+
+        var query = db.collection("ideas") .orderBy("title")
+            .whereGreaterThanOrEqualTo("title",foneticSearch)
+            
+            .whereLessThanOrEqualTo("title",foneticSearch+'\uf8ff')
+
+        val config = PagingConfig(20, 10, false)
+        val options = FirestorePagingOptions.Builder<ProjectEntity>()
+            .setLifecycleOwner(this)
+            .setQuery(query, config, ProjectEntity::class.java)
+            .build()
+
+        allProjectListAdapter.updateOptions(options)
+        allProjectListAdapter.startListening()
+        binding.recyclerHomeInvestorAllProjects.adapter = allProjectListAdapter
+    }
     private fun setupRecyclerViewSettings(recycler : RecyclerView, isHorizontal : Boolean = false) {
         recycler.setHasFixedSize(true)
         val linearLayoutManager = if (isHorizontal) LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false) else LinearLayoutManager(context)
@@ -220,6 +275,18 @@ class HomeInvestorFragment : Fragment(), OnViewItemClickedListener {
         })
 
         this.findNavController().navigate(action)
+    }
+    private fun startSpinner(){
+        val categoryList = resources.getStringArray(R.array.categories_array).toMutableList()
+        val hint = resources.getString(R.string.project_creation_project_category_hint)
+        categoryList.add(0, hint)
+        val adapter = object : ArrayAdapter<String>(v.context, android.R.layout.simple_list_item_activated_1, categoryList){
+            override fun getDropDownView(position: Int, convertView: View?, parent: ViewGroup): View {
+                val view = super.getDropDownView(position, convertView, parent)
+                return view
+            }
+        }
+        binding.spinnerFilterCategory.adapter = adapter
     }
 
     private fun showAds() {
