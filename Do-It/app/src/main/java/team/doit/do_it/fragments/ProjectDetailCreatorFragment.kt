@@ -74,7 +74,7 @@ class ProjectDetailCreatorFragment : Fragment() {
         super.onResume()
 
         val db = FirebaseFirestore.getInstance()
-        val query = db.collection("ideas")
+       db.collection("ideas")
             .whereEqualTo("creatorEmail", FirebaseAuth.getInstance().currentUser?.email)
             .whereEqualTo("creationDate", project.creationDate)
             .get()
@@ -95,6 +95,9 @@ class ProjectDetailCreatorFragment : Fragment() {
                     v.findNavController().navigateUp()
                 }
             }
+
+        hideBottomNav()
+        removeMargins()
     }
     private fun initializeButtons() {
         binding.imgBtnProjectDetailCreatorBack.setOnClickListener {
@@ -261,6 +264,7 @@ class ProjectDetailCreatorFragment : Fragment() {
             )
     }
 
+
     override fun onDestroyView() {
         super.onDestroyView()
 
@@ -316,23 +320,4 @@ class ProjectDetailCreatorFragment : Fragment() {
     private fun handleDeleteFailure() {
         Toast.makeText(activity, resources.getString(R.string.project_detail_delete_error), Toast.LENGTH_SHORT).show()
     }
-
-
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -36,7 +36,6 @@ class ChatFragment : Fragment(), OnViewItemClickedListener {
 
         v = binding.root
         db = FirebaseDatabase.getInstance()
-        binding.recyclerChats.visibility = View.GONE
 
         return v
     }
@@ -59,10 +58,14 @@ class ChatFragment : Fragment(), OnViewItemClickedListener {
         chatListAdapter = ChatListAdapter(options, this)
         binding.recyclerChats.adapter = chatListAdapter
         setupRecyclerViewSettings(binding.recyclerChats)
-        binding.recyclerChats.visibility = View.VISIBLE
-        binding.progressBarChat.visibility = View.GONE
-
         chatListAdapter.startListening()
+
+        chatListAdapter.registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver() {
+            override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
+                binding.progressBarChat.visibility = View.GONE
+            }
+        })
+
     }
 
     private fun setupRecyclerViewSettings(recycler : RecyclerView) {

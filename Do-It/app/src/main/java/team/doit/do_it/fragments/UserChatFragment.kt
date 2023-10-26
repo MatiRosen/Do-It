@@ -83,6 +83,12 @@ class UserChatFragment : Fragment() {
         setupRecyclerViewSettings(binding.recyclerViewUserChat)
         //binding.recyclerViewUserChat.scrollToPosition(messageListAdapter.itemCount - 1)
         messageListAdapter.startListening()
+
+        messageListAdapter.registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver() {
+            override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
+                binding.progressBaUserChat.visibility = View.GONE
+            }
+        })
     }
 
     private fun setupRecyclerViewSettings(recycler : RecyclerView) {
@@ -222,6 +228,12 @@ class UserChatFragment : Fragment() {
                 }
             }
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        hideBottomNav()
+        removeMargins()
     }
 
     override fun onStop() {

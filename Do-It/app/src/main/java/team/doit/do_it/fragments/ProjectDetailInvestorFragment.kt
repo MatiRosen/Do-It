@@ -447,6 +447,12 @@ class ProjectDetailInvestorFragment : Fragment() {
             }
     }
 
+    override fun onResume() {
+        super.onResume()
+        hideBottomNav()
+        removeMargins()
+    }
+
     override fun onStop(){
         super.onStop()
         showBottomNav()
