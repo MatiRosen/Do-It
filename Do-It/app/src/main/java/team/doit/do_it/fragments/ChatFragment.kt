@@ -66,6 +66,13 @@ class ChatFragment : Fragment(), OnViewItemClickedListener {
             }
         })
 
+        ref.get().addOnCompleteListener {
+            if (it.isSuccessful) {
+                if (it.result?.children?.count() == 0) {
+                    binding.progressBarChat.visibility = View.GONE
+                }
+            }
+        }
     }
 
     private fun setupRecyclerViewSettings(recycler : RecyclerView) {

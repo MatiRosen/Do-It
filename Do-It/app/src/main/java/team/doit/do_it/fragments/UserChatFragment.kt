@@ -15,9 +15,11 @@ import com.firebase.ui.database.FirebaseRecyclerOptions
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ktx.database
+import com.google.firebase.database.ktx.snapshots
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
+import kotlinx.coroutines.flow.count
 import team.doit.do_it.R
 import team.doit.do_it.adapters.MessageListAdapter
 import team.doit.do_it.databinding.FragmentUserChatBinding
@@ -89,6 +91,14 @@ class UserChatFragment : Fragment() {
                 binding.progressBaUserChat.visibility = View.GONE
             }
         })
+
+        ref.get().addOnCompleteListener {
+            if (it.isSuccessful) {
+                if (it.result?.children?.count() == 0) {
+                    binding.progressBaUserChat.visibility = View.GONE
+                }
+            }
+        }
     }
 
     private fun setupRecyclerViewSettings(recycler : RecyclerView) {
