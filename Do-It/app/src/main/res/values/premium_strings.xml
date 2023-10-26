@@ -7,4 +7,8 @@
     <string name="secondBenefit">2. Sin publicidad.</string>
     <string name="btnGetPremium">Comprar</string>
     <string name="alreadyPremium">Ya eres cliente Premium</string>
+    <string name="paymentSuccess">¡Pago completado!</string>
+    <string name="paymentFailed">¡Error!</string>
+    <string name="failLoadData">Error al caragr los datos</string>
+    <string name="failLoadPage">Error al caragr la página</string>
 </resources>

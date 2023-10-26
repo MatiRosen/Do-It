@@ -106,12 +106,12 @@ class PremiumFragment : Fragment() {
             .newCall(request)
             .enqueue(object: Callback {
                 override fun onFailure(call: Call, e: IOException) {
-                    showAlert("Failed to load data", "Error: $e")
+                    showAlert(resources.getString(R.string.failLoadData), "Error: $e")
                 }
 
                 override fun onResponse(call: Call, response: Response) {
                     if (!response.isSuccessful) {
-                        showAlert("Failed to load page", "Error: $response")
+                        showAlert(resources.getString(R.string.failLoadPage), "Error: $response")
                     } else {
                         val responseData = response.body?.string()
                         val responseJson = responseData?.let { JSONObject(it) } ?: JSONObject()
@@ -188,13 +188,13 @@ class PremiumFragment : Fragment() {
     private fun onPaymentSheetResult(paymentResult: PaymentSheetResult) {
         when (paymentResult) {
             is PaymentSheetResult.Completed -> {
-                showToast("Payment complete!")
+                showToast(resources.getString(R.string.paymentSuccess))
                 upgradeClient {
                     this.findNavController().navigateUp()
                 }
             }
             is PaymentSheetResult.Failed -> {
-                showAlert("Payment failed", paymentResult.error.localizedMessage)
+                showAlert(resources.getString(R.string.paymentFailed), paymentResult.error.localizedMessage)
             }
 
             else -> {}
