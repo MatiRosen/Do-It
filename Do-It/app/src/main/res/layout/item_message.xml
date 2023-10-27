@@ -9,6 +9,29 @@
     android:paddingVertical="@dimen/item_message_margin_vertical"
     android:orientation="vertical">
 
+    <LinearLayout
+        android:id="@+id/linearLayoutItemMessageCenter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:background="@drawable/style_item_date_chat"
+        android:backgroundTint="@color/medium_gray"
+        android:orientation="horizontal"
+        android:padding="@dimen/item_message_padding"
+        android:layout_marginVertical="@dimen/item_message_date_margin"
+        android:alpha="0.5">
+
+        <TextView
+            android:id="@+id/txtItemMessageCenterDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textColor="@color/white"
+            android:textSize="@dimen/txt_paragraph_size"
+            android:textStyle="bold"
+            android:text="Hoy"/>
+    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/linearLayoutItemMessageLeft"
@@ -36,30 +59,6 @@
             android:maxLines="1"
             android:textColor="@color/dark_gray"
             android:textSize="@dimen/txt_mini_size" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/linearLayoutItemMessageCenter"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:background="@drawable/style_item_date_chat"
-        android:backgroundTint="@color/medium_gray"
-        android:orientation="horizontal"
-        android:padding="@dimen/item_message_padding"
-        android:layout_marginVertical="@dimen/item_message_date_margin"
-        android:alpha="0.5">
-
-        <TextView
-            android:id="@+id/txtItemMessageCenterDate"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:ellipsize="end"
-            android:maxLines="1"
-            android:textColor="@color/white"
-            android:textSize="@dimen/txt_paragraph_size"
-            android:textStyle="bold"
-            android:text="Hoy"/>
     </LinearLayout>
 
     <com.google.android.flexbox.FlexboxLayout

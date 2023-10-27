@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.google.firebase.storage.FirebaseStorage
 import team.doit.do_it.R
+import java.util.Calendar
 
 class ChatHolder(view: View) : RecyclerView.ViewHolder(view) {
 
@@ -25,9 +26,9 @@ class ChatHolder(view: View) : RecyclerView.ViewHolder(view) {
         txt.text = lastMessage
     }
 
-    fun setLastMessageDate(lastDate: String) {
+    fun setLastMessageDate(lastDate: Long) {
         val txt : TextView = view.findViewById(R.id.txtItemChatLastTime)
-        txt.text = lastDate
+        txt.text = humanizeTime(lastDate)
     }
 
     fun setUserImage(userImage: String, userEmail: String) {
@@ -52,5 +53,34 @@ class ChatHolder(view: View) : RecyclerView.ViewHolder(view) {
 
     fun getCardLayout(): View {
         return view.findViewById(R.id.cardViewItemChat)
+    }
+
+    private fun humanizeTime(date: Long): String {
+        val calendar = Calendar.getInstance()
+        calendar.timeInMillis = date
+
+        val today = Calendar.getInstance()
+        val yesterday = Calendar.getInstance()
+        yesterday.add(Calendar.DAY_OF_MONTH, -1)
+
+        return when {
+            calendar.get(Calendar.YEAR) == today.get(Calendar.YEAR) &&
+                    calendar.get(Calendar.MONTH) == today.get(Calendar.MONTH) &&
+                    calendar.get(Calendar.DAY_OF_MONTH) == today.get(Calendar.DAY_OF_MONTH) -> {
+                val hour = calendar.get(Calendar.HOUR_OF_DAY)
+                val minute = calendar.get(Calendar.MINUTE)
+                val amPm = if (hour < 12) "AM" else "PM"
+                "${hour%12}:$minute $amPm"
+            }
+            calendar.get(Calendar.YEAR) == yesterday.get(Calendar.YEAR) &&
+                    calendar.get(Calendar.MONTH) == yesterday.get(Calendar.MONTH) &&
+                    calendar.get(Calendar.DAY_OF_MONTH) == yesterday.get(Calendar.DAY_OF_MONTH) -> {
+                view.resources.getString(R.string.yesterday)
+            }
+            else -> {
+                "${calendar.get(Calendar.DAY_OF_MONTH)}/${calendar.get(Calendar.MONTH) + 1}/${calendar.get(Calendar.YEAR)}"
+            }
+        }
+
     }
 }

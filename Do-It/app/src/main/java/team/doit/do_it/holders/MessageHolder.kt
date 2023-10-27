@@ -72,8 +72,7 @@ class MessageHolder(view: View) : RecyclerView.ViewHolder(view){
             calendar.get(Calendar.YEAR) == yesterday.get(Calendar.YEAR) &&
                     calendar.get(Calendar.MONTH) == yesterday.get(Calendar.MONTH) &&
                     calendar.get(Calendar.DAY_OF_MONTH) == yesterday.get(Calendar.DAY_OF_MONTH) -> view.resources.getString(R.string.yesterday)
-            else -> "${calendar.get(Calendar.DAY_OF_MONTH)}/${calendar.get(Calendar.MONTH)}/${calendar.get(Calendar.YEAR)}"
+            else -> "${calendar.get(Calendar.DAY_OF_MONTH)}/${calendar.get(Calendar.MONTH) + 1}/${calendar.get(Calendar.YEAR)}"
         }
-
     }
 }

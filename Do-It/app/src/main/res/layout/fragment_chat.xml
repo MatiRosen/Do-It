@@ -11,7 +11,7 @@
         android:id="@+id/txtChatTitle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:gravity="center"
+        android:gravity="center|top"
         android:text="@string/chat_title"
         android:textColor="@color/dark_pantone"
         android:textSize="@dimen/txt_main_title_size"
@@ -19,6 +19,17 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        android:id="@+id/divChatTitleRecycler"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:background="@color/light_gray"
+        android:alpha="0.5"
+        android:layout_marginTop="@dimen/divider_top_padding"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtChatTitle" />
 
     <ProgressBar
         android:id="@+id/progressBarChat"
@@ -36,9 +47,10 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginTop="@dimen/divider_top_padding"
+        android:background="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtChatTitle" />
+        app:layout_constraintTop_toBottomOf="@+id/divChatTitleRecycler" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
