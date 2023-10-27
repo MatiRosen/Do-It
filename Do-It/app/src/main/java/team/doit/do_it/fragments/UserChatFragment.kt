@@ -83,12 +83,12 @@ class UserChatFragment : Fragment() {
         messageListAdapter = MessageListAdapter(options)
         binding.recyclerViewUserChat.adapter = messageListAdapter
         setupRecyclerViewSettings(binding.recyclerViewUserChat)
-        //binding.recyclerViewUserChat.scrollToPosition(messageListAdapter.itemCount - 1)
         messageListAdapter.startListening()
 
         messageListAdapter.registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver() {
             override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
                 binding.progressBaUserChat.visibility = View.GONE
+                binding.recyclerViewUserChat.scrollToPosition(messageListAdapter.itemCount - 1)
             }
         })
 

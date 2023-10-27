@@ -1,11 +1,12 @@
 package team.doit.do_it.holders
 
 import android.view.View
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.google.firebase.FirebaseApp
 import com.google.firebase.auth.FirebaseAuth
 import team.doit.do_it.R
+import java.util.Calendar
 
 class MessageHolder(view: View) : RecyclerView.ViewHolder(view){
 
@@ -15,22 +16,64 @@ class MessageHolder(view: View) : RecyclerView.ViewHolder(view){
         this.view = view
     }
 
-    fun setMessage(message: String) {
-        val txt : TextView = view.findViewById(R.id.txtItemMessageMsg)
-        txt.text = message
-    }
-
-    fun setSender(sender: String) {
-        val card : View = view.findViewById(R.id.cardViewItemMessage)
+    fun setMessage(message: String, sender: String) {
         if (sender == FirebaseAuth.getInstance().currentUser?.uid) {
-            card.setBackgroundColor(view.resources.getColor(R.color.green, null))
+            view.findViewById<TextView>(R.id.txtItemMessageRightMsg).text = message
         } else {
-            card.setBackgroundColor(view.resources.getColor(R.color.pantone, null))
+            view.findViewById<TextView>(R.id.txtItemMessageLeftMsg).text = message
         }
     }
 
-    fun setDate(date: String) {
-        val txt : TextView = view.findViewById(R.id.txtItemMessageDate)
-        txt.text = date
+    fun setSender(sender: String) {
+        if (sender == FirebaseAuth.getInstance().currentUser?.uid) {
+            view.findViewById<View>(R.id.linearLayoutItemMessageLeft).visibility = View.GONE
+        } else {
+            view.findViewById<View>(R.id.linearLayoutItemMessageRight).visibility = View.GONE
+        }
+    }
+
+    fun setDate(date: Long, sender: String) {
+        if (sender == FirebaseAuth.getInstance().currentUser?.uid) {
+            view.findViewById<TextView>(R.id.txtItemMessageRightDate).text = humanizeTime(date)
+        } else {
+            view.findViewById<TextView>(R.id.txtItemMessageLeftDate).text = humanizeTime(date)
+        }
+    }
+
+    fun setDay(date: Long, isDateChange: Boolean) {
+        if (isDateChange) {
+            view.findViewById<TextView>(R.id.txtItemMessageCenterDate).text = getDate(date)
+        } else {
+            view.findViewById<LinearLayout>(R.id.linearLayoutItemMessageCenter).visibility = View.GONE
+        }
+    }
+
+    private fun humanizeTime(time: Long): String {
+        val calendar = Calendar.getInstance()
+        calendar.timeInMillis = time
+        val hour = calendar.get(Calendar.HOUR_OF_DAY)
+        val minute = calendar.get(Calendar.MINUTE)
+        val amPm = if (hour < 12) "AM" else "PM"
+        return "${hour%12}:$minute $amPm"
+    }
+
+    private fun getDate(date: Long) : String{
+        val calendar = Calendar.getInstance()
+        calendar.timeInMillis = date
+
+        val today = Calendar.getInstance()
+        val yesterday = Calendar.getInstance()
+        yesterday.add(Calendar.DAY_OF_MONTH, -1)
+
+        return when {
+            calendar.get(Calendar.YEAR) == today.get(Calendar.YEAR) &&
+                    calendar.get(Calendar.MONTH) == today.get(Calendar.MONTH) &&
+                    calendar.get(Calendar.DAY_OF_MONTH) == today.get(Calendar.DAY_OF_MONTH) -> view.resources.getString(R.string.today)
+            calendar.get(Calendar.YEAR) == yesterday.get(Calendar.YEAR) &&
+                    calendar.get(Calendar.MONTH) == yesterday.get(Calendar.MONTH) &&
+                    calendar.get(Calendar.DAY_OF_MONTH) == yesterday.get(Calendar.DAY_OF_MONTH) -> view.resources.getString(R.string.yesterday)
+            else -> "${calendar.get(Calendar.DAY_OF_MONTH)}/${calendar.get(Calendar.MONTH)}/${calendar.get(Calendar.YEAR)}"
+        }
+
     }
 }
