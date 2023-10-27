@@ -1,10 +1,12 @@
 package team.doit.do_it.holders
 
 import android.view.View
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.google.firebase.storage.FirebaseStorage
+import com.mikhaellopez.circularimageview.CircularImageView
 import team.doit.do_it.R
 import java.util.Calendar
 
@@ -32,7 +34,7 @@ class ChatHolder(view: View) : RecyclerView.ViewHolder(view) {
     }
 
     fun setUserImage(userImage: String, userEmail: String) {
-        val imageView = view.findViewById<com.mikhaellopez.circularimageview.CircularImageView>(R.id.imgChatProfileImage)
+        val imageView = view.findViewById<CircularImageView>(R.id.imgChatProfileImage)
 
         if (userImage == "") {
             imageView.setImageResource(R.drawable.img_avatar)
@@ -49,6 +51,17 @@ class ChatHolder(view: View) : RecyclerView.ViewHolder(view) {
             .error(R.drawable.img_avatar)
             .into(imageView)
 
+    }
+
+    fun setWaiting(isWaiting: Boolean) {
+        val img : ImageView = view.findViewById(R.id.imgItemChatNewMessage)
+        if (isWaiting) {
+            img.visibility = View.VISIBLE
+            view.findViewById<CircularImageView>(R.id.imgChatProfileImage).borderColor = view.resources.getColor(R.color.pantone, null)
+            view.findViewById<TextView>(R.id.txtItemChatUserName).setTextColor(view.resources.getColor(R.color.pantone, null))
+        } else {
+            img.visibility = View.GONE
+        }
     }
 
     fun getCardLayout(): View {
@@ -68,8 +81,9 @@ class ChatHolder(view: View) : RecyclerView.ViewHolder(view) {
                     calendar.get(Calendar.MONTH) == today.get(Calendar.MONTH) &&
                     calendar.get(Calendar.DAY_OF_MONTH) == today.get(Calendar.DAY_OF_MONTH) -> {
                 val hour = calendar.get(Calendar.HOUR_OF_DAY)
-                val minute = calendar.get(Calendar.MINUTE)
+                val minute = if (calendar.get(Calendar.MINUTE) < 10) "0${calendar.get(Calendar.MINUTE)}" else calendar.get(Calendar.MINUTE)
                 val amPm = if (hour < 12) "AM" else "PM"
+
                 "${hour%12}:$minute $amPm"
             }
             calendar.get(Calendar.YEAR) == yesterday.get(Calendar.YEAR) &&

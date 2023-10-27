@@ -132,7 +132,8 @@ class ProjectDetailInvestorFragment : Fragment() {
             user.getString("imgPerfil")!!,
             user.getString("uuid")!!,
             mutableListOf(),
-            currentTime)
+            currentTime,
+            false)
 
         val action = ProjectDetailInvestorFragmentDirections.actionProjectDetailInvestorFragmentToUserChatHome(chat)
         this.findNavController().navigate(action)
@@ -149,7 +150,8 @@ class ProjectDetailInvestorFragment : Fragment() {
                     it.child("userImage").value.toString(),
                     it.child("userUUID").value.toString(),
                     mutableListOf(),
-                    it.child("lastMessageDate").value.toString().toLong()
+                    it.child("lastMessageDate").value.toString().toLong(),
+                    it.child("waiting").value.toString().toBoolean()
                 )
 
                 val action = ProjectDetailInvestorFragmentDirections.actionProjectDetailInvestorFragmentToUserChatHome(chat)

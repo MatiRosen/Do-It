@@ -29,6 +29,7 @@ class ChatListAdapter(
         holder.setLastMessage(lastMessage?.message ?: "")
         holder.setLastMessageDate(lastMessage?.date ?: System.currentTimeMillis())
         holder.setUserImage(model.userImage, model.userEmail)
+        holder.setWaiting(model.isWaiting)
 
         holder.getCardLayout().setOnClickListener {
             onItemClick.onViewItemDetail(model)

@@ -52,7 +52,7 @@ class MessageHolder(view: View) : RecyclerView.ViewHolder(view){
         val calendar = Calendar.getInstance()
         calendar.timeInMillis = time
         val hour = calendar.get(Calendar.HOUR_OF_DAY)
-        val minute = calendar.get(Calendar.MINUTE)
+        val minute = if (calendar.get(Calendar.MINUTE) < 10) "0${calendar.get(Calendar.MINUTE)}" else calendar.get(Calendar.MINUTE)
         val amPm = if (hour < 12) "AM" else "PM"
         return "${hour%12}:$minute $amPm"
     }

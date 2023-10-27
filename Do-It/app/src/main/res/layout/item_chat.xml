@@ -32,6 +32,7 @@
             android:text="@string/chat_name"
             android:textColor="@color/black"
             android:textSize="@dimen/txt_paragraph_size"
+            android:textStyle="bold"
             app:layout_constraintBottom_toTopOf="@+id/guidelineItemChatHorizontal50"
             app:layout_constraintEnd_toStartOf="@+id/guidelineItemChatVertical80"
             app:layout_constraintStart_toEndOf="@+id/imgChatProfileImage" />
@@ -64,7 +65,18 @@
             app:layout_constraintBottom_toTopOf="@+id/guidelineItemChatHorizontal50"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/guidelineItemChatVertical80"
-            app:layout_constraintTop_toTopOf="@+id/guidelineItemChatHorizontal50" />
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/imgItemChatNewMessage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/divider_end_padding"
+            android:contentDescription="@string/chat_new_message"
+            android:src="@drawable/icon_circle"
+            app:layout_constraintBottom_toTopOf="@+id/guidelineItemChatHorizontal50"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/guidelineItemChatHorizontal50" />
 
         <View
             android:id="@+id/divItemChat"

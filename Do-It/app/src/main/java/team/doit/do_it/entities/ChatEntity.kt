@@ -9,7 +9,8 @@ data class ChatEntity(
     var userImage: String,
     var userUUID: String,
     var messages: MutableList<MessageEntity>,
-    var lastMessageDate: Long) : Parcelable {
+    var lastMessageDate: Long,
+    var isWaiting: Boolean) : Parcelable {
 
     constructor(parcel: Parcel) : this(
         parcel.readString()!!,
@@ -17,10 +18,11 @@ data class ChatEntity(
         parcel.readString()!!,
         parcel.readString()!!,
         parcel.createTypedArrayList(MessageEntity.CREATOR) ?: mutableListOf<MessageEntity>(),
-        parcel.readLong()
+        parcel.readLong(),
+        parcel.readByte() != 0.toByte()
     )
 
-    constructor() : this("", "", "", "", mutableListOf<MessageEntity>(), 0)
+    constructor() : this("", "", "", "", mutableListOf<MessageEntity>(), 0, false)
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeString(userName)
@@ -29,6 +31,7 @@ data class ChatEntity(
         parcel.writeString(userUUID)
         parcel.writeTypedList(messages)
         parcel.writeLong(lastMessageDate)
+        parcel.writeByte(if (isWaiting) 1 else 0)
     }
 
     override fun describeContents(): Int {

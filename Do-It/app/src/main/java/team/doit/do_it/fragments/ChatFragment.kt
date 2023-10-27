@@ -97,6 +97,9 @@ class ChatFragment : Fragment(), OnViewItemClickedListener {
     override fun onViewItemDetail(item: Any) {
         val chat = if (item is ChatEntity) item else return
         val action = ChatFragmentDirections.actionChatToUserChat(chat)
+        val ownUserUUID = FirebaseAuth.getInstance().currentUser?.uid ?: return
+        db.getReference("messages/$ownUserUUID/${chat.userUUID}/waiting").setValue(false)
+        // TODO ver FCM de firebase para resolver cambiar el icono.
         this.findNavController().navigate(action)
     }
 }
