@@ -6,7 +6,7 @@
     <string name="project_edit_subtitle">Subtítulo del proyecto</string>
     <string name="project_edit_description">Descripción del proyecto</string>
     <string name="project_edit_min_budget">Inversión mínima</string>
-    <string name="project_edit_total_budget">Inversión total</string>
+    <string name="project_edit_total_budget">Presupuesto total</string>
 
     <string name="project_edit_succeed">¡Cambios guardados con éxito!</string>
     <string name="project_edit_failed">¡Hubo un error guardando los cambios!</string>

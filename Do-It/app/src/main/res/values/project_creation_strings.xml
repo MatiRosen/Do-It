@@ -8,7 +8,7 @@
     <string name="project_creation_project_category_hint">Seleccione una categoría</string>
     <string name="project_creation_project_image">Subir imagen</string>
     <string name="project_creation_project_min_budget">Inversión mínima</string>
-    <string name="project_creation_project_total_budget">Inversión total</string>
+    <string name="project_creation_project_total_budget">Presupuesto total</string>
     <string name="project_creation_save">Guardar</string>
 
     <string name="project_creation_succeed">¡Proyecto guardado con éxito!</string>

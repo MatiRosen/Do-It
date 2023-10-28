@@ -8,8 +8,8 @@
     <string name="project_detail_description">Descripción</string>
     <string name="project_detail_category">Categoria</string>
     <string name="project_detail_follow">Seguir</string>
-    <string name="project_detail_min_budget">Presupuesto mínimo: $%1$s</string>
-    <string name="project_detail_goal">Meta de presupuesto: $%1$s </string>
+    <string name="project_detail_min_budget">Inversión mínima: $%1$s</string>
+    <string name="project_detail_goal">Presupuesto total: $%1$s </string>
     <string name="project_detail_back">Volver atrás</string>
     <string name="project_detail_remove">Eliminar</string>
     <string name="project_detail_edit">Editar</string>
