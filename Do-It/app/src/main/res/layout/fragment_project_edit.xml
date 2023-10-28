@@ -2,7 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/frameLayout2"
+    android:id="@+id/frameLayoutProjectEdit"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".fragments.ProjectEditFragment">
@@ -39,6 +39,7 @@
                     android:src="@drawable/img_not_img" />
 
                 <FrameLayout
+                    android:id="@+id/frameLayoutProjectEditTop"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="top|start">
@@ -59,12 +60,11 @@
                         android:backgroundTint="@color/transparent"
                         android:contentDescription="@string/project_detail_back"
                         android:src="@drawable/icon_arrow_left" />
-
                 </FrameLayout>
             </FrameLayout>
 
-
             <LinearLayout
+                android:id="@+id/linearLayoutProjectEditInfoContainer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="start"
@@ -75,7 +75,7 @@
                 android:orientation="vertical">
 
                 <EditText
-                    android:id="@+id/txtProjectEditTitle"
+                    android:id="@+id/editTxtProjectEditTitle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/divider_bottom_padding"
@@ -86,12 +86,13 @@
                     android:textStyle="bold" />
 
                 <LinearLayout
+                    android:id="@+id/linearLayoutProjectEditCategory"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="horizontal">
 
                     <TextView
-                        android:id="@+id/txtProjectDetailCategory"
+                        android:id="@+id/txtProjectEditCategory"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/divider_top_padding"
@@ -114,7 +115,7 @@
 
 
                 <EditText
-                    android:id="@+id/txtProjectEditSubtitle"
+                    android:id="@+id/editTxtProjectEditSubtitle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/divider_top_padding"
@@ -124,7 +125,7 @@
                     android:textSize="@dimen/txt_description_size" />
 
                 <EditText
-                    android:id="@+id/txtProjectEditDescription"
+                    android:id="@+id/editTxtProjectEditDescription"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/divider_top_padding"
@@ -134,16 +135,19 @@
                     android:textSize="@dimen/txt_paragraph_size" />
 
                 <LinearLayout
+                    android:id="@+id/linearLayoutProjectEditGoal"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="horizontal">
 
                     <LinearLayout
+                        android:id="@+id/linearLayoutProjectEditGoalContainer"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:orientation="vertical">
+
                         <TextView
-                            android:id="@+id/txtProjectDetailGoal"
+                            android:id="@+id/txtProjectEditGoal"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/divider_top_padding"
@@ -156,7 +160,7 @@
                             app:drawableStartCompat="@drawable/icon_cash" />
 
                         <TextView
-                            android:id="@+id/txtProjectDetailMinBudget"
+                            android:id="@+id/txtProjectEditMinBudget"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/divider_top_padding"
@@ -170,11 +174,13 @@
                     </LinearLayout>
 
                     <LinearLayout
+                        android:id="@+id/linearLayoutProjectEditGoalInput"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:orientation="vertical">
+
                         <EditText
-                            android:id="@+id/txtProjectEditGoal"
+                            android:id="@+id/editTxtProjectEditGoal"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/divider_top_padding"
@@ -187,7 +193,7 @@
                             android:inputType="number" />
 
                         <EditText
-                            android:id="@+id/txtProjectEditMinBudget"
+                            android:id="@+id/editTxtProjectEditMinBudget"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/divider_top_padding"
@@ -204,7 +210,7 @@
             </LinearLayout>
 
             <Button
-                android:id="@+id/btnConfirmEditProject"
+                android:id="@+id/btnEditProjectConfirm"
                 android:background="@drawable/style_button"
                 android:textColor="@color/white"
                 android:layout_width="wrap_content"

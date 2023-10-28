@@ -5,7 +5,6 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.firebase.ui.storage.images.FirebaseImageLoader
 import com.google.firebase.storage.FirebaseStorage
 import team.doit.do_it.R
 import team.doit.do_it.extensions.setMaxLinesForEllipsizing
@@ -44,7 +43,7 @@ class ProjectHolder(view: View) : RecyclerView.ViewHolder(view){
         decimalFormatSymbols.decimalSeparator = ','
         val decimalFormat = DecimalFormat("#,###.00", decimalFormatSymbols)
 
-        val txt : TextView = view.findViewById(R.id.txtItemProjectCeatorTotalBudget)
+        val txt : TextView = view.findViewById(R.id.txtItemProjectCreatorTotalBudget)
         val budgetString = view.context.getString(R.string.currency) + decimalFormat.format(projectTotalBudget)
         txt.text = budgetString
     }
@@ -68,6 +67,6 @@ class ProjectHolder(view: View) : RecyclerView.ViewHolder(view){
     }
 
     fun getCardLayout(): View {
-        return view.findViewById(R.id.cardViewHomeCreatorProject)
+        return view.findViewById(R.id.cardViewItemProjectCreator)
     }
 }

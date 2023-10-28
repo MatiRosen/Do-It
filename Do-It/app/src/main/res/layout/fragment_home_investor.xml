@@ -16,14 +16,14 @@
         android:textAppearance="@style/Base.Theme.DoIt"
         app:iconifiedByDefault="false"
         android:layout_marginBottom="@dimen/divider_bottom_padding"
-        app:layout_constraintBottom_toTopOf="@+id/spinnerFilterCategory"
+        app:layout_constraintBottom_toTopOf="@+id/spinnerHomeInvestorFilterCategory"
         app:layout_constraintEnd_toStartOf="@+id/guidelineHomeInvestorVertical80"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:queryHint="@string/home_investor_search_project" />
 
     <Spinner
-        android:id="@+id/spinnerFilterCategory"
+        android:id="@+id/spinnerHomeInvestorFilterCategory"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/divider_bottom_padding"
@@ -116,7 +116,7 @@
         app:layout_constraintTop_toBottomOf="@+id/txtHomeInvestorSubTitle" />
 
     <androidx.appcompat.widget.SwitchCompat
-        android:id="@+id/switchToHomeCreator"
+        android:id="@+id/switchHomeInvestorToHomeCreator"
         android:layout_width="wrap_content"
         android:layout_height="48dp"
         android:layout_marginTop="1dp"
@@ -142,16 +142,17 @@
         app:layout_constraintGuide_percent="@dimen/guideline_95" />
 
     <Button
-        android:id="@+id/btnFiltrarCategoria"
-        android:layout_width="@dimen/home_investor_filter_button_width"
-        android:layout_height="@dimen/home_investor_filter_button_height"
+        android:id="@+id/btnHomeInvestorFilterCategory"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:background="@drawable/style_button"
         android:text="@string/home_investor_filter_category"
         android:textColor="@color/white"
-        android:textSize="10dp"
+        android:textSize="@dimen/txt_mini_size"
         android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/guidelineHomeInvestorHorizontal14"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/spinnerFilterCategory"
+        app:layout_constraintStart_toEndOf="@+id/spinnerHomeInvestorFilterCategory"
         app:layout_constraintTop_toBottomOf="@+id/guidelineHomeInvestorHorizontal8" />
 
     <androidx.constraintlayout.widget.Guideline

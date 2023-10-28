@@ -2,11 +2,13 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/frameLayoutPremium"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".fragments.PremiumFragment">
 
     <ScrollView
+        android:id="@+id/scrollPremium"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -16,12 +18,14 @@
         app:layout_constraintWidth_max="@dimen/input_max_width" >
 
         <LinearLayout
+            android:id="@+id/linearLayoutPremium"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
             android:orientation="vertical">
 
             <FrameLayout
+                android:id="@+id/frameLayoutPremiumTop"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="top|start">
@@ -65,7 +69,7 @@
                 android:textSize="@dimen/txt_secondary_title_size" />
 
             <TextView
-                android:id="@+id/premiumInfo"
+                android:id="@+id/txtPremiumInfo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
@@ -79,28 +83,27 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical|start"
-                android:drawableStart="@drawable/icon_upload_more_projects"
                 android:drawablePadding="@dimen/input_txt_padding"
                 android:padding="@dimen/input_txt_padding"
                 android:textColor="@color/black"
                 android:textSize="@dimen/txt_paragraph_size"
-                android:text="@string/firstBenefit" />
+                android:text="@string/firstBenefit"
+                app:drawableStartCompat="@drawable/icon_upload_more_projects" />
 
             <TextView
                 android:id="@+id/txtSecondBenefit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical|start"
-                android:drawableStart="@drawable/icon_remove_ads"
                 android:drawablePadding="@dimen/input_txt_padding"
                 android:textColor="@color/black"
                 android:padding="@dimen/input_txt_padding"
                 android:textSize="@dimen/txt_paragraph_size"
-                android:text="@string/secondBenefit" />
-
+                android:text="@string/secondBenefit"
+                app:drawableStartCompat="@drawable/icon_remove_ads" />
 
             <Button
-                android:id="@+id/btnComprar"
+                android:id="@+id/btnPremiumBuy"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/style_button_verify_email"

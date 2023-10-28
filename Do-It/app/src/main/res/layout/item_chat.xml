@@ -8,11 +8,12 @@
     app:cardBackgroundColor="@color/white">
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayoutItemChat"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <com.mikhaellopez.circularimageview.CircularImageView
-            android:id="@+id/imgChatProfileImage"
+            android:id="@+id/imgItemChatProfileImage"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:scaleType="centerCrop"
@@ -35,7 +36,7 @@
             android:textStyle="bold"
             app:layout_constraintBottom_toTopOf="@+id/guidelineItemChatHorizontal50"
             app:layout_constraintEnd_toStartOf="@+id/guidelineItemChatVertical80"
-            app:layout_constraintStart_toEndOf="@+id/imgChatProfileImage" />
+            app:layout_constraintStart_toEndOf="@+id/imgItemChatProfileImage" />
 
         <TextView
             android:id="@+id/txtItemChatLastMessage"
@@ -49,7 +50,7 @@
             android:textColor="@color/medium_gray"
             android:textSize="@dimen/txt_mini_size"
             app:layout_constraintEnd_toStartOf="@+id/guidelineItemChatVertical80"
-            app:layout_constraintStart_toEndOf="@+id/imgChatProfileImage"
+            app:layout_constraintStart_toEndOf="@+id/imgItemChatProfileImage"
             app:layout_constraintTop_toTopOf="@+id/guidelineItemChatHorizontal50" />
 
         <TextView

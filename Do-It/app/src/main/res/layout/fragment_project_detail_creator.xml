@@ -63,6 +63,7 @@
                         android:contentDescription="@string/project_detail_back" />
 
                     <LinearLayout
+                        android:id="@+id/linearLayoutProjectDetailCreatorEditTrash"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
@@ -123,7 +124,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Nombre"
                     android:textColor="@color/black"
                     android:maxLines="1"
                     android:textSize="@dimen/txt_description_size" />
@@ -131,6 +131,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/linearLayoutProjectDetailCreatorDataContainer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
@@ -146,13 +147,12 @@
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical"
                     android:layout_marginBottom="@dimen/divider_bottom_padding"
-                    android:text="Título"
                     android:textColor="@color/dark_pantone"
                     android:textSize="@dimen/txt_secondary_title_size"
                     android:textStyle="bold" />
 
                 <LinearLayout
-                    android:id="@+id/linearLayoutProjectDetailInvestorFollowers"
+                    android:id="@+id/linearLayoutProjectDetailCreatorFollowers"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
@@ -162,10 +162,9 @@
 
                     <TextView
                         android:id="@+id/txtProjectDetailCreatorFollowers"
-                        android:layout_width="match_parent"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Nombre"
                         android:textColor="@color/black"
                         android:maxLines="1"
                         android:textSize="@dimen/txt_paragraph_size"
@@ -178,15 +177,12 @@
                         android:id="@+id/txtProjectDetailCreatorCategory"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Categoría"
                         android:textColor="@color/green"
                         android:textSize="@dimen/txt_paragraph_size"
                         android:paddingVertical="@dimen/input_txt_padding"
                         android:drawablePadding="@dimen/input_txt_padding"
                         android:gravity="center_vertical"
                         app:drawableStartCompat="@drawable/icon_label" />
-
-
                 </LinearLayout>
 
                 <TextView
@@ -195,7 +191,6 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/divider_top_padding"
                     android:layout_marginBottom="@dimen/divider_bottom_padding"
-                    android:text="Subtítulo"
                     android:textColor="@color/medium_gray"
                     android:textSize="@dimen/txt_description_size" />
 
@@ -205,7 +200,6 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/divider_top_padding"
                     android:layout_marginBottom="@dimen/divider_bottom_padding"
-                    android:text="Descripción"
                     android:textColor="@color/black"
                     android:textSize="@dimen/txt_paragraph_size" />
 
@@ -215,7 +209,6 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/divider_top_padding"
                     android:layout_marginBottom="@dimen/divider_bottom_padding"
-                    android:text="Presupuesto total"
                     android:textColor="@color/black"
                     android:textSize="@dimen/txt_paragraph_size"
                     android:paddingVertical="@dimen/input_txt_padding"
@@ -228,7 +221,6 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/divider_top_padding"
                     android:layout_marginBottom="@dimen/divider_bottom_padding"
-                    android:text="Presupuesto Minimo"
                     android:textColor="@color/black"
                     android:textSize="@dimen/txt_paragraph_size"
                     android:paddingVertical="@dimen/input_txt_padding"

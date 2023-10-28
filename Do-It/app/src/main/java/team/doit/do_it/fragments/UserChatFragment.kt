@@ -87,7 +87,7 @@ class UserChatFragment : Fragment() {
 
         messageListAdapter.registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver() {
             override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
-                binding.progressBaUserChat.visibility = View.GONE
+                binding.progressBarUserChat.visibility = View.GONE
                 binding.recyclerViewUserChat.scrollToPosition(messageListAdapter.itemCount - 1)
             }
         })
@@ -95,7 +95,7 @@ class UserChatFragment : Fragment() {
         ref.get().addOnCompleteListener {
             if (it.isSuccessful) {
                 if (it.result?.children?.count() == 0) {
-                    binding.progressBaUserChat.visibility = View.GONE
+                    binding.progressBarUserChat.visibility = View.GONE
                 }
             }
         }
@@ -175,13 +175,13 @@ class UserChatFragment : Fragment() {
     }
 
     private fun setBindings() {
-        binding.txtProjectDetailCreatorProfileName.text = chat.userName
+        binding.txtUserChatProfileName.text = chat.userName
 
         setUserImage()
     }
 
     private fun setUserImage() {
-        val imageView = binding.imgProjectDetailCreatorProfileImage
+        val imageView = binding.imgUserChatProfileImage
         val userImage = chat.userImage
         val userEmail = chat.userEmail
 

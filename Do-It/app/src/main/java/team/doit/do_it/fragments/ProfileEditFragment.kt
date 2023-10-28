@@ -85,7 +85,7 @@ class ProfileEditFragment : Fragment() {
             }
         }
 
-        binding.txtDeleteAccount.setOnClickListener {
+        binding.txtEditProfileDeleteAccount.setOnClickListener {
             deleteAccountConfirm()
         }
 
@@ -93,7 +93,7 @@ class ProfileEditFragment : Fragment() {
             findNavController().navigateUp()
         }
 
-        binding.editImgProfileCircular.setOnClickListener {
+        binding.editImgEditProfileCircular.setOnClickListener {
             pickImage()
         }
     }
@@ -115,7 +115,7 @@ class ProfileEditFragment : Fragment() {
                 val selectedImageFromGallery: Uri? = data.data
                 selectedImage = selectedImageFromGallery
                 if (selectedImageFromGallery != null) {
-                    binding.editImgProfileCircular.setImageURI(selectedImageFromGallery)
+                    binding.editImgEditProfileCircular.setImageURI(selectedImageFromGallery)
                 }
             }
         }
@@ -143,12 +143,12 @@ class ProfileEditFragment : Fragment() {
             override fun onUserFetched(user: DocumentSnapshot?) {
                 if (user != null) {
                     safeAccessBinding {
-                        binding.editTextProfileName.text = editableFactory.newEditable(user.getString("nombre") ?: "")
-                        binding.editTextProfileSurname.text = editableFactory.newEditable(user.getString("apellido") ?: "")
-                        binding.editTextProfileEmail.text = editableFactory.newEditable(user.getString("email") ?: "")
-                        binding.editTextProfilePhone.text = editableFactory.newEditable(user.getString("telefono") ?: "")
+                        binding.editTextEditProfileName.text = editableFactory.newEditable(user.getString("nombre") ?: "")
+                        binding.editTextEditProfileSurname.text = editableFactory.newEditable(user.getString("apellido") ?: "")
+                        binding.editTextEditProfileEmail.text = editableFactory.newEditable(user.getString("email") ?: "")
+                        binding.editTextEditProfilePhone.text = editableFactory.newEditable(user.getString("telefono") ?: "")
                         spinnerGender.setSelection(getGenderIndex(user.getString("genero")))
-                        binding.editTextProfileAddress.text = editableFactory.newEditable(user.getString("direccion") ?: "")
+                        binding.editTextEditProfileAddress.text = editableFactory.newEditable(user.getString("direccion") ?: "")
                         setImage(currentUser?.email.toString(), user.getString("imgPerfil").toString())
                     }
                 } else {
@@ -163,7 +163,7 @@ class ProfileEditFragment : Fragment() {
         Handler(Looper.getMainLooper()).postDelayed({
             safeAccessBinding {
                 if (titleImg == "") {
-                    binding.editImgProfileCircular.setImageResource(R.drawable.img_avatar)
+                    binding.editImgEditProfileCircular.setImageResource(R.drawable.img_avatar)
                     return@safeAccessBinding
                 }
                 val storageReference = FirebaseStorage.getInstance().reference.child("images/$creatorEmail/imgProfile/$titleImg")
@@ -172,14 +172,14 @@ class ProfileEditFragment : Fragment() {
                     .load(storageReference)
                     .placeholder(R.drawable.img_avatar)
                     .error(R.drawable.img_avatar)
-                    .into(binding.editImgProfileCircular)
+                    .into(binding.editImgEditProfileCircular)
             }
         }, 500)
 
     }
 
     private fun startSpinner() {
-        spinnerGender = binding.editSpinnerProfileGender
+        spinnerGender = binding.editSpinnerEditProfileGender
         val genders = resources.getStringArray(R.array.genders).toMutableList()
         val hint = resources.getString(R.string.register_gender)
         genders.add(0, hint)
@@ -237,10 +237,10 @@ class ProfileEditFragment : Fragment() {
 
     private fun isValidUser(): Boolean {
         val propertiesToCheck = listOf(
-            Pair(binding.editTextProfileName.text.toString(), resources.getString(R.string.register_name_error)),
-            Pair(binding.editTextProfileSurname.text.toString(), resources.getString(R.string.register_surname_error)),
-            Pair(binding.editTextProfilePhone.text.toString(), resources.getString(R.string.register_phone_error)),
-            Pair(binding.editTextProfileAddress.text.toString(), resources.getString(R.string.register_address_error))
+            Pair(binding.editTextEditProfileName.text.toString(), resources.getString(R.string.register_name_error)),
+            Pair(binding.editTextEditProfileSurname.text.toString(), resources.getString(R.string.register_surname_error)),
+            Pair(binding.editTextEditProfilePhone.text.toString(), resources.getString(R.string.register_phone_error)),
+            Pair(binding.editTextEditProfileAddress.text.toString(), resources.getString(R.string.register_address_error))
         )
 
         for ((property, errorMessage) in propertiesToCheck) {
@@ -250,7 +250,7 @@ class ProfileEditFragment : Fragment() {
             }
         }
 
-        if (binding.editTextProfilePhone.text.toString().length != 10) {
+        if (binding.editTextEditProfilePhone.text.toString().length != 10) {
             Toast.makeText(activity, resources.getString(R.string.register_phone_format_error), Toast.LENGTH_SHORT).show()
             return false
         }
@@ -276,11 +276,11 @@ class ProfileEditFragment : Fragment() {
                         }
 
                         val updatedData = hashMapOf<String, Any>(
-                            "nombre" to binding.editTextProfileName.text.toString(),
-                            "apellido" to binding.editTextProfileSurname.text.toString(),
-                            "telefono" to binding.editTextProfilePhone.text.toString(),
+                            "nombre" to binding.editTextEditProfileName.text.toString(),
+                            "apellido" to binding.editTextEditProfileSurname.text.toString(),
+                            "telefono" to binding.editTextEditProfilePhone.text.toString(),
                             "genero" to spinnerGender.selectedItem.toString(),
-                            "direccion" to binding.editTextProfileAddress.text.toString(),
+                            "direccion" to binding.editTextEditProfileAddress.text.toString(),
                             "imgPerfil" to imgUrl
                         )
                         // TODO para que se actualice la foto al volver atrás, el problema está aca!!

@@ -9,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
+import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
@@ -57,7 +58,7 @@ class ProjectEditFragment : Fragment() {
             pickImage()
         }
 
-        binding.btnConfirmEditProject.setOnClickListener {
+        binding.btnEditProjectConfirm.setOnClickListener {
             updateProject(object : ProjectDetailCreatorFragment.OnProjectUpdatedListener {
                 override fun onProjectUpdated(successful: Boolean) {
                     if (successful) {
@@ -135,11 +136,11 @@ class ProjectEditFragment : Fragment() {
 
     private fun replaceData() {
         safeAccesBinding {
-            binding.txtProjectEditTitle.setText(ProjectEditFragmentArgs.fromBundle(requireArguments()).project.title)
-            binding.txtProjectEditDescription.setText(ProjectEditFragmentArgs.fromBundle(requireArguments()).project.description)
-            binding.txtProjectEditSubtitle.setText(ProjectEditFragmentArgs.fromBundle(requireArguments()).project.subtitle)
-            binding.txtProjectEditGoal.setText(ProjectEditFragmentArgs.fromBundle(requireArguments()).project.goal.toString())
-            binding.txtProjectEditMinBudget.setText(ProjectEditFragmentArgs.fromBundle(requireArguments()).project.minBudget.toString())
+            binding.editTxtProjectEditTitle.setText(ProjectEditFragmentArgs.fromBundle(requireArguments()).project.title)
+            binding.editTxtProjectEditDescription.setText(ProjectEditFragmentArgs.fromBundle(requireArguments()).project.description)
+            binding.editTxtProjectEditSubtitle.setText(ProjectEditFragmentArgs.fromBundle(requireArguments()).project.subtitle)
+            binding.editTxtProjectEditGoal.setText(ProjectEditFragmentArgs.fromBundle(requireArguments()).project.goal.toString())
+            binding.editTxtProjectEditMinBudget.setText(ProjectEditFragmentArgs.fromBundle(requireArguments()).project.minBudget.toString())
             setImage(ProjectEditFragmentArgs.fromBundle(requireArguments()).project.creatorEmail, ProjectEditFragmentArgs.fromBundle(requireArguments()).project.image)
         }
     }
@@ -151,11 +152,11 @@ class ProjectEditFragment : Fragment() {
         currentUser?.let {
 
             val project = hashMapOf<String, Any>(
-                "title" to binding.txtProjectEditTitle.text.toString(),
-                "description" to binding.txtProjectEditDescription.text.toString(),
-                "subtitle" to binding.txtProjectEditSubtitle.text.toString(),
-                "goal" to binding.txtProjectEditGoal.text.toString().toDouble().toInt(),
-                "minBudget" to binding.txtProjectEditMinBudget.text.toString().toDouble().toInt(),
+                "title" to binding.editTxtProjectEditTitle.text.toString(),
+                "description" to binding.editTxtProjectEditDescription.text.toString(),
+                "subtitle" to binding.editTxtProjectEditSubtitle.text.toString(),
+                "goal" to binding.editTxtProjectEditGoal.text.toString().toDouble().toInt(),
+                "minBudget" to binding.editTxtProjectEditMinBudget.text.toString().toDouble().toInt(),
                 "category" to binding.spinnerProjectEditCategory.selectedItem.toString(),
                 "image" to if(selectedImage != null) uploadImage(currentUser.email.toString()) else ProjectEditFragmentArgs.fromBundle(requireArguments()).project.image
             )
@@ -241,12 +242,34 @@ class ProjectEditFragment : Fragment() {
 
     private fun startSpinner(){
         val categoryList = resources.getStringArray(R.array.categories_array).toMutableList()
-        val hint = ProjectEditFragmentArgs.fromBundle(requireArguments()).project.category
-        categoryList.remove(hint)
+        val hint = resources.getString(R.string.project_creation_project_category_hint)
         categoryList.add(0, hint)
 
-        val adapter = object : ArrayAdapter<String>(v.context, android.R.layout.simple_list_item_activated_1, categoryList){}
+        val selected = ProjectEditFragmentArgs.fromBundle(requireArguments()).project.category
+        val index = categoryList.indexOf(selected)
+
+        val adapter = object : ArrayAdapter<String>(v.context, android.R.layout.simple_list_item_activated_1, categoryList){
+            override fun isEnabled(position: Int): Boolean {
+                return position != 0
+            }
+
+            override fun getDropDownView(position: Int, convertView: View?, parent: ViewGroup): View {
+                val view = super.getDropDownView(position, convertView, parent)
+
+                if (position == 0) {
+                    (view as TextView).setTextColor(resources.getColor(R.color.medium_gray, null))
+                    view.setBackgroundColor(0)
+                }
+
+                return view
+            }
+
+        }
 
         binding.spinnerProjectEditCategory.adapter = adapter
+
+        if (index != -1) {
+            binding.spinnerProjectEditCategory.setSelection(index)
+        }
     }
 }

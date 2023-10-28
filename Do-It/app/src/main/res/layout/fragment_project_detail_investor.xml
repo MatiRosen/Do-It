@@ -2,7 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/frameLayout"
+    android:id="@+id/frameLayoutProjectDetailInvestor"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".fragments.ProjectDetailInvestorFragment">
@@ -39,6 +39,7 @@
                     android:contentDescription="@string/project_detail_image" />
 
                 <FrameLayout
+                    android:id="@+id/frameLayoutProjectDetailInvestorTop"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="top|start">
@@ -61,6 +62,7 @@
                         android:contentDescription="@string/project_detail_back" />
 
                     <LinearLayout
+                        android:id="@+id/linearLayoutProjectDetailInvestorFollowProject"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
@@ -81,7 +83,7 @@
             </FrameLayout>
 
             <LinearLayout
-                android:id="@+id/linearLayoutProjectDetailInvestorData"
+                android:id="@+id/linearLayoutProjectDetailInvestorContact"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
@@ -112,7 +114,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Nombre"
                     android:textColor="@color/black"
                     android:maxLines="1"
                     android:textSize="@dimen/txt_description_size" />
@@ -122,13 +123,13 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical|end"
-                    android:layout_marginEnd="@dimen/divider_end_padding"
                     android:backgroundTint="@color/transparent"
                     app:tint="@color/black"
                     android:src="@drawable/icon_chat" />
-
             </LinearLayout>
+
             <LinearLayout
+                android:id="@+id/linearLayoutProjectDetailInvestorData"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
@@ -144,7 +145,6 @@
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical"
                     android:layout_marginBottom="@dimen/divider_bottom_padding"
-                    android:text="Título"
                     android:textColor="@color/dark_pantone"
                     android:textSize="@dimen/txt_secondary_title_size"
                     android:textStyle="bold" />
@@ -159,10 +159,9 @@
 
                     <TextView
                         android:id="@+id/txtProjectDetailInvestorFollowers"
-                        android:layout_width="match_parent"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Nombre"
                         android:textColor="@color/black"
                         android:maxLines="1"
                         android:textSize="@dimen/txt_paragraph_size"
@@ -177,16 +176,13 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/divider_top_padding"
                         android:layout_marginBottom="@dimen/divider_bottom_padding"
-                        android:text="Categoría"
                         android:textColor="@color/green"
                         android:textSize="@dimen/txt_paragraph_size"
                         android:paddingVertical="@dimen/input_txt_padding"
                         android:drawablePadding="@dimen/input_txt_padding"
                         android:gravity="center_vertical|end"
                         app:drawableStartCompat="@drawable/icon_label" />
-
                 </LinearLayout>
-
 
                 <TextView
                     android:id="@+id/txtProjectDetailInvestorSubtitle"
@@ -194,7 +190,6 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/divider_top_padding"
                     android:layout_marginBottom="@dimen/divider_bottom_padding"
-                    android:text="Subtítulo"
                     android:textColor="@color/medium_gray"
                     android:textSize="@dimen/txt_description_size" />
 
@@ -204,7 +199,6 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/divider_top_padding"
                     android:layout_marginBottom="@dimen/divider_bottom_padding"
-                    android:text="Descripción"
                     android:textColor="@color/black"
                     android:textSize="@dimen/txt_paragraph_size" />
 
@@ -214,7 +208,6 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/divider_top_padding"
                     android:layout_marginBottom="@dimen/divider_bottom_padding"
-                    android:text="Presupuesto total"
                     android:textColor="@color/black"
                     android:textSize="@dimen/txt_paragraph_size"
                     android:paddingVertical="@dimen/input_txt_padding"
@@ -227,7 +220,6 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/divider_top_padding"
                     android:layout_marginBottom="@dimen/divider_bottom_padding"
-                    android:text="Presupuesto Minimo"
                     android:textColor="@color/black"
                     android:textSize="@dimen/txt_paragraph_size"
                     android:paddingVertical="@dimen/input_txt_padding"
@@ -235,6 +227,7 @@
                     app:drawableStartCompat="@drawable/icon_cash" />
 
                 <LinearLayout
+                    android:id="@+id/linearLayoutProjectDetailInvestorInvestment"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center">
@@ -254,12 +247,7 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
                 </LinearLayout>
-
-
             </LinearLayout>
-
-
-
         </LinearLayout>
     </ScrollView>
 

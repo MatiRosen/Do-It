@@ -84,7 +84,7 @@ class HomeCreatorFragment : Fragment(), OnViewItemClickedListener {
             }
         }
 
-        binding.switchToHomeInvestor.setOnCheckedChangeListener() { _, isChecked ->
+        binding.switchHomeCreatorToHomeInvestor.setOnCheckedChangeListener() { _, isChecked ->
             if (isChecked) {
                 val action = HomeCreatorFragmentDirections.actionHomeCreatorFragmentToHomeInversorFragment()
                 v.findNavController().navigate(action)
@@ -209,7 +209,7 @@ class HomeCreatorFragment : Fragment(), OnViewItemClickedListener {
     override fun onResume() {
         super.onResume()
         showBottomNav()
-        binding.switchToHomeInvestor.isChecked = false
+        binding.switchHomeCreatorToHomeInvestor.isChecked = false
     }
 
     override fun onStop() {

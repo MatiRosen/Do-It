@@ -112,7 +112,7 @@
                 android:orientation="horizontal">
 
                 <EditText
-                    android:id="@+id/edit_txt_project_creation_goal"
+                    android:id="@+id/editTxtProjectCreationGoal"
                     android:layout_width="0dp"
                     android:layout_height="@dimen/input_txt_height"
                     android:layout_marginEnd="@dimen/input_end_padding"

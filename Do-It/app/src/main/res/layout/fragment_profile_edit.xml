@@ -18,7 +18,7 @@
         app:srcCompat="@drawable/icon_close" />
 
     <com.mikhaellopez.circularimageview.CircularImageView
-        android:id="@+id/editImgProfileCircular"
+        android:id="@+id/editImgEditProfileCircular"
         android:layout_width="250dp"
         android:layout_height="250dp"
         android:layout_marginTop="30dp"
@@ -30,27 +30,27 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
-        android:id="@+id/imgProfileLogo"
+        android:id="@+id/imgEditProfileLogo"
         android:layout_width="73dp"
         android:layout_height="70dp"
         android:contentDescription="@string/profile_logoIcon_description"
-        app:layout_constraintEnd_toEndOf="@+id/editImgProfileCircular"
-        app:layout_constraintTop_toTopOf="@+id/editImgProfileCircular"
+        app:layout_constraintEnd_toEndOf="@+id/editImgEditProfileCircular"
+        app:layout_constraintTop_toTopOf="@+id/editImgEditProfileCircular"
         app:srcCompat="@drawable/img_do_it_logo" />
 
     <ScrollView
-        android:id="@+id/scrollViewProfileInfo"
+        android:id="@+id/scrollViewEditProfileInfo"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editImgProfileCircular"
+        app:layout_constraintTop_toBottomOf="@+id/editImgEditProfileCircular"
         android:paddingTop="@dimen/profile_paddingTop_info"
         app:layout_constraintWidth_max="@dimen/input_max_width">
 
         <LinearLayout
-            android:id="@+id/linearLayout"
+            android:id="@+id/linearLayoutEditProfile"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
@@ -65,7 +65,7 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:id="@+id/txtProfileTitleName"
+                    android:id="@+id/txtEditProfileTitleName"
                     android:layout_width="@dimen/profile_titles_width"
                     android:layout_height="wrap_content"
                     android:paddingStart="@dimen/profile_txt_start_padding"
@@ -73,7 +73,7 @@
                     android:text="@string/profile_name" />
 
                 <EditText
-                    android:id="@+id/editTextProfileName"
+                    android:id="@+id/editTextEditProfileName"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -92,7 +92,7 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:id="@+id/txtProfileTitleSurname"
+                    android:id="@+id/txtEditProfileTitleSurname"
                     android:layout_width="@dimen/profile_titles_width"
                     android:layout_height="wrap_content"
                     android:paddingStart="@dimen/profile_txt_start_padding"
@@ -100,7 +100,7 @@
                     android:text="@string/profile_surname" />
 
                 <EditText
-                    android:id="@+id/editTextProfileSurname"
+                    android:id="@+id/editTextEditProfileSurname"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -118,7 +118,7 @@
                 android:layout_height="@dimen/profile_height_spinnerGender">
 
                 <TextView
-                    android:id="@+id/txtProfileTitleEmail"
+                    android:id="@+id/txtEditProfileTitleEmail"
                     android:layout_width="@dimen/profile_titles_width"
                     android:layout_height="wrap_content"
                     android:paddingStart="@dimen/profile_txt_start_padding"
@@ -127,7 +127,7 @@
                     android:layout_gravity="center_vertical"/>
 
                 <TextView
-                    android:id="@+id/editTextProfileEmail"
+                    android:id="@+id/editTextEditProfileEmail"
                     android:layout_width="@dimen/profile_titles_width"
                     android:layout_height="wrap_content"
                     android:paddingEnd="0dp"
@@ -152,7 +152,7 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:id="@+id/txtProfileTitlePhone"
+                    android:id="@+id/txtEditProfileTitlePhone"
                     android:layout_width="@dimen/profile_titles_width"
                     android:layout_height="wrap_content"
                     android:paddingStart="@dimen/profile_txt_start_padding"
@@ -160,11 +160,11 @@
                     android:text="@string/profile_phone" />
 
                 <EditText
-                    android:id="@+id/editTextProfilePhone"
+                    android:id="@+id/editTextEditProfilePhone"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:inputType="text" />
+                    android:inputType="phone" />
             </LinearLayout>
 
             <View
@@ -178,7 +178,7 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:id="@+id/txtProfileTitleGender"
+                    android:id="@+id/txtEditProfileTitleGender"
                     android:layout_width="@dimen/profile_titles_width"
                     android:layout_height="wrap_content"
                     android:paddingStart="@dimen/profile_txt_start_padding"
@@ -187,7 +187,7 @@
                     android:layout_gravity="center_vertical"/>
 
                 <Spinner
-                    android:id="@+id/editSpinnerProfileGender"
+                    android:id="@+id/editSpinnerEditProfileGender"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -205,7 +205,7 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:id="@+id/txtProfileTitleAddress"
+                    android:id="@+id/txtEditProfileTitleAddress"
                     android:layout_width="@dimen/profile_titles_width"
                     android:layout_height="wrap_content"
                     android:paddingStart="@dimen/profile_txt_start_padding"
@@ -213,7 +213,7 @@
                     android:text="@string/profile_direction" />
 
                 <EditText
-                    android:id="@+id/editTextProfileAddress"
+                    android:id="@+id/editTextEditProfileAddress"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -241,7 +241,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
 
             <TextView
-                android:id="@+id/txtDeleteAccount"
+                android:id="@+id/txtEditProfileDeleteAccount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/profile_delete_link"

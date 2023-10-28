@@ -29,8 +29,7 @@
             android:maxLines="1"
             android:textColor="@color/white"
             android:textSize="@dimen/txt_paragraph_size"
-            android:textStyle="bold"
-            android:text="Hoy"/>
+            android:textStyle="bold" />
     </LinearLayout>
 
     <LinearLayout
@@ -40,8 +39,7 @@
         android:background="@drawable/style_item_message"
         android:backgroundTint="@color/light_gray"
         android:padding="@dimen/item_message_padding"
-        android:orientation="horizontal"
-        tools:ignore="RelativeOverlap">
+        android:orientation="horizontal">
 
         <TextView
             android:id="@+id/txtItemMessageLeftMsg"
@@ -61,6 +59,7 @@
             android:textSize="@dimen/txt_mini_size" />
     </LinearLayout>
 
+    <!-- TODO: Arreglar lo de la hora y poner también en el otro layout. -->
     <com.google.android.flexbox.FlexboxLayout
         android:id="@+id/linearLayoutItemMessageRight"
         android:layout_width="wrap_content"
@@ -69,10 +68,7 @@
         android:backgroundTint="@color/green"
         android:layout_gravity="end"
         android:padding="@dimen/item_message_padding"
-        app:flexWrap="wrap"
-        app:alignItems="stretch"
-        app:alignContent="stretch"
-        tools:ignore="RelativeOverlap">
+        app:flexWrap="wrap">
 
         <TextView
             android:id="@+id/txtItemMessageRightMsg"
@@ -80,7 +76,7 @@
             android:layout_height="wrap_content"
             android:textColor="@color/white"
             android:textSize="@dimen/txt_paragraph_size"
-            android:text="lorem ipsupsumlororem ipsum" />
+            android:text="lorem ipsupsumlororem ipsum lorem ipsium asd asd asd" />
 
         <TextView
             android:id="@+id/txtItemMessageRightDate"

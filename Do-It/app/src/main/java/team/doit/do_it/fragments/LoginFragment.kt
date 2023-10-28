@@ -66,7 +66,7 @@ class LoginFragment : Fragment() {
             forgotPassword()
         }
 
-        val btnVerifyEmail = binding.btnVerifyEmail
+        val btnVerifyEmail = binding.btnLoginVerifyEmail
         btnVerifyEmail.setOnClickListener {
             mAuth.currentUser?.sendEmailVerification()
                 ?.addOnCompleteListener {
@@ -139,13 +139,13 @@ class LoginFragment : Fragment() {
     }
 
     private fun hideVerifyEmailButton() {
-        binding.btnVerifyEmail.visibility = View.GONE
+        binding.btnLoginVerifyEmail.visibility = View.GONE
         binding.btnTxtLoginRegister.visibility = View.VISIBLE
         binding.txtLoginRegister.visibility = View.VISIBLE
     }
 
     private fun showVerifyEmailButton() {
-        binding.btnVerifyEmail.visibility = View.VISIBLE
+        binding.btnLoginVerifyEmail.visibility = View.VISIBLE
         binding.btnTxtLoginRegister.visibility = View.GONE
         binding.txtLoginRegister.visibility = View.GONE
     }

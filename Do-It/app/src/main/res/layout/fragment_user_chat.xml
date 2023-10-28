@@ -8,7 +8,7 @@
     tools:context=".fragments.UserChatFragment">
 
     <ProgressBar
-        android:id="@+id/progressBaUserChat"
+        android:id="@+id/progressBarUserChat"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:indeterminateTint="@color/pantone"
@@ -27,13 +27,14 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <View
-            android:id="@+id/viewProjectDetailCreatorShadow"
+            android:id="@+id/viewUserChatShadow"
             android:layout_width="match_parent"
             android:layout_height="55dp"
             android:layout_gravity="top|start"
             android:background="@drawable/style_chat_top" />
 
         <LinearLayout
+            android:id="@+id/linearLayoutUserChatTop"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical|start"
@@ -50,7 +51,7 @@
                 android:src="@drawable/icon_arrow_left" />
 
             <com.mikhaellopez.circularimageview.CircularImageView
-                android:id="@+id/imgProjectDetailCreatorProfileImage"
+                android:id="@+id/imgUserChatProfileImage"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:layout_gravity="center_vertical"
@@ -60,7 +61,7 @@
                 android:scaleType="centerCrop"/>
 
             <TextView
-                android:id="@+id/txtProjectDetailCreatorProfileName"
+                android:id="@+id/txtUserChatProfileName"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"

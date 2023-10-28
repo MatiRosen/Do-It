@@ -64,7 +64,7 @@ class HomeInvestorFragment : Fragment(), OnViewItemClickedListener {
     }
 
     private fun setupButtons() {
-        binding.switchToHomeCreator.setOnCheckedChangeListener { _, isChecked ->
+        binding.switchHomeInvestorToHomeCreator.setOnCheckedChangeListener { _, isChecked ->
             if (!isChecked) {
                 val action = HomeInvestorFragmentDirections.actionHomeInvestorFragmentToHomeCreatorFragment()
                 this.findNavController().navigate(action)
@@ -74,14 +74,14 @@ class HomeInvestorFragment : Fragment(), OnViewItemClickedListener {
         binding.searchViewHomeInvestor.setOnClickListener{
             binding.txtHomeInvestorTitle.visibility = View.GONE
             binding.recyclerHomeInvestorPopularProjects.visibility = View.GONE
-            filterAllProjectsByfoneticSearch()
-            binding.spinnerFilterCategory.setSelection(0)
+            filterAllProjectsByPhoneticSearch()
+            binding.spinnerHomeInvestorFilterCategory.setSelection(0)
         }
-        binding.btnFiltrarCategoria.setOnClickListener {
+        binding.btnHomeInvestorFilterCategory.setOnClickListener {
             binding.txtHomeInvestorTitle.visibility = View.GONE
             binding.recyclerHomeInvestorPopularProjects.visibility = View.GONE
-            val categoryfilter = binding.spinnerFilterCategory.selectedItem.toString()
-            if (categoryfilter == resources.getString(R.string.project_creation_project_category_hint)){
+            val categoryFilter = binding.spinnerHomeInvestorFilterCategory.selectedItem.toString()
+            if (categoryFilter == resources.getString(R.string.project_creation_project_category_hint)){
                 binding.txtHomeInvestorTitle.visibility = View.VISIBLE
                 binding.recyclerHomeInvestorPopularProjects.visibility = View.VISIBLE
                 Snackbar.make(v, resources.getString(R.string.project_creation_category_error), Snackbar.LENGTH_LONG).show()
@@ -115,8 +115,7 @@ class HomeInvestorFragment : Fragment(), OnViewItemClickedListener {
     }
 
     private fun setupAllProjectsRecyclerView() {
-
-        var query = db.collection("ideas").orderBy("creationDate", Query.Direction.DESCENDING)
+        val query = db.collection("ideas").orderBy("creationDate", Query.Direction.DESCENDING)
 
         val config = PagingConfig(20, 10, false)
 
@@ -134,8 +133,8 @@ class HomeInvestorFragment : Fragment(), OnViewItemClickedListener {
     }
     private fun filterAllProjectsByCategory(){
         allProjectListAdapter.stopListening()
-        val categorySearch = binding.spinnerFilterCategory.selectedItem.toString()
-        var query = db.collection("ideas").whereEqualTo("category", categorySearch)
+        val categorySearch = binding.spinnerHomeInvestorFilterCategory.selectedItem.toString()
+        val query = db.collection("ideas").whereEqualTo("category", categorySearch)
 
         val config = PagingConfig(20, 10, false)
         val options = FirestorePagingOptions.Builder<ProjectEntity>()
@@ -147,11 +146,11 @@ class HomeInvestorFragment : Fragment(), OnViewItemClickedListener {
         allProjectListAdapter.startListening()
         binding.recyclerHomeInvestorAllProjects.adapter = allProjectListAdapter
     }
-    private fun filterAllProjectsByfoneticSearch(){
+    private fun filterAllProjectsByPhoneticSearch(){
         allProjectListAdapter.stopListening()
         val foneticSearch = binding.searchViewHomeInvestor.query.toString()
 
-        var query = db.collection("ideas") .orderBy("title")
+        val query = db.collection("ideas") .orderBy("title")
             .whereGreaterThanOrEqualTo("title",foneticSearch)
             
             .whereLessThanOrEqualTo("title",foneticSearch+'\uf8ff')
@@ -287,7 +286,7 @@ class HomeInvestorFragment : Fragment(), OnViewItemClickedListener {
                 return view
             }
         }
-        binding.spinnerFilterCategory.adapter = adapter
+        binding.spinnerHomeInvestorFilterCategory.adapter = adapter
     }
 
     private fun showAds() {
@@ -301,7 +300,7 @@ class HomeInvestorFragment : Fragment(), OnViewItemClickedListener {
     }
 
     private fun initAds() {
-        var adRequest = com.google.android.gms.ads.AdRequest.Builder().build()
+        val adRequest = com.google.android.gms.ads.AdRequest.Builder().build()
 
         InterstitialAd.load(
             v.context,
@@ -365,7 +364,7 @@ class HomeInvestorFragment : Fragment(), OnViewItemClickedListener {
     override fun onResume() {
         super.onResume()
         showBottomNav()
-        binding.switchToHomeCreator.isChecked = true
+        binding.switchHomeInvestorToHomeCreator.isChecked = true
     }
 
     override fun onStop() {

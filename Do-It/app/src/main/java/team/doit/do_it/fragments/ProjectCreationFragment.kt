@@ -69,11 +69,11 @@ class ProjectCreationFragment : Fragment() {
     private fun pickImageFromGallery() : File?{
         val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
         resultLauncher.launch(intent)
-        return selectedImage?.let { File(it.path) }
+        return selectedImage?.let { File(it.path!!) }
     }
 
     private var resultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-        if (result.resultCode == Activity.RESULT_OK) {
+        if (result.resultCode == RESULT_OK) {
             val data: Intent? = result.data
             if(data != null) run {
                 val selectedImageFromGallery: Uri? = data.data
@@ -84,7 +84,6 @@ class ProjectCreationFragment : Fragment() {
 
     private fun saveProject(){
         val project = createProject() ?: return
-        // TODO: Verificar si el usuario es premium. Si no lo es, no dejarle crear mas de 2 proyectos.
 
         saveProjectToDatabase(project)
         /*db.collection("ideas")
@@ -104,7 +103,6 @@ class ProjectCreationFragment : Fragment() {
     }
 
     private fun saveProjectToDatabase(project: ProjectEntity){
-        // Le ponemos el id al proyecto:
         db.collection("ideas")
             .add(project)
             .addOnSuccessListener {

@@ -2,11 +2,13 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/fragmentRegisterData"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".fragments.RegisterDataFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayoutRegisterData"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -33,7 +35,7 @@
             app:layout_constraintTop_toBottomOf="@+id/imgRegisterDataLogo" />
 
         <LinearLayout
-            android:id="@+id/linearLayoutFirst"
+            android:id="@+id/linearLayoutRegisterDataFirst"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:gravity="center"
@@ -70,14 +72,14 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/linearLayoutSecond"
+            android:id="@+id/linearLayoutRegisterDataSecond"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:gravity="center"
             android:orientation="horizontal"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/linearLayoutFirst">
+            app:layout_constraintTop_toBottomOf="@+id/linearLayoutRegisterDataFirst">
 
             <EditText
                 android:id="@+id/txtRegisterDataDate"
@@ -110,14 +112,14 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/linearLayoutThird"
+            android:id="@+id/linearLayoutRegisterDataThird"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:gravity="center"
             android:orientation="horizontal"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/linearLayoutSecond">
+            app:layout_constraintTop_toBottomOf="@+id/linearLayoutRegisterDataSecond">
 
             <EditText
                 android:id="@+id/txtRegisterDataPhone"
@@ -158,7 +160,7 @@
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/linearLayoutThird" />
+            app:layout_constraintTop_toBottomOf="@+id/linearLayoutRegisterDataThird" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>

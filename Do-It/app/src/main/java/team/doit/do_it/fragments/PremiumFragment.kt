@@ -62,7 +62,7 @@ class PremiumFragment : Fragment() {
 
     private fun showProgressBar() {
         binding.progressBarPremium.visibility = View.VISIBLE
-        binding.btnComprar.visibility = View.GONE
+        binding.btnPremiumBuy.visibility = View.GONE
     }
 
     private fun hideProgressBar() {
@@ -75,8 +75,8 @@ class PremiumFragment : Fragment() {
 
         isPremiumUser { isPremium ->
             if(isPremium){
-                binding.btnComprar.visibility = View.GONE
-            } else binding.btnComprar.visibility = View.VISIBLE
+                binding.btnPremiumBuy.visibility = View.GONE
+            } else binding.btnPremiumBuy.visibility = View.VISIBLE
             hideProgressBar()
         }
 
@@ -84,7 +84,7 @@ class PremiumFragment : Fragment() {
             v.findNavController().navigateUp()
         }
 
-        binding.btnComprar.setOnClickListener{
+        binding.btnPremiumBuy.setOnClickListener{
             onPayClicked(it)
         }
     }
@@ -118,7 +118,7 @@ class PremiumFragment : Fragment() {
                         paymentIntentClientSecret = responseJson.getString("clientSecret")
                         safeAccessBinding {
                             activity?.runOnUiThread {
-                                binding.btnComprar.isEnabled = true
+                                binding.btnPremiumBuy.isEnabled = true
                             }
                         }
                     }

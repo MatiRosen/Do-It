@@ -34,7 +34,7 @@ class ChatHolder(view: View) : RecyclerView.ViewHolder(view) {
     }
 
     fun setUserImage(userImage: String, userEmail: String) {
-        val imageView = view.findViewById<CircularImageView>(R.id.imgChatProfileImage)
+        val imageView = view.findViewById<CircularImageView>(R.id.imgItemChatProfileImage)
 
         if (userImage == "") {
             imageView.setImageResource(R.drawable.img_avatar)
@@ -57,7 +57,7 @@ class ChatHolder(view: View) : RecyclerView.ViewHolder(view) {
         val img : ImageView = view.findViewById(R.id.imgItemChatNewMessage)
         if (isWaiting) {
             img.visibility = View.VISIBLE
-            view.findViewById<CircularImageView>(R.id.imgChatProfileImage).borderColor = view.resources.getColor(R.color.pantone, null)
+            view.findViewById<CircularImageView>(R.id.imgItemChatProfileImage).borderColor = view.resources.getColor(R.color.pantone, null)
             view.findViewById<TextView>(R.id.txtItemChatUserName).setTextColor(view.resources.getColor(R.color.pantone, null))
         } else {
             img.visibility = View.GONE
