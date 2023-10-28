@@ -4,7 +4,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.constraintlayout.widget.ConstraintSet
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentContainerView
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -14,6 +16,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ktx.snapshots
 import kotlinx.coroutines.flow.map
+import team.doit.do_it.R
 import team.doit.do_it.adapters.ChatListAdapter
 import team.doit.do_it.databinding.FragmentChatBinding
 import team.doit.do_it.entities.ChatEntity
@@ -94,6 +97,9 @@ class ChatFragment : Fragment(), OnViewItemClickedListener {
     override fun onViewItemDetail(item: Any) {
         val chat = if (item is ChatEntity) item else return
         val action = ChatFragmentDirections.actionChatToUserChat(chat)
+        val ownUserUUID = FirebaseAuth.getInstance().currentUser?.uid ?: return
+        db.getReference("messages/$ownUserUUID/${chat.userUUID}/waiting").setValue(false)
+        // TODO ver FCM de firebase para resolver cambiar el icono.
         this.findNavController().navigate(action)
     }
 }

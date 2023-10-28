@@ -25,9 +25,7 @@ import team.doit.do_it.R
 import team.doit.do_it.databinding.FragmentProjectDetailInvestorBinding
 import team.doit.do_it.entities.ChatEntity
 import team.doit.do_it.entities.InvestEntity
-import team.doit.do_it.entities.MessageEntity
 import team.doit.do_it.entities.ProjectEntity
-import team.doit.do_it.entities.UserEntity
 import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
 
@@ -77,9 +75,8 @@ class ProjectDetailInvestorFragment : Fragment() {
             this.findNavController().navigate(action)
         }
 
-        binding.btnProjectDetailInvestment.setOnClickListener {
-            val action = ProjectDetailInvestorFragmentDirections.actionProjectDetailInvestorFragmentToProfileFragment(creatorEmail)
-            this.findNavController().navigate(action)
+        binding.btnProjectDetailInvestmentContact.setOnClickListener {
+            goToChat()
         }
 
         binding.imgBtnProjectDetailInvestorFollowProject.setOnClickListener {
@@ -87,32 +84,36 @@ class ProjectDetailInvestorFragment : Fragment() {
         }
 
         binding.imgBtnProjectDetailInvestorChat.setOnClickListener {
-            val ownUserUUID = FirebaseAuth.getInstance().currentUser?.uid ?: return@setOnClickListener
-            val usersRef = db.collection("usuarios")
+            goToChat()
+        }
+    }
 
-            usersRef.whereEqualTo("email", creatorEmail)
-                .get()
-                .addOnSuccessListener { documents ->
-                    safeAccessBinding {
-                        if (!documents.isEmpty) {
-                            val user = documents.documents[0]
-                            val otherUserUUID = user.getString("uuid").toString()
-                            val ref = Firebase.database.getReference("messages/${ownUserUUID}/${otherUserUUID}/messages")
+    private fun goToChat(){
+        val ownUserUUID = FirebaseAuth.getInstance().currentUser?.uid ?: return
+        val usersRef = db.collection("usuarios")
 
-                            ref.get().addOnCompleteListener {
-                                if (it.isSuccessful) {
-                                    if (it.result?.children?.count() == 0) {
-                                        createUserChat(ownUserUUID, user)
-                                        return@addOnCompleteListener
-                                    }
+        usersRef.whereEqualTo("email", creatorEmail)
+            .get()
+            .addOnSuccessListener { documents ->
+                safeAccessBinding {
+                    if (!documents.isEmpty) {
+                        val user = documents.documents[0]
+                        val otherUserUUID = user.getString("uuid").toString()
+                        val ref = Firebase.database.getReference("messages/${ownUserUUID}/${otherUserUUID}/messages")
 
-                                    openUserChat(ownUserUUID, otherUserUUID)
+                        ref.get().addOnCompleteListener {
+                            if (it.isSuccessful) {
+                                if (it.result?.children?.count() == 0) {
+                                    createUserChat(ownUserUUID, user)
+                                    return@addOnCompleteListener
                                 }
+
+                                openUserChat(ownUserUUID, otherUserUUID)
                             }
                         }
                     }
                 }
-        }
+            }
     }
 
     private fun createUserChat(ownUserUUID : String, user : DocumentSnapshot){
@@ -131,7 +132,8 @@ class ProjectDetailInvestorFragment : Fragment() {
             user.getString("imgPerfil")!!,
             user.getString("uuid")!!,
             mutableListOf(),
-            currentTime)
+            currentTime,
+            false)
 
         val action = ProjectDetailInvestorFragmentDirections.actionProjectDetailInvestorFragmentToUserChatHome(chat)
         this.findNavController().navigate(action)
@@ -148,7 +150,8 @@ class ProjectDetailInvestorFragment : Fragment() {
                     it.child("userImage").value.toString(),
                     it.child("userUUID").value.toString(),
                     mutableListOf(),
-                    it.child("lastMessageDate").value.toString().toLong()
+                    it.child("lastMessageDate").value.toString().toLong(),
+                    it.child("waiting").value.toString().toBoolean()
                 )
 
                 val action = ProjectDetailInvestorFragmentDirections.actionProjectDetailInvestorFragmentToUserChatHome(chat)
@@ -418,11 +421,11 @@ class ProjectDetailInvestorFragment : Fragment() {
         requireActivity().findViewById<View>(R.id.bottomNavigationView).visibility = View.VISIBLE
     }
     private fun showBottomInvest(){
-        requireActivity().findViewById<View>(R.id.btnProjectDetailInvestment).visibility = View.VISIBLE
+        requireActivity().findViewById<View>(R.id.btnProjectDetailInvestmentContact).visibility = View.VISIBLE
         //requireActivity().findViewById<View>(R.id.txtProjectDetailBudgetInvestment).visibility = View.VISIBLE
     }
     private fun hideBottomInvest(){
-        requireActivity().findViewById<View>(R.id.btnProjectDetailInvestment).visibility = View.GONE
+        requireActivity().findViewById<View>(R.id.btnProjectDetailInvestmentContact).visibility = View.GONE
         //requireActivity().findViewById<View>(R.id.txtProjectDetailBudgetInvestment).visibility = View.GONE
     }
     private fun showOrHideInvest(projectTitle : String){

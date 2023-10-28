@@ -8,6 +8,7 @@ import team.doit.do_it.R
 import team.doit.do_it.entities.ChatEntity
 import team.doit.do_it.holders.ChatHolder
 import team.doit.do_it.listeners.OnViewItemClickedListener
+import java.util.Calendar
 import java.util.Date
 
 class ChatListAdapter(
@@ -26,30 +27,12 @@ class ChatListAdapter(
         holder.setUserName(model.userName)
         val lastMessage = model.messages.lastOrNull()
         holder.setLastMessage(lastMessage?.message ?: "")
-        holder.setLastMessageDate(humanizeTime(lastMessage?.date ?: System.currentTimeMillis(), holder))
+        holder.setLastMessageDate(lastMessage?.date ?: System.currentTimeMillis())
         holder.setUserImage(model.userImage, model.userEmail)
+        holder.setWaiting(model.isWaiting)
 
         holder.getCardLayout().setOnClickListener {
             onItemClick.onViewItemDetail(model)
         }
-    }
-
-    private fun humanizeTime(time: Long, holder: ChatHolder): String {
-        if (time == 0L) return ""
-        val diff = Date().time - time
-        val seconds = diff / 1000
-        val minutes = seconds / 60
-        val hours = minutes / 60
-        val days = hours / 24
-
-        val resources = holder.itemView.resources
-
-        return when {
-            days > 0 -> "$days ${if (days == 1L) resources.getString(R.string.day).lowercase() else resources.getString(R.string.days).lowercase()}"
-            hours > 0 -> "$hours ${if (hours == 1L) resources.getString(R.string.hour).lowercase() else resources.getString(R.string.hours).lowercase()}"
-            minutes > 0 -> "$minutes ${if (minutes == 1L) resources.getString(R.string.minute).lowercase() else resources.getString(R.string.minutes).lowercase()}"
-            else -> resources.getString(R.string.now)
-        }
-
     }
 }

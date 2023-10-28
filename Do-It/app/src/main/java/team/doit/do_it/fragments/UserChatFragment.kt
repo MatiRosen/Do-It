@@ -83,12 +83,12 @@ class UserChatFragment : Fragment() {
         messageListAdapter = MessageListAdapter(options)
         binding.recyclerViewUserChat.adapter = messageListAdapter
         setupRecyclerViewSettings(binding.recyclerViewUserChat)
-        //binding.recyclerViewUserChat.scrollToPosition(messageListAdapter.itemCount - 1)
         messageListAdapter.startListening()
 
         messageListAdapter.registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver() {
             override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
                 binding.progressBaUserChat.visibility = View.GONE
+                binding.recyclerViewUserChat.scrollToPosition(messageListAdapter.itemCount - 1)
             }
         })
 
@@ -125,14 +125,14 @@ class UserChatFragment : Fragment() {
         if (message == "") return
 
         saveMessageOnDatabase(ownUserUUID, otherUserUUID, message, ownUserUUID)
-
         saveMessageOnDatabase(otherUserUUID, ownUserUUID, message, ownUserUUID)
+        db.getReference("messages/${otherUserUUID}/${ownUserUUID}/waiting").setValue(true)
     }
 
     private fun saveMessageOnDatabase(ownUserUUID : String, otherUserUUID : String, message : String, sender : String) {
-        val ref = db.getReference("messages/${ownUserUUID}/${otherUserUUID}/messages")
+        val ref = db.getReference("messages/${ownUserUUID}/${otherUserUUID}")
 
-        ref.get().addOnCompleteListener {
+        ref.child("messages").get().addOnCompleteListener {
             if (it.isSuccessful) {
                 if (it.result?.children?.count() == 0) {
                     createUserChat(ownUserUUID, otherUserUUID, message, sender)
@@ -141,8 +141,8 @@ class UserChatFragment : Fragment() {
 
                 val lastMessageKey = it.result?.children?.last()?.key?.toInt() ?: 0
                 val currentTime = System.currentTimeMillis()
-                ref.child("${lastMessageKey + 1}").setValue(MessageEntity(message, sender, currentTime))
-                db.getReference("messages/${ownUserUUID}/${otherUserUUID}/lastMessageDate").setValue(-currentTime)
+                ref.child("messages/${lastMessageKey + 1}").setValue(MessageEntity(message, sender, currentTime))
+                ref.child("lastMessageDate").setValue(-currentTime)
 
                 binding.editTxtUserChatMessage.text.clear()
             }
@@ -167,6 +167,7 @@ class UserChatFragment : Fragment() {
                         val currentTime = System.currentTimeMillis()
                         ref.child("messages").child("0").setValue(MessageEntity(message, sender, currentTime))
                         ref.child("lastMessageDate").setValue(-currentTime)
+                        ref.child("waiting").setValue(false)
                         binding.editTxtUserChatMessage.text.clear()
                     }
                 }
@@ -248,6 +249,8 @@ class UserChatFragment : Fragment() {
 
     override fun onStop() {
         super.onStop()
+        val ownUserUUID = FirebaseAuth.getInstance().currentUser?.uid ?: return
+        db.getReference("messages/${ownUserUUID}/${chat.userUUID}/waiting").setValue(false)
         showBottomNav()
         showMargins()
         deleteChatIfNoMessages()

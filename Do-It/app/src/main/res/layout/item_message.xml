@@ -1,56 +1,98 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/relativeLayoutItemMessage"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:id="@+id/cardViewItemMessage"
-    android:layout_margin="@dimen/item_card_margin"
-    android:backgroundTintMode="@color/white"
-    app:cardCornerRadius="@dimen/card_radius"
-    app:cardElevation="@dimen/card_elevation">
+    android:paddingHorizontal="@dimen/item_message_margin_horizontal"
+    android:paddingVertical="@dimen/item_message_margin_vertical"
+    android:orientation="vertical">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <TextView
-            android:id="@+id/txtItemMessageMsg"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:ellipsize="end"
-            android:gravity="start|center_vertical"
-            android:maxLines="1"
-            android:text="@string/chat_last_message"
-            android:textColor="@color/dark_gray"
-            android:textSize="@dimen/txt_paragraph_size"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+    <LinearLayout
+        android:id="@+id/linearLayoutItemMessageCenter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:background="@drawable/style_item_date_chat"
+        android:backgroundTint="@color/medium_gray"
+        android:orientation="horizontal"
+        android:padding="@dimen/item_message_padding"
+        android:layout_marginVertical="@dimen/item_message_date_margin"
+        android:alpha="0.5">
 
         <TextView
-            android:id="@+id/txtItemMessageDate"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:ellipsize="end"
-            android:gravity="start|center_vertical"
-            android:maxLines="1"
-            android:text="@string/chat_date"
-            android:textColor="@color/black"
-            android:textSize="@dimen/txt_mini_size"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/guidelineItemMessageVertical82"
-            app:layout_constraintTop_toBottomOf="@+id/txtItemMessageMsg" />
-
-
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guidelineItemMessageVertical82"
+            android:id="@+id/txtItemMessageCenterDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintGuide_percent="@dimen/guideline_82" />
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textColor="@color/white"
+            android:textSize="@dimen/txt_paragraph_size"
+            android:textStyle="bold"
+            android:text="Hoy"/>
+    </LinearLayout>
 
+    <LinearLayout
+        android:id="@+id/linearLayoutItemMessageLeft"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/style_item_message"
+        android:backgroundTint="@color/light_gray"
+        android:padding="@dimen/item_message_padding"
+        android:orientation="horizontal"
+        tools:ignore="RelativeOverlap">
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</androidx.cardview.widget.CardView>
+        <TextView
+            android:id="@+id/txtItemMessageLeftMsg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:textSize="@dimen/txt_paragraph_size" />
+
+        <TextView
+            android:id="@+id/txtItemMessageLeftDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/divider_start_padding"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textColor="@color/dark_gray"
+            android:textSize="@dimen/txt_mini_size" />
+    </LinearLayout>
+
+    <com.google.android.flexbox.FlexboxLayout
+        android:id="@+id/linearLayoutItemMessageRight"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/style_item_message"
+        android:backgroundTint="@color/green"
+        android:layout_gravity="end"
+        android:padding="@dimen/item_message_padding"
+        app:flexWrap="wrap"
+        app:alignItems="stretch"
+        app:alignContent="stretch"
+        tools:ignore="RelativeOverlap">
+
+        <TextView
+            android:id="@+id/txtItemMessageRightMsg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:textSize="@dimen/txt_paragraph_size"
+            android:text="lorem ipsupsumlororem ipsum" />
+
+        <TextView
+            android:id="@+id/txtItemMessageRightDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/divider_start_padding"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:gravity="end"
+            android:textColor="@color/white"
+            android:textSize="@dimen/txt_mini_size"
+            android:text="22 horas"
+            app:layout_alignSelf="flex_end"/>
+    </com.google.android.flexbox.FlexboxLayout>
+</LinearLayout>
