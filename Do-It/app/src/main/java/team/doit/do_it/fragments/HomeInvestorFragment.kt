@@ -5,11 +5,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-
 import android.widget.ArrayAdapter
-import android.widget.TextView
-import androidx.fragment.app.Fragment
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
@@ -17,10 +15,10 @@ import androidx.paging.PagingConfig
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.firebase.ui.firestore.paging.FirestorePagingOptions
-import com.google.android.material.snackbar.Snackbar
 import com.google.android.gms.ads.LoadAdError
 import com.google.android.gms.ads.interstitial.InterstitialAd
 import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
+import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
@@ -66,10 +64,13 @@ class HomeInvestorFragment : Fragment(), OnViewItemClickedListener {
     }
 
     private fun setupButtons() {
-        binding.switchToHomeCreator.setOnClickListener {
-            val action = HomeInvestorFragmentDirections.actionHomeInvestorFragmentToHomeCreatorFragment()
-            this.findNavController().navigate(action)
+        binding.switchToHomeCreator.setOnCheckedChangeListener { _, isChecked ->
+            if (!isChecked) {
+                val action = HomeInvestorFragmentDirections.actionHomeInvestorFragmentToHomeCreatorFragment()
+                this.findNavController().navigate(action)
+            }
         }
+
         binding.searchViewHomeInvestor.setOnClickListener{
             binding.txtHomeInvestorTitle.visibility = View.GONE
             binding.recyclerHomeInvestorPopularProjects.visibility = View.GONE

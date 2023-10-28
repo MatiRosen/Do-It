@@ -84,9 +84,11 @@ class HomeCreatorFragment : Fragment(), OnViewItemClickedListener {
             }
         }
 
-        binding.switchToHomeInvestor.setOnClickListener {
-            val action = HomeCreatorFragmentDirections.actionHomeCreatorFragmentToHomeInversorFragment()
-            v.findNavController().navigate(action)
+        binding.switchToHomeInvestor.setOnCheckedChangeListener() { _, isChecked ->
+            if (isChecked) {
+                val action = HomeCreatorFragmentDirections.actionHomeCreatorFragmentToHomeInversorFragment()
+                v.findNavController().navigate(action)
+            }
         }
     }
 
