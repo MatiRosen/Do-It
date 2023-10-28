@@ -1,5 +1,4 @@
-##### Do-It #####
-# Proyecto de Aplicación Mobile para Inversión e Ideas
+# DO-IT - Proyecto de Aplicación Mobile para Inversión e Ideas
 
 ## Objetivo
 
