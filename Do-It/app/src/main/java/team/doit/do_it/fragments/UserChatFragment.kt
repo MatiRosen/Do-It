@@ -1,14 +1,13 @@
 package team.doit.do_it.fragments
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.WindowManager
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.view.ViewCompat
-import androidx.core.view.WindowCompat
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentContainerView
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -18,16 +17,15 @@ import com.firebase.ui.database.FirebaseRecyclerOptions
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ktx.database
-import com.google.firebase.database.ktx.snapshots
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
-import kotlinx.coroutines.flow.count
 import team.doit.do_it.R
 import team.doit.do_it.adapters.MessageListAdapter
 import team.doit.do_it.databinding.FragmentUserChatBinding
 import team.doit.do_it.entities.ChatEntity
 import team.doit.do_it.entities.MessageEntity
+import team.doit.do_it.listeners.InsetsWithKeyboardCallback
 
 class UserChatFragment : Fragment() {
 
@@ -39,6 +37,7 @@ class UserChatFragment : Fragment() {
     private lateinit var db: FirebaseDatabase
     private lateinit var chat : ChatEntity
     private lateinit var messageListAdapter : MessageListAdapter
+    private lateinit var insetsWithKeyboardCallback : InsetsWithKeyboardCallback
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -55,16 +54,16 @@ class UserChatFragment : Fragment() {
         return v
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
-
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         startButtons()
         setBindings()
+
+        val rootActivity = requireActivity().findViewById<ConstraintLayout>(R.id.frameLayoutMainActivity)
+        insetsWithKeyboardCallback = InsetsWithKeyboardCallback(requireActivity().window, rootActivity)
+        ViewCompat.setOnApplyWindowInsetsListener(rootActivity, insetsWithKeyboardCallback)
     }
 
     override fun onStart() {
@@ -268,6 +267,8 @@ class UserChatFragment : Fragment() {
 
     override fun onDestroy() {
         super.onDestroy()
+
+        insetsWithKeyboardCallback.removeListener()
     }
 
     override fun onDestroyView() {
