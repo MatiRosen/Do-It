@@ -1,6 +1,5 @@
 package team.doit.do_it.fragments
 
-import android.app.Activity
 import android.app.Activity.RESULT_OK
 import android.content.Intent
 import android.net.Uri
@@ -18,13 +17,11 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
-import com.google.firebase.storage.ktx.storageMetadata
 import team.doit.do_it.R
 import team.doit.do_it.databinding.FragmentProjectCreationBinding
 import team.doit.do_it.entities.ProjectEntity
 import java.io.File
 import java.util.Date
-import java.util.UUID
 
 
 class ProjectCreationFragment : Fragment() {

@@ -9,6 +9,7 @@
     android:paddingVertical="@dimen/item_message_margin_vertical"
     android:orientation="vertical">
 
+
     <LinearLayout
         android:id="@+id/linearLayoutItemMessageCenter"
         android:layout_width="wrap_content"

@@ -1,9 +1,11 @@
 package team.doit.do_it.holders
 
+import android.view.Gravity
 import android.view.View
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.flexbox.FlexboxLayout
 import com.google.firebase.auth.FirebaseAuth
 import team.doit.do_it.R
 import java.util.Calendar
@@ -26,9 +28,11 @@ class MessageHolder(view: View) : RecyclerView.ViewHolder(view){
 
     fun setSender(sender: String) {
         if (sender == FirebaseAuth.getInstance().currentUser?.uid) {
-            view.findViewById<View>(R.id.linearLayoutItemMessageLeft).visibility = View.GONE
+            view.findViewById<LinearLayout>(R.id.linearLayoutItemMessageLeft).visibility = View.GONE
+            view.findViewById<FlexboxLayout>(R.id.linearLayoutItemMessageRight).visibility = View.VISIBLE
         } else {
-            view.findViewById<View>(R.id.linearLayoutItemMessageRight).visibility = View.GONE
+            view.findViewById<FlexboxLayout>(R.id.linearLayoutItemMessageRight).visibility = View.GONE
+            view.findViewById<LinearLayout>(R.id.linearLayoutItemMessageLeft).visibility = View.VISIBLE
         }
     }
 
@@ -43,6 +47,7 @@ class MessageHolder(view: View) : RecyclerView.ViewHolder(view){
     fun setDay(date: Long, isDateChange: Boolean) {
         if (isDateChange) {
             view.findViewById<TextView>(R.id.txtItemMessageCenterDate).text = getDate(date)
+            view.findViewById<LinearLayout>(R.id.linearLayoutItemMessageCenter).visibility = View.VISIBLE
         } else {
             view.findViewById<LinearLayout>(R.id.linearLayoutItemMessageCenter).visibility = View.GONE
         }

@@ -5,7 +5,10 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
 import androidx.constraintlayout.widget.ConstraintSet
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowCompat
 import androidx.fragment.app.FragmentContainerView
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -36,6 +39,7 @@ class UserChatFragment : Fragment() {
     private lateinit var db: FirebaseDatabase
     private lateinit var chat : ChatEntity
     private lateinit var messageListAdapter : MessageListAdapter
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -50,6 +54,11 @@ class UserChatFragment : Fragment() {
 
         return v
     }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+    }
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -70,6 +79,7 @@ class UserChatFragment : Fragment() {
         }
     }
 
+
     private fun startChat() {
         val ownUserUUID = FirebaseAuth.getInstance().currentUser?.uid ?: return
 
@@ -77,13 +87,13 @@ class UserChatFragment : Fragment() {
         val query = ref.orderByChild("date")
 
         val options = FirebaseRecyclerOptions.Builder<MessageEntity>()
+            .setLifecycleOwner(this)
             .setQuery(query, MessageEntity::class.java)
             .build()
 
         messageListAdapter = MessageListAdapter(options)
         binding.recyclerViewUserChat.adapter = messageListAdapter
         setupRecyclerViewSettings(binding.recyclerViewUserChat)
-        messageListAdapter.startListening()
 
         messageListAdapter.registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver() {
             override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
@@ -254,7 +264,10 @@ class UserChatFragment : Fragment() {
         showBottomNav()
         showMargins()
         deleteChatIfNoMessages()
-        messageListAdapter.stopListening()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
     }
 
     override fun onDestroyView() {
