@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
@@ -112,8 +113,8 @@ class ProjectCreationFragment : Fragment() {
     }
 
     private fun showSuccessMessage(project: ProjectEntity){
-        val successMessage = resources.getString(R.string.project_creation_succeed) + ": " + project.toString()
-        Snackbar.make(v, successMessage, Snackbar.LENGTH_LONG).show()
+        val successMessage = resources.getString(R.string.project_creation_succeed) + project.title
+        Toast.makeText(v.context, successMessage, Toast.LENGTH_LONG).show()
     }
 
     private fun createProject() : ProjectEntity?{

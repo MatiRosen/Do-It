@@ -1,9 +1,13 @@
 package team.doit.do_it.fragments
 
+import android.content.Context
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.view.ViewCompat
@@ -126,7 +130,12 @@ class UserChatFragment : Fragment() {
 
     private fun startButtons() {
         binding.imgBtnUserChatBack.setOnClickListener {
-            findNavController().navigateUp()
+            val imm = requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            imm.hideSoftInputFromWindow(v.windowToken, 0)
+            Handler(Looper.getMainLooper()).postDelayed({
+                findNavController().navigateUp()
+            }, 100)
+
         }
 
         binding.imgBtnUserChatSend.setOnClickListener {

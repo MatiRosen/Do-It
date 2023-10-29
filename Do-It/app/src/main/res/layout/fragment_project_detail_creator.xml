@@ -7,8 +7,6 @@
     android:layout_height="match_parent"
     tools:context=".fragments.ProjectDetailCreatorFragment">
 
-    <!-- TODO: Borrar textos -->
-
     <ScrollView
         android:id="@+id/scrollViewProjectDetailCreator"
         android:layout_width="0dp"

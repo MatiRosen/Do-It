@@ -94,9 +94,8 @@ class HomeInvestorFragment : Fragment(), OnViewItemClickedListener {
     }
 
     private fun setupPopularProjectsRecyclerView() {
-        // TODO fijarse por que trae mas de 5.
         val query = db.collection("ideas")
-            .orderBy("followersCount", Query.Direction.DESCENDING).limit(5)
+            .orderBy("followersCount", Query.Direction.DESCENDING)
 
         val config = PagingConfig(5,1,  false)
 
