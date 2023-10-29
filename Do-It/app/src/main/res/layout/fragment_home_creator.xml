@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/frameLayoutHomeCreator"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".fragments.HomeCreatorFragment">
+
+    <TextView
+        android:id="@+id/txtHomeCreatorTitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="@string/home_creator_title"
+        android:textColor="@color/dark_pantone"
+        android:textSize="@dimen/txt_main_title_size"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toStartOf="@+id/guidelineHomeCreatorVertical80"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ProgressBar
+        android:id="@+id/progressBarHomeCreator"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:indeterminateTint="@color/pantone"
+        app:layout_constraintBottom_toTopOf="@+id/btnHomeCreatorCreateProject"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtHomeCreatorTitle" />
+
+    <ProgressBar
+        android:id="@+id/progressBarHomeCreatorBottom"
+        android:layout_width="25dp"
+        android:layout_height="wrap_content"
+        android:indeterminateTint="@color/pantone"
+        app:layout_constraintBottom_toTopOf="@+id/btnHomeCreatorCreateProject"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerHomeCreatorProjects"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="@dimen/divider_top_padding"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtHomeCreatorTitle" />
+
+    <Button
+        android:id="@+id/btnHomeCreatorCreateProject"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/style_button_pantone"
+        android:drawableStart="@drawable/icon_plus_circle"
+        android:drawablePadding="@dimen/button_text_padding"
+        android:padding="@dimen/button_text_padding"
+        android:text="@string/home_creation_add_project"
+        android:textColor="@color/white"
+        android:textSize="@dimen/txt_button_size"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/guidelineHomeCreatorHorizontal98"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidelineHomeCreatorHorizontal98"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="@dimen/guideline_98" />
+
+    <androidx.appcompat.widget.SwitchCompat
+        android:id="@+id/switchHomeCreatorToHomeInvestor"
+        android:layout_width="wrap_content"
+        android:layout_height="48dp"
+        android:layout_marginTop="1dp"
+        android:checked="false"
+        android:text=""
+        android:theme="@style/SwitchStyleHomes"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.843"
+        app:layout_constraintStart_toStartOf="@+id/guidelineHomeCreatorVertical80"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidelineHomeCreatorVertical80"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="@dimen/guideline_80" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/frameLayoutProjectCreation"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".fragments.ProjectCreationFragment">
+
+    <TextView
+        android:id="@+id/txtProjectCreationTitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/project_creation_new_project"
+        android:textColor="@color/dark_pantone"
+        android:textSize="@dimen/txt_main_title_size"
+        android:textStyle="bold"
+        android:gravity="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- We use ScrollView because we set the elements height -->
+
+    <ScrollView
+        android:id="@+id/scrollViewProjectCreation"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="@dimen/divider_top_padding"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtProjectCreationTitle"
+        app:layout_constraintWidth_max="@dimen/input_max_width">
+
+        <LinearLayout
+            android:id="@+id/linearLayoutProjectCreationForm"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <EditText
+                android:id="@+id/editTxtProjectCreationTitle"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/input_txt_height"
+                android:layout_marginBottom="@dimen/divider_bottom_padding"
+                android:autofillHints=""
+                android:background="@drawable/style_edittext"
+                android:hint="@string/project_creation_project_title"
+                android:inputType="text"
+                android:padding="@dimen/input_txt_padding"
+                android:textColor="@color/black"
+                android:textSize="@dimen/txt_input_size" />
+
+            <Spinner
+                android:id="@+id/spinnerProjectCreationCategory"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/input_txt_height"
+                android:layout_marginTop="@dimen/divider_top_padding"
+                android:layout_marginBottom="@dimen/divider_bottom_padding"
+                android:background="@drawable/style_edittext" />
+
+            <EditText
+                android:id="@+id/editTxtProjectCreationSubtitle"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/input_txt_height"
+                android:layout_marginTop="@dimen/divider_top_padding"
+                android:layout_marginBottom="@dimen/divider_bottom_padding"
+                android:autofillHints=""
+                android:background="@drawable/style_edittext"
+                android:hint="@string/project_creation_project_subtitle"
+                android:inputType="text"
+                android:padding="@dimen/input_txt_padding"
+                android:textColor="@color/black"
+                android:textSize="@dimen/txt_input_size" />
+            <Button
+                android:id="@+id/btnProjectCreationAddImage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/divider_top_padding"
+                android:layout_marginBottom="@dimen/divider_bottom_padding"
+                android:background="@drawable/style_button_project_creation"
+                android:drawableStart="@drawable/icon_upload_file"
+                android:padding="@dimen/button_text_padding"
+                android:drawablePadding="@dimen/button_text_padding"
+                android:text="@string/project_creation_project_image"
+                android:textColor="@color/white"
+                android:textSize="@dimen/txt_button_size"
+                android:textStyle="bold"/>
+
+            <EditText
+                android:id="@+id/editTxtProjectCreationDescription"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/project_creation_min_description_height"
+                android:layout_marginTop="@dimen/divider_top_padding"
+                android:layout_marginBottom="@dimen/divider_bottom_padding"
+                android:autofillHints=""
+                android:background="@drawable/style_edittext"
+                android:ems="10"
+                android:gravity="start|top"
+                android:hint="@string/project_creation_project_description"
+                android:inputType="textMultiLine"
+                android:padding="@dimen/input_txt_padding"
+                android:textColor="@color/black"
+                android:textSize="@dimen/txt_input_size" />
+
+            <LinearLayout
+                android:id="@+id/linearLayoutProjectCreationBudget"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <EditText
+                    android:id="@+id/editTxtProjectCreationGoal"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/input_txt_height"
+                    android:layout_marginEnd="@dimen/input_end_padding"
+                    android:layout_marginTop="@dimen/divider_top_padding"
+                    android:layout_marginBottom="@dimen/divider_bottom_padding"
+                    android:layout_weight="1"
+                    android:autofillHints=""
+                    android:background="@drawable/style_edittext"
+                    android:hint="@string/project_creation_project_total_budget"
+                    android:inputType="numberDecimal"
+                    android:padding="@dimen/input_txt_padding"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/txt_input_size" />
+
+                <EditText
+                    android:id="@+id/editTxtProjectCreationMinBudget"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/input_txt_height"
+                    android:layout_marginTop="@dimen/divider_top_padding"
+                    android:layout_marginStart="@dimen/input_start_padding"
+                    android:layout_marginBottom="@dimen/divider_bottom_padding"
+                    android:layout_weight="1"
+                    android:autofillHints=""
+                    android:background="@drawable/style_edittext"
+                    android:hint="@string/project_creation_project_min_budget"
+                    android:inputType="numberDecimal"
+                    android:padding="@dimen/input_txt_padding"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/txt_input_size" />
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/btnProjectCreationSave"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/divider_top_padding"
+                android:layout_marginBottom="@dimen/divider_bottom_padding"
+                android:padding="@dimen/button_text_padding"
+                android:background="@drawable/style_button"
+                android:text="@string/project_creation_save"
+                android:textColor="@color/white"
+                android:textSize="@dimen/txt_button_size"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/guidelineProjectCreationHorizontal90" />
+        </LinearLayout>
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

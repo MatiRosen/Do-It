@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/fragmentRegisterData"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".fragments.RegisterDataFragment">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayoutRegisterData"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/imgRegisterDataLogo"
+            android:layout_width="@dimen/register_logo"
+            android:layout_height="@dimen/register_logo"
+            android:src="@drawable/img_do_it_logo"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/txtRegisterDataTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
+            android:text="@string/register_register_data"
+            android:textColor="@color/pantone"
+            android:textSize="@dimen/txt_main_title_size"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imgRegisterDataLogo" />
+
+        <LinearLayout
+            android:id="@+id/linearLayoutRegisterDataFirst"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txtRegisterDataTitle">
+
+            <EditText
+                android:id="@+id/txtRegisterDataName"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/register_input_heigth"
+                android:layout_weight="1"
+                android:layout_margin="5dip"
+                android:background="@drawable/style_edittext"
+                android:hint="@string/register_name"
+                android:inputType="text"
+                android:padding="5dip"
+                android:textColor="@color/black"
+                android:textSize="@dimen/txt_input_size" />
+
+            <EditText
+                android:id="@+id/txtRegisterDataSurname"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/register_input_heigth"
+                android:layout_weight="1"
+                android:layout_margin="5dip"
+                android:background="@drawable/style_edittext"
+                android:hint="@string/register_lastname"
+                android:inputType="text"
+                android:padding="5dip"
+                android:textColor="@color/black"
+                android:textSize="@dimen/txt_input_size" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linearLayoutRegisterDataSecond"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayoutRegisterDataFirst">
+
+            <EditText
+                android:id="@+id/txtRegisterDataDate"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/register_input_heigth"
+                android:layout_weight="1"
+                android:layout_margin="5dip"
+                android:background="@drawable/style_edittext"
+                android:hint="@string/register_birth_date"
+                android:onClick="onClickBirthDatePicker"
+                android:focusable="false"
+                android:clickable="true"
+                android:maxLines="1"
+                android:inputType="date"
+                android:padding="5dip"
+                android:textColor="@color/black"
+                android:textSize="@dimen/txt_input_size"/>
+
+            <Spinner
+                android:id="@+id/spnRegisterDataGender"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/register_input_heigth"
+                android:layout_weight="1"
+                android:layout_margin="5dip"
+                android:background="@drawable/style_edittext"
+                android:padding="5dip"
+                android:textColor="@color/black"
+                android:textSize="@dimen/txt_input_size" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linearLayoutRegisterDataThird"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayoutRegisterDataSecond">
+
+            <EditText
+                android:id="@+id/txtRegisterDataPhone"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/register_input_heigth"
+                android:layout_weight="1"
+                android:layout_margin="5dip"
+                android:background="@drawable/style_edittext"
+                android:inputType="phone"
+                android:hint="@string/register_phone"
+                android:padding="5dip"
+                android:textColor="@color/black"
+                android:textSize="@dimen/txt_input_size"/>
+
+            <EditText
+                android:id="@+id/txtRegisterDataAddress"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/register_input_heigth"
+                android:layout_weight="1"
+                android:layout_margin="5dip"
+                android:background="@drawable/style_edittext"
+                android:inputType="text"
+                android:hint="@string/register_address"
+                android:padding="5dip"
+                android:textColor="@color/black"
+                android:textSize="@dimen/txt_input_size" />
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/btnRegisterDataRegister"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:backgroundTint="@color/green"
+            android:text="@string/register_register_button"
+            android:textColor="@color/white"
+            android:textSize="@dimen/txt_button_size"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayoutRegisterDataThird" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</FrameLayout>

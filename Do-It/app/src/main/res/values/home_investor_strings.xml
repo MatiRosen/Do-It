@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="home_investor_search_project">Buscar proyecto</string>
+    <string name="home_investor_invest">Invertir</string>
+    <string name="home_investor_title">Proyectos Populares</string>
+    <string name="home_investor_secondary_title">Todos los Proyectos</string>
+    <string name="home_investor_get_project_failed">Hubo un error cargando un proyecto!</string>
+    <string name="home_investor_get_projects_failed">Hubo un error cargando los proyectos!</string>
+    <string name="home_investor_filter_category">Filtrar</string>
+</resources>

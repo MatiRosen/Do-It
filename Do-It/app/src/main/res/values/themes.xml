@@ -1,9 +1,19 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Base.Theme.DoIt" parent="Theme.Material3.DayNight.NoActionBar">
+    <style name="Base.Theme.DoIt" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <item name="colorPrimary">@color/pantone</item>
+        <item name="colorSecondary">@color/dark_pantone</item>
+        <item name="android:statusBarColor">@color/pantone</item>
+        <item name="android:textColorHint">@color/light_gray</item>
+        <item name="android:editTextColor">@android:color/black</item>
     </style>
+
+    <style name="SwitchStyleHomes" parent="Base.Theme.DoIt">
+        <item name="colorControlActivated">@color/dark_pantone</item>
+        <item name="colorSwitchThumbNormal">@color/pantone</item>
+    </style>
+
 
     <style name="Theme.DoIt" parent="Base.Theme.DoIt" />
 </resources>

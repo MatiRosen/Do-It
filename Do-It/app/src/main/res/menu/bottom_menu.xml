@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@id/home"
+        android:icon="@drawable/icon_home"
+        android:title="@string/home" />
+    <item
+        android:id="@+id/profileFragmentMain"
+        android:icon="@drawable/icon_user"
+        android:title="@string/profile" />
+    <item
+        android:id="@+id/chat"
+        android:icon="@drawable/icon_chat"
+        android:title="@string/chat" />
+    <item
+        android:id="@+id/options"
+        android:icon="@drawable/icon_menu"
+        android:title="@string/menu" />
+</menu>

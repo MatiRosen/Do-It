@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="categories_array">
+        <item>Tecnología</item>
+        <item>Finanzas</item>
+        <item>Educación</item>
+        <item>Deporte</item>
+    </string-array>
+</resources>

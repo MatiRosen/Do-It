@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/card_global_project_height"
+    android:id="@+id/cardViewItemProjectCreator"
+    android:layout_margin="@dimen/item_card_margin"
+    android:backgroundTintMode="@color/white"
+    app:cardCornerRadius="@dimen/card_radius"
+    app:cardElevation="@dimen/card_elevation">
+
+   <androidx.constraintlayout.widget.ConstraintLayout
+       android:id="@+id/constraintLayoutItemProjectCreator"
+       android:layout_width="match_parent"
+       android:layout_height="match_parent">
+
+      <ImageView
+          android:id="@+id/imgItemProjectCreator"
+          android:layout_width="0dp"
+          android:layout_height="0dp"
+          android:contentDescription="@string/img_project_image"
+          android:src="@drawable/img_not_img"
+          android:scaleType="centerCrop"
+          android:adjustViewBounds="true"
+          app:layout_constraintBottom_toBottomOf="parent"
+          app:layout_constraintEnd_toStartOf="@+id/guidelineItemProjectCreatorVertical45"
+          app:layout_constraintStart_toStartOf="parent"
+          app:layout_constraintTop_toTopOf="parent" />
+
+      <TextView
+          android:id="@+id/txtItemProjectCreatorTitle"
+          android:layout_width="0dp"
+          android:layout_height="0dp"
+          android:ellipsize="end"
+          android:gravity="start|center_vertical"
+          android:maxLines="1"
+          android:text=""
+          android:textColor="@color/pantone"
+          android:textSize="@dimen/txt_secondary_title_size"
+          app:layout_constraintBottom_toTopOf="@+id/guidelineItemProjectCreatorHorizontal22"
+          app:layout_constraintEnd_toStartOf="@+id/guidelineItemProjectCreatorVertical95"
+          app:layout_constraintStart_toStartOf="@+id/guidelineItemProjectCreatorVertical50"
+          app:layout_constraintTop_toTopOf="parent" />
+
+      <TextView
+          android:id="@+id/txtItemProjectCreatorSubtitle"
+          android:layout_width="0dp"
+          android:layout_height="0dp"
+          android:text=""
+          android:textColor="@color/black"
+          android:textSize="@dimen/txt_paragraph_size"
+          android:gravity="start|center_vertical"
+          app:layout_constraintBottom_toTopOf="@+id/guidelineItemProjectCreatorHorizontal62"
+          app:layout_constraintEnd_toStartOf="@+id/guidelineItemProjectCreatorVertical95"
+          app:layout_constraintStart_toStartOf="@+id/guidelineItemProjectCreatorVertical50"
+          app:layout_constraintTop_toTopOf="@+id/guidelineItemProjectCreatorHorizontal22" />
+
+      <TextView
+          android:id="@+id/txtItemProjectCreatorCategory"
+          android:layout_width="0dp"
+          android:layout_height="0dp"
+          android:ellipsize="end"
+          android:gravity="start|center_vertical"
+          android:maxLines="1"
+          android:text=""
+          android:textColor="@color/medium_gray"
+          android:textSize="@dimen/txt_paragraph_size"
+          app:layout_constraintBottom_toTopOf="@+id/guidelineItemProjectCreatorHorizontal80"
+          app:layout_constraintEnd_toStartOf="@+id/guidelineItemProjectCreatorVertical90"
+          app:layout_constraintStart_toStartOf="@+id/guidelineItemProjectCreatorVertical50"
+          app:layout_constraintTop_toTopOf="@+id/guidelineItemProjectCreatorHorizontal62" />
+
+      <TextView
+          android:id="@+id/txtItemProjectCreatorTotalBudget"
+          android:layout_width="0dp"
+          android:layout_height="0dp"
+          android:ellipsize="end"
+          android:gravity="end|bottom"
+          android:maxLines="1"
+          android:text=""
+          android:textColor="@color/green"
+          android:textSize="@dimen/txt_input_size"
+          app:layout_constraintBottom_toTopOf="@+id/guidelineItemProjectCreatorHorizontal99"
+          app:layout_constraintEnd_toStartOf="@+id/guidelineItemProjectCreatorVertical95"
+          app:layout_constraintStart_toStartOf="@+id/guidelineItemProjectCreatorVertical50"
+          app:layout_constraintTop_toTopOf="@+id/guidelineItemProjectCreatorHorizontal80" />
+
+      <androidx.constraintlayout.widget.Guideline
+          android:id="@+id/guidelineItemProjectCreatorHorizontal22"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:orientation="horizontal"
+          app:layout_constraintGuide_percent="@dimen/guideline_22" />
+
+      <androidx.constraintlayout.widget.Guideline
+          android:id="@+id/guidelineItemProjectCreatorHorizontal62"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:orientation="horizontal"
+          app:layout_constraintGuide_percent="@dimen/guideline_62" />
+
+      <androidx.constraintlayout.widget.Guideline
+          android:id="@+id/guidelineItemProjectCreatorHorizontal80"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:orientation="horizontal"
+          app:layout_constraintGuide_percent="@dimen/guideline_80" />
+
+      <androidx.constraintlayout.widget.Guideline
+          android:id="@+id/guidelineItemProjectCreatorHorizontal99"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:orientation="horizontal"
+          app:layout_constraintGuide_percent="@dimen/guideline_99" />
+
+      <androidx.constraintlayout.widget.Guideline
+          android:id="@+id/guidelineItemProjectCreatorVertical45"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:orientation="vertical"
+          app:layout_constraintGuide_percent="@dimen/guideline_45" />
+
+      <androidx.constraintlayout.widget.Guideline
+          android:id="@+id/guidelineItemProjectCreatorVertical50"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:orientation="vertical"
+          app:layout_constraintGuide_percent="@dimen/guideline_50" />
+
+      <androidx.constraintlayout.widget.Guideline
+          android:id="@+id/guidelineItemProjectCreatorVertical90"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:orientation="vertical"
+          app:layout_constraintGuide_percent="@dimen/guideline_90" />
+
+      <androidx.constraintlayout.widget.Guideline
+          android:id="@+id/guidelineItemProjectCreatorVertical95"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:orientation="vertical"
+          app:layout_constraintGuide_percent="@dimen/guideline_95" />
+
+   </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.cardview.widget.CardView>

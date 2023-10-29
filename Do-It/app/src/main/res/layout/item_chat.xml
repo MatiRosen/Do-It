@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/card_chat_height"
+    android:id="@+id/cardViewItemChat"
+    app:cardElevation="0dp"
+    app:cardBackgroundColor="@color/white">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayoutItemChat"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.mikhaellopez.circularimageview.CircularImageView
+            android:id="@+id/imgItemChatProfileImage"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/img_avatar"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/txtItemChatUserName"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/divider_start_padding"
+            android:ellipsize="end"
+            android:gravity="start|center_vertical"
+            android:maxLines="1"
+            android:text="@string/chat_name"
+            android:textColor="@color/black"
+            android:textSize="@dimen/txt_paragraph_size"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/guidelineItemChatHorizontal50"
+            app:layout_constraintEnd_toStartOf="@+id/guidelineItemChatVertical80"
+            app:layout_constraintStart_toEndOf="@+id/imgItemChatProfileImage" />
+
+        <TextView
+            android:id="@+id/txtItemChatLastMessage"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/divider_start_padding"
+            android:ellipsize="end"
+            android:gravity="start|center_vertical"
+            android:maxLines="1"
+            android:text="@string/chat_last_message"
+            android:textColor="@color/medium_gray"
+            android:textSize="@dimen/txt_mini_size"
+            app:layout_constraintEnd_toStartOf="@+id/guidelineItemChatVertical80"
+            app:layout_constraintStart_toEndOf="@+id/imgItemChatProfileImage"
+            app:layout_constraintTop_toTopOf="@+id/guidelineItemChatHorizontal50" />
+
+        <TextView
+            android:id="@+id/txtItemChatLastTime"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:gravity="end|center_vertical"
+            android:maxLines="1"
+            android:text="@string/chat_date"
+            android:textColor="@color/black"
+            android:textSize="@dimen/txt_mini_size"
+            app:layout_constraintBottom_toTopOf="@+id/guidelineItemChatHorizontal50"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/guidelineItemChatVertical80"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/imgItemChatNewMessage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/divider_end_padding"
+            android:contentDescription="@string/chat_new_message"
+            android:src="@drawable/icon_circle"
+            app:layout_constraintBottom_toTopOf="@+id/guidelineItemChatHorizontal50"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/guidelineItemChatHorizontal50" />
+
+        <View
+            android:id="@+id/divItemChat"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:alpha="0.2"
+            android:background="@color/light_gray"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/guidelineItemChatVertical85"
+            app:layout_constraintStart_toStartOf="@+id/guidelineItemChatVertical15" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guidelineItemChatVertical15"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="@dimen/guideline_15" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guidelineItemChatVertical20"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="@dimen/guideline_20" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guidelineItemChatVertical80"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="@dimen/guideline_80" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guidelineItemChatVertical85"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="@dimen/guideline_85" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guidelineItemChatHorizontal50"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="@dimen/guideline_50" />
+
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.cardview.widget.CardView>

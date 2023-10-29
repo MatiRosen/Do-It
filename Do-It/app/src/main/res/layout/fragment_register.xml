@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/frameLayoutRegister"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".fragments.RegisterFragment">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/imgRegisterLogo"
+            android:layout_width="@dimen/register_logo"
+            android:layout_height="@dimen/register_logo"
+            android:src="@drawable/img_do_it_logo"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/txtRegisterTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
+            android:text="@string/register_register"
+            android:textColor="@color/pantone"
+            android:textSize="@dimen/txt_main_title_size"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imgRegisterLogo" />
+
+        <EditText
+            android:id="@+id/editTxtRegisterEmail"
+            android:layout_width="@dimen/login_input_width"
+            android:layout_height="@dimen/login_input_height"
+            android:layout_marginTop="48dp"
+            android:background="@drawable/style_edittext"
+            android:hint="@string/home_email"
+            android:inputType="textEmailAddress"
+            android:padding="10dip"
+            android:textColor="@color/black"
+            android:textSize="@dimen/txt_input_size"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.494"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txtRegisterTitle" />
+
+        <EditText
+            android:id="@+id/editTxtRegisterPassword"
+            android:layout_width="@dimen/login_input_width"
+            android:layout_height="@dimen/login_input_height"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/style_edittext"
+            android:hint="@string/home_password"
+            android:inputType="textPassword"
+            android:padding="10dip"
+            android:textColor="@color/black"
+            android:textSize="@dimen/txt_input_size"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/editTxtRegisterEmail" />
+
+        <Button
+            android:id="@+id/btnRegisterContinue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:backgroundTint="@color/green"
+            android:text="@string/register_continue"
+            android:textColor="@color/white"
+            android:textSize="@dimen/txt_button_size"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btnRegisterTermsAndConditionsCheckbox" />
+
+        <CheckBox
+            android:id="@+id/btnRegisterTermsAndConditionsCheckbox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:minWidth="48dp"
+            android:minHeight="48dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.121"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/editTxtRegisterPassword" />
+
+        <TextView
+            android:id="@+id/textViewRegisterTermsAndConditionsLink"
+            android:layout_width="177dp"
+            android:layout_height="38dp"
+            android:layout_marginTop="26dp"
+            android:clickable="true"
+            android:minHeight="48dp"
+            android:text="@string/register_terms_and_conditions"
+            android:textColor="@color/link"
+            android:textSize="@dimen/txt_mini_size"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@+id/btnRegisterTermsAndConditionsCheckbox"
+            app:layout_constraintTop_toBottomOf="@+id/editTxtRegisterPassword" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</FrameLayout>

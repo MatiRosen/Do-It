@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="project_creation_total_budget">Meta de presupuesto: </string>
+    <string name="project_detail_investor_contact">Contactar</string>
+    <string name="project_detail_title">Título</string>
+    <string name="project_detail_subtitle">Subtitulo</string>
+    <string name="project_detail_description">Descripción</string>
+    <string name="project_detail_category">Categoria</string>
+    <string name="project_detail_follow">Seguir</string>
+    <string name="project_detail_min_budget">Inversión mínima: $%1$s</string>
+    <string name="project_detail_goal">Presupuesto total: $%1$s </string>
+    <string name="project_detail_back">Volver atrás</string>
+    <string name="project_detail_remove">Eliminar</string>
+    <string name="project_detail_edit">Editar</string>
+    <string name="project_detail_image">Imágen del proyecto</string>
+    <string name="project_detail_error">Error al cargar los datos</string>
+    <string name="project_invest">Invertir</string>
+    <string name="project_contact_creator">Contactar</string>
+    <string name="project_detail_budget_error">¡Debes ingresar un monto mínimo de inversión mayor o igual a %s!</string>
+    <string name="project_detail_invest_success">¡Inversión generada con éxito!</string>
+    <string name="project_detail_state_pending">Pendiente</string>
+    <string name="project_detail_follow_success">¡Proyecto seguido con éxito!</string>
+    <string name="project_detail_unfollow_success">¡Ya no sigues el proyecto!</string>
+    <string name="project_detail_follow_error">¡Error al seguir el proyecto!</string>
+    <string name="project_detail_unfollow_error">¡Error al dejar de seguir el proyecto!</string>
+
+    <string name="project_detail_delete_title">Eliminación de proyecto</string>
+    <string name="project_detail_delete_message">¿Estás seguro de que deseas eliminar el proyecto? Se eliminarán todos los datos del mismo de forma permanente."</string>
+    <string name="project_detail_delete_accept">Confirmar eliminación</string>
+    <string name="project_detail_delete_decline">Volver atrás</string>
+    <string name="project_detail_delete_complete">Proyecto eliminado con éxito</string>
+    <string name="project_detail_delete_error">Error al eliminar el proyecto</string>
+    <string name="project_detail_noDeletable_message">No es posible eliminar proyectos que cuenten con seguidores</string>
+</resources>

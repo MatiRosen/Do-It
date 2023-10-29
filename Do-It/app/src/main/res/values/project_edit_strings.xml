@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="project_edit_confirm">Guardar cambios</string>
+
+    <string name="project_edit_title">Título del proyecto</string>
+    <string name="project_edit_subtitle">Subtítulo del proyecto</string>
+    <string name="project_edit_description">Descripción del proyecto</string>
+    <string name="project_edit_min_budget">Inversión mínima</string>
+    <string name="project_edit_total_budget">Presupuesto total</string>
+
+    <string name="project_edit_succeed">¡Cambios guardados con éxito!</string>
+    <string name="project_edit_failed">¡Hubo un error guardando los cambios!</string>
+    <string name="project_edit_failed_title_exists">¡Ya existe un proyecto con ese título!</string>
+
+    <string name="project_edit_title_error">¡Debes ingresar un título!</string>
+    <string name="project_edit_subtitle_error">¡Debes ingresar un subtítulo!</string>
+    <string name="project_edit_description_error">¡Debes ingresar una descripción!</string>
+    <string name="project_edit_category_error">¡Debes seleccionar una categoría!</string>
+    <string name="project_edit_min_budget_error">¡Debes ingresar un monto mínimo de inversión mayor o igual a 0!</string>
+    <string name="project_edit_goal_error">¡Debes ingresar un monto objetivo de inversión mayor a 0!</string>
+    <string name="project_edit_image_error">¡Debes seleccionar una imagen!</string>
+    <string name="project_edit_image_upload_error">¡Hubo un error subiendo la imagen!</string>
+    <string name="project_edit_min_budget_higher_than_goal_error">¡El monto mínimo de inversión no puede ser mayor al monto objetivo!</string>
+
+    <string name="project_edit_image_upload_failed">Error al subir imagen en la nube</string>
+</resources>

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/constraintLayoutLogin"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    tools:context=".activities.LoginActivity">
+
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/fragmentContainerViewLogin"
+        android:name="androidx.navigation.fragment.NavHostFragment"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/guidelineLoginActivityVertical95"
+        app:layout_constraintStart_toStartOf="@+id/guidelineLoginActivityVertical5"
+        app:layout_constraintTop_toTopOf="@+id/guidelineLoginActivityHorizontal3"
+        app:navGraph="@navigation/login_nav"/>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidelineLoginActivityHorizontal3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="@dimen/guideline_3" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidelineLoginActivityHorizontal95"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="@dimen/guideline_95" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidelineLoginActivityVertical5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="@dimen/guideline_5" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidelineLoginActivityVertical95"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="@dimen/guideline_95" />
+</androidx.constraintlayout.widget.ConstraintLayout>

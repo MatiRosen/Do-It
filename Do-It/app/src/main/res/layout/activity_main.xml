@@ -2,17 +2,64 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/frameLayoutMainActivity"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    android:background="@color/white"
+    tools:context=".activities.MainActivity">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello World!"
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/mainHost"
+        android:name="androidx.navigation.fragment.NavHostFragment"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:defaultNavHost="true"
+        app:layout_constraintBottom_toTopOf="@+id/bottomNavigationView"
+        app:layout_constraintEnd_toStartOf="@+id/guidelineMainActivityVertical98"
+        app:layout_constraintStart_toStartOf="@+id/guidelineMainActivityVertical2"
+        app:layout_constraintTop_toTopOf="@+id/guidelineMainActivityHorizontal3"
+        app:navGraph="@navigation/main_nav" />
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottomNavigationView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@drawable/style_bottom_nav"
+        app:itemIconSize="@dimen/icon_size"
+        app:itemIconTint="@drawable/style_navigation_view_colored"
+        app:labelVisibilityMode="unlabeled"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="@+id/guidelineMainActivityHorizontal93"
+        app:menu="@menu/bottom_menu" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidelineMainActivityHorizontal3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="@dimen/guideline_3" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidelineMainActivityHorizontal93"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="@dimen/guideline_93" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidelineMainActivityVertical2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="@dimen/guideline_2" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidelineMainActivityVertical98"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="@dimen/guideline_98" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

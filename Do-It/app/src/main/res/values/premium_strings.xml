@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="premiumTitle">Usuario Premium</string>
+    <string name="premiumSubtitule">¿Qué obtienes al ser usuario premium?</string>
+    <string name="premiumInfo">Al convertirte en usuario premium consigues:</string>
+    <string name="firstBenefit">1. Sin restricciones al subir proyectos.</string>
+    <string name="secondBenefit">2. Sin publicidad.</string>
+    <string name="btnGetPremium">Comprar</string>
+    <string name="alreadyPremium">Ya eres cliente Premium</string>
+    <string name="paymentSuccess">¡Pago completado!</string>
+    <string name="paymentFailed">¡Error!</string>
+    <string name="failLoadData">Error al caragr los datos</string>
+    <string name="failLoadPage">Error al caragr la página</string>
+</resources>

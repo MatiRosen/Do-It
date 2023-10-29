@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Text size -->
+    <dimen name="txt_main_title_size">30sp</dimen>
+    <dimen name="txt_secondary_title_size">22sp</dimen>
+    <dimen name="txt_description_size">20sp</dimen>
+    <dimen name="txt_button_size">18sp</dimen>
+    <dimen name="txt_input_size">18sp</dimen>
+    <dimen name="txt_paragraph_size">16sp</dimen>
+    <dimen name="txt_mini_size">14sp</dimen>
+
+    <!-- Components size -->
+    <dimen name="icon_size">28dp</dimen>
+    <dimen name="button_radius">12dp</dimen>
+    <dimen name="button_home_creator_radius">18dp</dimen>
+    <dimen name="divider_height">1dp</dimen>
+    <dimen name="img_radius">15dp</dimen>
+
+    <!-- Padding -->
+    <dimen name="item_card_margin">8dp</dimen>
+    <dimen name="top_content_padding">60dp</dimen>
+    <dimen name="bottom_content_padding">70dp</dimen>
+    <dimen name="button_text_padding">10dp</dimen>
+    <dimen name="divider_top_padding">10dp</dimen>
+    <dimen name="divider_bottom_padding">10dp</dimen>
+    <dimen name="divider_start_padding">10dp</dimen>
+    <dimen name="divider_end_padding">10dp</dimen>
+    <dimen name="title_bottom_padding">20dp</dimen>
+    <dimen name="title_proyect_padding_top">15dp</dimen>
+
+    <!-- GuideLines -->
+    <dimen name="guideline_10">0.10</dimen>
+    <dimen name="guideline_20">0.20</dimen>
+    <dimen name="guideline_30">0.30</dimen>
+    <dimen name="guideline_40">0.40</dimen>
+    <dimen name="guideline_50">0.50</dimen>
+    <dimen name="guideline_60">0.60</dimen>
+    <dimen name="guideline_70">0.70</dimen>
+    <dimen name="guideline_80">0.80</dimen>
+    <dimen name="guideline_90">0.90</dimen>
+
+
+    <dimen name="guideline_2">0.02</dimen>
+    <dimen name="guideline_3">0.03</dimen>
+    <dimen name="guideline_5">0.05</dimen>
+    <dimen name="guideline_8">0.08</dimen>
+    <dimen name="guideline_14">0.14</dimen>
+    <dimen name="guideline_15">0.15</dimen>
+    <dimen name="guideline_22">0.22</dimen>
+    <dimen name="guideline_25">0.25</dimen>
+    <dimen name="guideline_32">0.32</dimen>
+    <dimen name="guideline_35">0.35</dimen>
+    <dimen name="guideline_38">0.38</dimen>
+    <dimen name="guideline_45">0.45</dimen>
+    <dimen name="guideline_53">0.53</dimen>
+    <dimen name="guideline_55">0.55</dimen>
+    <dimen name="guideline_57">0.57</dimen>
+    <dimen name="guideline_62">0.62</dimen>
+    <dimen name="guideline_65">0.65</dimen>
+    <dimen name="guideline_75">0.75</dimen>
+    <dimen name="guideline_78">0.78</dimen>
+    <dimen name="guideline_82">0.82</dimen>
+    <dimen name="guideline_85">0.85</dimen>
+    <dimen name="guideline_93">0.93</dimen>
+    <dimen name="guideline_95">0.95</dimen>
+    <dimen name="guideline_98">0.98</dimen>
+    <dimen name="guideline_99">0.99</dimen>
+
+    <!-- Elevations -->
+    <dimen name="card_elevation">8dp</dimen>
+
+    <!-- Radius -->
+    <dimen name="card_radius">12dp</dimen>
+
+    <!-- Forms -->
+    <dimen name="input_txt_padding">10dp</dimen>
+    <dimen name="input_txt_height">50dp</dimen>
+    <dimen name="input_start_padding">10dp</dimen>
+    <dimen name="input_end_padding">10dp</dimen>
+    <dimen name="input_max_width">488dp</dimen>
+
+    <!-- Global views -->
+    <dimen name="card_global_project_height">150dp</dimen>
+    <dimen name="card_global_project_width">390dp</dimen>
+    <dimen name="img_global_project_height">140dp</dimen>
+    <dimen name="img_global_project_width">250dp</dimen>
+    <dimen name="card_global_project_margin">5dp</dimen>
+
+    <!-- Global views -->
+    <dimen name="card_Investor_project_height">250dp</dimen>
+    <dimen name="card_Investor_project_width">300dp</dimen>
+
+    <!-- Project Creation view -->
+    <dimen name="project_creation_min_description_height">200dp</dimen>
+    <dimen name="project_creation_input_width">200dp</dimen>
+
+    <!-- Login view -->
+    <dimen name="login_logo">140dp</dimen>
+    <dimen name="login_input_width">320dp</dimen>
+    <dimen name="login_input_height">50dp</dimen>
+
+    <dimen name="register_logo">130dp</dimen>
+    <dimen name="register_input_width">180dp</dimen>
+    <dimen name="register_input_heigth">50dp</dimen>
+
+    <!-- Investor Detail view -->
+    <dimen name="investor_detail_input_width">150dp</dimen>
+    <dimen name="investor_detail_input_height">45dp</dimen>
+    <!-- Home Creator view -->
+    <dimen name="home_creator_create_project_margin">15dp</dimen>
+    <dimen name="home_creator_project_margin">15dp</dimen>
+    <dimen name="home_creator_project_category_margin_top">5dp</dimen>
+    <dimen name="home_creator_project_budget_margin_top">5dp</dimen>
+    <!-- Home Investor view -->
+    <dimen name="home_investor_filter_button_width">70dp</dimen>
+    <dimen name="home_investor_filter_button_height">30dp</dimen>
+
+    <!-- Project Detail View -->
+    <dimen name="project_detail_top_padding">40dp</dimen>
+    <dimen name="project_detail_end_padding">5dp</dimen>
+
+    <!-- Profile View -->
+    <dimen name="profile_txt_start_padding">20dp</dimen>
+    <dimen name="profile_titles_width">160dp</dimen>
+    <dimen name="profile_paddingTop_info">40dp</dimen>
+    <dimen name="profile_marginBottom_info">30dp</dimen>
+    <dimen name="profile_marginBottom_btnEdit">10dp</dimen>
+    <dimen name="profile_height_spinnerGender">45dp</dimen>
+
+    <!-- Project Edit -->
+    <dimen name="project_marginBottom_btnEdit">10dp</dimen>
+    <!-- Chat view -->
+    <dimen name="card_chat_height">80dp</dimen>
+    <dimen name="card_message_height">50dp</dimen>
+    <dimen name="item_message_margin_horizontal">10dp</dimen>
+    <dimen name="item_message_margin_vertical">5dp</dimen>
+    <dimen name="item_message_padding">8dp</dimen>
+    <dimen name="item_message_date_margin">12dp</dimen>
+</resources>

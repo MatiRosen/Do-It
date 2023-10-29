@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="register_register">Registrate</string>
+    <string name="register_register_data">Rellená tus datos</string>
+    <string name="register_name">Nombre</string>
+    <string name="register_lastname">Apellido</string>
+    <string name="register_email">Correo electrónico</string>
+    <string name="register_id_number">Número de documento</string>
+    <string name="register_gender">Género</string>
+    <string name="register_phone">Teléfono</string>
+    <string name="register_birth_date">Fecha de nacimiento</string>
+    <string name="register_address">Dirección</string>
+    <string name="register_password">Contraseña</string>
+    <string name="register_confirm_password">Confirmar contraseña</string>
+    <string name="register_register_button">Registrarse</string>
+    <string name="register_continue">Continuar</string>
+    <string name="register_email_sent">Email de verificación enviado</string>
+    <string name="register_terms_and_conditions">He leído y acepto los Términos y Condiciones</string>
+
+
+    <string name="register_wrong_format">Email o contraseña con formato inválido. Recuerde que la contraseña debe ser alfanumérica</string>
+    <string name="register_generic_error">Error, algo salió mal :(</string>
+    <string name="register_name_error">Ingrese su nombre</string>
+    <string name="register_surname_error">Ingrese su apellido</string>
+    <string name="register_birth_date_error">Ingrese su fecha de nacimiento</string>
+    <string name="register_phone_format_error">El número de teléfono debe tener 10 cáracteres</string>
+    <string name="register_gender_error">Ingrese su género</string>
+    <string name="register_phone_error">Ingrese su número de teléfono</string>
+    <string name="register_address_error">Ingrese su dirección</string>
+    <string name="register_email_sent_error">Error al enviar mensaje de validación</string>
+    <string name="register_terms_and_conditions_unchecked">Para avanzar debe aceptar nuestros Términos y Condiciones</string>
+</resources>

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/login_nav"
+    app:startDestination="@id/splashFragment">
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="team.doit.do_it.fragments.LoginFragment"
+        android:label="fragment_login"
+        tools:layout="@layout/fragment_login" >
+        <action
+            android:id="@+id/action_loginFragment_to_registerFragment"
+            app:destination="@id/registerFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/registerFragment"
+        android:name="team.doit.do_it.fragments.RegisterFragment"
+        android:label="fragment_register"
+        tools:layout="@layout/fragment_register" >
+        <action
+            android:id="@+id/action_registerFragment_to_registerDataFragment"
+            app:destination="@id/registerDataFragment" />
+        <action
+            android:id="@+id/action_registerFragment_to_termsAndConditionsFragment"
+            app:destination="@id/termsAndConditionsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/registerDataFragment"
+        android:name="team.doit.do_it.fragments.RegisterDataFragment"
+        android:label="fragment_register_data"
+        tools:layout="@layout/fragment_register_data" >
+        <argument
+            android:name="email"
+            app:argType="string" />
+        <argument
+            android:name="password"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_registerDataFragment_to_loginFragment"
+            app:destination="@id/loginFragment"
+            app:popUpTo="@id/registerDataFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/termsAndConditionsFragment"
+        android:name="team.doit.do_it.fragments.TermsAndConditionsFragment"
+        android:label="fragment_terms_and_conditions"
+        tools:layout="@layout/fragment_terms_and_conditions" />
+    <fragment
+        android:id="@+id/splashFragment"
+        android:name="team.doit.do_it.fragments.SplashFragment"
+        android:label="fragment_splash"
+        tools:layout="@layout/fragment_splash" >
+        <action
+            android:id="@+id/action_splashFragment_to_loginFragment"
+            app:destination="@id/loginFragment"
+            app:popUpTo="@id/splashFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
+</navigation>
