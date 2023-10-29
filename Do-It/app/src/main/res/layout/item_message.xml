@@ -33,14 +33,14 @@
             android:textStyle="bold" />
     </LinearLayout>
 
-    <LinearLayout
+    <com.google.android.flexbox.FlexboxLayout
         android:id="@+id/linearLayoutItemMessageLeft"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/style_item_message"
         android:backgroundTint="@color/light_gray"
         android:padding="@dimen/item_message_padding"
-        android:orientation="horizontal">
+        app:flexWrap="wrap">
 
         <TextView
             android:id="@+id/txtItemMessageLeftMsg"
@@ -58,7 +58,7 @@
             android:maxLines="1"
             android:textColor="@color/dark_gray"
             android:textSize="@dimen/txt_mini_size" />
-    </LinearLayout>
+    </com.google.android.flexbox.FlexboxLayout>
 
     <!-- TODO: Arreglar lo de la hora y poner también en el otro layout. -->
     <com.google.android.flexbox.FlexboxLayout
@@ -76,8 +76,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/white"
-            android:textSize="@dimen/txt_paragraph_size"
-            android:text="lorem ipsupsumlororem ipsum lorem ipsium asd asd asd" />
+            android:textSize="@dimen/txt_paragraph_size" />
 
         <TextView
             android:id="@+id/txtItemMessageRightDate"
@@ -89,7 +88,6 @@
             android:gravity="end"
             android:textColor="@color/white"
             android:textSize="@dimen/txt_mini_size"
-            android:text="22 horas"
             app:layout_alignSelf="flex_end"/>
     </com.google.android.flexbox.FlexboxLayout>
 </LinearLayout>

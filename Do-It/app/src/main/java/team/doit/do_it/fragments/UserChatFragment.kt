@@ -54,7 +54,6 @@ class UserChatFragment : Fragment() {
         return v
     }
 
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -100,6 +99,15 @@ class UserChatFragment : Fragment() {
                 binding.recyclerViewUserChat.scrollToPosition(messageListAdapter.itemCount - 1)
             }
         })
+
+        /*binding.recyclerViewUserChat.addOnLayoutChangeListener { _, _, _, _, bottom, _, _, _, oldBottom ->
+            if (bottom < oldBottom) {
+                binding.recyclerViewUserChat.postDelayed({
+                    binding.recyclerViewUserChat.smoothScrollToPosition(messageListAdapter.itemCount - 1)
+                }, 100)
+            }
+        }*/
+
 
         ref.get().addOnCompleteListener {
             if (it.isSuccessful) {
