@@ -28,11 +28,11 @@ class MessageHolder(view: View) : RecyclerView.ViewHolder(view){
 
     fun setSender(sender: String) {
         if (sender == FirebaseAuth.getInstance().currentUser?.uid) {
-            view.findViewById<LinearLayout>(R.id.linearLayoutItemMessageLeft).visibility = View.GONE
+            view.findViewById<FlexboxLayout>(R.id.linearLayoutItemMessageLeft).visibility = View.GONE
             view.findViewById<FlexboxLayout>(R.id.linearLayoutItemMessageRight).visibility = View.VISIBLE
         } else {
             view.findViewById<FlexboxLayout>(R.id.linearLayoutItemMessageRight).visibility = View.GONE
-            view.findViewById<LinearLayout>(R.id.linearLayoutItemMessageLeft).visibility = View.VISIBLE
+            view.findViewById<FlexboxLayout>(R.id.linearLayoutItemMessageLeft).visibility = View.VISIBLE
         }
     }
 
