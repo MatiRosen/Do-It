@@ -111,7 +111,7 @@ class RegisterDataFragment : Fragment() {
         return true
     }
 
-    fun onClickBirthDatePicker(v: View) {
+    private fun onClickBirthDatePicker(v: View) {
         val selectedCalendar = Calendar.getInstance()
         val year = selectedCalendar.get(Calendar.YEAR)
         val month = selectedCalendar.get(Calendar.MONTH)

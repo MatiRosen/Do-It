@@ -233,7 +233,7 @@ class ProjectDetailInvestorFragment : Fragment() {
         val investorEmail = FirebaseAuth.getInstance().currentUser?.email.toString()
         val creatorEmail = project.creatorEmail
         val projectTitle = project.title
-        // TODO a la hora de invertir no se debe poner el monto.
+
         //val budget = binding.txtProjectDetailBudgetInvestment.text.toString().toDoubleOrNull() ?: 0.0
         //val estado = resources.getString(R.string.project_detail_estado_pendiente)
         //val invest = InvestEntity(investorEmail,creatorEmail, budget, projectTitle,estado)
