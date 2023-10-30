@@ -24,6 +24,7 @@
     <string name="project_detail_unfollow_success">¡Ya no sigues el proyecto!</string>
     <string name="project_detail_follow_error">¡Error al seguir el proyecto!</string>
     <string name="project_detail_unfollow_error">¡Error al dejar de seguir el proyecto!</string>
+    <string name="project_detail_general_error">¡Error realizando la acción!</string>
 
     <string name="project_detail_delete_title">Eliminación de proyecto</string>
     <string name="project_detail_delete_message">¿Estás seguro de que deseas eliminar el proyecto? Se eliminarán todos los datos del mismo de forma permanente."</string>

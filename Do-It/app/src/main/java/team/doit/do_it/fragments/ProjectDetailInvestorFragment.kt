@@ -26,6 +26,7 @@ import team.doit.do_it.databinding.FragmentProjectDetailInvestorBinding
 import team.doit.do_it.entities.ChatEntity
 import team.doit.do_it.entities.InvestEntity
 import team.doit.do_it.entities.ProjectEntity
+import java.lang.IllegalStateException
 import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
 
@@ -53,7 +54,7 @@ class ProjectDetailInvestorFragment : Fragment() {
     }
 
     private fun safeAccessBinding(action: () -> Unit) {
-        if (_binding != null) {
+        if (_binding != null && context != null) {
             action()
         }
     }
@@ -184,25 +185,37 @@ class ProjectDetailInvestorFragment : Fragment() {
             .get()
             .addOnSuccessListener { documents ->
                 safeAccessBinding {
-                    if (!documents.isEmpty) {
-                        val projectRef = documents.documents[0].reference
-                        projectRef.update("followers", project.followers)
-                        projectRef.update("followersCount", project.followersCount)
-                            .addOnSuccessListener {
-                                val message = if (project.isFollowedBy(investorEmail)) resources.getString(R.string.project_detail_follow_success) else resources.getString(R.string.project_detail_unfollow_success)
-                                Toast.makeText(activity, message, Toast.LENGTH_SHORT).show()
-                            }
-                            .addOnFailureListener {
-                                val message = if (project.isFollowedBy(investorEmail)) resources.getString(R.string.project_detail_follow_error) else resources.getString(R.string.project_detail_unfollow_error)
-                                Toast.makeText(activity, message, Toast.LENGTH_SHORT).show()
-                            }
-                    } else {
-                        val message = if (project.isFollowedBy(investorEmail)) resources.getString(R.string.project_detail_follow_error) else resources.getString(R.string.project_detail_unfollow_error)
-                        Toast.makeText(activity, message, Toast.LENGTH_SHORT).show()
-                    }
+                        if (!documents.isEmpty) {
+                            val projectRef = documents.documents[0].reference
+                            projectRef.update("followers", project.followers)
+                            projectRef.update("followersCount", project.followersCount)
+                                .addOnSuccessListener {
+                                    if (context == null) {
+                                        return@addOnSuccessListener
+                                    }
+
+                                    val message = if (project.isFollowedBy(investorEmail)) resources.getString(R.string.project_detail_follow_success) else resources.getString(R.string.project_detail_unfollow_success)
+                                    Toast.makeText(activity, message, Toast.LENGTH_SHORT).show()
+                                }
+                                .addOnFailureListener {
+                                    if (context == null) {
+                                        return@addOnFailureListener
+                                    }
+
+                                    val message = if (project.isFollowedBy(investorEmail)) resources.getString(R.string.project_detail_follow_error) else resources.getString(R.string.project_detail_unfollow_error)
+                                    Toast.makeText(activity, message, Toast.LENGTH_SHORT).show()
+                                }
+                        } else {
+                            val message = if (project.isFollowedBy(investorEmail)) resources.getString(R.string.project_detail_follow_error) else resources.getString(R.string.project_detail_unfollow_error)
+                            Toast.makeText(activity, message, Toast.LENGTH_SHORT).show()
+                        }
+
                 }
             }
             .addOnFailureListener {
+                if (context == null) {
+                    return@addOnFailureListener
+                }
                 val message = if (project.isFollowedBy(investorEmail)) resources.getString(R.string.project_detail_follow_error) else resources.getString(R.string.project_detail_unfollow_error)
                 Toast.makeText(activity, message, Toast.LENGTH_SHORT).show()
             }
