@@ -62,12 +62,14 @@ class ProjectEditFragment : Fragment() {
             updateProject(object : ProjectDetailCreatorFragment.OnProjectUpdatedListener {
                 override fun onProjectUpdated(successful: Boolean) {
                     if (successful) {
-                        safeAccesBinding {
+                        safeAccessBinding {
                             Toast.makeText(activity, "Project updated", Toast.LENGTH_SHORT).show()
                             v.findNavController().navigateUp()
                         }
                     } else {
-                        Toast.makeText(activity, "Error updating project", Toast.LENGTH_SHORT).show()
+                        safeAccessBinding {
+                            Toast.makeText(activity, "Error updating project", Toast.LENGTH_SHORT).show()
+                        }
                     }
                 }
             })
@@ -122,20 +124,22 @@ class ProjectEditFragment : Fragment() {
             .addOnSuccessListener {
                 lastImage = "images/$projectCreatorEmail/projects/$fileName"
             }.addOnFailureListener {
-                Snackbar.make(v, resources.getString(R.string.project_creation_image_upload_failed), Snackbar.LENGTH_LONG).show()
+                safeAccessBinding {
+                    Snackbar.make(v, resources.getString(R.string.project_creation_image_upload_failed), Snackbar.LENGTH_LONG).show()
+                }
                 fileName = ""
             }
         return fileName
     }
 
-    private fun safeAccesBinding(action : () -> Unit) {
-        if (_binding != null) {
+    private fun safeAccessBinding(action : () -> Unit) {
+        if (_binding != null && context != null) {
             action()
         }
     }
 
     private fun replaceData() {
-        safeAccesBinding {
+        safeAccessBinding {
             binding.editTxtProjectEditTitle.setText(ProjectEditFragmentArgs.fromBundle(requireArguments()).project.title)
             binding.editTxtProjectEditDescription.setText(ProjectEditFragmentArgs.fromBundle(requireArguments()).project.description)
             binding.editTxtProjectEditSubtitle.setText(ProjectEditFragmentArgs.fromBundle(requireArguments()).project.subtitle)
@@ -167,23 +171,26 @@ class ProjectEditFragment : Fragment() {
                         for (item in listResult.items) {
                             item.delete()
                                 .addOnFailureListener {
-                                    resources.getString(R.string.profile_deleteImages_error)
+                                    safeAccessBinding {
+                                        resources.getString(R.string.profile_deleteImages_error)
+                                    }
+
                                 }
                         }
                     }
             }
 
             if(validateFields(project)) {
-
-                    db.collection("ideas")
-                        .whereEqualTo("creatorEmail", currentUser?.email)
-                        .whereEqualTo("creationDate", ProjectEditFragmentArgs.fromBundle(requireArguments()).project.creationDate)
-                        .get()
-                        .addOnSuccessListener { querySnapshot ->
-                            for (document in querySnapshot.documents) {
-                                db.collection("ideas").document(document.id)
-                                    .update(project)
-                                    .addOnSuccessListener {
+                db.collection("ideas")
+                    .whereEqualTo("creatorEmail", currentUser?.email)
+                    .whereEqualTo("creationDate", ProjectEditFragmentArgs.fromBundle(requireArguments()).project.creationDate)
+                    .get()
+                    .addOnSuccessListener { querySnapshot ->
+                        for (document in querySnapshot.documents) {
+                            db.collection("ideas").document(document.id)
+                                .update(project)
+                                .addOnSuccessListener {
+                                    safeAccessBinding {
                                         Toast.makeText(
                                             activity,
                                             resources.getString(R.string.project_edit_succeed),
@@ -191,15 +198,19 @@ class ProjectEditFragment : Fragment() {
                                         ).show()
                                         v.findNavController().navigateUp()
                                     }
-                                    .addOnFailureListener {
-                                        Toast.makeText(
-                                            activity,
-                                            resources.getString(R.string.project_edit_failed),
-                                            Toast.LENGTH_SHORT
-                                        ).show()
-                                    }
-                            }
+                                }
+                                .addOnFailureListener {
+                                   safeAccessBinding {
+                                       Toast.makeText(
+                                           activity,
+                                           resources.getString(R.string.project_edit_failed),
+                                           Toast.LENGTH_SHORT
+                                       ).show()
+                                   }
+
+                                }
                         }
+                    }
             }
         }
     }

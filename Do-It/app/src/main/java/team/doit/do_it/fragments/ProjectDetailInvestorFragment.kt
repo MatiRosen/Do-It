@@ -184,40 +184,46 @@ class ProjectDetailInvestorFragment : Fragment() {
             .whereEqualTo("creationDate", project.creationDate)
             .get()
             .addOnSuccessListener { documents ->
-                safeAccessBinding {
-                        if (!documents.isEmpty) {
-                            val projectRef = documents.documents[0].reference
-                            projectRef.update("followers", project.followers)
-                            projectRef.update("followersCount", project.followersCount)
-                                .addOnSuccessListener {
-                                    if (context == null) {
-                                        return@addOnSuccessListener
-                                    }
-
-                                    val message = if (project.isFollowedBy(investorEmail)) resources.getString(R.string.project_detail_follow_success) else resources.getString(R.string.project_detail_unfollow_success)
-                                    Toast.makeText(activity, message, Toast.LENGTH_SHORT).show()
-                                }
-                                .addOnFailureListener {
-                                    if (context == null) {
-                                        return@addOnFailureListener
-                                    }
-
-                                    val message = if (project.isFollowedBy(investorEmail)) resources.getString(R.string.project_detail_follow_error) else resources.getString(R.string.project_detail_unfollow_error)
-                                    Toast.makeText(activity, message, Toast.LENGTH_SHORT).show()
-                                }
-                        } else {
-                            val message = if (project.isFollowedBy(investorEmail)) resources.getString(R.string.project_detail_follow_error) else resources.getString(R.string.project_detail_unfollow_error)
-                            Toast.makeText(activity, message, Toast.LENGTH_SHORT).show()
+                if (!documents.isEmpty) {
+                    val projectRef = documents.documents[0].reference
+                    projectRef.update("followers", project.followers)
+                    projectRef.update("followersCount", project.followersCount)
+                        .addOnSuccessListener {
+                            safeAccessBinding {
+                                val message =
+                                    if (project.isFollowedBy(investorEmail))
+                                        resources.getString(R.string.project_detail_follow_success)
+                                    else
+                                        resources.getString(R.string.project_detail_unfollow_success)
+                                Toast.makeText(activity, message, Toast.LENGTH_SHORT).show()
+                            }
                         }
-
+                        .addOnFailureListener {
+                            safeAccessBinding {
+                                val message =
+                                    if (project.isFollowedBy(investorEmail))
+                                        resources.getString(R.string.project_detail_follow_error)
+                                    else
+                                        resources.getString(R.string.project_detail_unfollow_error)
+                                Toast.makeText(activity, message, Toast.LENGTH_SHORT).show()
+                            }
+                        }
+                } else {
+                    safeAccessBinding {
+                        val message = if (project.isFollowedBy(investorEmail)) resources.getString(R.string.project_detail_follow_error) else resources.getString(R.string.project_detail_unfollow_error)
+                        Toast.makeText(activity, message, Toast.LENGTH_SHORT).show()
+                    }
                 }
             }
             .addOnFailureListener {
-                if (context == null) {
-                    return@addOnFailureListener
+                safeAccessBinding {
+                    val message =
+                        if (project.isFollowedBy(investorEmail))
+                            resources.getString(R.string.project_detail_follow_error)
+                        else
+                            resources.getString(R.string.project_detail_unfollow_error)
+                    Toast.makeText(activity, message, Toast.LENGTH_SHORT).show()
                 }
-                val message = if (project.isFollowedBy(investorEmail)) resources.getString(R.string.project_detail_follow_error) else resources.getString(R.string.project_detail_unfollow_error)
-                Toast.makeText(activity, message, Toast.LENGTH_SHORT).show()
             }
     }
 
@@ -230,11 +236,15 @@ class ProjectDetailInvestorFragment : Fragment() {
         db.collection("inversiones")
             .add(invest)
             .addOnSuccessListener {
-                showSuccessMessage(invest)
-                hideBottomInvest()
+                safeAccessBinding {
+                    showSuccessMessage(invest)
+                    hideBottomInvest()
+                }
             }
             .addOnFailureListener {
-                Snackbar.make(v, resources.getString(R.string.project_creation_failed), Snackbar.LENGTH_LONG).show()
+                safeAccessBinding {
+                    Snackbar.make(v, resources.getString(R.string.project_creation_failed), Snackbar.LENGTH_LONG).show()
+                }
             }
     }
     private fun showSuccessMessage(invest: InvestEntity){
