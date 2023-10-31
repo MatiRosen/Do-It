@@ -4,11 +4,11 @@ import android.os.Parcel
 import android.os.Parcelable
 import java.util.Date
 
-
 // TODO: Categoria es string o enum? Imagen es string?
 data class ProjectEntity(
     val creatorEmail: String, var title: String, var subtitle: String, var description: String, var category: String, var image: String,
-    var minBudget: Double, var goal: Double, var visitorsCount: Int, var followersCount: Int, val creationDate: Date, val followers : MutableList<String>) : Parcelable {
+    var minBudget: Double, var goal: Double, var visitorsCount: Int, var followersCount: Int, val creationDate: Date, val followers : MutableList<String>,
+    val comments: MutableList<Comment> ) : Parcelable {
 
     constructor(parcel: Parcel) : this(
         parcel.readString()!!,
@@ -22,10 +22,11 @@ data class ProjectEntity(
         parcel.readInt(),
         parcel.readInt(),
         Date(parcel.readLong()),
-        parcel.createStringArrayList()!!
+        parcel.createStringArrayList()!!,
+        parcel.createTypedArrayList(Comment.CREATOR) ?: ArrayList<Comment>()
     )
 
-    constructor() : this("", "", "", "", "", "", 0.0, 0.0, 0, 0, Date(), mutableListOf<String>())
+    constructor() : this("", "", "", "", "", "", 0.0, 0.0, 0, 0, Date(), mutableListOf<String>(), mutableListOf<Comment>())
 
     override fun describeContents(): Int {
         return 0
@@ -78,5 +79,33 @@ data class ProjectEntity(
         this.followersCount = this.followersCount - 1
     }
 
+    fun addComment(comment: Comment) {
+        this.comments.add(comment)
+    }
+
+    data class Comment(val userEmail: String = "", val commentText: String = "", val userName: String = "") : Parcelable {
+        override fun writeToParcel(parcel: Parcel, flags: Int) {
+            parcel.writeString(userEmail)
+            parcel.writeString(userName)
+            parcel.writeString(commentText)
+        }
+
+        override fun describeContents(): Int {
+            return 0
+        }
+
+        companion object CREATOR : Parcelable.Creator<Comment> {
+            override fun createFromParcel(parcel: Parcel): Comment {
+                return Comment(
+                    parcel.readString() ?: "",
+                    parcel.readString() ?: ""
+                )
+            }
+
+            override fun newArray(size: Int): Array<Comment?> {
+                return arrayOfNulls(size)
+            }
+        }
+    }
 
 }

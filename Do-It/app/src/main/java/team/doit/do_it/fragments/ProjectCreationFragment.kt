@@ -127,7 +127,9 @@ class ProjectCreationFragment : Fragment() {
         val projectMinBudget = binding.editTxtProjectCreationMinBudget.text.toString().toDoubleOrNull() ?: 0.0
         val projectGoal = binding.editTxtProjectCreationGoal.text.toString().toDoubleOrNull() ?: 0.0
 
-        val project = ProjectEntity(projectCreatorEmail, projectTitle, projectSubtitle, projectDescription, projectCategory, projectImg, projectMinBudget, projectGoal, 0, 0, Date(), mutableListOf<String>())
+        val project = ProjectEntity(projectCreatorEmail, projectTitle, projectSubtitle, projectDescription,
+            projectCategory, projectImg, projectMinBudget, projectGoal, 0, 0, Date(),
+            mutableListOf<String>(), mutableListOf<ProjectEntity.Comment>())
 
         return if (validateFields(project)) project else null
     }
@@ -183,7 +185,6 @@ class ProjectCreationFragment : Fragment() {
             Snackbar.make(v, resources.getString(R.string.project_creation_min_budget_higher_than_goal_error), Snackbar.LENGTH_LONG).show()
             return false
         }
-
 
         return true
     }
