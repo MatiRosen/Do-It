@@ -8,9 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.constraintlayout.widget.ConstraintSet
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentContainerView
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
@@ -22,11 +20,11 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import team.doit.do_it.R
+import team.doit.do_it.activities.MainActivity
 import team.doit.do_it.databinding.FragmentProjectDetailInvestorBinding
 import team.doit.do_it.entities.ChatEntity
 import team.doit.do_it.entities.InvestEntity
 import team.doit.do_it.entities.ProjectEntity
-import java.lang.IllegalStateException
 import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
 
@@ -47,9 +45,6 @@ class ProjectDetailInvestorFragment : Fragment() {
         _binding = FragmentProjectDetailInvestorBinding.inflate(inflater, container, false)
         v = binding.root
 
-
-        hideBottomNav()
-        removeMargins()
         return v
     }
 
@@ -64,6 +59,13 @@ class ProjectDetailInvestorFragment : Fragment() {
 
         setValues()
         setupButtons()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        val activity = requireActivity() as MainActivity
+        activity.hideBottomNav()
+        activity.removeMargins()
     }
 
     private fun setupButtons(){
@@ -154,9 +156,10 @@ class ProjectDetailInvestorFragment : Fragment() {
                     it.child("lastMessageDate").value.toString().toLong(),
                     it.child("waiting").value.toString().toBoolean()
                 )
-
-                val action = ProjectDetailInvestorFragmentDirections.actionProjectDetailInvestorFragmentToUserChatHome(chat)
-                this.findNavController().navigate(action)
+                safeAccessBinding {
+                    val action = ProjectDetailInvestorFragmentDirections.actionProjectDetailInvestorFragmentToUserChatHome(chat)
+                    this.findNavController().navigate(action)
+                }
             }
         }
     }
@@ -265,8 +268,8 @@ class ProjectDetailInvestorFragment : Fragment() {
     }
     private fun validateInvest(invest:InvestEntity,minBudget:Double) : Boolean{
         if (invest.getBudgetInvest() < minBudget){
-            val txtMinbudget = formatMoney(minBudget)
-            Snackbar.make(v, resources.getString(R.string.project_detail_budget_error,txtMinbudget), Snackbar.LENGTH_LONG).show()
+            val txtMinBudget = formatMoney(minBudget)
+            Snackbar.make(v, resources.getString(R.string.project_detail_budget_error,txtMinBudget), Snackbar.LENGTH_LONG).show()
             return false
         }
 
@@ -330,8 +333,10 @@ class ProjectDetailInvestorFragment : Fragment() {
                 }
             }
             .addOnFailureListener {
-                Toast.makeText(activity, resources.getString(R.string.project_detail_error), Toast.LENGTH_SHORT).show()
-                v.findNavController().navigateUp()
+                safeAccessBinding {
+                    Toast.makeText(activity, resources.getString(R.string.project_detail_error), Toast.LENGTH_SHORT).show()
+                    v.findNavController().navigateUp()
+                }
             }
     }
 
@@ -384,13 +389,11 @@ class ProjectDetailInvestorFragment : Fragment() {
         usersRef.whereEqualTo("email", email)
             .get()
             .addOnSuccessListener { documents ->
-                safeAccessBinding {
-                    if (!documents.isEmpty) {
-                        val user = documents.documents[0]
-                        listener.onUserFetched(user)
-                    } else {
-                        listener.onUserFetched(null)
-                    }
+                if (!documents.isEmpty) {
+                    val user = documents.documents[0]
+                    listener.onUserFetched(user)
+                } else {
+                    listener.onUserFetched(null)
                 }
             }
             .addOnFailureListener {
@@ -417,32 +420,6 @@ class ProjectDetailInvestorFragment : Fragment() {
         return spannable
     }
 
-    private fun hideBottomNav() {
-        requireActivity().findViewById<View>(R.id.bottomNavigationView).visibility = View.GONE
-    }
-
-    private fun removeMargins() {
-        requireActivity().findViewById<FragmentContainerView>(R.id.mainHost)
-            .layoutParams = ViewGroup.LayoutParams(
-            ViewGroup.LayoutParams.MATCH_PARENT,
-            ViewGroup.LayoutParams.MATCH_PARENT
-        )
-    }
-
-    private fun showMargins() {
-        val constraintSet = ConstraintSet()
-        constraintSet.connect(R.id.mainHost, ConstraintSet.TOP, R.id.guidelineMainActivityHorizontal3, ConstraintSet.BOTTOM)
-        constraintSet.connect(R.id.mainHost, ConstraintSet.BOTTOM, R.id.bottomNavigationView, ConstraintSet.TOP)
-        constraintSet.connect(R.id.mainHost, ConstraintSet.START, R.id.guidelineMainActivityVertical2, ConstraintSet.END)
-        constraintSet.connect(R.id.mainHost, ConstraintSet.END, R.id.guidelineMainActivityVertical98, ConstraintSet.START)
-
-
-        constraintSet.applyTo(requireActivity().findViewById(R.id.frameLayoutMainActivity))
-    }
-
-    private fun showBottomNav() {
-        requireActivity().findViewById<View>(R.id.bottomNavigationView).visibility = View.VISIBLE
-    }
     private fun showBottomInvest(){
         requireActivity().findViewById<View>(R.id.btnProjectDetailInvestmentContact).visibility = View.VISIBLE
         //requireActivity().findViewById<View>(R.id.txtProjectDetailBudgetInvestment).visibility = View.VISIBLE
@@ -469,20 +446,19 @@ class ProjectDetailInvestorFragment : Fragment() {
 
             }
             .addOnFailureListener {
-                Toast.makeText(activity, resources.getString(R.string.project_detail_error), Toast.LENGTH_SHORT).show()
+                safeAccessBinding {
+                    Toast.makeText(activity, resources.getString(R.string.project_detail_error), Toast.LENGTH_SHORT).show()
+                }
             }
     }
 
-    override fun onResume() {
-        super.onResume()
-        hideBottomNav()
-        removeMargins()
-    }
+
 
     override fun onStop(){
         super.onStop()
-        showBottomNav()
-        showMargins()
+        val activity = requireActivity() as MainActivity
+        activity.showBottomNav()
+        activity.showMargins()
     }
 
     override fun onDestroyView() {

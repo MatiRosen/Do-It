@@ -13,6 +13,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentContainerView
 import androidx.navigation.findNavController
 import com.bumptech.glide.Glide
 import com.google.android.material.snackbar.Snackbar
@@ -20,6 +21,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import team.doit.do_it.R
+import team.doit.do_it.activities.MainActivity
 import team.doit.do_it.databinding.FragmentProjectEditBinding
 import java.io.File
 import java.util.Date
@@ -50,6 +52,15 @@ class ProjectEditFragment : Fragment() {
     override fun onStart() {
         super.onStart()
 
+        setupButtons()
+        replaceData()
+
+        val activity = requireActivity() as MainActivity
+        activity.hideBottomNav()
+        activity.removeMargins()
+    }
+
+    private fun setupButtons(){
         binding.imgBtnProjectEditBack.setOnClickListener {
             v.findNavController().navigateUp()
         }
@@ -74,9 +85,8 @@ class ProjectEditFragment : Fragment() {
                 }
             })
         }
-
-        replaceData()
     }
+
 
     private fun pickImage() {
         photoFile = pickImageFromGallery()
@@ -281,5 +291,17 @@ class ProjectEditFragment : Fragment() {
         if (index != -1) {
             binding.spinnerProjectEditCategory.setSelection(index)
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+
+    override fun onStop() {
+        super.onStop()
+        val activity = requireActivity() as MainActivity
+        activity.showBottomNav()
+        activity.showMargins()
     }
 }

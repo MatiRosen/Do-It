@@ -48,6 +48,12 @@ class ProjectCreationFragment : Fragment() {
         return v
     }
 
+    private fun safeAccessBinding(action: () -> Unit) {
+        if (_binding != null && context != null) {
+            action()
+        }
+    }
+
     override fun onStart() {
         super.onStart()
 
@@ -104,11 +110,15 @@ class ProjectCreationFragment : Fragment() {
         db.collection("ideas")
             .add(project)
             .addOnSuccessListener {
-                showSuccessMessage(project)
-                v.findNavController().popBackStack()
+                safeAccessBinding {
+                    showSuccessMessage(project)
+                    v.findNavController().popBackStack()
+                }
             }
             .addOnFailureListener {
-                Snackbar.make(v, resources.getString(R.string.project_creation_failed), Snackbar.LENGTH_LONG).show()
+                safeAccessBinding {
+                    Snackbar.make(v, resources.getString(R.string.project_creation_failed), Snackbar.LENGTH_LONG).show()
+                }
             }
     }
 
@@ -140,7 +150,9 @@ class ProjectCreationFragment : Fragment() {
             .addOnSuccessListener {
                 lastImage = "images/$projectCreatorEmail/projects/$fileName"
             }.addOnFailureListener {
-                Snackbar.make(v, resources.getString(R.string.project_creation_image_upload_failed), Snackbar.LENGTH_LONG).show()
+                safeAccessBinding {
+                    Snackbar.make(v, resources.getString(R.string.project_creation_image_upload_failed), Snackbar.LENGTH_LONG).show()
+                }
                 fileName = ""
             }
         return fileName

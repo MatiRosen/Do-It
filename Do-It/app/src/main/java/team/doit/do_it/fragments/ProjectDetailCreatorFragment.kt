@@ -9,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.constraintlayout.widget.ConstraintSet
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentContainerView
 import androidx.navigation.findNavController
@@ -18,6 +19,7 @@ import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import team.doit.do_it.R
+import team.doit.do_it.activities.MainActivity
 import team.doit.do_it.databinding.FragmentProjectDetailCreatorBinding
 import team.doit.do_it.entities.ProjectEntity
 import java.text.DecimalFormat
@@ -47,14 +49,11 @@ class ProjectDetailCreatorFragment : Fragment() {
         _binding = FragmentProjectDetailCreatorBinding.inflate(inflater, container, false)
         v = binding.root
 
-        hideBottomNav()
-        removeMargins()
-
         return v
     }
 
     private fun safeAccessBinding(action: () -> Unit) {
-        if (_binding != null) {
+        if (_binding != null && context != null) {
             action()
         }
     }
@@ -68,36 +67,39 @@ class ProjectDetailCreatorFragment : Fragment() {
         initializeButtons()
     }
 
-
-
     override fun onResume() {
         super.onResume()
 
         val db = FirebaseFirestore.getInstance()
-       db.collection("ideas")
+        db.collection("ideas")
             .whereEqualTo("creatorEmail", FirebaseAuth.getInstance().currentUser?.email)
             .whereEqualTo("creationDate", project.creationDate)
             .get()
             .addOnSuccessListener { documents ->
                 if (!documents.isEmpty) {
-                    val p = documents.documents[0]
-                    project.title = p.getString("title").toString()
-                    project.subtitle = p.getString("subtitle").toString()
-                    project.description = p.getString("description").toString()
-                    project.category = p.getString("category").toString()
-                    project.goal = p.getDouble("goal")!!
-                    project.minBudget = p.getDouble("minBudget")!!
-                    project.image = p.getString("image").toString()
+                    safeAccessBinding {
+                        val p = documents.documents[0]
+                        project.title = p.getString("title").toString()
+                        project.subtitle = p.getString("subtitle").toString()
+                        project.description = p.getString("description").toString()
+                        project.category = p.getString("category").toString()
+                        project.goal = p.getDouble("goal")!!
+                        project.minBudget = p.getDouble("minBudget")!!
+                        project.image = p.getString("image").toString()
 
-                    setValues()
+                        setValues()
+                    }
                 } else {
-                    Toast.makeText(activity, resources.getString(R.string.project_detail_error), Toast.LENGTH_SHORT).show()
-                    v.findNavController().navigateUp()
+                    safeAccessBinding {
+                        Toast.makeText(activity, resources.getString(R.string.project_detail_error), Toast.LENGTH_SHORT).show()
+                        v.findNavController().navigateUp()
+                    }
                 }
             }
 
-        hideBottomNav()
-        removeMargins()
+        val activity = requireActivity() as MainActivity
+        activity.hideBottomNav()
+        activity.removeMargins()
     }
     private fun initializeButtons() {
         binding.imgBtnProjectDetailCreatorBack.setOnClickListener {
@@ -165,8 +167,10 @@ class ProjectDetailCreatorFragment : Fragment() {
                 }
             }
             .addOnFailureListener {
-                Toast.makeText(activity, resources.getString(R.string.project_detail_error), Toast.LENGTH_SHORT).show()
-                v.findNavController().navigateUp()
+                safeAccessBinding {
+                    Toast.makeText(activity, resources.getString(R.string.project_detail_error), Toast.LENGTH_SHORT).show()
+                    v.findNavController().navigateUp()
+                }
             }
     }
 
@@ -189,24 +193,26 @@ class ProjectDetailCreatorFragment : Fragment() {
     private fun setUserCreatorImage(creatorEmail: String) {
         getUser(creatorEmail, object : ProfileFragment.OnUserFetchedListener {
             override fun onUserFetched(user: DocumentSnapshot?) {
-                if (user != null) {
-                    val titleImg = user.getString("imgPerfil").toString()
-                    if (titleImg == "") {
-                        binding.imgProjectDetailCreatorProfileImage.setImageResource(R.drawable.img_avatar)
-                        return
-                    }
+                safeAccessBinding {
+                    if (user != null) {
+                        val titleImg = user.getString("imgPerfil").toString()
+                        if (titleImg == "") {
+                            binding.imgProjectDetailCreatorProfileImage.setImageResource(R.drawable.img_avatar)
+                            return@safeAccessBinding
+                        }
 
-                    val storageReference = FirebaseStorage.getInstance().reference.child("images/$creatorEmail/imgProfile/$titleImg")
+                        val storageReference = FirebaseStorage.getInstance().reference.child("images/$creatorEmail/imgProfile/$titleImg")
 
-                    safeAccessBinding {
-                        Glide.with(v.context)
-                            .load(storageReference)
-                            .placeholder(R.drawable.img_avatar)
-                            .error(R.drawable.img_avatar)
-                            .into(binding.imgProjectDetailCreatorProfileImage)
+                        safeAccessBinding {
+                            Glide.with(v.context)
+                                .load(storageReference)
+                                .placeholder(R.drawable.img_avatar)
+                                .error(R.drawable.img_avatar)
+                                .into(binding.imgProjectDetailCreatorProfileImage)
+                        }
+                    } else {
+                        Toast.makeText(activity, resources.getString(R.string.profile_dataUser_error), Toast.LENGTH_SHORT).show()
                     }
-                } else {
-                    Toast.makeText(activity, resources.getString(R.string.profile_dataUser_error), Toast.LENGTH_SHORT).show()
                 }
             }
         })
@@ -219,13 +225,11 @@ class ProjectDetailCreatorFragment : Fragment() {
         usersRef.whereEqualTo("email", email)
             .get()
             .addOnSuccessListener { documents ->
-                safeAccessBinding {
-                    if (!documents.isEmpty) {
-                        val user = documents.documents[0]
-                        listener.onUserFetched(user)
-                    } else {
-                        listener.onUserFetched(null)
-                    }
+                if (!documents.isEmpty) {
+                    val user = documents.documents[0]
+                    listener.onUserFetched(user)
+                } else {
+                    listener.onUserFetched(null)
                 }
             }
             .addOnFailureListener {
@@ -250,25 +254,6 @@ class ProjectDetailCreatorFragment : Fragment() {
             Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
         )
         return spannable
-    }
-
-    private fun hideBottomNav() {
-        requireActivity().findViewById<View>(R.id.bottomNavigationView).visibility = View.GONE
-    }
-
-    private fun removeMargins() {
-        requireActivity().findViewById<FragmentContainerView>(R.id.mainHost)
-            .layoutParams = ViewGroup.LayoutParams(
-            ViewGroup.LayoutParams.MATCH_PARENT,
-            ViewGroup.LayoutParams.MATCH_PARENT
-            )
-    }
-
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-
-        _binding = null
     }
 
     private fun deleteProjectConfirm() {
@@ -308,10 +293,15 @@ class ProjectDetailCreatorFragment : Fragment() {
                             .delete()
                             .addOnSuccessListener {
                                 deleteProjectImage(currentUser.email.toString(), ProjectDetailCreatorFragmentArgs.fromBundle(requireArguments()).project.image)
-                                v.findNavController().navigateUp()
+                                safeAccessBinding {
+                                    v.findNavController().navigateUp()
+
+                                }
                             }
                             .addOnFailureListener {
-                                handleDeleteFailure()
+                                safeAccessBinding {
+                                    handleDeleteFailure()
+                                }
                             }
                     }
                 }
@@ -334,5 +324,19 @@ class ProjectDetailCreatorFragment : Fragment() {
 
     private fun handleDeleteFailure() {
         Toast.makeText(activity, resources.getString(R.string.project_detail_delete_error), Toast.LENGTH_SHORT).show()
+    }
+
+    override fun onStop(){
+        super.onStop()
+        val activity = requireActivity() as MainActivity
+        activity.showMargins()
+        activity.showBottomNav()
+    }
+
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+
+        _binding = null
     }
 }
