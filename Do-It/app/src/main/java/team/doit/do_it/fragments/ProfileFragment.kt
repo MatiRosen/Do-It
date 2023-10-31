@@ -50,7 +50,7 @@ class ProfileFragment : Fragment() {
     }
 
     private fun safeAccessBinding(action: () -> Unit) {
-        if (_binding != null) {
+        if (_binding != null && context != null) {
             action()
         }
     }

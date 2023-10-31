@@ -53,22 +53,23 @@ class HomeCreatorFragment : Fragment(), OnViewItemClickedListener {
         return v
     }
 
+    private fun safeAccessBinding(action: () -> Unit) {
+        if (_binding != null && context != null) {
+            action()
+        }
+    }
+
     override fun onStart() {
         super.onStart()
         setupButtons()
-        setupRecyclerView()
-        showMargins()
+        safeAccessBinding {
+            setupRecyclerView()
+        }
     }
 
-    private fun showMargins() {
-        val constraintSet = ConstraintSet()
-        constraintSet.connect(R.id.mainHost, ConstraintSet.TOP, R.id.guidelineMainActivityHorizontal3, ConstraintSet.BOTTOM)
-        constraintSet.connect(R.id.mainHost, ConstraintSet.BOTTOM, R.id.bottomNavigationView, ConstraintSet.TOP)
-        constraintSet.connect(R.id.mainHost, ConstraintSet.START, R.id.guidelineMainActivityVertical2, ConstraintSet.END)
-        constraintSet.connect(R.id.mainHost, ConstraintSet.END, R.id.guidelineMainActivityVertical98, ConstraintSet.START)
-
-
-        constraintSet.applyTo(requireActivity().findViewById(R.id.frameLayoutMainActivity))
+    override fun onResume() {
+        super.onResume()
+        binding.switchHomeCreatorToHomeInvestor.isChecked = false
     }
 
     private fun setupButtons() {
@@ -202,15 +203,6 @@ class HomeCreatorFragment : Fragment(), OnViewItemClickedListener {
         this.findNavController().navigate(action)
     }
 
-    private fun showBottomNav() {
-        requireActivity().findViewById<View>(R.id.bottomNavigationView).visibility = View.VISIBLE
-    }
-
-    override fun onResume() {
-        super.onResume()
-        showBottomNav()
-        binding.switchHomeCreatorToHomeInvestor.isChecked = false
-    }
 
     override fun onStop() {
         super.onStop()

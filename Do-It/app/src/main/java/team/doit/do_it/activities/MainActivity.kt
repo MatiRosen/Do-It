@@ -1,9 +1,13 @@
 package team.doit.do_it.activities
 
 import android.os.Bundle
+import android.view.View
+import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.content.res.AppCompatResources
+import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.view.get
+import androidx.fragment.app.FragmentContainerView
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
 import com.google.android.gms.ads.MobileAds
@@ -62,5 +66,32 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
+    }
+
+    fun hideBottomNav() {
+        findViewById<View>(R.id.bottomNavigationView).visibility = View.GONE
+    }
+
+    fun removeMargins() {
+        findViewById<FragmentContainerView>(R.id.mainHost)
+            .layoutParams = ViewGroup.LayoutParams(
+            ViewGroup.LayoutParams.MATCH_PARENT,
+            ViewGroup.LayoutParams.MATCH_PARENT
+        )
+    }
+
+    fun showBottomNav() {
+       findViewById<View>(R.id.bottomNavigationView).visibility = View.VISIBLE
+    }
+
+    fun showMargins() {
+        val constraintSet = ConstraintSet()
+        constraintSet.connect(R.id.mainHost, ConstraintSet.TOP, R.id.guidelineMainActivityHorizontal3, ConstraintSet.BOTTOM)
+        constraintSet.connect(R.id.mainHost, ConstraintSet.BOTTOM, R.id.bottomNavigationView, ConstraintSet.TOP)
+        constraintSet.connect(R.id.mainHost, ConstraintSet.START, R.id.guidelineMainActivityVertical2, ConstraintSet.END)
+        constraintSet.connect(R.id.mainHost, ConstraintSet.END, R.id.guidelineMainActivityVertical98, ConstraintSet.START)
+
+
+        constraintSet.applyTo(findViewById(R.id.frameLayoutMainActivity))
     }
 }

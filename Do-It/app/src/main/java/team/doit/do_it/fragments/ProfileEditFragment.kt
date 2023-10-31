@@ -57,7 +57,7 @@ class ProfileEditFragment : Fragment() {
     }
 
     private fun safeAccessBinding(action: () -> Unit) {
-        if (_binding != null) {
+        if (_binding != null && context != null) {
             action()
         }
     }
@@ -66,20 +66,24 @@ class ProfileEditFragment : Fragment() {
         super.onStart()
 
         startSpinner()
+        setupButtons()
+    }
 
+    private fun setupButtons(){
         binding.btnConfirmEditProfile.setOnClickListener {
             if(isValidUser()) {
                 updateUser(object : ProfileFragment.OnUserUpdatedListener {
                     override fun onUserUpdated(successful: Boolean) {
-                        if (successful) {
-                            safeAccessBinding {
+                        safeAccessBinding {
+                            if (successful) {
                                 Toast.makeText(activity, resources.getString(R.string.profile_editUser_complete), Toast.LENGTH_SHORT).show()
                                 v.findNavController().navigateUp()
-                            }
 
-                        } else {
-                            Toast.makeText(activity, resources.getString(R.string.profile_dataUser_error), Toast.LENGTH_SHORT).show()
+                            } else {
+                                Toast.makeText(activity, resources.getString(R.string.profile_dataUser_error), Toast.LENGTH_SHORT).show()
+                            }
                         }
+
                     }
                 })
             }
@@ -115,7 +119,9 @@ class ProfileEditFragment : Fragment() {
                 val selectedImageFromGallery: Uri? = data.data
                 selectedImage = selectedImageFromGallery
                 if (selectedImageFromGallery != null) {
-                    binding.editImgEditProfileCircular.setImageURI(selectedImageFromGallery)
+                    safeAccessBinding {
+                        binding.editImgEditProfileCircular.setImageURI(selectedImageFromGallery)
+                    }
                 }
             }
         }
@@ -129,7 +135,9 @@ class ProfileEditFragment : Fragment() {
             .addOnSuccessListener {
                 lastImage = "images/$projectCreatorEmail/imgProfile/$fileName"
             }.addOnFailureListener {
-                Snackbar.make(v, resources.getString(R.string.project_creation_image_upload_failed), Snackbar.LENGTH_LONG).show()
+                safeAccessBinding {
+                    Snackbar.make(v, resources.getString(R.string.project_creation_image_upload_failed), Snackbar.LENGTH_LONG).show()
+                }
                 fileName = ""
             }
         return fileName
@@ -141,8 +149,8 @@ class ProfileEditFragment : Fragment() {
 
         getUser(currentUser?.email.toString(), object : ProfileFragment.OnUserFetchedListener {
             override fun onUserFetched(user: DocumentSnapshot?) {
-                if (user != null) {
-                    safeAccessBinding {
+                safeAccessBinding {
+                    if (user != null) {
                         binding.editTextEditProfileName.text = editableFactory.newEditable(user.getString("nombre") ?: "")
                         binding.editTextEditProfileSurname.text = editableFactory.newEditable(user.getString("apellido") ?: "")
                         binding.editTextEditProfileEmail.text = editableFactory.newEditable(user.getString("email") ?: "")
@@ -150,16 +158,15 @@ class ProfileEditFragment : Fragment() {
                         spinnerGender.setSelection(getGenderIndex(user.getString("genero")))
                         binding.editTextEditProfileAddress.text = editableFactory.newEditable(user.getString("direccion") ?: "")
                         setImage(currentUser?.email.toString(), user.getString("imgPerfil").toString())
+                    } else {
+                        Toast.makeText(activity, resources.getString(R.string.profile_dataUser_error), Toast.LENGTH_SHORT).show()
                     }
-                } else {
-                    Toast.makeText(activity, resources.getString(R.string.profile_dataUser_error), Toast.LENGTH_SHORT).show()
                 }
             }
         })
     }
 
     private fun setImage(creatorEmail: String, titleImg: String) {
-
         Handler(Looper.getMainLooper()).postDelayed({
             safeAccessBinding {
                 if (titleImg == "") {
@@ -293,7 +300,9 @@ class ProfileEditFragment : Fragment() {
                                 listener.onUserUpdated(false)
                             }
                     } ?: run {
-                        Toast.makeText(activity, resources.getString(R.string.profile_dataUser_error), Toast.LENGTH_SHORT).show()
+                        safeAccessBinding {
+                            Toast.makeText(activity, resources.getString(R.string.profile_dataUser_error), Toast.LENGTH_SHORT).show()
+                        }
                         listener.onUserUpdated(false)
                     }
                 }
@@ -310,7 +319,9 @@ class ProfileEditFragment : Fragment() {
                 if (listResult.items.isNotEmpty()) {
                     listResult.items[0].delete()
                         .addOnFailureListener {
-                            resources.getString(R.string.profile_deleteImages_error)
+                            safeAccessBinding {
+                                resources.getString(R.string.profile_deleteImages_error)
+                            }
                         }
                 }
             }
@@ -353,7 +364,9 @@ class ProfileEditFragment : Fragment() {
                     db.collection("usuarios").document(document.id)
                         .delete()
                         .addOnFailureListener {
-                            handleDeleteFailure()
+                            safeAccessBinding {
+                                handleDeleteFailure()
+                            }
                         }
                 }
             }
@@ -368,7 +381,9 @@ class ProfileEditFragment : Fragment() {
                 for (item in listResult.items) {
                     item.delete()
                         .addOnFailureListener {
-                            resources.getString(R.string.profile_deleteImages_error)
+                            safeAccessBinding {
+                                resources.getString(R.string.profile_deleteImages_error)
+                            }
                         }
                 }
             }
@@ -377,16 +392,18 @@ class ProfileEditFragment : Fragment() {
     private fun deleteUserAccount(user: FirebaseUser) {
         user.delete()
             .addOnCompleteListener { task ->
-                if (task.isSuccessful) {
-                    Toast.makeText(
-                        activity,
-                        resources.getString(R.string.profile_deleteAccount_complete),
-                        Toast.LENGTH_SHORT
-                    ).show()
-                    val intent = Intent(activity, LoginActivity::class.java)
-                    startActivity(intent)
-                } else {
-                    handleDeleteFailure()
+                safeAccessBinding {
+                    if (task.isSuccessful) {
+                        Toast.makeText(
+                            activity,
+                            resources.getString(R.string.profile_deleteAccount_complete),
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        val intent = Intent(activity, LoginActivity::class.java)
+                        startActivity(intent)
+                    } else {
+                        handleDeleteFailure()
+                    }
                 }
             }
     }
