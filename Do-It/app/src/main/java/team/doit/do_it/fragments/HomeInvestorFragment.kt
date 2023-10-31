@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.Toast
+import androidx.constraintlayout.widget.ConstraintSet
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -56,11 +57,25 @@ class HomeInvestorFragment : Fragment(), OnViewItemClickedListener {
         return v
     }
 
+    private fun safeAccessBinding(action: () -> Unit) {
+        if (_binding != null && context != null) {
+            action()
+        }
+    }
+
     override fun onStart() {
         super.onStart()
-        setupPopularProjectsRecyclerView()
-        setupAllProjectsRecyclerView()
+        safeAccessBinding {
+            setupPopularProjectsRecyclerView()
+            setupAllProjectsRecyclerView()
+        }
+
         setupButtons()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        binding.switchHomeInvestorToHomeCreator.isChecked = true
     }
 
     private fun setupButtons() {
@@ -77,10 +92,12 @@ class HomeInvestorFragment : Fragment(), OnViewItemClickedListener {
             filterAllProjectsByPhoneticSearch()
             binding.spinnerHomeInvestorFilterCategory.setSelection(0)
         }
+
         binding.btnHomeInvestorFilterCategory.setOnClickListener {
             binding.txtHomeInvestorTitle.visibility = View.GONE
             binding.recyclerHomeInvestorPopularProjects.visibility = View.GONE
             val categoryFilter = binding.spinnerHomeInvestorFilterCategory.selectedItem.toString()
+
             if (categoryFilter == resources.getString(R.string.project_creation_project_category_hint)){
                 binding.txtHomeInvestorTitle.visibility = View.VISIBLE
                 binding.recyclerHomeInvestorPopularProjects.visibility = View.VISIBLE
@@ -164,6 +181,7 @@ class HomeInvestorFragment : Fragment(), OnViewItemClickedListener {
         allProjectListAdapter.startListening()
         binding.recyclerHomeInvestorAllProjects.adapter = allProjectListAdapter
     }
+
     private fun setupRecyclerViewSettings(recycler : RecyclerView, isHorizontal : Boolean = false) {
         recycler.setHasFixedSize(true)
         val linearLayoutManager = if (isHorizontal) LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false) else LinearLayoutManager(context)
@@ -356,15 +374,6 @@ class HomeInvestorFragment : Fragment(), OnViewItemClickedListener {
         fun onUserFetched(user: Boolean?)
     }
 
-    private fun showBottomNav() {
-        requireActivity().findViewById<View>(R.id.bottomNavigationView).visibility = View.VISIBLE
-    }
-
-    override fun onResume() {
-        super.onResume()
-        showBottomNav()
-        binding.switchHomeInvestorToHomeCreator.isChecked = true
-    }
 
     override fun onStop() {
         super.onStop()

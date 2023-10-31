@@ -13,6 +13,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentContainerView
 import androidx.navigation.findNavController
 import com.bumptech.glide.Glide
 import com.google.android.material.snackbar.Snackbar
@@ -20,6 +21,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import team.doit.do_it.R
+import team.doit.do_it.activities.MainActivity
 import team.doit.do_it.databinding.FragmentProjectEditBinding
 import java.io.File
 import java.util.Date
@@ -50,6 +52,15 @@ class ProjectEditFragment : Fragment() {
     override fun onStart() {
         super.onStart()
 
+        setupButtons()
+        replaceData()
+
+        val activity = requireActivity() as MainActivity
+        activity.hideBottomNav()
+        activity.removeMargins()
+    }
+
+    private fun setupButtons(){
         binding.imgBtnProjectEditBack.setOnClickListener {
             v.findNavController().navigateUp()
         }
@@ -74,9 +85,8 @@ class ProjectEditFragment : Fragment() {
                 }
             })
         }
-
-        replaceData()
     }
+
 
     private fun pickImage() {
         photoFile = pickImageFromGallery()
@@ -116,8 +126,8 @@ class ProjectEditFragment : Fragment() {
 
     }
 
-    private fun uploadImage(projectCreatorEmail: String): String {
-        var fileName = projectCreatorEmail + "-projects-" + Date().time.toString()
+    private fun uploadImage(projectCreatorEmail: String, projectTitle: String): String {
+        var fileName = "$projectCreatorEmail-$projectTitle" + "-" + Date().time.toString()
 
         val storeReference = FirebaseStorage.getInstance().getReference("images/$projectCreatorEmail/projects/$fileName")
         storeReference.putFile(selectedImage!!)
@@ -162,22 +172,21 @@ class ProjectEditFragment : Fragment() {
                 "goal" to binding.editTxtProjectEditGoal.text.toString().toDouble().toInt(),
                 "minBudget" to binding.editTxtProjectEditMinBudget.text.toString().toDouble().toInt(),
                 "category" to binding.spinnerProjectEditCategory.selectedItem.toString(),
-                "image" to if(selectedImage != null) uploadImage(currentUser.email.toString()) else ProjectEditFragmentArgs.fromBundle(requireArguments()).project.image
+                "image" to if(selectedImage != null) uploadImage(currentUser.email.toString(), binding.editTxtProjectEditTitle.text.toString()) else ProjectEditFragmentArgs.fromBundle(requireArguments()).project.image
             )
 
             if(selectedImage != null){
-                FirebaseStorage.getInstance().reference.child("images/${currentUser.email.toString()}/projects/${ProjectEditFragmentArgs.fromBundle(requireArguments()).project.image}")
-                    .listAll().addOnSuccessListener { listResult ->
-                        for (item in listResult.items) {
-                            item.delete()
-                                .addOnFailureListener {
-                                    safeAccessBinding {
-                                        resources.getString(R.string.profile_deleteImages_error)
-                                    }
+                    val storageReference = FirebaseStorage.getInstance().reference.child("images/${currentUser.email.toString()}/projects")
 
-                                }
+                    storageReference.listAll()
+                        .addOnSuccessListener { listResult ->
+                            if (listResult.items.isNotEmpty()) {
+                                listResult.items.find { x -> x.name == ProjectEditFragmentArgs.fromBundle(requireArguments()).project.image }?.delete()
+                                    ?.addOnFailureListener() {
+                                        resources.getString(R.string.project_deleteImage_error)
+                                    }
+                            }
                         }
-                    }
             }
 
             if(validateFields(project)) {
@@ -282,5 +291,17 @@ class ProjectEditFragment : Fragment() {
         if (index != -1) {
             binding.spinnerProjectEditCategory.setSelection(index)
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+
+    override fun onStop() {
+        super.onStop()
+        val activity = requireActivity() as MainActivity
+        activity.showBottomNav()
+        activity.showMargins()
     }
 }

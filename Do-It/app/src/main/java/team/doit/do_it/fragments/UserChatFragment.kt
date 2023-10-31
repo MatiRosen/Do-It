@@ -25,6 +25,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import team.doit.do_it.R
+import team.doit.do_it.activities.MainActivity
 import team.doit.do_it.adapters.MessageListAdapter
 import team.doit.do_it.databinding.FragmentUserChatBinding
 import team.doit.do_it.entities.ChatEntity
@@ -52,9 +53,6 @@ class UserChatFragment : Fragment() {
         chat = UserChatFragmentArgs.fromBundle(requireArguments()).chat
         db = Firebase.database
 
-        hideBottomNav()
-        removeMargins()
-
         return v
     }
 
@@ -75,8 +73,15 @@ class UserChatFragment : Fragment() {
         startChat()
     }
 
+    override fun onResume() {
+        super.onResume()
+        val activity = requireActivity() as MainActivity
+        activity.hideBottomNav()
+        activity.removeMargins()
+    }
+
     private fun safeAccessBinding(action: () -> Unit) {
-        if (_binding != null) {
+        if (_binding != null && context != null) {
             action()
         }
     }
@@ -227,33 +232,6 @@ class UserChatFragment : Fragment() {
             .into(imageView)
     }
 
-    private fun hideBottomNav() {
-        requireActivity().findViewById<View>(R.id.bottomNavigationView).visibility = View.GONE
-    }
-
-    private fun removeMargins() {
-        requireActivity().findViewById<FragmentContainerView>(R.id.mainHost)
-            .layoutParams = ViewGroup.LayoutParams(
-            ViewGroup.LayoutParams.MATCH_PARENT,
-            ViewGroup.LayoutParams.MATCH_PARENT
-        )
-    }
-
-    private fun showBottomNav() {
-        requireActivity().findViewById<View>(R.id.bottomNavigationView).visibility = View.VISIBLE
-    }
-
-    private fun showMargins() {
-        val constraintSet = ConstraintSet()
-        constraintSet.connect(R.id.mainHost, ConstraintSet.TOP, R.id.guidelineMainActivityHorizontal3, ConstraintSet.BOTTOM)
-        constraintSet.connect(R.id.mainHost, ConstraintSet.BOTTOM, R.id.bottomNavigationView, ConstraintSet.TOP)
-        constraintSet.connect(R.id.mainHost, ConstraintSet.START, R.id.guidelineMainActivityVertical2, ConstraintSet.END)
-        constraintSet.connect(R.id.mainHost, ConstraintSet.END, R.id.guidelineMainActivityVertical98, ConstraintSet.START)
-
-
-        constraintSet.applyTo(requireActivity().findViewById(R.id.frameLayoutMainActivity))
-    }
-
     private fun deleteChatIfNoMessages() {
         val ownUserUUID = FirebaseAuth.getInstance().currentUser?.uid ?: return
         val ref = db.getReference("messages/${ownUserUUID}/${chat.userUUID}/messages")
@@ -267,18 +245,15 @@ class UserChatFragment : Fragment() {
         }
     }
 
-    override fun onResume() {
-        super.onResume()
-        hideBottomNav()
-        removeMargins()
-    }
+
 
     override fun onStop() {
         super.onStop()
         val ownUserUUID = FirebaseAuth.getInstance().currentUser?.uid ?: return
         db.getReference("messages/${ownUserUUID}/${chat.userUUID}/waiting").setValue(false)
-        showBottomNav()
-        showMargins()
+        val activity = requireActivity() as MainActivity
+        activity.showBottomNav()
+        activity.showMargins()
         deleteChatIfNoMessages()
     }
 

@@ -48,13 +48,20 @@ class FollowingProjectFragment : Fragment(), OnViewItemClickedListener {
     override fun onStart() {
         super.onStart()
         overrideBackButton()
-        setupRecyclerView()
+        safeAccessBinding {
+            setupRecyclerView()
+        }
+    }
+
+    private fun safeAccessBinding(action: () -> Unit) {
+        if (_binding != null && context != null) {
+            action()
+        }
     }
 
     private fun setupRecyclerView() {
         val query = FirebaseAuth.getInstance().currentUser?.email?.let {
-            db.collection("ideas")
-                .whereArrayContains("followers", it)
+            db.collection("ideas").whereArrayContains("followers", it)
         }
 
         val config = PagingConfig(20, 10, false)

@@ -80,6 +80,7 @@ dependencies {
     implementation("com.firebaseui:firebase-ui-firestore:8.0.2")
     implementation("com.firebaseui:firebase-ui-storage:7.2.0")
     implementation("com.firebaseui:firebase-ui-database:8.0.2")
+    implementation("com.google.firebase:firebase-messaging:23.3.1")
 
     // Images
     implementation("com.github.bumptech.glide:glide:4.16.0")
