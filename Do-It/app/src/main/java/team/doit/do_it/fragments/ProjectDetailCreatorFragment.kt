@@ -307,6 +307,7 @@ class ProjectDetailCreatorFragment : Fragment() {
                         db.collection("ideas").document(document.id)
                             .delete()
                             .addOnSuccessListener {
+                                deleteProjectImage(currentUser.email.toString(), ProjectDetailCreatorFragmentArgs.fromBundle(requireArguments()).project.image)
                                 v.findNavController().navigateUp()
                             }
                             .addOnFailureListener {
@@ -315,6 +316,20 @@ class ProjectDetailCreatorFragment : Fragment() {
                     }
                 }
         }
+    }
+
+    private fun deleteProjectImage(mail: String, imgName: String) {
+        val storageReference = FirebaseStorage.getInstance().reference.child("images/$mail/projects")
+
+        storageReference.listAll()
+            .addOnSuccessListener { listResult ->
+                if (listResult.items.isNotEmpty()) {
+                    listResult.items.find { x -> x.name == imgName }?.delete()
+                        ?.addOnFailureListener() {
+                            resources.getString(R.string.project_deleteImage_error)
+                        }
+                }
+            }
     }
 
     private fun handleDeleteFailure() {

@@ -116,8 +116,8 @@ class ProjectEditFragment : Fragment() {
 
     }
 
-    private fun uploadImage(projectCreatorEmail: String): String {
-        var fileName = projectCreatorEmail + "-projects-" + Date().time.toString()
+    private fun uploadImage(projectCreatorEmail: String, projectTitle: String): String {
+        var fileName = "$projectCreatorEmail-$projectTitle" + "-" + Date().time.toString()
 
         val storeReference = FirebaseStorage.getInstance().getReference("images/$projectCreatorEmail/projects/$fileName")
         storeReference.putFile(selectedImage!!)
@@ -162,22 +162,21 @@ class ProjectEditFragment : Fragment() {
                 "goal" to binding.editTxtProjectEditGoal.text.toString().toDouble().toInt(),
                 "minBudget" to binding.editTxtProjectEditMinBudget.text.toString().toDouble().toInt(),
                 "category" to binding.spinnerProjectEditCategory.selectedItem.toString(),
-                "image" to if(selectedImage != null) uploadImage(currentUser.email.toString()) else ProjectEditFragmentArgs.fromBundle(requireArguments()).project.image
+                "image" to if(selectedImage != null) uploadImage(currentUser.email.toString(), binding.editTxtProjectEditTitle.text.toString()) else ProjectEditFragmentArgs.fromBundle(requireArguments()).project.image
             )
 
             if(selectedImage != null){
-                FirebaseStorage.getInstance().reference.child("images/${currentUser.email.toString()}/projects/${ProjectEditFragmentArgs.fromBundle(requireArguments()).project.image}")
-                    .listAll().addOnSuccessListener { listResult ->
-                        for (item in listResult.items) {
-                            item.delete()
-                                .addOnFailureListener {
-                                    safeAccessBinding {
-                                        resources.getString(R.string.profile_deleteImages_error)
-                                    }
+                    val storageReference = FirebaseStorage.getInstance().reference.child("images/${currentUser.email.toString()}/projects")
 
-                                }
+                    storageReference.listAll()
+                        .addOnSuccessListener { listResult ->
+                            if (listResult.items.isNotEmpty()) {
+                                listResult.items.find { x -> x.name == ProjectEditFragmentArgs.fromBundle(requireArguments()).project.image }?.delete()
+                                    ?.addOnFailureListener() {
+                                        resources.getString(R.string.project_deleteImage_error)
+                                    }
+                            }
                         }
-                    }
             }
 
             if(validateFields(project)) {
