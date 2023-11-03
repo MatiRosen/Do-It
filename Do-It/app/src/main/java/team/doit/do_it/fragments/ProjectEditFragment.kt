@@ -13,7 +13,6 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentContainerView
 import androidx.navigation.findNavController
 import com.bumptech.glide.Glide
 import com.google.android.material.snackbar.Snackbar
@@ -120,8 +119,8 @@ class ProjectEditFragment : Fragment() {
 
         Glide.with(v.context)
             .load(storageReference)
-            .placeholder(R.drawable.img_avatar)
-            .error(R.drawable.img_avatar)
+            .placeholder(R.drawable.img_not_img)
+            .error(R.drawable.img_not_img)
             .into(binding.imgProjectEditImage)
 
     }
