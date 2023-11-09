@@ -25,4 +25,7 @@
     <!--Enlaces-->
     <color name="link">#0000FF</color>
 
+    <!--Amarillos-->
+    <color name="yellow">#F1C700</color>
+
 </resources>

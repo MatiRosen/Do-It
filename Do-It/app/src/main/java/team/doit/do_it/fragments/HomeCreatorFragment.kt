@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.constraintlayout.widget.ConstraintSet
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
@@ -26,7 +25,7 @@ import team.doit.do_it.databinding.FragmentHomeCreatorBinding
 import team.doit.do_it.entities.ProjectEntity
 import team.doit.do_it.listeners.OnViewItemClickedListener
 
-class HomeCreatorFragment : Fragment(), OnViewItemClickedListener {
+class HomeCreatorFragment : Fragment(), OnViewItemClickedListener<ProjectEntity> {
 
     private var _binding : FragmentHomeCreatorBinding? = null
     private val binding get() = _binding!!
@@ -197,9 +196,8 @@ class HomeCreatorFragment : Fragment(), OnViewItemClickedListener {
         binding.recyclerHomeCreatorProjects.setPadding(startPadding, topPadding, endPadding, bottomPadding)
     }
 
-    override fun onViewItemDetail(item: Any) {
-        val project = if (item is ProjectEntity) item else return
-        val action = HomeCreatorFragmentDirections.actionGlobalProjectDetailFragment(project)
+    override fun onViewItemDetail(item: ProjectEntity) {
+        val action = HomeCreatorFragmentDirections.actionGlobalProjectDetailFragment(item)
         this.findNavController().navigate(action)
     }
 

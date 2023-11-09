@@ -13,7 +13,7 @@ import java.util.Date
 
 class ChatListAdapter(
     options: FirebaseRecyclerOptions<ChatEntity>,
-    private val onItemClick: OnViewItemClickedListener
+    private val onItemClick: OnViewItemClickedListener<ChatEntity>
 ) : FirebaseRecyclerAdapter<ChatEntity, ChatHolder>(options) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ChatHolder {

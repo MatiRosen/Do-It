@@ -267,7 +267,7 @@ class ProjectDetailInvestorFragment : Fragment() {
         return null
     }
     private fun validateInvest(invest:InvestEntity,minBudget:Double) : Boolean{
-        if (invest.getBudgetInvest() < minBudget){
+        if (invest.budgetInvest < minBudget){
             val txtMinBudget = formatMoney(minBudget)
             Snackbar.make(v, resources.getString(R.string.project_detail_budget_error,txtMinBudget), Snackbar.LENGTH_LONG).show()
             return false

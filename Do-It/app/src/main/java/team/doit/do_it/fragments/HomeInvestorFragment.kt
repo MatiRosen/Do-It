@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.Toast
-import androidx.constraintlayout.widget.ConstraintSet
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -32,7 +31,7 @@ import team.doit.do_it.entities.ProjectEntity
 import team.doit.do_it.listeners.OnViewItemClickedListener
 
 
-class HomeInvestorFragment : Fragment(), OnViewItemClickedListener {
+class HomeInvestorFragment : Fragment(), OnViewItemClickedListener<ProjectEntity> {
 
     private var _binding : FragmentHomeInvestorBinding? = null
     private val binding get() = _binding!!
@@ -269,14 +268,12 @@ class HomeInvestorFragment : Fragment(), OnViewItemClickedListener {
         binding.recyclerHomeInvestorPopularProjects.setPadding(startPadding, topPadding, endPadding, bottomPadding)
     }
 
-    override fun onViewItemDetail(item: Any) {
-        val project = if (item is ProjectEntity) item else return
-
+    override fun onViewItemDetail(item: ProjectEntity) {
         val investorEmail = FirebaseAuth.getInstance().currentUser?.email.toString()
-        val action = if (project.creatorEmail == investorEmail) {
-            HomeInvestorFragmentDirections.actionGlobalProjectDetailFragment(project)
+        val action = if (item.creatorEmail == investorEmail) {
+            HomeInvestorFragmentDirections.actionGlobalProjectDetailFragment(item)
         } else {
-            HomeInvestorFragmentDirections.actionGlobalProjectDetailInvestorFragment(project)
+            HomeInvestorFragmentDirections.actionGlobalProjectDetailInvestorFragment(item)
         }
 
         isUserPremium(investorEmail, object : OnUserFetchedListener {

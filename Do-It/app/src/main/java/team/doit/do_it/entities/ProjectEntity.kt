@@ -8,7 +8,7 @@ import java.util.Date
 data class ProjectEntity(
     val creatorEmail: String, var title: String, var subtitle: String, var description: String, var category: String, var image: String,
     var minBudget: Double, var goal: Double, var visitorsCount: Int, var followersCount: Int, val creationDate: Date, val followers : MutableList<String>,
-    val comments: MutableList<Comment> ) : Parcelable {
+    val comments: MutableList<Comment>, var uuid : String ) : Parcelable {
 
     constructor(parcel: Parcel) : this(
         parcel.readString()!!,
@@ -23,10 +23,11 @@ data class ProjectEntity(
         parcel.readInt(),
         Date(parcel.readLong()),
         parcel.createStringArrayList()!!,
-        parcel.createTypedArrayList(Comment.CREATOR) ?: ArrayList<Comment>()
+        parcel.createTypedArrayList(Comment.CREATOR) ?: ArrayList<Comment>(),
+        parcel.readString()!!
     )
 
-    constructor() : this("", "", "", "", "", "", 0.0, 0.0, 0, 0, Date(), mutableListOf<String>(), mutableListOf<Comment>())
+    constructor() : this("", "", "", "", "", "", 0.0, 0.0, 0, 0, Date(), mutableListOf<String>(), mutableListOf<Comment>(), "")
 
     override fun describeContents(): Int {
         return 0
@@ -45,6 +46,7 @@ data class ProjectEntity(
         parcel.writeInt(followersCount)
         parcel.writeLong(creationDate.time)
         parcel.writeStringList(followers)
+        parcel.writeString(uuid)
     }
 
     companion object CREATOR : Parcelable.Creator<ProjectEntity> {

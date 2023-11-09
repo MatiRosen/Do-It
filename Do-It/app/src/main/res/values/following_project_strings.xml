@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="follow_project_title">Proyectos seguidos</string>
+    <string name="following_project_get_project_failed">Hubo un error cargando un proyecto</string>
 </resources>

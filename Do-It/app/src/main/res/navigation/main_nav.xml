@@ -202,6 +202,14 @@
             app:popUpToInclusive="true"
             app:popUpTo="@id/options"
             app:popUpToSaveState="true"/>
+
+        <action
+            android:id="@+id/action_options_to_myInvestmentsFragment"
+            app:destination="@id/myInvestmentsFragment"
+            app:restoreState="true"
+            app:popUpToInclusive="true"
+            app:popUpTo="@id/options"
+            app:popUpToSaveState="true"/>
     </fragment>
 
     <fragment
@@ -234,6 +242,18 @@
             app:popUpTo="@id/followingProjectFragment" />
     </fragment>
 
+    <fragment
+        android:id="@+id/myInvestmentsFragment"
+        android:name="team.doit.do_it.fragments.MyInvestmentsFragment"
+        android:label="fragment_my_investments"
+        tools:layout="@layout/fragment_my_investments">
+
+        <action
+            android:id="@+id/action_myInvestmentsFragment_to_options"
+            app:destination="@id/options"
+            app:popUpTo="@id/myInvestmentsFragment"
+            app:popUpToInclusive="true"/>
+    </fragment>
 
 
 </navigation>

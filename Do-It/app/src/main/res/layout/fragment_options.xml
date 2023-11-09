@@ -56,6 +56,19 @@
                 android:textStyle="bold" />
 
             <Button
+                android:id="@+id/btnOptionsInvests"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical|start"
+                android:background="@drawable/style_buttons_options"
+                android:drawableStart="@drawable/icon_investment"
+                android:drawablePadding="@dimen/input_txt_padding"
+                android:text="@string/option_invest"
+                android:textColor="@color/black"
+                android:textSize="@dimen/txt_paragraph_size"
+                android:textStyle="bold"/>
+
+            <Button
                 android:id="@+id/btnOptionsLogout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -67,7 +80,6 @@
                 android:textColor="@color/pantone"
                 android:textSize="@dimen/txt_paragraph_size"
                 android:textStyle="bold"/>
-
-
         </LinearLayout>
-    </ScrollView></androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>
