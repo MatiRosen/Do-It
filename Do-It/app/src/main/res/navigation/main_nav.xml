@@ -143,6 +143,10 @@
                 android:id="@+id/action_projectDetailInvestorFragment_to_user_chat_home"
                 app:destination="@id/user_chat_home" />
 
+            <action
+                android:id="@+id/action_projectDetailInvestorFragment_to_projectDetailInvestFragment"
+                app:destination="@id/projectTicketInvestFragment" />
+
         </fragment>
 
         <fragment
@@ -154,6 +158,17 @@
                 android:name="project"
                 app:argType="team.doit.do_it.entities.ProjectEntity" />
         </fragment>
+
+        <fragment
+            android:id="@+id/projectTicketInvestFragment"
+            android:name="team.doit.do_it.fragments.ProjectTicketInvestFragment"
+            android:label="ProjectTicketInvest"
+            tools:layout="@layout/fragment_project_ticket_invest">
+            <argument
+                android:name="project"
+                app:argType="team.doit.do_it.entities.ProjectEntity" />
+        </fragment>
+
     </navigation>
 
     <fragment
@@ -181,6 +196,20 @@
         <action
             android:id="@+id/action_projectDetailInvestorFragment_to_user_chat_home"
             app:destination="@id/user_chat" />
+        <action
+            android:id="@+id/action_projectDetailInvestorFragment_to_projectDetailInvestFragment"
+            app:destination="@id/projectTicketInvestFragmentMain" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/projectTicketInvestFragmentMain"
+        android:name="team.doit.do_it.fragments.ProjectTicketInvestFragment"
+        android:label="ProjectTicketInvest"
+        tools:layout="@layout/fragment_project_ticket_invest">
+        <argument
+            android:name="project"
+            app:argType="team.doit.do_it.entities.ProjectEntity" />
     </fragment>
 
     <fragment
