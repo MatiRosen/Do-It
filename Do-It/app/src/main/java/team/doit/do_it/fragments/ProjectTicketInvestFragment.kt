@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -13,6 +12,7 @@ import team.doit.do_it.R
 import team.doit.do_it.activities.MainActivity
 import team.doit.do_it.databinding.FragmentProjectTicketInvestBinding
 import team.doit.do_it.entities.InvestEntity
+import team.doit.do_it.enums.InvestStatus
 import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
 
@@ -56,7 +56,7 @@ class ProjectTicketInvestFragment: Fragment() {
         return decimalFormat.format(money)
     }
     private fun validateInvest(invest:InvestEntity,minBudget:Double) : Boolean{
-        if (invest.getBudgetInvest() < minBudget){
+        if (invest.budgetInvest < minBudget){
             val txtMinBudget = formatMoney(minBudget)
             Snackbar.make(v, resources.getString(R.string.project_ticket_budget_error,txtMinBudget), Snackbar.LENGTH_LONG).show()
             return false
@@ -69,16 +69,17 @@ class ProjectTicketInvestFragment: Fragment() {
             val project = ProjectTicketInvestFragmentArgs.fromBundle(requireArguments()).project
             val investorEmail = FirebaseAuth.getInstance().currentUser?.email.toString()
             val creatorEmail = project.creatorEmail
-            val projectTile = project.title
+            val projectID = project.uuid
             val budget = binding.txtProjectInvestMountMoney.text.toString().toDoubleOrNull() ?: 0.0
-            val estado = resources.getString(R.string.project_ticket_Invest_state)
-            val invest = InvestEntity(investorEmail,creatorEmail, budget, projectTile.toString(),estado)
+            val status = InvestStatus.from(resources.getString(R.string.project_ticket_Invest_state))
+
+            val invest = InvestEntity(creatorEmail, investorEmail, budget, projectID, status, "", "")
             if (validateInvest(invest,project.minBudget)){
                 saveInvestToDatabase(invest)
             }
         }else{
-            val Message = resources.getString(R.string.project_ticket_invest_not_checked_error)
-            Snackbar.make(v, Message, Snackbar.LENGTH_LONG).show()
+            val message = resources.getString(R.string.project_ticket_invest_not_checked_error)
+            Snackbar.make(v, message, Snackbar.LENGTH_LONG).show()
         }
 
     }
@@ -86,11 +87,19 @@ class ProjectTicketInvestFragment: Fragment() {
         binding.btnProjectInvest.visibility = View.GONE
     }
     private fun saveInvestToDatabase(invest: InvestEntity){
+        val investMap = mapOf(
+            "creatorEmail" to invest.creatorEmail,
+            "investorEmail" to invest.investorEmail,
+            "budgetInvest" to invest.budgetInvest,
+            "projectID" to invest.projectID,
+            "status" to invest.status
+        )
+
         db.collection("inversiones")
-            .add(invest)
+            .add(investMap)
             .addOnSuccessListener {
                 safeAccessBinding {
-                    showSuccessMessage(invest)
+                    showSuccessMessage()
                     hideBottomInvest()
                 }
             }
@@ -100,7 +109,7 @@ class ProjectTicketInvestFragment: Fragment() {
                 }
             }
     }
-    private fun showSuccessMessage(invest: InvestEntity){
+    private fun showSuccessMessage(){
         val successMessage = resources.getString(R.string.project_ticket_invest_success)
         Snackbar.make(v, successMessage, Snackbar.LENGTH_LONG).show()
     }
