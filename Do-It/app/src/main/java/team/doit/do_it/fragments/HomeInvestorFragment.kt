@@ -123,7 +123,6 @@ class HomeInvestorFragment : Fragment(), OnViewItemClickedListener<ProjectEntity
 
         setupRecyclerViewSettings(binding.recyclerHomeInvestorPopularProjects, true)
         popularProjectListAdapter = ProjectListAdapter(options, this)
-        //setupPopularLoadStateSettings()
 
         popularProjectListAdapter.startListening()
         binding.recyclerHomeInvestorPopularProjects.adapter = popularProjectListAdapter

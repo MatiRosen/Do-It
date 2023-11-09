@@ -65,7 +65,6 @@ class ProjectDetailInvestorFragment : Fragment() {
         super.onResume()
         val activity = requireActivity() as MainActivity
         activity.hideBottomNav()
-        activity.removeMargins()
     }
 
     private fun setupButtons(){
@@ -78,7 +77,7 @@ class ProjectDetailInvestorFragment : Fragment() {
             this.findNavController().navigate(action)
         }
 
-        binding.btnProjectDetailInvestmentContact.setOnClickListener {
+        binding.btnProjectDetailContactCreator.setOnClickListener {
             goToChat()
         }
 
@@ -88,6 +87,11 @@ class ProjectDetailInvestorFragment : Fragment() {
 
         binding.imgBtnProjectDetailInvestorChat.setOnClickListener {
             goToChat()
+        }
+        binding.btnProjectDetailInvest.setOnClickListener {
+            val project = ProjectDetailCreatorFragmentArgs.fromBundle(requireArguments()).project
+            val action = ProjectDetailInvestorFragmentDirections.actionProjectDetailInvestorFragmentToProjectDetailInvestFragment(project)
+            this.findNavController().navigate(action)
         }
     }
 
@@ -230,51 +234,6 @@ class ProjectDetailInvestorFragment : Fragment() {
             }
     }
 
-    private fun saveInvest(){
-        val invest = createInvest() ?: return
-        saveInvestToDatabase(invest)
-    }
-
-    private fun saveInvestToDatabase(invest: InvestEntity){
-        db.collection("inversiones")
-            .add(invest)
-            .addOnSuccessListener {
-                safeAccessBinding {
-                    showSuccessMessage(invest)
-                    hideBottomInvest()
-                }
-            }
-            .addOnFailureListener {
-                safeAccessBinding {
-                    Snackbar.make(v, resources.getString(R.string.project_creation_failed), Snackbar.LENGTH_LONG).show()
-                }
-            }
-    }
-    private fun showSuccessMessage(invest: InvestEntity){
-        val successMessage = resources.getString(R.string.project_detail_invest_success)
-        Snackbar.make(v, successMessage, Snackbar.LENGTH_LONG).show()
-    }
-    private fun createInvest():InvestEntity? {
-        val project = ProjectDetailCreatorFragmentArgs.fromBundle(requireArguments()).project
-        val investorEmail = FirebaseAuth.getInstance().currentUser?.email.toString()
-        val creatorEmail = project.creatorEmail
-        val projectTitle = project.title
-
-        //val budget = binding.txtProjectDetailBudgetInvestment.text.toString().toDoubleOrNull() ?: 0.0
-        //val estado = resources.getString(R.string.project_detail_estado_pendiente)
-        //val invest = InvestEntity(investorEmail,creatorEmail, budget, projectTitle,estado)
-        //return if (validateInvest(invest,project.minBudget)) invest else null
-        return null
-    }
-    private fun validateInvest(invest:InvestEntity,minBudget:Double) : Boolean{
-        if (invest.budgetInvest < minBudget){
-            val txtMinBudget = formatMoney(minBudget)
-            Snackbar.make(v, resources.getString(R.string.project_detail_budget_error,txtMinBudget), Snackbar.LENGTH_LONG).show()
-            return false
-        }
-
-    return true
-    }
     private fun setValues() {
         val project = ProjectDetailCreatorFragmentArgs.fromBundle(requireArguments()).project
 
@@ -421,13 +380,13 @@ class ProjectDetailInvestorFragment : Fragment() {
     }
 
     private fun showBottomInvest(){
-        requireActivity().findViewById<View>(R.id.btnProjectDetailInvestmentContact).visibility = View.VISIBLE
-        //requireActivity().findViewById<View>(R.id.txtProjectDetailBudgetInvestment).visibility = View.VISIBLE
+        binding.btnProjectDetailInvest.visibility = View.VISIBLE
     }
+
     private fun hideBottomInvest(){
-        requireActivity().findViewById<View>(R.id.btnProjectDetailInvestmentContact).visibility = View.GONE
-        //requireActivity().findViewById<View>(R.id.txtProjectDetailBudgetInvestment).visibility = View.GONE
+        binding.btnProjectDetailInvest.visibility = View.GONE
     }
+
     private fun showOrHideInvest(projectTitle : String){
         val investorEmail = FirebaseAuth.getInstance().currentUser?.email.toString()
         val investmentsRef = db.collection("inversiones")
@@ -438,7 +397,7 @@ class ProjectDetailInvestorFragment : Fragment() {
             .addOnSuccessListener { documents ->
                 safeAccessBinding {
                     if (documents.isEmpty) {
-                        // showBottomInvest()
+                        showBottomInvest()
                     } else {
                         hideBottomInvest()
                     }
@@ -451,8 +410,6 @@ class ProjectDetailInvestorFragment : Fragment() {
                 }
             }
     }
-
-
 
     override fun onStop(){
         super.onStop()
