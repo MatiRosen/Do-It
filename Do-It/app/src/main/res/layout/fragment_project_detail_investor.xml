@@ -247,6 +247,64 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
                 </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:background="@color/light_gray"
+                    android:layout_marginTop="@dimen/divider_top_padding"/>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerProjectDetailInvestorComments"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/divider_top_padding"
+                    android:layout_marginBottom="@dimen/divider_bottom_padding"
+                    android:scrollbars="horizontal"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/txtHomeInvestorTitle" />
+
+                <LinearLayout
+                    android:id="@+id/linearLayoutProjectDetailInvestorAddComments"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical|start"
+                    android:layout_marginTop="@dimen/divider_top_padding"
+                    android:orientation="horizontal"
+                    app:layout_constraintBottom_toBottomOf="@id/guidelineUserChatHorizontal97"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent">
+
+                    <EditText
+                        android:id="@+id/editTxtProjectDetailInvestorAddComments"
+                        android:layout_width="0dp"
+                        android:layout_height="50dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginStart="8dp"
+                        android:layout_weight="1"
+                        android:autofillHints=""
+                        android:background="@drawable/style_send_message"
+                        android:hint="@string/project_detail_addComment_message"
+                        android:inputType="textMultiLine"
+                        android:paddingStart="16dp"
+                        android:paddingEnd="16dp"
+                        android:textColor="@color/black"
+                        android:textColorHint="@color/black"
+                        android:textSize="16sp" />
+
+                    <ImageButton
+                        android:id="@+id/imgBtnProjectDetailInvestorAddComments"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical|end"
+                        android:backgroundTint="@color/transparent"
+                        android:contentDescription="@string/project_detail_addComment_btn_message"
+                        android:src="@drawable/icon_send"
+                        app:tint="@color/pantone" />
+
+                </LinearLayout>
+
             </LinearLayout>
         </LinearLayout>
     </ScrollView>

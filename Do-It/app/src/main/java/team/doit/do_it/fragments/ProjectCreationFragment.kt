@@ -20,6 +20,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import team.doit.do_it.R
 import team.doit.do_it.databinding.FragmentProjectCreationBinding
+import team.doit.do_it.entities.CommentEntity
 import team.doit.do_it.entities.ProjectEntity
 import java.io.File
 import java.util.Date
@@ -139,7 +140,7 @@ class ProjectCreationFragment : Fragment() {
 
         val project = ProjectEntity(projectCreatorEmail, projectTitle, projectSubtitle, projectDescription,
             projectCategory, projectImg, projectMinBudget, projectGoal, 0, 0, Date(),
-            mutableListOf<String>(), mutableListOf<ProjectEntity.Comment>())
+            mutableListOf<String>(), mutableListOf<CommentEntity>())
 
         return if (validateFields(project)) project else null
     }

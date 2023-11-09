@@ -13,6 +13,7 @@ import androidx.constraintlayout.widget.ConstraintSet
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentContainerView
 import androidx.navigation.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentSnapshot
@@ -20,6 +21,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import team.doit.do_it.R
 import team.doit.do_it.activities.MainActivity
+import team.doit.do_it.adapters.CommentListAdapter
 import team.doit.do_it.databinding.FragmentProjectDetailCreatorBinding
 import team.doit.do_it.entities.ProjectEntity
 import java.text.DecimalFormat
@@ -63,6 +65,7 @@ class ProjectDetailCreatorFragment : Fragment() {
 
         project = ProjectDetailCreatorFragmentArgs.fromBundle(requireArguments()).project
 
+        setupAllCommentsRecyclerView()
         setValues()
         initializeButtons()
     }
@@ -320,6 +323,16 @@ class ProjectDetailCreatorFragment : Fragment() {
                         }
                 }
             }
+    }
+
+    private fun setupAllCommentsRecyclerView() {
+        val project = ProjectDetailCreatorFragmentArgs.fromBundle(requireArguments()).project
+
+        binding.recyclerProjectDetailCreatorComments.setHasFixedSize(true)
+        val linearLayout = LinearLayoutManager(context)
+        binding.recyclerProjectDetailCreatorComments.layoutManager = linearLayout
+        val commentAdapter = CommentListAdapter(project.comments)
+        binding.recyclerProjectDetailCreatorComments.adapter = commentAdapter
     }
 
     private fun handleDeleteFailure() {

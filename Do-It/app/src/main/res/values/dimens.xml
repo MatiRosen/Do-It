@@ -27,6 +27,7 @@
     <dimen name="divider_end_padding">10dp</dimen>
     <dimen name="title_bottom_padding">20dp</dimen>
     <dimen name="title_proyect_padding_top">15dp</dimen>
+    <dimen name="img_margin_top">8dp</dimen>
 
     <!-- GuideLines -->
     <dimen name="guideline_10">0.10</dimen>
@@ -129,6 +130,7 @@
 
     <!-- Project Edit -->
     <dimen name="project_marginBottom_btnEdit">10dp</dimen>
+
     <!-- Chat view -->
     <dimen name="card_chat_height">80dp</dimen>
     <dimen name="card_message_height">50dp</dimen>
@@ -136,4 +138,9 @@
     <dimen name="item_message_margin_vertical">5dp</dimen>
     <dimen name="item_message_padding">8dp</dimen>
     <dimen name="item_message_date_margin">12dp</dimen>
+
+    <!-- Item comment -->
+    <dimen name="item_comment_padding">10dp</dimen>
+    <dimen name="item_comment_margin">5dp</dimen>
+
 </resources>
