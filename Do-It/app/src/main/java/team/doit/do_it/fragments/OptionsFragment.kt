@@ -54,6 +54,11 @@ class OptionsFragment : Fragment() {
             val action = OptionsFragmentDirections.actionOptionsToFollowingProjectFragment()
             findNavController().navigate(action)
         }
+
+        binding.btnOptionsInvests.setOnClickListener {
+            val action = OptionsFragmentDirections.actionOptionsToMyInvestmentsFragment()
+            findNavController().navigate(action)
+        }
     }
 
     private fun confirmLogout(){

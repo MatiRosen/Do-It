@@ -139,6 +139,9 @@
     <dimen name="item_message_padding">8dp</dimen>
     <dimen name="item_message_date_margin">12dp</dimen>
 
+    <!-- Invest view -->
+    <dimen name="invest_margin_bottom">10dp</dimen>
+
     <!-- Item comment -->
     <dimen name="item_comment_padding">10dp</dimen>
     <dimen name="item_comment_margin">5dp</dimen>

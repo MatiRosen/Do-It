@@ -111,6 +111,8 @@ class ProjectCreationFragment : Fragment() {
         db.collection("ideas")
             .add(project)
             .addOnSuccessListener {
+                project.uuid = it.id
+                db.collection("ideas").document(it.id).set(project)
                 safeAccessBinding {
                     showSuccessMessage(project)
                     v.findNavController().popBackStack()
@@ -140,6 +142,7 @@ class ProjectCreationFragment : Fragment() {
 
         val project = ProjectEntity(projectCreatorEmail, projectTitle, projectSubtitle, projectDescription,
             projectCategory, projectImg, projectMinBudget, projectGoal, 0, 0, Date(),
+            mutableListOf(), mutableListOf(), "")
             mutableListOf<String>(), mutableListOf<CommentEntity>())
 
         return if (validateFields(project)) project else null

@@ -143,6 +143,10 @@
                 android:id="@+id/action_projectDetailInvestorFragment_to_user_chat_home"
                 app:destination="@id/user_chat_home" />
 
+            <action
+                android:id="@+id/action_projectDetailInvestorFragment_to_projectDetailInvestFragment"
+                app:destination="@id/projectTicketInvestFragment" />
+
         </fragment>
 
         <fragment
@@ -154,6 +158,17 @@
                 android:name="project"
                 app:argType="team.doit.do_it.entities.ProjectEntity" />
         </fragment>
+
+        <fragment
+            android:id="@+id/projectTicketInvestFragment"
+            android:name="team.doit.do_it.fragments.ProjectTicketInvestFragment"
+            android:label="ProjectTicketInvest"
+            tools:layout="@layout/fragment_project_ticket_invest">
+            <argument
+                android:name="project"
+                app:argType="team.doit.do_it.entities.ProjectEntity" />
+        </fragment>
+
     </navigation>
 
     <fragment
@@ -181,6 +196,20 @@
         <action
             android:id="@+id/action_projectDetailInvestorFragment_to_user_chat_home"
             app:destination="@id/user_chat" />
+        <action
+            android:id="@+id/action_projectDetailInvestorFragment_to_projectDetailInvestFragment"
+            app:destination="@id/projectTicketInvestFragmentMain" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/projectTicketInvestFragmentMain"
+        android:name="team.doit.do_it.fragments.ProjectTicketInvestFragment"
+        android:label="ProjectTicketInvest"
+        tools:layout="@layout/fragment_project_ticket_invest">
+        <argument
+            android:name="project"
+            app:argType="team.doit.do_it.entities.ProjectEntity" />
     </fragment>
 
     <fragment
@@ -198,6 +227,14 @@
         <action
             android:id="@+id/action_options_to_followingProjectFragment"
             app:destination="@id/followingProjectFragment"
+            app:restoreState="true"
+            app:popUpToInclusive="true"
+            app:popUpTo="@id/options"
+            app:popUpToSaveState="true"/>
+
+        <action
+            android:id="@+id/action_options_to_myInvestmentsFragment"
+            app:destination="@id/myInvestmentsFragment"
             app:restoreState="true"
             app:popUpToInclusive="true"
             app:popUpTo="@id/options"
@@ -234,6 +271,18 @@
             app:popUpTo="@id/followingProjectFragment" />
     </fragment>
 
+    <fragment
+        android:id="@+id/myInvestmentsFragment"
+        android:name="team.doit.do_it.fragments.MyInvestmentsFragment"
+        android:label="fragment_my_investments"
+        tools:layout="@layout/fragment_my_investments">
+
+        <action
+            android:id="@+id/action_myInvestmentsFragment_to_options"
+            app:destination="@id/options"
+            app:popUpTo="@id/myInvestmentsFragment"
+            app:popUpToInclusive="true"/>
+    </fragment>
 
 
 </navigation>

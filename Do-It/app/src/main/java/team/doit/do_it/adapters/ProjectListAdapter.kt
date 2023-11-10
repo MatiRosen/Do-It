@@ -11,7 +11,7 @@ import team.doit.do_it.listeners.OnViewItemClickedListener
 
 class ProjectListAdapter(
     options : FirestorePagingOptions<ProjectEntity>,
-    private val onItemClick : OnViewItemClickedListener
+    private val onItemClick : OnViewItemClickedListener<ProjectEntity>
 ) : FirestorePagingAdapter<ProjectEntity, ProjectHolder>(options){
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProjectHolder {

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="invest_title">Inversiones</string>
+    <string name="invest_project_title">Titulo del proyecto</string>
+    <string name="invest_budget">Presupuesto:</string>
+    <string name="invest_budget_symbol">$</string>
+    <string name="invest_budget_status">Estado</string>
+    <string name="invest_get_invest_failed">Hubo un error cargando los tickets</string>
+    <string name="invest_status_closed">Este ticket ya está cerrado</string>
+    <string name="invest_not_creator">No puedes modificar este ticket</string>
+    <string name="invest_user_name">Nombre usuario</string>
+</resources>

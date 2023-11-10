@@ -15,6 +15,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import com.stripe.android.PaymentConfiguration
+import io.reactivex.rxjava3.plugins.RxJavaPlugins
 import team.doit.do_it.R
 import team.doit.do_it.databinding.ActivityMainBinding
 import team.doit.do_it.entities.ChatEntity
@@ -29,6 +30,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         binding = ActivityMainBinding.inflate(layoutInflater)
+
+        RxJavaPlugins.setErrorHandler { }
 
         PaymentConfiguration.init(
             applicationContext,

@@ -9,4 +9,5 @@
     <string name="option_logout_success">Sesión cerrada correctamente</string>
     <string name="option_title">Opciones</string>
     <string name="option_following_projects">Proyectos seguidos</string>
+    <string name="option_invest">Inversiones</string>
 </resources>
