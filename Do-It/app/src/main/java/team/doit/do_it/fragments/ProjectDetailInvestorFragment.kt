@@ -253,7 +253,7 @@ class ProjectDetailInvestorFragment : Fragment() {
 
         projectImage = project.image
         creatorEmail = project.creatorEmail
-        showOrHideInvest(project.title)
+        showOrHideInvest(project.uuid)
         this.setCreatorData()
 
         if (project.isFollowedBy(FirebaseAuth.getInstance().currentUser?.email.toString())){
@@ -387,12 +387,12 @@ class ProjectDetailInvestorFragment : Fragment() {
         binding.btnProjectDetailInvest.visibility = View.GONE
     }
 
-    private fun showOrHideInvest(projectTitle : String){
+    private fun showOrHideInvest(projectID : String){
         val investorEmail = FirebaseAuth.getInstance().currentUser?.email.toString()
         val investmentsRef = db.collection("inversiones")
         investmentsRef.whereEqualTo("creatorEmail", creatorEmail)
             .whereEqualTo("investorEmail",investorEmail)
-            .whereEqualTo("projectTitle",projectTitle)
+            .whereEqualTo("projectID", projectID)
             .get()
             .addOnSuccessListener { documents ->
                 safeAccessBinding {

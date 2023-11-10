@@ -282,6 +282,20 @@
             app:destination="@id/options"
             app:popUpTo="@id/myInvestmentsFragment"
             app:popUpToInclusive="true"/>
+        <action
+            android:id="@+id/action_myInvestmentsFragment_to_investSelectStatusFragment"
+            app:destination="@id/investSelectStatusFragment"
+            app:popUpTo="@id/myInvestmentsFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/investSelectStatusFragment"
+        android:name="team.doit.do_it.fragments.InvestSelectStatusFragment"
+        android:label="fragment_invest_select_status"
+        tools:layout="@layout/fragment_invest_select_status" >
+        <argument
+            android:name="invest"
+            app:argType="team.doit.do_it.entities.InvestEntity" />
     </fragment>
 
 

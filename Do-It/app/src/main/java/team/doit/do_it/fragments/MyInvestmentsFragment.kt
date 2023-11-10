@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -61,13 +62,13 @@ class MyInvestmentsFragment : Fragment(), OnViewItemClickedListener<InvestEntity
     override fun onViewItemDetail(item: InvestEntity) {
         val userEmail = FirebaseAuth.getInstance().currentUser?.email?: return
 
-        /*if (invest.creatorEmail == userEmail) {
+        if (item.creatorEmail == userEmail) {
             val navController = findNavController()
-            //val action = InvestFragmentDirections.actionInvestFragmentToInvestDetailFragment(invest)
-            //navController.navigate(action)
+            val action = MyInvestmentsFragmentDirections.actionMyInvestmentsFragmentToInvestSelectStatusFragment(item)
+            navController.navigate(action)
         } else {
             Toast.makeText(context, resources.getString(R.string.invest_not_creator), Toast.LENGTH_SHORT).show()
-        }*/
+        }
     }
 
     override fun onBindViewHolderSucceed(holder: InvestHolder, item: InvestEntity) {

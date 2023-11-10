@@ -89,6 +89,7 @@
     <!-- Global views -->
     <dimen name="card_Investor_project_height">250dp</dimen>
     <dimen name="card_Investor_project_width">300dp</dimen>
+    <dimen name="top_view_back_height">50dp</dimen>
 
     <!-- Project Creation view -->
     <dimen name="project_creation_min_description_height">200dp</dimen>

@@ -5,6 +5,7 @@ import android.os.Parcelable
 import team.doit.do_it.enums.InvestStatus
 
 data class InvestEntity (
+    var uuid : String,
     var creatorEmail : String,
     var investorEmail : String,
     var budgetInvest : Double,
@@ -16,6 +17,7 @@ data class InvestEntity (
     constructor(parcel: Parcel) : this(
         parcel.readString()!!,
         parcel.readString()!!,
+        parcel.readString()!!,
         parcel.readDouble(),
         parcel.readString()!!,
         InvestStatus.from(parcel.readString()!!),
@@ -23,13 +25,14 @@ data class InvestEntity (
         parcel.readString()!!
     )
 
-    constructor() : this("","",0.0,"", InvestStatus.PENDING, "", "")
+    constructor() : this("","","",0.0,"", InvestStatus.PENDING, "", "")
 
     override fun describeContents(): Int {
         return 0
     }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
+        parcel.writeString(uuid)
         parcel.writeString(creatorEmail)
         parcel.writeString(investorEmail)
         parcel.writeDouble(budgetInvest)

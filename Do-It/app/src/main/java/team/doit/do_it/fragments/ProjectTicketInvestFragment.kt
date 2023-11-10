@@ -73,7 +73,7 @@ class ProjectTicketInvestFragment: Fragment() {
             val budget = binding.txtProjectInvestMountMoney.text.toString().toDoubleOrNull() ?: 0.0
             val status = InvestStatus.from(resources.getString(R.string.project_ticket_Invest_state))
 
-            val invest = InvestEntity(creatorEmail, investorEmail, budget, projectID, status, "", "")
+            val invest = InvestEntity("", creatorEmail, investorEmail, budget, projectID, status, "", "")
             if (validateInvest(invest,project.minBudget)){
                 saveInvestToDatabase(invest)
             }
@@ -87,7 +87,7 @@ class ProjectTicketInvestFragment: Fragment() {
         binding.btnProjectInvest.visibility = View.GONE
     }
     private fun saveInvestToDatabase(invest: InvestEntity){
-        val investMap = mapOf(
+        val investMap = mutableMapOf(
             "creatorEmail" to invest.creatorEmail,
             "investorEmail" to invest.investorEmail,
             "budgetInvest" to invest.budgetInvest,
@@ -98,6 +98,8 @@ class ProjectTicketInvestFragment: Fragment() {
         db.collection("inversiones")
             .add(investMap)
             .addOnSuccessListener {
+                investMap["uuid"] = it.id
+                db.collection("inversiones").document(it.id).set(investMap)
                 safeAccessBinding {
                     showSuccessMessage()
                     hideBottomInvest()
