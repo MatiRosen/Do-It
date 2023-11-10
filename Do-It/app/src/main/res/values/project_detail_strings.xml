@@ -31,4 +31,6 @@
     <string name="project_detail_delete_error">Error al eliminar el proyecto</string>
     <string name="project_detail_noDeletable_message">No es posible eliminar proyectos que cuenten con seguidores</string>
     <string name="project_deleteImage_error">No se pudo eliminar la imagen del proyecto</string>
+    <string name="project_addComment_success">¡Comentario agregado con éxito!</string>
+    <string name="project_addComment_error">No se pudo agregar el nuevo comentario</string>
 </resources>

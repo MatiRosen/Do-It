@@ -20,6 +20,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import team.doit.do_it.R
 import team.doit.do_it.databinding.FragmentProjectCreationBinding
+import team.doit.do_it.entities.CommentEntity
 import team.doit.do_it.entities.ProjectEntity
 import java.io.File
 import java.util.Date

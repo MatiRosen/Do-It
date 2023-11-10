@@ -11,22 +11,33 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
+import androidx.paging.PagingConfig
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.firebase.ui.firestore.paging.FirestorePagingOptions
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.ktx.database
+import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.Query
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
+import okhttp3.internal.notify
 import team.doit.do_it.R
 import team.doit.do_it.activities.MainActivity
+import team.doit.do_it.adapters.CommentListAdapter
 import team.doit.do_it.databinding.FragmentProjectDetailInvestorBinding
 import team.doit.do_it.entities.ChatEntity
+import team.doit.do_it.entities.CommentEntity
 import team.doit.do_it.entities.InvestEntity
 import team.doit.do_it.entities.ProjectEntity
 import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 
 class ProjectDetailInvestorFragment : Fragment() {
 
@@ -57,6 +68,7 @@ class ProjectDetailInvestorFragment : Fragment() {
     override fun onStart() {
         super.onStart()
 
+        setupAllCommentsRecyclerView()
         setValues()
         setupButtons()
     }
@@ -87,6 +99,10 @@ class ProjectDetailInvestorFragment : Fragment() {
 
         binding.imgBtnProjectDetailInvestorChat.setOnClickListener {
             goToChat()
+        }
+
+        binding.imgBtnProjectDetailInvestorAddComments.setOnClickListener {
+            addComment()
         }
         binding.btnProjectDetailInvest.setOnClickListener {
             val project = ProjectDetailCreatorFragmentArgs.fromBundle(requireArguments()).project
@@ -409,6 +425,62 @@ class ProjectDetailInvestorFragment : Fragment() {
                     Toast.makeText(activity, resources.getString(R.string.project_detail_error), Toast.LENGTH_SHORT).show()
                 }
             }
+    }
+
+    private fun addComment(){
+        val currentUserEmail = FirebaseAuth.getInstance().currentUser?.email.toString()
+        val commentText = binding.editTxtProjectDetailInvestorAddComments.text.toString()
+        val project = ProjectDetailCreatorFragmentArgs.fromBundle(requireArguments()).project
+        val commentDate = getDate().toString()
+
+        getUser(currentUserEmail, object : ProfileFragment.OnUserFetchedListener {
+            override fun onUserFetched(user: DocumentSnapshot?) {
+                val authorName = user?.getString("nombre").toString()
+                val authorProfileImage = user?.getString("imgPerfil").toString()
+                val newComment = CommentEntity(currentUserEmail, commentText, authorName, authorProfileImage, commentDate)
+
+                project.comments.add(newComment)
+
+                db.collection("ideas")
+                    .whereEqualTo("creatorEmail", project.creatorEmail)
+                    .whereEqualTo("creationDate", project.creationDate)
+                    .get()
+                    .addOnSuccessListener { documents ->
+                        if (!documents.isEmpty) {
+                            val projectRef = documents.documents[0].reference
+                            projectRef.update("comments", project.comments)
+                            Toast.makeText(activity, resources.getString(R.string.project_addComment_success), Toast.LENGTH_SHORT).show()
+
+                            binding.editTxtProjectDetailInvestorAddComments.setText("")
+                            setupAllCommentsRecyclerView()
+
+                            val adapter = binding.recyclerProjectDetailInvestorComments.adapter
+                            adapter?.notifyItemInserted(0)
+
+                        }
+                    }
+                    .addOnFailureListener {
+                        Toast.makeText(activity, resources.getString(R.string.project_addComment_error), Toast.LENGTH_SHORT).show()
+                    }
+            }
+        })
+
+    }
+
+    private fun setupAllCommentsRecyclerView() {
+        val project = ProjectDetailCreatorFragmentArgs.fromBundle(requireArguments()).project
+
+        binding.recyclerProjectDetailInvestorComments.setHasFixedSize(true)
+        val linearLayout = LinearLayoutManager(context)
+        binding.recyclerProjectDetailInvestorComments.layoutManager = linearLayout
+        val commentAdapter = CommentListAdapter(project.comments)
+        binding.recyclerProjectDetailInvestorComments.adapter = commentAdapter
+    }
+
+    private fun getDate(): String? {
+        val actualDate: LocalDate = LocalDate.now()
+        val formatDate: DateTimeFormatter = DateTimeFormatter.ofPattern("dd/MM/yy")
+        return actualDate.format(formatDate)
     }
 
     override fun onStop(){
