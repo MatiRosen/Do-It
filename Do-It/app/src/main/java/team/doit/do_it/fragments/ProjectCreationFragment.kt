@@ -143,7 +143,6 @@ class ProjectCreationFragment : Fragment() {
         val project = ProjectEntity(projectCreatorEmail, projectTitle, projectSubtitle, projectDescription,
             projectCategory, projectImg, projectMinBudget, projectGoal, 0, 0, Date(),
             mutableListOf(), mutableListOf(), "")
-            mutableListOf<String>(), mutableListOf<CommentEntity>())
 
         return if (validateFields(project)) project else null
     }
