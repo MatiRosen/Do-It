@@ -11,29 +11,22 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
-import androidx.paging.PagingConfig
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.firebase.ui.firestore.paging.FirestorePagingOptions
-import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.ktx.database
-import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.Query
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
-import okhttp3.internal.notify
 import team.doit.do_it.R
 import team.doit.do_it.activities.MainActivity
 import team.doit.do_it.adapters.CommentListAdapter
 import team.doit.do_it.databinding.FragmentProjectDetailInvestorBinding
 import team.doit.do_it.entities.ChatEntity
 import team.doit.do_it.entities.CommentEntity
-import team.doit.do_it.entities.InvestEntity
 import team.doit.do_it.entities.ProjectEntity
+import team.doit.do_it.listeners.RecyclerViewCommentsListener
 import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
 import java.time.LocalDate
@@ -48,6 +41,9 @@ class ProjectDetailInvestorFragment : Fragment() {
     private var projectImage : String = ""
     private var creatorEmail : String = ""
     private val db = FirebaseFirestore.getInstance()
+
+    private lateinit var commentAdapter: CommentListAdapter
+    private lateinit var listener : RecyclerViewCommentsListener
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -68,7 +64,7 @@ class ProjectDetailInvestorFragment : Fragment() {
     override fun onStart() {
         super.onStart()
 
-        setupAllCommentsRecyclerView()
+        safeAccessBinding { setupAllCommentsRecyclerView() }
         setValues()
         setupButtons()
     }
@@ -104,6 +100,7 @@ class ProjectDetailInvestorFragment : Fragment() {
         binding.imgBtnProjectDetailInvestorAddComments.setOnClickListener {
             addComment()
         }
+
         binding.btnProjectDetailInvest.setOnClickListener {
             val project = ProjectDetailCreatorFragmentArgs.fromBundle(requireArguments()).project
             val action = ProjectDetailInvestorFragmentDirections.actionProjectDetailInvestorFragmentToProjectDetailInvestFragment(project)
@@ -473,8 +470,77 @@ class ProjectDetailInvestorFragment : Fragment() {
         binding.recyclerProjectDetailInvestorComments.setHasFixedSize(true)
         val linearLayout = LinearLayoutManager(context)
         binding.recyclerProjectDetailInvestorComments.layoutManager = linearLayout
-        val commentAdapter = CommentListAdapter(project.comments)
+        setListener()
+        commentAdapter = CommentListAdapter(project.comments, listener)
         binding.recyclerProjectDetailInvestorComments.adapter = commentAdapter
+    }
+
+    private fun setListener() {
+        listener = object : RecyclerViewCommentsListener {
+            override fun onDeleteCommentClicked(comment: CommentEntity) {
+                deleteComment(comment)
+            }
+
+            override fun onSavedCommentClicked(comment: CommentEntity) {
+                saveComment(comment)
+            }
+
+            override fun onEditCommentClicked(comment: CommentEntity) { }
+        }
+    }
+
+    private fun deleteComment(comment: CommentEntity) {
+        val project = ProjectDetailCreatorFragmentArgs.fromBundle(requireArguments()).project
+        project.comments.removeAt(project.comments.indexOf(comment))
+
+        db.collection("ideas")
+            .whereEqualTo("creatorEmail", project.creatorEmail)
+            .whereEqualTo("creationDate", project.creationDate)
+            .get()
+            .addOnSuccessListener { documents ->
+                if (!documents.isEmpty) {
+                    val projectRef = documents.documents[0].reference
+                    projectRef.update("comments", project.comments)
+                    Toast.makeText(activity, resources.getString(R.string.project_deleteComment_success), Toast.LENGTH_SHORT).show()
+
+                    setupAllCommentsRecyclerView()
+
+                    val adapter = binding.recyclerProjectDetailInvestorComments.adapter
+                    adapter?.notifyItemRemoved(project.comments.indexOf(comment))
+                }
+            }
+            .addOnFailureListener {
+                Toast.makeText(activity, resources.getString(R.string.project_deleteComment_error), Toast.LENGTH_SHORT).show()
+            }
+    }
+
+    private fun saveComment(comment: CommentEntity) {
+        val project = ProjectDetailCreatorFragmentArgs.fromBundle(requireArguments()).project
+        val commentDate = getDate().toString()
+
+        project.comments[project.comments.indexOf(comment)].commentText = binding.editTxtProjectDetailInvestorAddComments.text.toString()
+        project.comments[project.comments.indexOf(comment)].commentDate = commentDate
+
+        db.collection("ideas")
+            .whereEqualTo("creatorEmail", project.creatorEmail)
+            .whereEqualTo("creationDate", project.creationDate)
+            .get()
+            .addOnSuccessListener { documents ->
+                if (!documents.isEmpty) {
+                    val projectRef = documents.documents[0].reference
+                    projectRef.update("comments", project.comments)
+                    Toast.makeText(activity, resources.getString(R.string.project_editComment_success), Toast.LENGTH_SHORT).show()
+
+                    binding.editTxtProjectDetailInvestorAddComments.setText("")
+                    setupAllCommentsRecyclerView()
+
+                    val adapter = binding.recyclerProjectDetailInvestorComments.adapter
+                    adapter?.notifyItemChanged(project.comments.indexOf(comment))
+                }
+            }
+            .addOnFailureListener {
+                Toast.makeText(activity, resources.getString(R.string.project_editComment_error), Toast.LENGTH_SHORT).show()
+            }
     }
 
     private fun getDate(): String? {

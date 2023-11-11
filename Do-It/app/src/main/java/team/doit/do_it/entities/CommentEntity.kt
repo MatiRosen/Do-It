@@ -3,8 +3,8 @@ package team.doit.do_it.entities
 import android.os.Parcel
 import android.os.Parcelable
 
-data class CommentEntity(val userEmail: String = "", val commentText: String = "", val userName: String = "",
-    val userImage: String = "", val commentDate: String = "") :
+data class CommentEntity(val userEmail: String = "", var commentText: String = "", val userName: String = "",
+                         val userImage: String = "", var commentDate: String = "") :
     Parcelable {
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeString(userEmail)

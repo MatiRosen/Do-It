@@ -33,4 +33,8 @@
     <string name="project_deleteImage_error">No se pudo eliminar la imagen del proyecto</string>
     <string name="project_addComment_success">¡Comentario agregado con éxito!</string>
     <string name="project_addComment_error">No se pudo agregar el nuevo comentario</string>
+    <string name="project_editComment_success">¡Comentario editado con éxito!</string>
+    <string name="project_editComment_error">No se pudo editar el comentario</string>
+    <string name="project_deleteComment_success">¡Comentario eliminado con éxito!</string>
+    <string name="project_deleteComment_error">No se pudo eliminar el comentario</string>
 </resources>

@@ -1,6 +1,7 @@
 package team.doit.do_it.holders
 
 import android.view.View
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -49,4 +50,48 @@ class CommentHolder(view: View) : RecyclerView.ViewHolder(view){
         txt.text = commentDate
     }
 
+    fun getBtnEditComment() : ImageView? {
+        return view.findViewById(R.id.btnViewItemCommentEdit)
+    }
+
+    fun getBtnDeleteComment() : ImageView? {
+        return view.findViewById(R.id.btnViewItemCommentDelete)
+    }
+
+    fun getBtnSaveComment() : ImageView? {
+        return view.findViewById(R.id.btnViewItemCommentSave)
+    }
+
+    fun editComment() {
+        hideButtons()
+
+        val txt : TextView = view.findViewById(R.id.textViewItemCommentContent)
+        txt.isEnabled = true
+    }
+
+    fun saveComment() {
+        val txt : TextView = view.findViewById(R.id.textViewItemCommentContent)
+        txt.isEnabled = false
+
+        setCommentContent(txt.text.toString())
+
+        showButtons()
+    }
+
+    private fun hideButtons() {
+        view.findViewById<ImageView>(R.id.btnViewItemCommentDelete).visibility = View.GONE
+        view.findViewById<ImageView>(R.id.btnViewItemCommentEdit).visibility = View.GONE
+        view.findViewById<ImageView>(R.id.btnViewItemCommentSave).visibility = View.VISIBLE
+    }
+
+    private fun showButtons() {
+        view.findViewById<ImageView>(R.id.btnViewItemCommentDelete).visibility = View.VISIBLE
+        view.findViewById<ImageView>(R.id.btnViewItemCommentEdit).visibility = View.VISIBLE
+        view.findViewById<ImageView>(R.id.btnViewItemCommentSave).visibility = View.GONE
+    }
+
+    fun getCommentContent() : String {
+        val txt : TextView = view.findViewById(R.id.textViewItemCommentContent)
+        return txt.text.toString()
+    }
 }

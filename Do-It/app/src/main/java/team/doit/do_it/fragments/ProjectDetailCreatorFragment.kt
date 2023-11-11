@@ -24,6 +24,7 @@ import team.doit.do_it.activities.MainActivity
 import team.doit.do_it.adapters.CommentListAdapter
 import team.doit.do_it.databinding.FragmentProjectDetailCreatorBinding
 import team.doit.do_it.entities.ProjectEntity
+import team.doit.do_it.listeners.RecyclerViewCommentsListener
 import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
 
@@ -39,6 +40,9 @@ class ProjectDetailCreatorFragment : Fragment() {
 
     private var projectImage : String = ""
     private var creatorEmail : String = ""
+
+    private lateinit var listener : RecyclerViewCommentsListener
+
 
     interface OnProjectUpdatedListener {
         fun onProjectUpdated(successful: Boolean)
@@ -331,7 +335,7 @@ class ProjectDetailCreatorFragment : Fragment() {
         binding.recyclerProjectDetailCreatorComments.setHasFixedSize(true)
         val linearLayout = LinearLayoutManager(context)
         binding.recyclerProjectDetailCreatorComments.layoutManager = linearLayout
-        val commentAdapter = CommentListAdapter(project.comments)
+        val commentAdapter = CommentListAdapter(project.comments, listener)
         binding.recyclerProjectDetailCreatorComments.adapter = commentAdapter
     }
 
