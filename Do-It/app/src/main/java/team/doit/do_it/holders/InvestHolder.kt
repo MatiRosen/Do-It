@@ -43,4 +43,8 @@ class InvestHolder(view: View) : RecyclerView.ViewHolder(view){
     fun getCardLayout(): View {
         return view.findViewById(R.id.cardViewInvestItem)
     }
+
+    fun getChatButton(): View {
+        return view.findViewById(R.id.imgInvestItemChat)
+    }
 }

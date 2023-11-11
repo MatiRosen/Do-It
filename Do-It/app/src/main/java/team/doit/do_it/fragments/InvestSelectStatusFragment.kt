@@ -117,10 +117,20 @@ class InvestSelectStatusFragment : Fragment() {
     }
 
     private fun updateInvestOnDatabase(invest: InvestEntity) {
+        val filteredInvest = mutableMapOf(
+            "uuid" to invest.uuid,
+            "projectID" to invest.projectID,
+            "investorEmail" to invest.investorEmail,
+            "creatorEmail" to invest.creatorEmail,
+            "status" to invest.status,
+            "budgetInvest" to invest.budgetInvest,
+            "date" to invest.date
+        )
+
         val db = FirebaseFirestore.getInstance()
         db.collection("inversiones")
             .document(invest.uuid)
-            .set(invest)
+            .set(filteredInvest)
             .addOnSuccessListener {
                 safeAccessBinding {
                     Toast.makeText(context, resources.getString(R.string.invest_select_status_update_success), Toast.LENGTH_SHORT).show()

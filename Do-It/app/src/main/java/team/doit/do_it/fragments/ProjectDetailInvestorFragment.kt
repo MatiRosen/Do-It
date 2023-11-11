@@ -73,6 +73,7 @@ class ProjectDetailInvestorFragment : Fragment() {
         super.onResume()
         val activity = requireActivity() as MainActivity
         activity.hideBottomNav()
+        activity.removeMargins()
     }
 
     private fun setupButtons(){
@@ -106,6 +107,8 @@ class ProjectDetailInvestorFragment : Fragment() {
             val action = ProjectDetailInvestorFragmentDirections.actionProjectDetailInvestorFragmentToProjectDetailInvestFragment(project)
             this.findNavController().navigate(action)
         }
+
+        hideBottomInvest()
     }
 
     private fun goToChat(){

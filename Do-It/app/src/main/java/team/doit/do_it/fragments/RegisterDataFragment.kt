@@ -1,9 +1,7 @@
 package team.doit.do_it.fragments
 
 import android.app.DatePickerDialog
-import android.content.Intent
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,12 +10,11 @@ import android.widget.Button
 import android.widget.Spinner
 import android.widget.TextView
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import team.doit.do_it.R
-import team.doit.do_it.activities.MainActivity
-import team.doit.do_it.databinding.FragmentRegisterBinding
 import team.doit.do_it.databinding.FragmentRegisterDataBinding
 import team.doit.do_it.entities.UserEntity
 import java.util.Calendar
@@ -79,6 +76,7 @@ class RegisterDataFragment : Fragment() {
             binding.txtRegisterDataPhone.text.toString(),
             binding.txtRegisterDataAddress.text.toString(),
             false,
+            "",
             "")
     }
 

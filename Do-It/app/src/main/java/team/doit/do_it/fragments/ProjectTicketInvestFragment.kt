@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -15,6 +16,7 @@ import team.doit.do_it.entities.InvestEntity
 import team.doit.do_it.enums.InvestStatus
 import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
+import java.util.Date
 
 class ProjectTicketInvestFragment: Fragment() {
     private var _binding : FragmentProjectTicketInvestBinding? = null
@@ -32,16 +34,35 @@ class ProjectTicketInvestFragment: Fragment() {
     }
     override fun onStart() {
         super.onStart()
-        binding.btnProjectInvest.setOnClickListener {
-            createInvest()
-        }
 
+        safeAccessBinding {
+            setupButtons()
+        }
     }
     override fun onResume() {
         super.onResume()
         val activity = requireActivity() as MainActivity
         activity.hideBottomNav()
+        activity.removeMargins()
     }
+
+    override fun onStop() {
+        super.onStop()
+        val activity = requireActivity() as MainActivity
+        activity.showBottomNav()
+        activity.showMargins()
+    }
+
+    private fun setupButtons(){
+        binding.btnProjectInvest.setOnClickListener {
+            createInvest()
+        }
+
+        binding.imgBtnProjectDetailInvestBack.setOnClickListener {
+            this.findNavController().navigateUp()
+        }
+    }
+
     private fun safeAccessBinding(action: () -> Unit) {
         if (_binding != null && context != null) {
             action()
@@ -58,7 +79,7 @@ class ProjectTicketInvestFragment: Fragment() {
     private fun validateInvest(invest:InvestEntity,minBudget:Double) : Boolean{
         if (invest.budgetInvest < minBudget){
             val txtMinBudget = formatMoney(minBudget)
-            Snackbar.make(v, resources.getString(R.string.project_ticket_budget_error,txtMinBudget), Snackbar.LENGTH_LONG).show()
+            Snackbar.make(v, resources.getString(R.string.project_ticket_invest_budget_error,txtMinBudget), Snackbar.LENGTH_LONG).show()
             return false
         }
 
@@ -71,9 +92,9 @@ class ProjectTicketInvestFragment: Fragment() {
             val creatorEmail = project.creatorEmail
             val projectID = project.uuid
             val budget = binding.txtProjectInvestMountMoney.text.toString().toDoubleOrNull() ?: 0.0
-            val status = InvestStatus.from(resources.getString(R.string.project_ticket_Invest_state))
+            val status = InvestStatus.from(resources.getString(R.string.project_ticket_invest_state))
 
-            val invest = InvestEntity("", creatorEmail, investorEmail, budget, projectID, status, "", "")
+            val invest = InvestEntity("", creatorEmail, investorEmail, budget, projectID, status, "", "", Date())
             if (validateInvest(invest,project.minBudget)){
                 saveInvestToDatabase(invest)
             }
@@ -83,16 +104,15 @@ class ProjectTicketInvestFragment: Fragment() {
         }
 
     }
-    private fun hideBottomInvest(){
-        binding.btnProjectInvest.visibility = View.GONE
-    }
+
     private fun saveInvestToDatabase(invest: InvestEntity){
         val investMap = mutableMapOf(
             "creatorEmail" to invest.creatorEmail,
             "investorEmail" to invest.investorEmail,
             "budgetInvest" to invest.budgetInvest,
             "projectID" to invest.projectID,
-            "status" to invest.status
+            "status" to invest.status,
+            "date" to invest.date
         )
 
         db.collection("inversiones")
@@ -102,12 +122,12 @@ class ProjectTicketInvestFragment: Fragment() {
                 db.collection("inversiones").document(it.id).set(investMap)
                 safeAccessBinding {
                     showSuccessMessage()
-                    hideBottomInvest()
+                    this.findNavController().navigateUp()
                 }
             }
             .addOnFailureListener {
                 safeAccessBinding {
-                    Snackbar.make(v, resources.getString(R.string.project_ticket_Invest_failed), Snackbar.LENGTH_LONG).show()
+                    Snackbar.make(v, resources.getString(R.string.project_ticket_invest_failed), Snackbar.LENGTH_LONG).show()
                 }
             }
     }
