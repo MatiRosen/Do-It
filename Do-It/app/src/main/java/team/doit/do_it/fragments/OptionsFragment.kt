@@ -10,6 +10,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 import team.doit.do_it.R
 import team.doit.do_it.activities.LoginActivity
 import team.doit.do_it.databinding.FragmentOptionsBinding
@@ -80,6 +81,8 @@ class OptionsFragment : Fragment() {
     }
 
     private fun logout() {
+        removeFCMToken()
+
         mAuth.signOut()
 
         val intent = Intent(activity, LoginActivity::class.java)
@@ -89,6 +92,15 @@ class OptionsFragment : Fragment() {
         requireActivity().finish()
     }
 
+    private fun removeFCMToken() {
+        val db = FirebaseFirestore.getInstance()
+        val currentUser = FirebaseAuth.getInstance().currentUser
+
+        if (currentUser != null) {
+            db.collection("usuarios").document(currentUser.email.toString())
+                .update("fcmToken", "")
+        }
+    }
 
     override fun onDestroyView() {
         super.onDestroyView()

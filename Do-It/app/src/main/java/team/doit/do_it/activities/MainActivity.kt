@@ -6,7 +6,6 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.constraintlayout.widget.ConstraintSet
-import androidx.core.view.get
 import androidx.fragment.app.FragmentContainerView
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
@@ -14,6 +13,8 @@ import com.google.android.gms.ads.MobileAds
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.messaging.FirebaseMessaging
 import com.stripe.android.PaymentConfiguration
 import io.reactivex.rxjava3.plugins.RxJavaPlugins
 import team.doit.do_it.R
@@ -39,6 +40,7 @@ class MainActivity : AppCompatActivity() {
         )
 
         initializeVariables()
+        saveFCMToken()
 
     }
 
@@ -97,4 +99,19 @@ class MainActivity : AppCompatActivity() {
 
         constraintSet.applyTo(findViewById(R.id.frameLayoutMainActivity))
     }
+
+    private fun saveFCMToken() {
+        val db = FirebaseFirestore.getInstance()
+        val currentUser = FirebaseAuth.getInstance().currentUser
+        FirebaseMessaging.getInstance().token.addOnCompleteListener {
+            if (it.isSuccessful) {
+                val token = it.result
+                if (currentUser != null) {
+                    db.collection("usuarios").document(currentUser.email.toString())
+                        .update("fcmToken", token)
+                }
+            }
+        }
+    }
+
 }

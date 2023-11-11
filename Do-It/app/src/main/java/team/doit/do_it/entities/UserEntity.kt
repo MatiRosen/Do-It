@@ -1,14 +1,11 @@
 package team.doit.do_it.entities
 
-import android.os.Build
 import android.os.Parcel
 import android.os.Parcelable
-import androidx.annotation.RequiresApi
-import java.util.Date
 
 class UserEntity(firstName: String, surname: String, email: String,
                  birthDate: String, gender: String, telephoneNumber: String, address: String,
-                 isPremium: Boolean, uuid: String) : Parcelable {
+                 isPremium: Boolean, uuid: String, fcmToken: String) : Parcelable {
 
     private var firstName: String
     private var surname : String
@@ -19,6 +16,7 @@ class UserEntity(firstName: String, surname: String, email: String,
     private var address : String // TODO: Change to Address data type
     private var isPremium : Boolean
     private var uuid : String
+    private var fcmToken : String
 
     constructor(parcel: Parcel) : this(
         parcel.readString()!!,
@@ -29,6 +27,7 @@ class UserEntity(firstName: String, surname: String, email: String,
         parcel.readString()!!,
         parcel.readString()!!,
         parcel.readByte() != 0.toByte(),
+        parcel.readString()!!,
         parcel.readString()!!
     )
 
@@ -42,6 +41,7 @@ class UserEntity(firstName: String, surname: String, email: String,
         this.address = address
         this.isPremium = isPremium
         this.uuid = uuid
+        this.fcmToken = fcmToken
     }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
@@ -54,6 +54,7 @@ class UserEntity(firstName: String, surname: String, email: String,
         parcel.writeString(address)
         if (isPremium) parcel.writeByte(1) else parcel.writeByte(0)
         parcel.writeString(uuid)
+        parcel.writeString(fcmToken)
     }
 
     override fun describeContents(): Int {
@@ -106,6 +107,11 @@ class UserEntity(firstName: String, surname: String, email: String,
     fun getUUID(): String {
         return uuid
     }
+
+    fun getFCMToken(): String {
+        return fcmToken
+    }
+
     //endregion
 
     fun setUUID(uuid: String) {
