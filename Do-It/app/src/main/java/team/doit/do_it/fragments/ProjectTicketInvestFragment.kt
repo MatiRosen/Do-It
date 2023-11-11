@@ -15,6 +15,7 @@ import team.doit.do_it.entities.InvestEntity
 import team.doit.do_it.enums.InvestStatus
 import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
+import java.util.Date
 
 class ProjectTicketInvestFragment: Fragment() {
     private var _binding : FragmentProjectTicketInvestBinding? = null
@@ -73,7 +74,7 @@ class ProjectTicketInvestFragment: Fragment() {
             val budget = binding.txtProjectInvestMountMoney.text.toString().toDoubleOrNull() ?: 0.0
             val status = InvestStatus.from(resources.getString(R.string.project_ticket_Invest_state))
 
-            val invest = InvestEntity("", creatorEmail, investorEmail, budget, projectID, status, "", "")
+            val invest = InvestEntity("", creatorEmail, investorEmail, budget, projectID, status, "", "", Date())
             if (validateInvest(invest,project.minBudget)){
                 saveInvestToDatabase(invest)
             }
@@ -92,7 +93,8 @@ class ProjectTicketInvestFragment: Fragment() {
             "investorEmail" to invest.investorEmail,
             "budgetInvest" to invest.budgetInvest,
             "projectID" to invest.projectID,
-            "status" to invest.status
+            "status" to invest.status,
+            "date" to invest.date
         )
 
         db.collection("inversiones")

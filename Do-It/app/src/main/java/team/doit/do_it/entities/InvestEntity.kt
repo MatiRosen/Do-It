@@ -3,6 +3,7 @@ package team.doit.do_it.entities
 import android.os.Parcel
 import android.os.Parcelable
 import team.doit.do_it.enums.InvestStatus
+import java.util.Date
 
 data class InvestEntity (
     var uuid : String,
@@ -12,7 +13,8 @@ data class InvestEntity (
     var projectID : String,
     var status : InvestStatus,
     var userName : String,
-    var projectTitle : String): Parcelable {
+    var projectTitle : String,
+    var date : Date): Parcelable {
 
     constructor(parcel: Parcel) : this(
         parcel.readString()!!,
@@ -22,10 +24,11 @@ data class InvestEntity (
         parcel.readString()!!,
         InvestStatus.from(parcel.readString()!!),
         parcel.readString()!!,
-        parcel.readString()!!
+        parcel.readString()!!,
+        Date(parcel.readLong())
     )
 
-    constructor() : this("","","",0.0,"", InvestStatus.PENDING, "", "")
+    constructor() : this("","","",0.0,"", InvestStatus.PENDING, "", "", Date())
 
     override fun describeContents(): Int {
         return 0
@@ -40,6 +43,7 @@ data class InvestEntity (
         parcel.writeString(status.getDescription())
         parcel.writeString(userName)
         parcel.writeString(projectTitle)
+        parcel.writeLong(date.time)
     }
     
     companion object CREATOR : Parcelable.Creator<InvestEntity> {

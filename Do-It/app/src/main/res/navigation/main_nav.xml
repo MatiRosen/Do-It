@@ -286,6 +286,10 @@
             android:id="@+id/action_myInvestmentsFragment_to_investSelectStatusFragment"
             app:destination="@id/investSelectStatusFragment"
             app:popUpTo="@id/myInvestmentsFragment" />
+        <action
+            android:id="@+id/action_myInvestmentsFragment_to_user_chat"
+            app:destination="@id/user_chat"
+            app:popUpTo="@id/myInvestmentsFragment" />
     </fragment>
 
     <fragment
