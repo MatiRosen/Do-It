@@ -9,9 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.constraintlayout.widget.ConstraintSet
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentContainerView
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
@@ -23,6 +21,7 @@ import team.doit.do_it.R
 import team.doit.do_it.activities.MainActivity
 import team.doit.do_it.adapters.CommentListAdapter
 import team.doit.do_it.databinding.FragmentProjectDetailCreatorBinding
+import team.doit.do_it.entities.CommentEntity
 import team.doit.do_it.entities.ProjectEntity
 import team.doit.do_it.listeners.RecyclerViewCommentsListener
 import java.text.DecimalFormat
@@ -42,7 +41,7 @@ class ProjectDetailCreatorFragment : Fragment() {
     private var creatorEmail : String = ""
 
     private lateinit var listener : RecyclerViewCommentsListener
-
+    private val db = FirebaseFirestore.getInstance()
 
     interface OnProjectUpdatedListener {
         fun onProjectUpdated(successful: Boolean)
@@ -344,8 +343,19 @@ class ProjectDetailCreatorFragment : Fragment() {
         binding.recyclerProjectDetailCreatorComments.setHasFixedSize(true)
         val linearLayout = LinearLayoutManager(context)
         binding.recyclerProjectDetailCreatorComments.layoutManager = linearLayout
-        //val commentAdapter = CommentListAdapter(project.comments, listener)
-        //binding.recyclerProjectDetailCreatorComments.adapter = commentAdapter
+        setListener()
+        val commentAdapter = CommentListAdapter(project.comments, listener)
+        binding.recyclerProjectDetailCreatorComments.adapter = commentAdapter
+    }
+
+    private fun setListener() {
+        listener = object : RecyclerViewCommentsListener {
+            override fun onDeleteCommentClicked(comment: CommentEntity) { }
+
+            override fun onSavedCommentClicked(comment: CommentEntity) { }
+
+            override fun onEditCommentClicked(comment: CommentEntity) { }
+        }
     }
 
     private fun handleDeleteFailure() {
