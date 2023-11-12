@@ -76,13 +76,17 @@ class ProjectTicketInvestFragment: Fragment() {
         val decimalFormat = DecimalFormat("#,###.00", decimalFormatSymbols)
         return decimalFormat.format(money)
     }
-    private fun validateInvest(invest:InvestEntity,minBudget:Double) : Boolean{
+    private fun validateInvest(invest:InvestEntity,minBudget:Double,goal:Double) : Boolean{
         if (invest.budgetInvest < minBudget){
             val txtMinBudget = formatMoney(minBudget)
-            Snackbar.make(v, resources.getString(R.string.project_ticket_invest_budget_error,txtMinBudget), Snackbar.LENGTH_LONG).show()
+            Snackbar.make(v, resources.getString(R.string.project_ticket_invest_budget_min_error,txtMinBudget), Snackbar.LENGTH_LONG).show()
             return false
         }
-
+        if (invest.budgetInvest > goal){
+            val txtMinBudget = formatMoney(minBudget)
+            Snackbar.make(v, resources.getString(R.string.project_ticket_invest_budget_max_error,txtMinBudget), Snackbar.LENGTH_LONG).show()
+            return false
+        }
         return true
     }
     private fun createInvest() {
@@ -95,14 +99,13 @@ class ProjectTicketInvestFragment: Fragment() {
             val status = InvestStatus.from(resources.getString(R.string.project_ticket_invest_state))
 
             val invest = InvestEntity("", creatorEmail, investorEmail, budget, projectID, status, "", "", Date())
-            if (validateInvest(invest,project.minBudget)){
+            if (validateInvest(invest,project.minBudget,project.goal)){
                 saveInvestToDatabase(invest)
             }
         }else{
             val message = resources.getString(R.string.project_ticket_invest_not_checked_error)
             Snackbar.make(v, message, Snackbar.LENGTH_LONG).show()
         }
-
     }
 
     private fun saveInvestToDatabase(invest: InvestEntity){

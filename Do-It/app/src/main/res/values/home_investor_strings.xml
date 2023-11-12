@@ -7,4 +7,6 @@
     <string name="home_investor_get_project_failed">Hubo un error cargando un proyecto!</string>
     <string name="home_investor_get_projects_failed">Hubo un error cargando los proyectos!</string>
     <string name="home_investor_filter_category">Filtrar</string>
+    <string name="home_investor_search_error">¡Debes ingresar un texto para realizar la búsqueda!</string>
+    <string name="home_investor_filter_category_error">¡Debes seleccionar una categoría!</string>
 </resources>

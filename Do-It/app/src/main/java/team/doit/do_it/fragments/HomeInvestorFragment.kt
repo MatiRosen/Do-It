@@ -29,6 +29,20 @@ import team.doit.do_it.adapters.ProjectListAdapter
 import team.doit.do_it.databinding.FragmentHomeInvestorBinding
 import team.doit.do_it.entities.ProjectEntity
 import team.doit.do_it.listeners.OnViewItemClickedListener
+import com.algolia.search.client.ClientSearch
+import com.algolia.search.dsl.attributesToRetrieve
+import com.algolia.search.dsl.settings
+import com.algolia.search.helper.deserialize
+import com.algolia.search.model.APIKey
+import com.algolia.search.model.ApplicationID
+import com.algolia.search.model.IndexName
+import com.algolia.search.model.response.ResponseSearch
+import com.google.firebase.firestore.CollectionReference
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.runBlocking
+import kotlinx.serialization.Serializable
 
 
 class HomeInvestorFragment : Fragment(), OnViewItemClickedListener<ProjectEntity> {
@@ -39,9 +53,18 @@ class HomeInvestorFragment : Fragment(), OnViewItemClickedListener<ProjectEntity
     private val db = FirebaseFirestore.getInstance()
     private lateinit var popularProjectListAdapter: ProjectListAdapter
     private lateinit var allProjectListAdapter: ProjectListAdapter
-
     private var interstitial: InterstitialAd? = null
     private val quantityClicksToShowAds: Int = 3
+    private val applicationID = ApplicationID("6BNVZCZWQH")
+    private val apiKey = APIKey("b3dd3d1872044a4f101752fa0fd0377e")
+    private val algoliaClient = ClientSearch(applicationID, apiKey)
+    private val index = algoliaClient.initIndex(indexName = IndexName("ideas"))
+    private lateinit var results :List<SearchResult>
+    @Serializable
+    data class SearchResult(
+        val title: String,
+        val uuid: String
+    )
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -86,9 +109,18 @@ class HomeInvestorFragment : Fragment(), OnViewItemClickedListener<ProjectEntity
         }
 
         binding.searchViewHomeInvestor.setOnClickListener{
-            binding.txtHomeInvestorTitle.visibility = View.GONE
-            binding.recyclerHomeInvestorPopularProjects.visibility = View.GONE
-            filterAllProjectsByPhoneticSearch()
+
+            val phoneticSearch = binding.searchViewHomeInvestor.query.toString()
+            if (phoneticSearch == ""){
+                binding.txtHomeInvestorTitle.visibility = View.VISIBLE
+                binding.recyclerHomeInvestorPopularProjects.visibility = View.VISIBLE
+                Snackbar.make(v, resources.getString(R.string.home_investor_search_error), Snackbar.LENGTH_LONG).show()
+                setupAllProjectsRecyclerView()
+            }else{
+                binding.txtHomeInvestorTitle.visibility = View.GONE
+                binding.recyclerHomeInvestorPopularProjects.visibility = View.GONE
+                filterAllProjectsByPhoneticSearch()
+            }
             binding.spinnerHomeInvestorFilterCategory.setSelection(0)
         }
 
@@ -100,7 +132,7 @@ class HomeInvestorFragment : Fragment(), OnViewItemClickedListener<ProjectEntity
             if (categoryFilter == resources.getString(R.string.project_creation_project_category_hint)){
                 binding.txtHomeInvestorTitle.visibility = View.VISIBLE
                 binding.recyclerHomeInvestorPopularProjects.visibility = View.VISIBLE
-                Snackbar.make(v, resources.getString(R.string.project_creation_category_error), Snackbar.LENGTH_LONG).show()
+                Snackbar.make(v, resources.getString(R.string.home_investor_filter_category_error), Snackbar.LENGTH_LONG).show()
                 setupAllProjectsRecyclerView()
             }else{
                 binding.searchViewHomeInvestor.setQuery("",false)
@@ -163,21 +195,24 @@ class HomeInvestorFragment : Fragment(), OnViewItemClickedListener<ProjectEntity
     private fun filterAllProjectsByPhoneticSearch(){
         allProjectListAdapter.stopListening()
         val foneticSearch = binding.searchViewHomeInvestor.query.toString()
+        viewLifecycleOwner.lifecycleScope.launch {
+            searchAlgolia(foneticSearch){
+                val titleList:List<String> = results.map { result -> result.title }
+                val query = db.collection("ideas")
+                    .whereIn("title",titleList)
+                    .orderBy("title",Query.Direction.DESCENDING)
 
-        val query = db.collection("ideas") .orderBy("title")
-            .whereGreaterThanOrEqualTo("title",foneticSearch)
-            
-            .whereLessThanOrEqualTo("title",foneticSearch+'\uf8ff')
+                val config = PagingConfig(20, 10, false)
+                val options = FirestorePagingOptions.Builder<ProjectEntity>()
+                    .setLifecycleOwner(this@HomeInvestorFragment)
+                    .setQuery(query, config, ProjectEntity::class.java)
+                    .build()
 
-        val config = PagingConfig(20, 10, false)
-        val options = FirestorePagingOptions.Builder<ProjectEntity>()
-            .setLifecycleOwner(this)
-            .setQuery(query, config, ProjectEntity::class.java)
-            .build()
-
-        allProjectListAdapter.updateOptions(options)
-        allProjectListAdapter.startListening()
-        binding.recyclerHomeInvestorAllProjects.adapter = allProjectListAdapter
+                allProjectListAdapter.updateOptions(options)
+                allProjectListAdapter.startListening()
+                binding.recyclerHomeInvestorAllProjects.adapter = allProjectListAdapter
+            }
+        }
     }
 
     private fun setupRecyclerViewSettings(recycler : RecyclerView, isHorizontal : Boolean = false) {
@@ -364,6 +399,22 @@ class HomeInvestorFragment : Fragment(), OnViewItemClickedListener<ProjectEntity
             .addOnFailureListener {
                 listener.onUserFetched(null)
             }
+    }
+
+    private suspend fun searchAlgolia(queryText: String,action: () -> Unit) {
+        val settings = settings {
+            attributesToRetrieve {
+                +"title"
+                +"uuid"
+            }
+        }
+        index.setSettings(settings)
+        val response = index.run {
+            search(com.algolia.search.model.search.Query(queryText))
+        }
+        val resultsAlgolia: List<SearchResult> = response.hits.deserialize(SearchResult.serializer())
+        results = resultsAlgolia
+        action()
     }
 
     interface OnUserFetchedListener {
