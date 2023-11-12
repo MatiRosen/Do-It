@@ -81,7 +81,7 @@ class ProjectDetailInvestorFragment : Fragment() {
             v.findNavController().navigateUp()
         }
 
-        binding.linearLayoutProjectDetailInvestorData.setOnClickListener {
+        binding.linearLayoutProjectDetailInvestorContact.setOnClickListener {
             val action = ProjectDetailInvestorFragmentDirections.actionProjectDetailInvestorFragmentToProfileFragment(creatorEmail)
             this.findNavController().navigate(action)
         }
@@ -142,17 +142,17 @@ class ProjectDetailInvestorFragment : Fragment() {
     private fun createUserChat(ownUserUUID : String, user : DocumentSnapshot){
         val otherUserUUID = user.getString("uuid").toString()
         val ref = Firebase.database.getReference("messages/${ownUserUUID}/${otherUserUUID}")
-        ref.child("userName").setValue("${user.getString("nombre")} ${user.getString("apellido")}")
-        ref.child("userImage").setValue(user.getString("imgPerfil"))
+        ref.child("userName").setValue("${user.getString("firstName")} ${user.getString("surname")}")
+        ref.child("userImage").setValue(user.getString("userImage"))
         ref.child("userEmail").setValue(user.getString("email"))
         ref.child("userUUID").setValue(otherUserUUID)
         val currentTime = System.currentTimeMillis()
         ref.child("lastMessageDate").setValue(-currentTime)
 
         val chat = ChatEntity(
-            "${user.getString("nombre")} ${user.getString("apellido")}",
+            "${user.getString("firstName")} ${user.getString("surname")}",
             creatorEmail,
-            user.getString("imgPerfil")!!,
+            user.getString("userImage")!!,
             user.getString("uuid")!!,
             mutableListOf(),
             currentTime,
@@ -294,7 +294,7 @@ class ProjectDetailInvestorFragment : Fragment() {
                 safeAccessBinding {
                     if (!documents.isEmpty) {
                         val user = documents.documents[0]
-                        binding.txtProjectDetailInvestorProfileName.text = user.getString("nombre")
+                        binding.txtProjectDetailInvestorProfileName.text = user.getString("firstName")
                         binding.progressBarProjectDetailInvestor.visibility = View.GONE
                         binding.txtProjectDetailInvestorProfileName.visibility = View.VISIBLE
                         binding.imgProjectDetailInvestorProfileImage.visibility = View.VISIBLE
@@ -336,7 +336,7 @@ class ProjectDetailInvestorFragment : Fragment() {
             override fun onUserFetched(user: DocumentSnapshot?) {
                 safeAccessBinding {
                     if (user != null) {
-                        val titleImg = user.getString("imgPerfil").toString()
+                        val titleImg = user.getString("userImage").toString()
                         if (titleImg == "") {
                             binding.imgProjectDetailInvestorProfileImage.setImageResource(R.drawable.img_avatar)
                             return@safeAccessBinding
@@ -428,15 +428,21 @@ class ProjectDetailInvestorFragment : Fragment() {
     }
 
     private fun addComment(){
-        val currentUserEmail = FirebaseAuth.getInstance().currentUser?.email.toString()
         val commentText = binding.editTxtProjectDetailInvestorAddComments.text.toString()
+
+        if(commentText.isEmpty() || commentText.isBlank()) {
+            Toast.makeText(activity, resources.getString(R.string.project_addComment_errorContent), Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        val currentUserEmail = FirebaseAuth.getInstance().currentUser?.email.toString()
         val project = ProjectDetailCreatorFragmentArgs.fromBundle(requireArguments()).project
         val commentDate = getDate().toString()
 
         getUser(currentUserEmail, object : ProfileFragment.OnUserFetchedListener {
             override fun onUserFetched(user: DocumentSnapshot?) {
-                val authorName = user?.getString("nombre").toString()
-                val authorProfileImage = user?.getString("imgPerfil").toString()
+                val authorName = user?.getString("firstName").toString()
+                val authorProfileImage = user?.getString("userImage").toString()
                 val newComment = CommentEntity(currentUserEmail, commentText, authorName, authorProfileImage, commentDate)
 
                 project.comments.add(newComment)

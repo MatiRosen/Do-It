@@ -9,9 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.constraintlayout.widget.ConstraintSet
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentContainerView
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
@@ -28,8 +26,6 @@ import team.doit.do_it.entities.ProjectEntity
 import team.doit.do_it.listeners.RecyclerViewCommentsListener
 import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
-import java.time.LocalDate
-import java.time.format.DateTimeFormatter
 
 
 class ProjectDetailCreatorFragment : Fragment() {
@@ -126,6 +122,15 @@ class ProjectDetailCreatorFragment : Fragment() {
         binding.imgBtnProjectDetailCreatorTrash.setOnClickListener {
             deleteProjectConfirm()
         }
+
+        binding.txtProjectDetailCreatorFollowers.setOnClickListener {
+            if (!project.hasFollowers()){
+                Toast.makeText(context, resources.getString(R.string.project_followers_no_followers), Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+            val action = ProjectDetailCreatorFragmentDirections.actionProjectDetailFragmentToProjectFollowersFragment(project)
+            v.findNavController().navigate(action)
+        }
     }
 
     private fun setValues() {
@@ -165,7 +170,7 @@ class ProjectDetailCreatorFragment : Fragment() {
                 safeAccessBinding {
                     if (!documents.isEmpty) {
                         val user = documents.documents[0]
-                        binding.txtProjectDetailCreatorProfileName.text = user.getString("nombre")
+                        binding.txtProjectDetailCreatorProfileName.text = user.getString("firstName")
                         binding.progressBarProjectDetailCreator.visibility = View.GONE
                         binding.txtProjectDetailCreatorProfileName.visibility = View.VISIBLE
                         binding.imgProjectDetailCreatorProfileImage.visibility = View.VISIBLE
@@ -205,7 +210,7 @@ class ProjectDetailCreatorFragment : Fragment() {
             override fun onUserFetched(user: DocumentSnapshot?) {
                 safeAccessBinding {
                     if (user != null) {
-                        val titleImg = user.getString("imgPerfil").toString()
+                        val titleImg = user.getString("userImage").toString()
                         if (titleImg == "") {
                             binding.imgProjectDetailCreatorProfileImage.setImageResource(R.drawable.img_avatar)
                             return@safeAccessBinding

@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/card_chat_height"
+    android:id="@+id/cardViewItemUserFollower"
+    app:cardElevation="0dp"
+    app:cardBackgroundColor="@color/white">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayoutItemUserFollower"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.mikhaellopez.circularimageview.CircularImageView
+            android:id="@+id/imgItemUserFollowerProfileImage"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/img_avatar"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/txtItemUserFollowerUserName"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/divider_start_padding"
+            android:ellipsize="end"
+            android:gravity="start|center_vertical"
+            android:maxLines="1"
+            android:text="@string/project_followers_item_name"
+            android:textColor="@color/black"
+            android:textSize="@dimen/txt_paragraph_size"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/guidelineItemUserFollowerHorizontal50"
+            app:layout_constraintEnd_toStartOf="@+id/guidelineItemUserFollowerVertical80"
+            app:layout_constraintStart_toEndOf="@+id/imgItemUserFollowerProfileImage" />
+
+        <ImageView
+            android:id="@+id/imgItemUserFollowerChat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/divider_end_padding"
+            android:contentDescription="@string/project_followers_item_chat"
+            android:src="@drawable/icon_chat"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <View
+            android:id="@+id/divItemUserFollower"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:alpha="0.2"
+            android:background="@color/light_gray"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/guidelineItemUserFollowerVertical85"
+            app:layout_constraintStart_toStartOf="@+id/guidelineItemUserFollowerVertical15" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guidelineItemUserFollowerVertical15"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="@dimen/guideline_15" />
+
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guidelineItemUserFollowerVertical80"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="@dimen/guideline_80" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guidelineItemUserFollowerVertical85"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="@dimen/guideline_85" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guidelineItemUserFollowerHorizontal50"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="@dimen/guideline_50" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.cardview.widget.CardView>

@@ -51,6 +51,22 @@
         app:startDestination="@id/homeNavigation">
 
         <fragment
+            android:id="@+id/projectFollowersFragment"
+            android:name="team.doit.do_it.fragments.ProjectFollowersFragment"
+            android:label="fragment_project_followers"
+            tools:layout="@layout/fragment_project_followers" >
+            <argument
+                android:name="project"
+                app:argType="team.doit.do_it.entities.ProjectEntity" />
+            <action
+                android:id="@+id/action_projectFollowersFragment_to_user_chat_home"
+                app:destination="@id/user_chat_home" />
+            <action
+                android:id="@+id/action_projectFollowersFragment_to_profileFragment"
+                app:destination="@id/profileFragment" />
+        </fragment>
+
+        <fragment
             android:id="@+id/profileFragment"
             android:name="team.doit.do_it.fragments.ProfileFragment"
             android:label="ProfileFragment">
@@ -124,6 +140,10 @@
             <action
                 android:id="@+id/action_projectDetailFragment_to_editProjectFragment"
                 app:destination="@id/editProjectFragment" />
+            <action
+                android:id="@+id/action_projectDetailFragment_to_projectFollowersFragment"
+                app:destination="@id/projectFollowersFragment"
+                app:popUpTo="@id/projectDetailFragment" />
         </fragment>
 
         <fragment
@@ -301,6 +321,7 @@
             android:name="invest"
             app:argType="team.doit.do_it.entities.InvestEntity" />
     </fragment>
+
 
 
 </navigation>
