@@ -101,12 +101,12 @@ class ProfileFragment : Fragment() {
             override fun onUserFetched(user: DocumentSnapshot?) {
                 safeAccessBinding {
                     if (user != null) {
-                        binding.txtProfileName.text = "${user.getString("nombre")} ${user.getString("apellido")}"
+                        binding.txtProfileName.text = "${user.getString("firstName")} ${user.getString("surname")}"
                         binding.txtProfileEmail.text = user.getString("email")
-                        binding.txtProfilePhone.text = user.getString("telefono")
-                        binding.txtProfileGender.text = user.getString("genero")
-                        binding.txtProfileAddress.text = user.getString("direccion")
-                        setImage(userEmail, user.getString("imgPerfil").toString())
+                        binding.txtProfilePhone.text = user.getString("telephoneNumber")
+                        binding.txtProfileGender.text = user.getString("gender")
+                        binding.txtProfileAddress.text = user.getString("address")
+                        setImage(userEmail, user.getString("userImage").toString())
                         hideProgressBar(creatorEmail == " ")
                     } else {
                         Toast.makeText(activity, resources.getString(R.string.profile_dataUser_error), Toast.LENGTH_SHORT).show()

@@ -99,7 +99,7 @@ class HomeCreatorFragment : Fragment(), OnViewItemClickedListener<ProjectEntity>
         getUser(currentUser?.email.toString(), object : ProfileFragment.OnUserFetchedListener {
             override fun onUserFetched(user: DocumentSnapshot?) {
                 if (user != null) {
-                    isPremium = user.getBoolean("premium")!!
+                    isPremium = user.getBoolean("isPremium")!!
                     action(isPremium)
                 }
             }

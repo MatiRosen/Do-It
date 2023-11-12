@@ -125,6 +125,10 @@ class ProjectDetailCreatorFragment : Fragment() {
         }
 
         binding.txtProjectDetailCreatorFollowers.setOnClickListener {
+            if (!project.hasFollowers()){
+                Toast.makeText(context, resources.getString(R.string.project_followers_no_followers), Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
             val action = ProjectDetailCreatorFragmentDirections.actionProjectDetailFragmentToProjectFollowersFragment(project)
             v.findNavController().navigate(action)
         }
@@ -167,7 +171,7 @@ class ProjectDetailCreatorFragment : Fragment() {
                 safeAccessBinding {
                     if (!documents.isEmpty) {
                         val user = documents.documents[0]
-                        binding.txtProjectDetailCreatorProfileName.text = user.getString("nombre")
+                        binding.txtProjectDetailCreatorProfileName.text = user.getString("firstName")
                         binding.progressBarProjectDetailCreator.visibility = View.GONE
                         binding.txtProjectDetailCreatorProfileName.visibility = View.VISIBLE
                         binding.imgProjectDetailCreatorProfileImage.visibility = View.VISIBLE
@@ -207,7 +211,7 @@ class ProjectDetailCreatorFragment : Fragment() {
             override fun onUserFetched(user: DocumentSnapshot?) {
                 safeAccessBinding {
                     if (user != null) {
-                        val titleImg = user.getString("imgPerfil").toString()
+                        val titleImg = user.getString("userImage").toString()
                         if (titleImg == "") {
                             binding.imgProjectDetailCreatorProfileImage.setImageResource(R.drawable.img_avatar)
                             return@safeAccessBinding
@@ -340,8 +344,8 @@ class ProjectDetailCreatorFragment : Fragment() {
         binding.recyclerProjectDetailCreatorComments.setHasFixedSize(true)
         val linearLayout = LinearLayoutManager(context)
         binding.recyclerProjectDetailCreatorComments.layoutManager = linearLayout
-        val commentAdapter = CommentListAdapter(project.comments, listener)
-        binding.recyclerProjectDetailCreatorComments.adapter = commentAdapter
+        //val commentAdapter = CommentListAdapter(project.comments, listener)
+        //binding.recyclerProjectDetailCreatorComments.adapter = commentAdapter
     }
 
     private fun handleDeleteFailure() {

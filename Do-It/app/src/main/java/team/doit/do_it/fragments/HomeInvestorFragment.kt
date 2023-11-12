@@ -315,6 +315,7 @@ class HomeInvestorFragment : Fragment(), OnViewItemClickedListener<ProjectEntity
     private fun initAds() {
         val adRequest = com.google.android.gms.ads.AdRequest.Builder().build()
 
+        // TODO meter el id en un archivo de configuracion
         InterstitialAd.load(
             v.context,
             "ca-app-pub-3940256099942544/1033173712",
@@ -355,7 +356,7 @@ class HomeInvestorFragment : Fragment(), OnViewItemClickedListener<ProjectEntity
             .get()
             .addOnSuccessListener { documents ->
                 if (!documents.isEmpty) {
-                    val user = documents.documents[0].get("premium") as? Boolean
+                    val user = documents.documents[0].get("isPremium") as? Boolean
                     listener.onUserFetched(user)
                 } else {
                     listener.onUserFetched(null)

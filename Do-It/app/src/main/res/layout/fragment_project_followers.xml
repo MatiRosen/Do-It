@@ -13,12 +13,26 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:text="@string/project_followers_title"
+        android:maxLines="2"
+        android:ellipsize="end"
         android:textColor="@color/dark_pantone"
         android:textSize="@dimen/txt_main_title_size"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/imgBtnProjectFollowersBack"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageButton
+        android:id="@+id/imgBtnProjectFollowersBack"
+        app:tint="@color/black"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:backgroundTint="@color/transparent"
+        android:contentDescription="@string/project_followers_back"
+        android:src="@drawable/icon_arrow_left"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
 
     <ProgressBar
         android:id="@+id/progressBarProjectFollowers"

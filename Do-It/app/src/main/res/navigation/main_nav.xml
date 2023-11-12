@@ -58,6 +58,12 @@
             <argument
                 android:name="project"
                 app:argType="team.doit.do_it.entities.ProjectEntity" />
+            <action
+                android:id="@+id/action_projectFollowersFragment_to_user_chat_home"
+                app:destination="@id/user_chat_home" />
+            <action
+                android:id="@+id/action_projectFollowersFragment_to_profileFragment"
+                app:destination="@id/profileFragment" />
         </fragment>
 
         <fragment

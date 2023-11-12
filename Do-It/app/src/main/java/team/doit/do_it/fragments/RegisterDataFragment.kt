@@ -136,15 +136,17 @@ class RegisterDataFragment : Fragment() {
                     user.uuid = FirebaseAuth.getInstance().currentUser?.uid!!
                     dbRegister.collection("usuarios").document(email).set(
                         hashMapOf(
-                            "nombre" to user.firstName,
-                            "apellido" to user.surname,
+                            "firstName" to user.firstName,
+                            "surname" to user.surname,
                             "email" to email,
-                            "fechaNacimiento" to user.birthDate,
-                            "genero" to user.gender,
-                            "telefono" to user.telephoneNumber,
-                            "direccion" to user.address,
-                            "premium" to user.isPremium,
+                            "birthDate" to user.birthDate,
+                            "gender" to user.gender,
+                            "telephoneNumber" to user.telephoneNumber,
+                            "address" to user.address,
+                            "isPremium" to user.isPremium,
                             "uuid" to user.uuid,
+                            "fcmToken" to user.fcmToken,
+                            "userImage" to user.userImage
                         ))
 
                     validateEmail(email)

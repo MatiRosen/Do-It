@@ -23,6 +23,8 @@ data class UserEntity(
         parcel.readString()!!
     )
 
+    constructor() : this("", "", "", Date(), "", "", "", false, "", "", "")
+
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeString(firstName)
         parcel.writeString(surname)

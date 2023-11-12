@@ -24,6 +24,7 @@ class UserFollowerListAdapter(
     }
 
     override fun onBindViewHolder(holder: UserFollowerHolder, position: Int, model: UserEntity) {
+        println(model)
         holder.setUserName(model.firstName + " " + model.surname)
         holder.setUserImage(model.userImage, model.email)
 

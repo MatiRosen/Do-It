@@ -190,7 +190,7 @@ class PremiumFragment : Fragment() {
             override fun onUserFetched(user: DocumentSnapshot?) {
                 safeAccessBinding {
                     if (user != null) {
-                        isPremium = user.getBoolean("premium")!!
+                        isPremium = user.getBoolean("isPremium")!!
                         action(isPremium)
                     }
                 }
@@ -219,7 +219,7 @@ class PremiumFragment : Fragment() {
         val currentUser = FirebaseAuth.getInstance().currentUser
         getUser(currentUser?.email.toString(), object : ProfileFragment.OnUserFetchedListener {
             override fun onUserFetched(user: DocumentSnapshot?) {
-                user?.reference?.update("premium", true)
+                user?.reference?.update("isPremium", true)
                 action(true)
             }
         })
