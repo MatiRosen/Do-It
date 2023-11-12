@@ -195,9 +195,15 @@ class HomeInvestorFragment : Fragment(), OnViewItemClickedListener<ProjectEntity
     private fun filterAllProjectsByPhoneticSearch(){
         allProjectListAdapter.stopListening()
         val foneticSearch = binding.searchViewHomeInvestor.query.toString()
+        binding.progressBarHomeInvestor.visibility = View.VISIBLE
         viewLifecycleOwner.lifecycleScope.launch {
             searchAlgolia(foneticSearch){
                 val titleList:List<String> = results.map { result -> result.title }
+                if(titleList.isEmpty()){
+                    Toast.makeText(context, resources.getString(R.string.home_investor_filter_no_result_error), Toast.LENGTH_SHORT).show()
+                    return@searchAlgolia
+                }
+
                 val query = db.collection("ideas")
                     .whereIn("title",titleList)
                     .orderBy("title",Query.Direction.DESCENDING)
@@ -211,6 +217,7 @@ class HomeInvestorFragment : Fragment(), OnViewItemClickedListener<ProjectEntity
                 allProjectListAdapter.updateOptions(options)
                 allProjectListAdapter.startListening()
                 binding.recyclerHomeInvestorAllProjects.adapter = allProjectListAdapter
+                binding.progressBarHomeInvestor.visibility = View.GONE
             }
         }
     }
