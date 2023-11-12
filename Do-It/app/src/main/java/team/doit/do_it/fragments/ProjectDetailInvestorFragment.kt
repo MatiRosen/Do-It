@@ -428,8 +428,14 @@ class ProjectDetailInvestorFragment : Fragment() {
     }
 
     private fun addComment(){
-        val currentUserEmail = FirebaseAuth.getInstance().currentUser?.email.toString()
         val commentText = binding.editTxtProjectDetailInvestorAddComments.text.toString()
+
+        if(commentText.isEmpty() || commentText.isBlank()) {
+            Toast.makeText(activity, resources.getString(R.string.project_addComment_errorContent), Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        val currentUserEmail = FirebaseAuth.getInstance().currentUser?.email.toString()
         val project = ProjectDetailCreatorFragmentArgs.fromBundle(requireArguments()).project
         val commentDate = getDate().toString()
 
