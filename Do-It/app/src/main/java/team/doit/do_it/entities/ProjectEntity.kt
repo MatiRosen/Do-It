@@ -64,10 +64,6 @@ data class ProjectEntity(
         this.followersCount = this.followersCount + 1
     }
 
-    fun addVisitor() {
-        this.visitorsCount = this.visitorsCount + 1
-    }
-
     fun hasFollowers(): Boolean {
         return this.followersCount > 0
     }

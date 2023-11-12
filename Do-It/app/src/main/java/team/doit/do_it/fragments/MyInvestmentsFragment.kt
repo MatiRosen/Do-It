@@ -14,7 +14,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.firebase.ui.firestore.paging.FirestorePagingOptions
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.ktx.database
-import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.Filter
 import com.google.firebase.firestore.Filter.or
 import com.google.firebase.firestore.FirebaseFirestore
@@ -24,12 +23,13 @@ import team.doit.do_it.adapters.InvestAdapter
 import team.doit.do_it.databinding.FragmentMyInvestmentsBinding
 import team.doit.do_it.entities.ChatEntity
 import team.doit.do_it.entities.InvestEntity
+import team.doit.do_it.entities.UserEntity
 import team.doit.do_it.holders.InvestHolder
 import team.doit.do_it.listeners.OnBindViewHolderListener
-import team.doit.do_it.listeners.OnInvestViewClickListener
+import team.doit.do_it.listeners.OnItemViewClickListener
 import team.doit.do_it.listeners.OnViewItemClickedListener
 
-class MyInvestmentsFragment : Fragment(), OnViewItemClickedListener<InvestEntity>, OnBindViewHolderListener<InvestHolder, InvestEntity>, OnInvestViewClickListener<InvestEntity> {
+class MyInvestmentsFragment : Fragment(), OnViewItemClickedListener<InvestEntity>, OnBindViewHolderListener<InvestHolder, InvestEntity>, OnItemViewClickListener<InvestEntity> {
 
     private var _binding : FragmentMyInvestmentsBinding? = null
     private val binding get() = _binding!!
@@ -92,7 +92,7 @@ class MyInvestmentsFragment : Fragment(), OnViewItemClickedListener<InvestEntity
                     .get()
                     .addOnSuccessListener { userDoc ->
                         safeAccessBinding {
-                            item.userName = "${userDoc.getString("nombre") ?: ""} ${userDoc.getString("apellido") ?: ""}"
+                            item.userName = "${userDoc.getString("firstName") ?: ""} ${userDoc.getString("surname") ?: ""}"
 
                             investAdapter.setInvestExtraData(holder, item)
                             if (investAdapter.isAllDataLoaded()) {
@@ -176,8 +176,8 @@ class MyInvestmentsFragment : Fragment(), OnViewItemClickedListener<InvestEntity
             .addOnSuccessListener { documents ->
                 safeAccessBinding {
                     if (!documents.isEmpty) {
-                        val user = documents.documents[0]
-                        val otherUserUUID = user.getString("uuid").toString()
+                        val user = documents.documents[0].toObject(UserEntity::class.java) ?: return@safeAccessBinding
+                        val otherUserUUID = user.uuid
                         val ref = Firebase.database.getReference("messages/${ownUserUUID}/${otherUserUUID}/messages")
 
                         ref.get().addOnCompleteListener {
@@ -195,27 +195,27 @@ class MyInvestmentsFragment : Fragment(), OnViewItemClickedListener<InvestEntity
             }
     }
 
-    private fun createUserChat(ownUserUUID : String, user : DocumentSnapshot){
-        val otherUserUUID = user.getString("uuid").toString()
-        val otherUserEmail = user.getString("email").toString()
+    private fun createUserChat(ownUserUUID : String, user : UserEntity){
+        val otherUserUUID = user.uuid
+        val otherUserEmail = user.email
         val ref = Firebase.database.getReference("messages/${ownUserUUID}/${otherUserUUID}")
-        ref.child("userName").setValue("${user.getString("nombre")} ${user.getString("apellido")}")
-        ref.child("userImage").setValue(user.getString("imgPerfil"))
-        ref.child("userEmail").setValue(user.getString("email"))
+        ref.child("userName").setValue("${user.firstName} ${user.surname}")
+        ref.child("userImage").setValue(user.userImage)
+        ref.child("userEmail").setValue(user.email)
         ref.child("userUUID").setValue(otherUserUUID)
         val currentTime = System.currentTimeMillis()
         ref.child("lastMessageDate").setValue(-currentTime)
 
         val chat = ChatEntity(
-            "${user.getString("nombre")} ${user.getString("apellido")}",
+            "${user.firstName} ${user.surname}",
             otherUserEmail,
-            user.getString("imgPerfil")!!,
-            user.getString("uuid")!!,
+            user.userImage,
+            user.uuid,
             mutableListOf(),
             currentTime,
             false)
 
-        val action = ProjectDetailInvestorFragmentDirections.actionProjectDetailInvestorFragmentToUserChatHome(chat)
+        val action = MyInvestmentsFragmentDirections.actionMyInvestmentsFragmentToUserChat(chat)
         this.findNavController().navigate(action)
     }
 

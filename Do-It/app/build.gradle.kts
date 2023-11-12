@@ -4,6 +4,7 @@ plugins {
     id("androidx.navigation.safeargs.kotlin")
     id("com.google.gms.google-services")
     id("com.google.devtools.ksp")
+    kotlin("plugin.serialization") version "1.6.21"
 }
 
 android {
@@ -96,4 +97,15 @@ dependencies {
     implementation ("com.google.android.gms:play-services-ads:22.4.0")
 
     implementation("androidx.paging:paging-runtime:3.2.1")
+
+    //algolia
+    implementation("com.algolia:instantsearch-android:3.3.0")
+    implementation("com.algolia:instantsearch-android-paging3:3.3.0")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.2")
+    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.6.2")
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-core-jvm:1.4.1")
+    implementation("com.algolia:algoliasearch-client-kotlin:2.1.8")
+
+
+
 }

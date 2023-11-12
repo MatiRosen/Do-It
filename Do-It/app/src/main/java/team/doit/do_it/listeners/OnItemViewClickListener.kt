@@ -1,6 +1,6 @@
 package team.doit.do_it.listeners
 
-interface OnInvestViewClickListener<T> {
+interface OnItemViewClickListener<T> {
 
     fun onItemClick(item : T)
 }

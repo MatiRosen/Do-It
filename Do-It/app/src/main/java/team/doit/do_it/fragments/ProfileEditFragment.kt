@@ -151,13 +151,13 @@ class ProfileEditFragment : Fragment() {
             override fun onUserFetched(user: DocumentSnapshot?) {
                 safeAccessBinding {
                     if (user != null) {
-                        binding.editTextEditProfileName.text = editableFactory.newEditable(user.getString("nombre") ?: "")
-                        binding.editTextEditProfileSurname.text = editableFactory.newEditable(user.getString("apellido") ?: "")
+                        binding.editTextEditProfileName.text = editableFactory.newEditable(user.getString("firstName") ?: "")
+                        binding.editTextEditProfileSurname.text = editableFactory.newEditable(user.getString("surname") ?: "")
                         binding.editTextEditProfileEmail.text = editableFactory.newEditable(user.getString("email") ?: "")
-                        binding.editTextEditProfilePhone.text = editableFactory.newEditable(user.getString("telefono") ?: "")
-                        spinnerGender.setSelection(getGenderIndex(user.getString("genero")))
-                        binding.editTextEditProfileAddress.text = editableFactory.newEditable(user.getString("direccion") ?: "")
-                        setImage(currentUser?.email.toString(), user.getString("imgPerfil").toString())
+                        binding.editTextEditProfilePhone.text = editableFactory.newEditable(user.getString("telephoneNumber") ?: "")
+                        spinnerGender.setSelection(getGenderIndex(user.getString("gender")))
+                        binding.editTextEditProfileAddress.text = editableFactory.newEditable(user.getString("address") ?: "")
+                        setImage(currentUser?.email.toString(), user.getString("userImage").toString())
                     } else {
                         Toast.makeText(activity, resources.getString(R.string.profile_dataUser_error), Toast.LENGTH_SHORT).show()
                     }
@@ -275,7 +275,7 @@ class ProfileEditFragment : Fragment() {
                     userDoc?.let { userSnapshot ->
                         val userId = userSnapshot.id
                         val usersRef = db.collection("usuarios").document(userId)
-                        var imgUrl = userDoc.getString("imgPerfil").toString()
+                        var imgUrl = userDoc.getString("userImage").toString()
 
                         if(selectedImage != null) {
                             deleteProfileImage(user)
@@ -283,12 +283,12 @@ class ProfileEditFragment : Fragment() {
                         }
 
                         val updatedData = hashMapOf<String, Any>(
-                            "nombre" to binding.editTextEditProfileName.text.toString(),
-                            "apellido" to binding.editTextEditProfileSurname.text.toString(),
-                            "telefono" to binding.editTextEditProfilePhone.text.toString(),
-                            "genero" to spinnerGender.selectedItem.toString(),
-                            "direccion" to binding.editTextEditProfileAddress.text.toString(),
-                            "imgPerfil" to imgUrl
+                            "firstName" to binding.editTextEditProfileName.text.toString(),
+                            "surname" to binding.editTextEditProfileSurname.text.toString(),
+                            "telephoneNumber" to binding.editTextEditProfilePhone.text.toString(),
+                            "gender" to spinnerGender.selectedItem.toString(),
+                            "address" to binding.editTextEditProfileAddress.text.toString(),
+                            "userImage" to imgUrl
                         )
                         // TODO para que se actualice la foto al volver atrás, el problema está aca!!
 
@@ -401,6 +401,7 @@ class ProfileEditFragment : Fragment() {
                         ).show()
                         val intent = Intent(activity, LoginActivity::class.java)
                         startActivity(intent)
+                        requireActivity().finish()
                     } else {
                         handleDeleteFailure()
                     }

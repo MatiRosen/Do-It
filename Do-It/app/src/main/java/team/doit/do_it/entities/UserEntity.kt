@@ -2,59 +2,41 @@ package team.doit.do_it.entities
 
 import android.os.Parcel
 import android.os.Parcelable
+import java.util.Date
 
-class UserEntity(firstName: String, surname: String, email: String,
-                 birthDate: String, gender: String, telephoneNumber: String, address: String,
-                 isPremium: Boolean, uuid: String, fcmToken: String) : Parcelable {
-
-    private var firstName: String
-    private var surname : String
-    private var email : String
-    private var birthDate : String // TODO: Change to Date data type
-    private var gender : String
-    private var telephoneNumber : String
-    private var address : String // TODO: Change to Address data type
-    private var isPremium : Boolean
-    private var uuid : String
-    private var fcmToken : String
+data class UserEntity(
+    var firstName: String, var surname: String, val email: String, var birthDate: Date,
+    var gender: String, var telephoneNumber: String, var address: String, var isPremium: Boolean,
+    var uuid: String, var fcmToken: String, var userImage : String) : Parcelable {
 
     constructor(parcel: Parcel) : this(
         parcel.readString()!!,
         parcel.readString()!!,
         parcel.readString()!!,
-        parcel.readString()!!,
+        Date(parcel.readLong()),
         parcel.readString()!!,
         parcel.readString()!!,
         parcel.readString()!!,
         parcel.readByte() != 0.toByte(),
         parcel.readString()!!,
+        parcel.readString()!!,
         parcel.readString()!!
     )
 
-    init {
-        this.firstName = firstName
-        this.surname = surname
-        this.email = email
-        this.birthDate = birthDate
-        this.gender = gender
-        this.telephoneNumber = telephoneNumber
-        this.address = address
-        this.isPremium = isPremium
-        this.uuid = uuid
-        this.fcmToken = fcmToken
-    }
+    constructor() : this("", "", "", Date(), "", "", "", false, "", "", "")
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeString(firstName)
         parcel.writeString(surname)
         parcel.writeString(email)
-        parcel.writeSerializable(birthDate)
+        parcel.writeLong(birthDate.time)
         parcel.writeString(gender)
         parcel.writeString(telephoneNumber)
         parcel.writeString(address)
         if (isPremium) parcel.writeByte(1) else parcel.writeByte(0)
         parcel.writeString(uuid)
         parcel.writeString(fcmToken)
+        parcel.writeString(userImage)
     }
 
     override fun describeContents(): Int {
@@ -69,52 +51,5 @@ class UserEntity(firstName: String, surname: String, email: String,
         override fun newArray(size: Int): Array<UserEntity?> {
             return arrayOfNulls(size)
         }
-    }
-
-    //region Getters
-    fun getFirstName(): String {
-        return firstName
-    }
-
-    fun getSurname(): String {
-        return surname
-    }
-
-    fun getEmail(): String {
-        return email
-    }
-
-    fun getBirthDate(): String {
-        return birthDate
-    }
-
-    fun getGender(): String {
-        return gender
-    }
-
-    fun getTelephoneNumber(): String {
-        return telephoneNumber
-    }
-
-    fun getAddress(): String {
-        return address
-    }
-
-    fun getIsPremium(): Boolean {
-        return isPremium
-    }
-
-    fun getUUID(): String {
-        return uuid
-    }
-
-    fun getFCMToken(): String {
-        return fcmToken
-    }
-
-    //endregion
-
-    fun setUUID(uuid: String) {
-        this.uuid = uuid
     }
 }

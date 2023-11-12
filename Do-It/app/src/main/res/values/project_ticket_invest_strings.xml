@@ -12,7 +12,8 @@
     <string name="project_ticket_invest_button">Invertir</string>
     <string name="project_ticket_invest_state">Pendiente</string>
     <string name="project_ticket_invest_failed">¡Error al generar el ticket de inversión!</string>
-    <string name="project_ticket_invest_budget_error">¡Debes ingresar un monto mínimo de inversión mayor o igual a %s!</string>
+    <string name="project_ticket_invest_budget_min_error">¡Debes ingresar un monto mínimo de inversión mayor o igual a %s!</string>
+    <string name="project_ticket_invest_budget_max_error">¡Debes ingresar un monto de inversión menor o igual a %s!</string>
     <string name="project_ticket_invest_success">¡Inversión generada con éxito!</string>
     <string name="project_ticket_invest_not_checked_error">¡Debe aceptar la declaración jurada!</string>
     <string name="project_ticket_invest_back">Volver</string>

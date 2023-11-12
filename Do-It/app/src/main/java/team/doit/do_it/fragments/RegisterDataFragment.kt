@@ -17,7 +17,10 @@ import com.google.firebase.firestore.FirebaseFirestore
 import team.doit.do_it.R
 import team.doit.do_it.databinding.FragmentRegisterDataBinding
 import team.doit.do_it.entities.UserEntity
+import java.text.SimpleDateFormat
 import java.util.Calendar
+import java.util.Date
+import java.util.Locale
 
 class RegisterDataFragment : Fragment() {
 
@@ -67,41 +70,43 @@ class RegisterDataFragment : Fragment() {
     }
 
     private fun initializeUser(email: String) {
+        val date = SimpleDateFormat("dd/MM/yy", Locale.US).parse(binding.txtRegisterDataDate.text.toString())?: Date()
         user = UserEntity(
             binding.txtRegisterDataName.text.toString(),
             binding.txtRegisterDataSurname.text.toString(),
             email,
-            binding.txtRegisterDataDate.text.toString(),
+            date,
             spinnerGender.selectedItem.toString(),
             binding.txtRegisterDataPhone.text.toString(),
             binding.txtRegisterDataAddress.text.toString(),
             false,
+            "",
             "",
             "")
     }
 
     private fun isValidUser(): Boolean {
         val propertiesToCheck = listOf(
-            Pair(user.getFirstName(), resources.getString(R.string.register_name_error)),
-            Pair(user.getSurname(), resources.getString(R.string.register_surname_error)),
-            Pair(user.getBirthDate(), resources.getString(R.string.register_birth_date_error)),
-            Pair(user.getTelephoneNumber(), resources.getString(R.string.register_phone_error)),
-            Pair(user.getAddress(), resources.getString(R.string.register_address_error))
+            Pair(user.firstName, resources.getString(R.string.register_name_error)),
+            Pair(user.surname, resources.getString(R.string.register_surname_error)),
+            Pair(user.birthDate, resources.getString(R.string.register_birth_date_error)),
+            Pair(user.telephoneNumber, resources.getString(R.string.register_phone_error)),
+            Pair(user.address, resources.getString(R.string.register_address_error))
         )
 
         for ((property, errorMessage) in propertiesToCheck) {
-            if (property.isNullOrEmpty() || property.isBlank()) {
+            if (property.toString().isEmpty()) {
                 Toast.makeText(activity, errorMessage, Toast.LENGTH_SHORT).show()
                 return false
             }
         }
 
-        if (user.getTelephoneNumber().length != 10) {
+        if (user.telephoneNumber.length != 10) {
             Toast.makeText(activity, resources.getString(R.string.register_phone_format_error), Toast.LENGTH_SHORT).show()
             return false
         }
 
-        if(user.getGender() == resources.getString(R.string.register_gender)) {
+        if(user.gender == resources.getString(R.string.register_gender)) {
             Toast.makeText(activity, resources.getString(R.string.register_gender_error), Toast.LENGTH_SHORT).show()
             return false
         }
@@ -114,7 +119,8 @@ class RegisterDataFragment : Fragment() {
         val year = selectedCalendar.get(Calendar.YEAR)
         val month = selectedCalendar.get(Calendar.MONTH)
         val day = selectedCalendar.get(Calendar.DAY_OF_MONTH)
-        val listener = DatePickerDialog.OnDateSetListener{ datePicker, year, month, day ->
+        val listener = DatePickerDialog.OnDateSetListener{
+                _, year, month, day ->
             binding.txtRegisterDataDate.setText("$day/${month+1}/$year")
         }
 
@@ -127,18 +133,20 @@ class RegisterDataFragment : Fragment() {
             .addOnCompleteListener {
                 if (it.isSuccessful) {
                     val dbRegister = FirebaseFirestore.getInstance()
-                    user.setUUID(FirebaseAuth.getInstance().currentUser?.uid!!)
+                    user.uuid = FirebaseAuth.getInstance().currentUser?.uid!!
                     dbRegister.collection("usuarios").document(email).set(
                         hashMapOf(
-                            "nombre" to user.getFirstName(),
-                            "apellido" to user.getSurname(),
+                            "firstName" to user.firstName,
+                            "surname" to user.surname,
                             "email" to email,
-                            "fechaNacimiento" to user.getBirthDate(),
-                            "genero" to user.getGender(),
-                            "telefono" to user.getTelephoneNumber(),
-                            "direccion" to user.getAddress(),
-                            "premium" to user.getIsPremium(),
-                            "uuid" to user.getUUID(),
+                            "birthDate" to user.birthDate,
+                            "gender" to user.gender,
+                            "telephoneNumber" to user.telephoneNumber,
+                            "address" to user.address,
+                            "isPremium" to user.isPremium,
+                            "uuid" to user.uuid,
+                            "fcmToken" to user.fcmToken,
+                            "userImage" to user.userImage
                         ))
 
                     validateEmail(email)
