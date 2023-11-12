@@ -401,6 +401,7 @@ class ProfileEditFragment : Fragment() {
                         ).show()
                         val intent = Intent(activity, LoginActivity::class.java)
                         startActivity(intent)
+                        requireActivity().finish()
                     } else {
                         handleDeleteFailure()
                     }

@@ -123,6 +123,11 @@ class ProjectDetailCreatorFragment : Fragment() {
         binding.imgBtnProjectDetailCreatorTrash.setOnClickListener {
             deleteProjectConfirm()
         }
+
+        binding.txtProjectDetailCreatorFollowers.setOnClickListener {
+            val action = ProjectDetailCreatorFragmentDirections.actionProjectDetailFragmentToProjectFollowersFragment(project)
+            v.findNavController().navigate(action)
+        }
     }
 
     private fun setValues() {

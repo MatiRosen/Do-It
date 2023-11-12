@@ -26,10 +26,10 @@ import team.doit.do_it.entities.ChatEntity
 import team.doit.do_it.entities.InvestEntity
 import team.doit.do_it.holders.InvestHolder
 import team.doit.do_it.listeners.OnBindViewHolderListener
-import team.doit.do_it.listeners.OnInvestViewClickListener
+import team.doit.do_it.listeners.OnItemViewClickListener
 import team.doit.do_it.listeners.OnViewItemClickedListener
 
-class MyInvestmentsFragment : Fragment(), OnViewItemClickedListener<InvestEntity>, OnBindViewHolderListener<InvestHolder, InvestEntity>, OnInvestViewClickListener<InvestEntity> {
+class MyInvestmentsFragment : Fragment(), OnViewItemClickedListener<InvestEntity>, OnBindViewHolderListener<InvestHolder, InvestEntity>, OnItemViewClickListener<InvestEntity> {
 
     private var _binding : FragmentMyInvestmentsBinding? = null
     private val binding get() = _binding!!

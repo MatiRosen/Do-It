@@ -11,13 +11,13 @@ import team.doit.do_it.entities.InvestEntity
 import team.doit.do_it.enums.InvestStatus
 import team.doit.do_it.holders.InvestHolder
 import team.doit.do_it.listeners.OnBindViewHolderListener
-import team.doit.do_it.listeners.OnInvestViewClickListener
+import team.doit.do_it.listeners.OnItemViewClickListener
 import team.doit.do_it.listeners.OnViewItemClickedListener
 
 class InvestAdapter(
     options: FirestorePagingOptions<InvestEntity>,
     private val onItemClick: OnViewItemClickedListener<InvestEntity>,
-    private val onButtonClickListener: OnInvestViewClickListener<InvestEntity>,
+    private val onButtonClickListener: OnItemViewClickListener<InvestEntity>,
     private val onBindViewHolderListener : OnBindViewHolderListener<InvestHolder, InvestEntity>,
     private val resources: Resources
 ) : FirestorePagingAdapter<InvestEntity, InvestHolder>(options) {

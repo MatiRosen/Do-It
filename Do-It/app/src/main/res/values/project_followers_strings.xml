@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="project_followers_title">Seguidores de {project_name}</string>
+    <string name="project_followers_item_name">Nombre</string>
+    <string name="project_followers_item_chat">Chat</string>
+    <string name="project_followers_no_followers">Este proyecto no tiene seguidores</string>
+</resources>
