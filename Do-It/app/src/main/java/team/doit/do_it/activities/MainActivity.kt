@@ -48,8 +48,8 @@ class MainActivity : AppCompatActivity() {
         navHostFragment = supportFragmentManager.findFragmentById(R.id.mainHost) as NavHostFragment
         val navController = navHostFragment.navController
         NavigationUI.setupWithNavController(findViewById<BottomNavigationView>(R.id.bottomNavigationView), navController)
-        // TODO ver FCM de firebase para resolver esto.
-        //checkMessages()
+
+        checkMessages()
         MobileAds.initialize(this)
     }
 

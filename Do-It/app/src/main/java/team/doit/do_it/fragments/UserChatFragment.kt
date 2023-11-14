@@ -115,15 +115,6 @@ class UserChatFragment : Fragment() {
             }
         })
 
-        /*binding.recyclerViewUserChat.addOnLayoutChangeListener { _, _, _, _, bottom, _, _, _, oldBottom ->
-            if (bottom < oldBottom) {
-                binding.recyclerViewUserChat.postDelayed({
-                    binding.recyclerViewUserChat.smoothScrollToPosition(messageListAdapter.itemCount - 1)
-                }, 100)
-            }
-        }*/
-
-
         ref.get().addOnCompleteListener {
             if (it.isSuccessful) {
                 if (it.result?.children?.count() == 0) {
@@ -156,10 +147,12 @@ class UserChatFragment : Fragment() {
 
     private fun sendMessage() {
         val ownUserUUID = FirebaseAuth.getInstance().currentUser?.uid ?: return
-        val message = binding.editTxtUserChatMessage.text.toString()
+        var message = binding.editTxtUserChatMessage.text.toString()
         val otherUserUUID = chat.userUUID
 
         if (message == "") return
+
+        message = message.trim()
 
         saveMessageOnDatabase(ownUserUUID, otherUserUUID, message, ownUserUUID)
         saveMessageOnDatabase(otherUserUUID, ownUserUUID, message, ownUserUUID)
@@ -242,7 +235,7 @@ class UserChatFragment : Fragment() {
                         val currentTime = System.currentTimeMillis()
                         ref.child("messages").child("0").setValue(MessageEntity(message, sender, currentTime))
                         ref.child("lastMessageDate").setValue(-currentTime)
-                        ref.child("waiting").setValue(false)
+                        ref.child("waiting").setValue(true)
                         binding.editTxtUserChatMessage.text.clear()
                     }
                 }

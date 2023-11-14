@@ -4,13 +4,16 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.firebase.ui.database.FirebaseRecyclerOptions
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
+import team.doit.do_it.R
 import team.doit.do_it.adapters.ChatListAdapter
 import team.doit.do_it.databinding.FragmentChatBinding
 import team.doit.do_it.entities.ChatEntity
@@ -93,7 +96,21 @@ class ChatFragment : Fragment(), OnViewItemClickedListener<ChatEntity> {
         val ownUserUUID = FirebaseAuth.getInstance().currentUser?.uid ?: return
         db.getReference("messages/$ownUserUUID/${item.userUUID}/waiting").setValue(false)
 
-        // TODO ver FCM de firebase para resolver cambiar el icono.
+
+        db.getReference("messages/$ownUserUUID").get()
+            .addOnCompleteListener {
+                if (it.isSuccessful) {
+                    for (data in it.result!!.children) {
+                        val chat = data.getValue(ChatEntity::class.java)
+                        if (chat != null && chat.isWaiting) {
+                            return@addOnCompleteListener
+                        }
+                    }
+                    val mainActivity = requireActivity()
+                    val bottomMenu = mainActivity.findViewById<BottomNavigationView>(R.id.bottomNavigationView).menu
+                    bottomMenu.findItem(R.id.chat).icon = AppCompatResources.getDrawable(requireContext(), R.drawable.icon_chat)
+                }
+        }
         this.findNavController().navigate(action)
     }
 }
