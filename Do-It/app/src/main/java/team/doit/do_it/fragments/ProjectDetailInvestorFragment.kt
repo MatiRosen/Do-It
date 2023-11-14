@@ -428,7 +428,7 @@ class ProjectDetailInvestorFragment : Fragment() {
     }
 
     private fun addComment(){
-        val commentText = binding.editTxtProjectDetailInvestorAddComments.text.toString()
+        val commentText = binding.editTxtProjectDetailInvestorAddComments.text.toString().trim()
 
         if(commentText.isEmpty() || commentText.isBlank()) {
             Toast.makeText(activity, resources.getString(R.string.project_addComment_errorContent), Toast.LENGTH_SHORT).show()
