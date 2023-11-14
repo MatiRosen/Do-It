@@ -9,10 +9,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.view.ViewCompat
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentContainerView
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -24,6 +22,10 @@ import com.google.firebase.database.ktx.database
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
+import okhttp3.MediaType.Companion.toMediaType
+import okhttp3.OkHttpClient
+import okhttp3.Request
+import okhttp3.RequestBody.Companion.toRequestBody
 import team.doit.do_it.R
 import team.doit.do_it.activities.MainActivity
 import team.doit.do_it.adapters.MessageListAdapter
@@ -33,6 +35,10 @@ import team.doit.do_it.entities.MessageEntity
 import team.doit.do_it.listeners.InsetsWithKeyboardCallback
 
 class UserChatFragment : Fragment() {
+
+    companion object {
+        private const val BACKEND_URL = "https://enchanting-sprout-agate.glitch.me"
+    }
 
     private lateinit var v : View
 
@@ -158,6 +164,44 @@ class UserChatFragment : Fragment() {
         saveMessageOnDatabase(ownUserUUID, otherUserUUID, message, ownUserUUID)
         saveMessageOnDatabase(otherUserUUID, ownUserUUID, message, ownUserUUID)
         db.getReference("messages/${otherUserUUID}/${ownUserUUID}/waiting").setValue(true)
+
+        getOtherUserToken(otherUserUUID){
+            sendNotification(message, it)
+        }
+    }
+
+    private fun sendNotification(message: String, token: String) {
+        val url = "$BACKEND_URL/send-notification"
+
+        val title = resources.getString(R.string.chat_new_message_notif)
+
+        val mediaType = "application/json".toMediaType()
+        val json = "{\"title\":\"$title\", \"body\":\"$message\", \"token\":\"$token\"}"
+        val requestBody = json.toRequestBody(mediaType)
+
+        val req = Request.Builder()
+            .url(url)
+            .post(requestBody)
+            .build()
+
+        OkHttpClient().newCall(req).enqueue(object: okhttp3.Callback {
+            override fun onFailure(call: okhttp3.Call, e: java.io.IOException) {}
+            override fun onResponse(call: okhttp3.Call, response: okhttp3.Response) {}
+        })
+    }
+
+    private fun getOtherUserToken(uuid: String, action: (token: String) -> Unit) {
+        val db = FirebaseFirestore.getInstance()
+        val usersRef = db.collection("usuarios")
+
+        usersRef.whereEqualTo("uuid", uuid)
+            .get()
+            .addOnSuccessListener { documents ->
+                if (!documents.isEmpty) {
+                    val user = documents.documents[0]
+                    action(user.getString("fcmToken").toString())
+                }
+            }
     }
 
     private fun saveMessageOnDatabase(ownUserUUID : String, otherUserUUID : String, message : String, sender : String) {
