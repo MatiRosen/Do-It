@@ -25,7 +25,7 @@ class ProfileFragment : Fragment() {
     private lateinit var v : View
 
     interface OnUserFetchedListener {
-        fun onUserFetched(user: DocumentSnapshot?)
+        fun onUserFetched(userDoc: DocumentSnapshot?)
     }
 
     interface OnUserUpdatedListener {
@@ -98,15 +98,17 @@ class ProfileFragment : Fragment() {
         }
 
         getUser(userEmail, object : OnUserFetchedListener {
-            override fun onUserFetched(user: DocumentSnapshot?) {
+            override fun onUserFetched(userDoc: DocumentSnapshot?) {
                 safeAccessBinding {
-                    if (user != null) {
-                        binding.txtProfileName.text = "${user.getString("firstName")} ${user.getString("surname")}"
-                        binding.txtProfileEmail.text = user.getString("email")
-                        binding.txtProfilePhone.text = user.getString("telephoneNumber")
-                        binding.txtProfileGender.text = user.getString("gender")
-                        binding.txtProfileAddress.text = user.getString("address")
-                        setImage(userEmail, user.getString("userImage").toString())
+                    if (userDoc != null) {
+                        val firstName = userDoc.getString("firstName") ?: ""
+                        val surname = userDoc.getString("surname") ?: ""
+                        binding.txtProfileName.text = getString(R.string.profile_name_format, firstName, surname)
+                        binding.txtProfileEmail.text = userDoc.getString("email")
+                        binding.txtProfilePhone.text = userDoc.getString("telephoneNumber")
+                        binding.txtProfileGender.text = userDoc.getString("gender")
+                        binding.txtProfileAddress.text = userDoc.getString("address")
+                        setImage(userEmail, userDoc.getString("userImage").toString())
                         hideProgressBar(creatorEmail == " ")
                     } else {
                         Toast.makeText(activity, resources.getString(R.string.profile_dataUser_error), Toast.LENGTH_SHORT).show()
