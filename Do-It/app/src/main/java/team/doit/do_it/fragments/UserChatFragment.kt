@@ -169,7 +169,7 @@ class UserChatFragment : Fragment() {
         val title = resources.getString(R.string.chat_new_message_notif)
 
         val mediaType = "application/json".toMediaType()
-        val json = "{\"title\":\"$title\", \"body\":\"$message\", \"token\":\"$token\"}"
+        val json = "{\"title\":\"$title\", \"body\":\"$message\", \"token\":\"$token\", \"fromFragment\":\"UserChatFragment\"}"
         val requestBody = json.toRequestBody(mediaType)
 
         val req = Request.Builder()

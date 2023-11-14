@@ -43,6 +43,26 @@ class ChatFragment : Fragment(), OnViewItemClickedListener<ChatEntity> {
     override fun onStart() {
         super.onStart()
         setupRecyclerView()
+        checkMessages()
+    }
+
+    private fun checkMessages(){
+        val ownUserUUID = FirebaseAuth.getInstance().currentUser?.uid ?: return
+
+        db.getReference("messages/$ownUserUUID").get()
+            .addOnCompleteListener {
+                if (it.isSuccessful) {
+                    for (data in it.result!!.children) {
+                        val chat = data.getValue(ChatEntity::class.java)
+                        if (chat != null && chat.isWaiting) {
+                            return@addOnCompleteListener
+                        }
+                    }
+                    val mainActivity = requireActivity()
+                    val bottomMenu = mainActivity.findViewById<BottomNavigationView>(R.id.bottomNavigationView).menu
+                    bottomMenu.findItem(R.id.chat).icon = AppCompatResources.getDrawable(requireContext(), R.drawable.icon_chat)
+                }
+            }
     }
 
     private fun setupRecyclerView() {
@@ -96,21 +116,6 @@ class ChatFragment : Fragment(), OnViewItemClickedListener<ChatEntity> {
         val ownUserUUID = FirebaseAuth.getInstance().currentUser?.uid ?: return
         db.getReference("messages/$ownUserUUID/${item.userUUID}/waiting").setValue(false)
 
-
-        db.getReference("messages/$ownUserUUID").get()
-            .addOnCompleteListener {
-                if (it.isSuccessful) {
-                    for (data in it.result!!.children) {
-                        val chat = data.getValue(ChatEntity::class.java)
-                        if (chat != null && chat.isWaiting) {
-                            return@addOnCompleteListener
-                        }
-                    }
-                    val mainActivity = requireActivity()
-                    val bottomMenu = mainActivity.findViewById<BottomNavigationView>(R.id.bottomNavigationView).menu
-                    bottomMenu.findItem(R.id.chat).icon = AppCompatResources.getDrawable(requireContext(), R.drawable.icon_chat)
-                }
-        }
         this.findNavController().navigate(action)
     }
 }
