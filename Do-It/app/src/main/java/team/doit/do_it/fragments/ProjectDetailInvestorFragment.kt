@@ -428,7 +428,7 @@ class ProjectDetailInvestorFragment : Fragment() {
     }
 
     private fun addComment(){
-        val commentText = binding.editTxtProjectDetailInvestorAddComments.text.toString()
+        val commentText = binding.editTxtProjectDetailInvestorAddComments.text.toString().trim()
 
         if(commentText.isEmpty() || commentText.isBlank()) {
             Toast.makeText(activity, resources.getString(R.string.project_addComment_errorContent), Toast.LENGTH_SHORT).show()
@@ -526,8 +526,13 @@ class ProjectDetailInvestorFragment : Fragment() {
     private fun saveComment(comment: CommentEntity) {
         val project = ProjectDetailCreatorFragmentArgs.fromBundle(requireArguments()).project
         val commentDate = getDate().toString()
+        val commentText = comment.commentText
 
-        project.comments[project.comments.indexOf(comment)].commentText = binding.editTxtProjectDetailInvestorAddComments.text.toString()
+        if(commentText.isBlank() || commentText.isEmpty()) {
+            return
+        }
+
+        project.comments[project.comments.indexOf(comment)].commentText = commentText
         project.comments[project.comments.indexOf(comment)].commentDate = commentDate
 
         db.collection("ideas")

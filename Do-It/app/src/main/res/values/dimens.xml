@@ -127,7 +127,7 @@
     <dimen name="profile_paddingTop_info">40dp</dimen>
     <dimen name="profile_marginBottom_info">30dp</dimen>
     <dimen name="profile_marginBottom_btnEdit">10dp</dimen>
-    <dimen name="profile_height_spinnerGender">45dp</dimen>
+    <dimen name="profile_height_spinnerGender">50dp</dimen>
 
     <!-- Project Edit -->
     <dimen name="project_marginBottom_btnEdit">10dp</dimen>

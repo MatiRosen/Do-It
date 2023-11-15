@@ -15,11 +15,14 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.messaging.FirebaseMessaging
+import com.google.firebase.messaging.FirebaseMessagingService
 import com.stripe.android.PaymentConfiguration
 import io.reactivex.rxjava3.plugins.RxJavaPlugins
 import team.doit.do_it.R
 import team.doit.do_it.databinding.ActivityMainBinding
 import team.doit.do_it.entities.ChatEntity
+import team.doit.do_it.listeners.NotificationReceivedListener
+import team.doit.do_it.services.MyFirebaseMessagingService
 
 class MainActivity : AppCompatActivity() {
 
@@ -48,8 +51,19 @@ class MainActivity : AppCompatActivity() {
         navHostFragment = supportFragmentManager.findFragmentById(R.id.mainHost) as NavHostFragment
         val navController = navHostFragment.navController
         NavigationUI.setupWithNavController(findViewById<BottomNavigationView>(R.id.bottomNavigationView), navController)
-        // TODO ver FCM de firebase para resolver esto.
-        //checkMessages()
+
+        checkMessages()
+
+        MyFirebaseMessagingService.notificationReceivedListener.setOnNotificationReceivedListener(object :
+            NotificationReceivedListener.OnNotificationReceivedListener {
+            override fun onNotificationReceived() {
+                runOnUiThread {
+                    val bottomMenu = findViewById<BottomNavigationView>(R.id.bottomNavigationView).menu
+                    bottomMenu.findItem(R.id.chat).icon = AppCompatResources.getDrawable(this@MainActivity, R.drawable.icon_notif_chat)
+                }
+            }
+        })
+
         MobileAds.initialize(this)
     }
 

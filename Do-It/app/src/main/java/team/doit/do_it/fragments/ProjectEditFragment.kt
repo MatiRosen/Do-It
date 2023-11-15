@@ -39,7 +39,7 @@ class ProjectEditFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentProjectEditBinding.inflate(inflater, container, false)
         v = binding.root
 
@@ -73,12 +73,12 @@ class ProjectEditFragment : Fragment() {
                 override fun onProjectUpdated(successful: Boolean) {
                     if (successful) {
                         safeAccessBinding {
-                            Toast.makeText(activity, "Project updated", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(activity, resources.getString(R.string.project_edit_succeed), Toast.LENGTH_SHORT).show()
                             v.findNavController().navigateUp()
                         }
                     } else {
                         safeAccessBinding {
-                            Toast.makeText(activity, "Error updating project", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(activity, resources.getString(R.string.project_edit_failed), Toast.LENGTH_SHORT).show()
                         }
                     }
                 }
@@ -181,7 +181,7 @@ class ProjectEditFragment : Fragment() {
                         .addOnSuccessListener { listResult ->
                             if (listResult.items.isNotEmpty()) {
                                 listResult.items.find { x -> x.name == ProjectEditFragmentArgs.fromBundle(requireArguments()).project.image }?.delete()
-                                    ?.addOnFailureListener() {
+                                    ?.addOnFailureListener {
                                         resources.getString(R.string.project_deleteImage_error)
                                     }
                             }
@@ -190,7 +190,7 @@ class ProjectEditFragment : Fragment() {
 
             if(validateFields(project)) {
                 db.collection("ideas")
-                    .whereEqualTo("creatorEmail", currentUser?.email)
+                    .whereEqualTo("creatorEmail", currentUser.email)
                     .whereEqualTo("creationDate", ProjectEditFragmentArgs.fromBundle(requireArguments()).project.creationDate)
                     .get()
                     .addOnSuccessListener { querySnapshot ->
@@ -199,21 +199,12 @@ class ProjectEditFragment : Fragment() {
                                 .update(project)
                                 .addOnSuccessListener {
                                     safeAccessBinding {
-                                        Toast.makeText(
-                                            activity,
-                                            resources.getString(R.string.project_edit_succeed),
-                                            Toast.LENGTH_SHORT
-                                        ).show()
-                                        v.findNavController().navigateUp()
+                                        listener.onProjectUpdated(true)
                                     }
                                 }
                                 .addOnFailureListener {
                                    safeAccessBinding {
-                                       Toast.makeText(
-                                           activity,
-                                           resources.getString(R.string.project_edit_failed),
-                                           Toast.LENGTH_SHORT
-                                       ).show()
+                                       listener.onProjectUpdated(false)
                                    }
 
                                 }

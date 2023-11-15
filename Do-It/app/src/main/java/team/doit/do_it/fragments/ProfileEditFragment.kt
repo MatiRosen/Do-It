@@ -148,16 +148,16 @@ class ProfileEditFragment : Fragment() {
         val editableFactory = Editable.Factory.getInstance()
 
         getUser(currentUser?.email.toString(), object : ProfileFragment.OnUserFetchedListener {
-            override fun onUserFetched(user: DocumentSnapshot?) {
+            override fun onUserFetched(userDoc: DocumentSnapshot?) {
                 safeAccessBinding {
-                    if (user != null) {
-                        binding.editTextEditProfileName.text = editableFactory.newEditable(user.getString("firstName") ?: "")
-                        binding.editTextEditProfileSurname.text = editableFactory.newEditable(user.getString("surname") ?: "")
-                        binding.editTextEditProfileEmail.text = editableFactory.newEditable(user.getString("email") ?: "")
-                        binding.editTextEditProfilePhone.text = editableFactory.newEditable(user.getString("telephoneNumber") ?: "")
-                        spinnerGender.setSelection(getGenderIndex(user.getString("gender")))
-                        binding.editTextEditProfileAddress.text = editableFactory.newEditable(user.getString("address") ?: "")
-                        setImage(currentUser?.email.toString(), user.getString("userImage").toString())
+                    if (userDoc != null) {
+                        binding.editTextEditProfileName.text = editableFactory.newEditable(userDoc.getString("firstName") ?: "")
+                        binding.editTextEditProfileSurname.text = editableFactory.newEditable(userDoc.getString("surname") ?: "")
+                        binding.editTextEditProfileEmail.text = editableFactory.newEditable(userDoc.getString("email") ?: "")
+                        binding.editTextEditProfilePhone.text = editableFactory.newEditable(userDoc.getString("telephoneNumber") ?: "")
+                        spinnerGender.setSelection(getGenderIndex(userDoc.getString("gender")))
+                        binding.editTextEditProfileAddress.text = editableFactory.newEditable(userDoc.getString("address") ?: "")
+                        setImage(currentUser?.email.toString(), userDoc.getString("userImage").toString())
                     } else {
                         Toast.makeText(activity, resources.getString(R.string.profile_dataUser_error), Toast.LENGTH_SHORT).show()
                     }
@@ -290,7 +290,6 @@ class ProfileEditFragment : Fragment() {
                             "address" to binding.editTextEditProfileAddress.text.toString(),
                             "userImage" to imgUrl
                         )
-                        // TODO para que se actualice la foto al volver atrás, el problema está aca!!
 
                         usersRef.update(updatedData)
                             .addOnSuccessListener {
