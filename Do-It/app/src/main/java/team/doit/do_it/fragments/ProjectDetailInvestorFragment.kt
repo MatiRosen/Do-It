@@ -19,6 +19,10 @@ import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
+import okhttp3.MediaType.Companion.toMediaType
+import okhttp3.OkHttpClient
+import okhttp3.Request
+import okhttp3.RequestBody.Companion.toRequestBody
 import team.doit.do_it.R
 import team.doit.do_it.activities.MainActivity
 import team.doit.do_it.adapters.CommentListAdapter
@@ -33,6 +37,10 @@ import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
 class ProjectDetailInvestorFragment : Fragment() {
+
+    companion object {
+        private const val BACKEND_URL = "https://enchanting-sprout-agate.glitch.me"
+    }
 
     private var _binding : FragmentProjectDetailInvestorBinding? = null
     private val binding get() = _binding!!
@@ -196,9 +204,56 @@ class ProjectDetailInvestorFragment : Fragment() {
             binding.imgBtnProjectDetailInvestorFollowProject.setImageResource(R.drawable.icon_check)
             project.addFollower(investorEmail)
             binding.txtProjectDetailInvestorFollowers.text = project.followersCount.toString()
+
+            getOwnerToken(project.creatorEmail){
+                sendNotification(resources.getString(R.string.project_new_follower,project.title), investorEmail,resources.getString(R.string.project_new_follower_message),it)
+            }
         }
 
         updateProject(project, investorEmail)
+    }
+
+    private fun sendNotification(title: String, investorEmail: String, template: String,token: String) {
+        val url = "${BACKEND_URL}/send-notification"
+        FirebaseFirestore
+            .getInstance()
+            .collection("usuarios")
+            .document(investorEmail)
+            .get()
+            .addOnSuccessListener {
+                safeAccessBinding {
+                    val username = it.getString("firstName") + " " + it.getString("surname")
+                    val message = String.format(template, username)
+
+                    val mediaType = "application/json".toMediaType()
+                    val json = "{\"title\":\"$title\", \"body\":\"$message\", \"token\":\"$token\", \"fromFragment\":\"ProjectDetailInvestorFragment\"}"
+                    val requestBody = json.toRequestBody(mediaType)
+
+                    val req = Request.Builder()
+                        .url(url)
+                        .post(requestBody)
+                        .build()
+
+                    OkHttpClient().newCall(req).enqueue(object: okhttp3.Callback {
+                        override fun onFailure(call: okhttp3.Call, e: java.io.IOException) {}
+                        override fun onResponse(call: okhttp3.Call, response: okhttp3.Response) {}
+                    })
+                }
+        }
+    }
+
+    private fun getOwnerToken(email: String,action: (token: String) -> Unit) {
+        val db = FirebaseFirestore.getInstance()
+        val usersRef = db.collection("usuarios")
+
+        usersRef.whereEqualTo("email", email)
+            .get()
+            .addOnSuccessListener { documents ->
+                if (!documents.isEmpty) {
+                    val user = documents.documents[0]
+                    action(user.getString("fcmToken").toString())
+                }
+            }
     }
 
     private fun updateProject(project: ProjectEntity, investorEmail: String){
@@ -456,6 +511,10 @@ class ProjectDetailInvestorFragment : Fragment() {
                             val projectRef = documents.documents[0].reference
                             projectRef.update("comments", project.comments)
                             Toast.makeText(activity, resources.getString(R.string.project_addComment_success), Toast.LENGTH_SHORT).show()
+
+                            getOwnerToken(project.creatorEmail){
+                                sendNotification(resources.getString(R.string.project_new_comment,project.title), currentUserEmail,resources.getString(R.string.project_new_comment_message),it)
+                            }
 
                             binding.editTxtProjectDetailInvestorAddComments.setText("")
                             setupAllCommentsRecyclerView()

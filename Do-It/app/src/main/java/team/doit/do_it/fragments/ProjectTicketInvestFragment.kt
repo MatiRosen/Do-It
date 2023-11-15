@@ -9,6 +9,10 @@ import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import okhttp3.MediaType.Companion.toMediaType
+import okhttp3.OkHttpClient
+import okhttp3.Request
+import okhttp3.RequestBody.Companion.toRequestBody
 import team.doit.do_it.R
 import team.doit.do_it.activities.MainActivity
 import team.doit.do_it.databinding.FragmentProjectTicketInvestBinding
@@ -19,6 +23,11 @@ import java.text.DecimalFormatSymbols
 import java.util.Date
 
 class ProjectTicketInvestFragment: Fragment() {
+
+    companion object {
+        private const val BACKEND_URL = "https://enchanting-sprout-agate.glitch.me"
+    }
+
     private var _binding : FragmentProjectTicketInvestBinding? = null
     private val binding get() = _binding!!
     private lateinit var v : View
@@ -100,12 +109,59 @@ class ProjectTicketInvestFragment: Fragment() {
 
             val invest = InvestEntity("", creatorEmail, investorEmail, budget, projectID, status, "", "", Date())
             if (validateInvest(invest,project.minBudget,project.goal)){
-                saveInvestToDatabase(invest)
+                getOwnerToken(creatorEmail) { token ->
+                    sendNotification(project.title, investorEmail, token)
+                    saveInvestToDatabase(invest)
+                }
             }
         }else{
             val message = resources.getString(R.string.project_ticket_invest_not_checked_error)
             Snackbar.make(v, message, Snackbar.LENGTH_LONG).show()
         }
+    }
+
+    private fun sendNotification(projectTitle: String, investorEmail: String, token: String) {
+        val url = "${BACKEND_URL}/send-notification"
+        FirebaseFirestore
+            .getInstance()
+            .collection("usuarios")
+            .document(investorEmail)
+            .get()
+            .addOnSuccessListener {
+                safeAccessBinding {
+                    val username = it.getString("firstName") + " " + it.getString("surname")
+                    val title = resources.getString(R.string.project_new_ticket_title,projectTitle)
+                    val message = resources.getString(R.string.project_new_ticket_message, username)
+
+                    val mediaType = "application/json".toMediaType()
+                    val json = "{\"title\":\"$title\", \"body\":\"$message\", \"token\":\"$token\", \"fromFragment\":\"ProjectTicketInvestFragment\"}"
+                    val requestBody = json.toRequestBody(mediaType)
+
+                    val req = Request.Builder()
+                        .url(url)
+                        .post(requestBody)
+                        .build()
+
+                    OkHttpClient().newCall(req).enqueue(object: okhttp3.Callback {
+                        override fun onFailure(call: okhttp3.Call, e: java.io.IOException) {}
+                        override fun onResponse(call: okhttp3.Call, response: okhttp3.Response) {}
+                    })
+                }
+            }
+    }
+
+    private fun getOwnerToken(email: String,action: (token: String) -> Unit) {
+        val db = FirebaseFirestore.getInstance()
+        val usersRef = db.collection("usuarios")
+
+        usersRef.whereEqualTo("email", email)
+            .get()
+            .addOnSuccessListener { documents ->
+                if (!documents.isEmpty) {
+                    val user = documents.documents[0]
+                    action(user.getString("fcmToken").toString())
+                }
+            }
     }
 
     private fun saveInvestToDatabase(invest: InvestEntity){
@@ -125,6 +181,7 @@ class ProjectTicketInvestFragment: Fragment() {
                 db.collection("inversiones").document(it.id).set(investMap)
                 safeAccessBinding {
                     showSuccessMessage()
+
                     this.findNavController().navigateUp()
                 }
             }

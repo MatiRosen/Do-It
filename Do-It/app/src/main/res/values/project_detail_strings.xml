@@ -38,4 +38,8 @@
     <string name="project_editComment_error">No se pudo editar el comentario</string>
     <string name="project_deleteComment_success">¡Comentario eliminado con éxito!</string>
     <string name="project_deleteComment_error">No se pudo eliminar el comentario</string>
+    <string name="project_new_follower">%s tiene un nuevo seguidor</string>
+    <string name="project_new_follower_message">%s ahora sigue tu proyecto</string>
+    <string name="project_new_comment">%s tiene un comentario nuevo</string>
+    <string name="project_new_comment_message">%s ha comentado tu proyecto</string>
 </resources>
