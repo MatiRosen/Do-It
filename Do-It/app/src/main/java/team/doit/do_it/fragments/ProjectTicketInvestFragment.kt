@@ -83,8 +83,8 @@ class ProjectTicketInvestFragment: Fragment() {
             return false
         }
         if (invest.budgetInvest > goal){
-            val txtMinBudget = formatMoney(minBudget)
-            Snackbar.make(v, resources.getString(R.string.project_ticket_invest_budget_max_error,txtMinBudget), Snackbar.LENGTH_LONG).show()
+            val txtGoal = formatMoney(goal)
+            Snackbar.make(v, resources.getString(R.string.project_ticket_invest_budget_max_error,txtGoal), Snackbar.LENGTH_LONG).show()
             return false
         }
         return true
