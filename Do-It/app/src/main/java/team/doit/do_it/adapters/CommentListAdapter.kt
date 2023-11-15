@@ -45,8 +45,10 @@ class CommentListAdapter(
         }
         holder.getBtnSaveComment()?.setOnClickListener {
             holder.saveComment()
-            listener.onSavedCommentClicked(model)
-            model.commentText = holder.getCommentContent()
+            if(holder.getCommentContent().isNotBlank() || holder.getCommentContent().isNotEmpty()) {
+                model.commentText = holder.getCommentContent()
+                listener.onSavedCommentClicked(model)
+            }
         }
         if(model.userEmail != userEmail) {
             holder.getBtnDeleteComment()?.visibility = ViewGroup.GONE
