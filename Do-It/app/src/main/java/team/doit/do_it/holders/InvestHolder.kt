@@ -5,6 +5,8 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import team.doit.do_it.R
 import team.doit.do_it.enums.InvestStatus
+import java.text.DecimalFormat
+import java.text.DecimalFormatSymbols
 
 class InvestHolder(view: View) : RecyclerView.ViewHolder(view){
 
@@ -21,7 +23,13 @@ class InvestHolder(view: View) : RecyclerView.ViewHolder(view){
 
     fun setInvestBudget(investBudget: Double) {
         val txt : TextView = view.findViewById(R.id.txtInvestItemBudgetInfo)
-        txt.text = investBudget.toString()
+        val decimalFormatSymbols = DecimalFormatSymbols()
+        decimalFormatSymbols.groupingSeparator = '.'
+        decimalFormatSymbols.decimalSeparator = ','
+        val decimalFormat = DecimalFormat("#,###.00", decimalFormatSymbols)
+
+        val budgetString = view.context.getString(R.string.currency) + decimalFormat.format(investBudget)
+        txt.text = budgetString
     }
 
     fun setInvestStatus(investStatus: InvestStatus) {

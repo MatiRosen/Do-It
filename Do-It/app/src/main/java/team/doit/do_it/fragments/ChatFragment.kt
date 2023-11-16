@@ -58,9 +58,11 @@ class ChatFragment : Fragment(), OnViewItemClickedListener<ChatEntity> {
                             return@addOnCompleteListener
                         }
                     }
-                    val mainActivity = requireActivity()
-                    val bottomMenu = mainActivity.findViewById<BottomNavigationView>(R.id.bottomNavigationView).menu
-                    bottomMenu.findItem(R.id.chat).icon = AppCompatResources.getDrawable(requireContext(), R.drawable.icon_chat)
+                    safeActivityCall{
+                        val mainActivity = requireActivity()
+                        val bottomMenu = mainActivity.findViewById<BottomNavigationView>(R.id.bottomNavigationView).menu
+                        bottomMenu.findItem(R.id.chat).icon = AppCompatResources.getDrawable(requireContext(), R.drawable.icon_chat)
+                    }
                 }
             }
     }
@@ -99,6 +101,15 @@ class ChatFragment : Fragment(), OnViewItemClickedListener<ChatEntity> {
         recycler.setHasFixedSize(true)
         val linearLayoutManager = LinearLayoutManager(context)
         recycler.layoutManager = linearLayoutManager
+    }
+
+    private fun safeActivityCall(action: () -> Unit) {
+        try{
+            if (!requireActivity().isFinishing && !requireActivity().isDestroyed ) {
+                action()
+            }
+        } catch (_: IllegalStateException) {
+        }
     }
 
     override fun onDestroyView() {
