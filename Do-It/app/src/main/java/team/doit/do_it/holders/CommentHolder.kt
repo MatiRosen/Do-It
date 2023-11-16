@@ -3,6 +3,7 @@ package team.doit.do_it.holders
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.google.firebase.storage.FirebaseStorage
@@ -71,11 +72,15 @@ class CommentHolder(view: View) : RecyclerView.ViewHolder(view){
 
     fun saveComment() {
         val txt : TextView = view.findViewById(R.id.textViewItemCommentContent)
-        txt.isEnabled = false
 
-        setCommentContent(txt.text.toString())
-
-        showButtons()
+        if(txt.text.isBlank() || txt.text.isEmpty()) {
+            Toast.makeText(view.context, R.string.project_addComment_errorContent, Toast.LENGTH_SHORT).show()
+        }
+        else {
+            setCommentContent(txt.text.toString())
+            txt.isEnabled = false
+            showButtons()
+        }
     }
 
     private fun hideButtons() {
