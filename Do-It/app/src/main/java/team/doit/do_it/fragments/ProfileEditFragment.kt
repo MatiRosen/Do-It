@@ -43,6 +43,8 @@ class ProfileEditFragment : Fragment() {
     private var photoFile: File? = null
     private var lastImage: String = ""
     private lateinit var spinnerGender : Spinner
+    private val currentUser = FirebaseAuth.getInstance().currentUser
+    private val db = FirebaseFirestore.getInstance()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -67,6 +69,10 @@ class ProfileEditFragment : Fragment() {
 
         startSpinner()
         setupButtons()
+    }
+
+    interface ValidationUserIdeasListener {
+        fun onValidationUserIdeas(result: Boolean)
     }
 
     private fun setupButtons(){
@@ -144,7 +150,6 @@ class ProfileEditFragment : Fragment() {
     }
 
     private fun replaceData() {
-        val currentUser = FirebaseAuth.getInstance().currentUser
         val editableFactory = Editable.Factory.getInstance()
 
         getUser(currentUser?.email.toString(), object : ProfileFragment.OnUserFetchedListener {
@@ -224,7 +229,6 @@ class ProfileEditFragment : Fragment() {
     }
 
     private fun getUser(email: String, listener: ProfileFragment.OnUserFetchedListener) {
-        val db = FirebaseFirestore.getInstance()
         val usersRef = db.collection("usuarios")
 
         usersRef.whereEqualTo("email", email)
@@ -266,9 +270,6 @@ class ProfileEditFragment : Fragment() {
     }
 
     private fun updateUser(listener: ProfileFragment.OnUserUpdatedListener) {
-        val db = FirebaseFirestore.getInstance()
-        val currentUser = FirebaseAuth.getInstance().currentUser
-
         currentUser?.let { user ->
             getUser(user.email.toString(), object : ProfileFragment.OnUserFetchedListener {
                 override fun onUserFetched(userDoc: DocumentSnapshot?) {
@@ -327,9 +328,6 @@ class ProfileEditFragment : Fragment() {
     }
 
     private fun deleteAccount() {
-        val currentUser = FirebaseAuth.getInstance().currentUser
-        val db = FirebaseFirestore.getInstance()
-
         currentUser?.let { user ->
             deleteIdeas(db, user)
             deleteUsers(db, user)
@@ -337,6 +335,27 @@ class ProfileEditFragment : Fragment() {
             deleteProfileImage(user)
             deleteUserAccount(user)
         }
+    }
+
+    private fun validateIsUserHasFollowers(listener: ValidationUserIdeasListener) {
+        var userFollowers = false
+
+        db.collection("ideas")
+            .whereEqualTo("creatorEmail", currentUser?.email)
+            .get()
+            .addOnSuccessListener { documents ->
+                for (document in documents) {
+                    val followersCount = document.data["followersCount"] as Long
+                    if (followersCount > 0) {
+                        userFollowers = true
+                        break
+                    }
+                }
+                listener.onValidationUserIdeas(userFollowers)
+            }
+            .addOnFailureListener {
+                handleDeleteFailure()
+            }
     }
 
     private fun deleteIdeas(db: FirebaseFirestore, user: FirebaseUser) {
@@ -423,7 +442,15 @@ class ProfileEditFragment : Fragment() {
         alertDialogBuilder.setMessage(resources.getString(R.string.profile_deleteAccount_message))
 
         alertDialogBuilder.setPositiveButton(resources.getString(R.string.profile_deleteAccount_accept)) { _, _ ->
-            deleteAccount()
+            validateIsUserHasFollowers(object : ValidationUserIdeasListener {
+                override fun onValidationUserIdeas(result: Boolean) {
+                    if (result) {
+                        Toast.makeText(activity, resources.getString(R.string.profile_deleteAccount_error_hasFollowers), Toast.LENGTH_SHORT).show()
+                    } else {
+                        deleteAccount()
+                    }
+                }
+            })
         }
 
         alertDialogBuilder.setNegativeButton(resources.getString(R.string.profile_deleteAccount_decline)) { _, _ ->

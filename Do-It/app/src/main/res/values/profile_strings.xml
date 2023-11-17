@@ -12,6 +12,7 @@
     <string name="profile_dataUser_error">Error al cargar los datos</string>
     <string name="profile_deleteImages_error">Error al eliminar las fotos almacenadas</string>
     <string name="profile_deleteAccount_error">Error al eliminar la cuenta</string>
+    <string name="profile_deleteAccount_error_hasFollowers">No puedes eliminar la cuenta si tienes seguidores en tus ideas</string>
     <string name="profile_deleteAccount_complete">Usuario eliminado con éxito</string>
     <string name="profile_deleteAccount_title">Eliminación de cuenta</string>
     <string name="profile_deleteAccount_accept">Confirmar eliminación</string>
