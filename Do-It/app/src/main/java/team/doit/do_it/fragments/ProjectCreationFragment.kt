@@ -34,7 +34,6 @@ class ProjectCreationFragment : Fragment() {
 
     private var selectedImage: Uri? = null
     private var photoFile: File? = null
-    private var lastImage: String = ""
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -62,7 +61,7 @@ class ProjectCreationFragment : Fragment() {
         }
 
         binding.btnProjectCreationSave.setOnClickListener {
-            saveProject()
+            createProject()
         }
     }
 
@@ -84,12 +83,6 @@ class ProjectCreationFragment : Fragment() {
                 selectedImage = selectedImageFromGallery
             }
         }
-    }
-
-    private fun saveProject(){
-        val project = createProject() ?: return
-
-        saveProjectToDatabase(project)
     }
 
     private fun saveProjectToDatabase(project: ProjectEntity){
@@ -115,37 +108,38 @@ class ProjectCreationFragment : Fragment() {
         Toast.makeText(v.context, successMessage, Toast.LENGTH_LONG).show()
     }
 
-    private fun createProject() : ProjectEntity?{
+    private fun createProject(){
         val projectCreatorEmail = FirebaseAuth.getInstance().currentUser?.email.toString()
-        val projectTitle = binding.editTxtProjectCreationTitle.text.toString()
-        val projectSubtitle = binding.editTxtProjectCreationSubtitle.text.toString()
-        val projectCategory = binding.spinnerProjectCreationCategory.selectedItem.toString()
-        val projectImg = if(selectedImage != null) uploadImage(projectCreatorEmail, projectTitle) else ""
-        val projectDescription = binding.editTxtProjectCreationDescription.text.toString()
-        val projectMinBudget = binding.editTxtProjectCreationMinBudget.text.toString().toDoubleOrNull() ?: 0.0
-        val projectGoal = binding.editTxtProjectCreationGoal.text.toString().toDoubleOrNull() ?: 0.0
+        val projectTitle = binding.editTxtProjectCreationTitle.text.toString().trim()
+        uploadImage(projectCreatorEmail, projectTitle){image ->
+            val projectSubtitle = binding.editTxtProjectCreationSubtitle.text.toString().trim()
+            val projectCategory = binding.spinnerProjectCreationCategory.selectedItem.toString().trim()
+            val projectDescription = binding.editTxtProjectCreationDescription.text.toString().trim()
+            val projectMinBudget = binding.editTxtProjectCreationMinBudget.text.toString().toDoubleOrNull() ?: 0.0
+            val projectGoal = binding.editTxtProjectCreationGoal.text.toString().toDoubleOrNull() ?: 0.0
 
-        val project = ProjectEntity(projectCreatorEmail, projectTitle, projectSubtitle, projectDescription,
-            projectCategory, projectImg, projectMinBudget, projectGoal, 0, 0, Date(),
-            mutableListOf(), mutableListOf(), "")
+            val project = ProjectEntity(projectCreatorEmail, projectTitle, projectSubtitle, projectDescription,
+                projectCategory, image, projectMinBudget, projectGoal, 0, 0, Date(),
+                mutableListOf(), mutableListOf(), "")
 
-        return if (validateFields(project)) project else null
+            if (validateFields(project)) {
+                saveProjectToDatabase(project)
+            }
+        }
     }
 
-    private fun uploadImage(projectCreatorEmail: String, projectTitle: String): String {
-        var fileName = "$projectCreatorEmail-$projectTitle" + "-" + Date().time.toString()
+    private fun uploadImage(projectCreatorEmail: String, projectTitle: String, action: (image: String) -> Unit) {
+        val fileName = "$projectCreatorEmail-$projectTitle" + "-" + Date().time.toString()
 
         val storeReference = FirebaseStorage.getInstance().getReference("images/$projectCreatorEmail/projects/$fileName")
         storeReference.putFile(selectedImage!!)
             .addOnSuccessListener {
-                lastImage = "images/$projectCreatorEmail/projects/$fileName"
+                action(fileName)
             }.addOnFailureListener {
                 safeAccessBinding {
                     Snackbar.make(v, resources.getString(R.string.project_creation_image_upload_failed), Snackbar.LENGTH_LONG).show()
                 }
-                fileName = ""
             }
-        return fileName
     }
 
     private fun validateFields(project: ProjectEntity) : Boolean{

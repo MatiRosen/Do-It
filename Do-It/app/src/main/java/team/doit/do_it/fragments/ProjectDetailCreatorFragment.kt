@@ -63,6 +63,15 @@ class ProjectDetailCreatorFragment : Fragment() {
         }
     }
 
+    private fun safeActivityCall(action: () -> Unit) {
+        try{
+            if (activity != null && !requireActivity().isFinishing && !requireActivity().isDestroyed) {
+                action()
+            }
+        } catch (_: IllegalStateException) {
+        }
+    }
+
     override fun onStart() {
         super.onStart()
 
@@ -272,25 +281,47 @@ class ProjectDetailCreatorFragment : Fragment() {
     }
 
     private fun deleteProjectConfirm() {
-        val alertDialogBuilder = AlertDialog.Builder(activity)
+        FirebaseFirestore.getInstance()
+            .collection("inversiones")
+            .whereEqualTo("projectID", project.uuid)
+            .whereNotEqualTo("status", "REJECTED")
+            .get()
+            .addOnSuccessListener { documents ->
+                if (documents.isEmpty) {
+                    safeActivityCall {
+                        val alertDialogBuilder = AlertDialog.Builder(activity)
 
-        alertDialogBuilder.setTitle(resources.getString(R.string.project_detail_delete_title))
+                        safeAccessBinding {
+                            alertDialogBuilder.setTitle(resources.getString(R.string.project_detail_delete_title))
 
-        if(ProjectDetailCreatorFragmentArgs.fromBundle(requireArguments()).project.hasFollowers())
-            alertDialogBuilder.setMessage(resources.getString(R.string.project_detail_noDeletable_message))
-        else {
-            alertDialogBuilder.setMessage(resources.getString(R.string.project_detail_delete_message))
-            alertDialogBuilder.setPositiveButton(resources.getString(R.string.project_detail_delete_accept)) { _, _ ->
-                deleteProject()
+                            if(ProjectDetailCreatorFragmentArgs.fromBundle(requireArguments()).project.hasFollowers())
+                                alertDialogBuilder.setMessage(resources.getString(R.string.project_detail_noDeletable_message_investors))
+                            else {
+                                alertDialogBuilder.setMessage(resources.getString(R.string.project_detail_delete_message))
+                                alertDialogBuilder.setPositiveButton(resources.getString(R.string.project_detail_delete_accept)) { _, _ ->
+                                    deleteProject()
+                                }
+                            }
+
+                            alertDialogBuilder.setNegativeButton(resources.getString(R.string.project_detail_delete_decline)) { _, _ ->
+
+                            }
+
+                            val alertDialog = alertDialogBuilder.create()
+                            alertDialog.show()
+                        }
+                    }
+                } else {
+                    safeAccessBinding {
+                        Toast.makeText(context, resources.getString(R.string.project_detail_noDeletable_message_investors), Toast.LENGTH_SHORT).show()
+                    }
+                }
             }
-        }
-
-        alertDialogBuilder.setNegativeButton(resources.getString(R.string.project_detail_delete_decline)) { _, _ ->
-
-        }
-
-        val alertDialog = alertDialogBuilder.create()
-        alertDialog.show()
+            .addOnFailureListener{
+                safeAccessBinding {
+                    Toast.makeText(context, resources.getString(R.string.project_detail_delete_error), Toast.LENGTH_SHORT).show()
+                }
+            }
     }
 
     private fun deleteProject() {

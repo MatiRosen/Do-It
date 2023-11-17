@@ -5,5 +5,12 @@
         <item>Finanzas</item>
         <item>Educación</item>
         <item>Deporte</item>
+        <item>Medio ambiente</item>
+        <item>Salud</item>
+        <item>Arte y cultura</item>
+        <item>Alimentos y bebidas</item>
+        <item>Moda</item>
+        <item>Energía</item>
+        <item>Viajes y turismo</item>
     </string-array>
 </resources>
