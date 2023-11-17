@@ -2,6 +2,7 @@ package team.doit.do_it.holders
 
 import android.view.View
 import android.widget.TextView
+import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import team.doit.do_it.R
 import team.doit.do_it.enums.InvestStatus
@@ -43,9 +44,15 @@ class InvestHolder(view: View) : RecyclerView.ViewHolder(view){
         }
     }
 
-    fun setUserName(userName: String) {
+    fun setUserName(userName: String, isOwner: Boolean) {
         val txt : TextView = view.findViewById(R.id.txtInvestItemUserName)
-        txt.text = userName
+        val text = if (isOwner) {
+            view.context.getString(R.string.my_investments_owner, userName)
+        } else {
+            view.context.getString(R.string.my_investments_investor, userName)
+        }
+
+        txt.text = text
     }
 
     fun getCardLayout(): View {

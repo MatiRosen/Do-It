@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import com.firebase.ui.firestore.paging.FirestorePagingAdapter
 import com.firebase.ui.firestore.paging.FirestorePagingOptions
+import com.google.firebase.auth.FirebaseAuth
 import team.doit.do_it.R
 import team.doit.do_it.entities.InvestEntity
 import team.doit.do_it.enums.InvestStatus
@@ -38,9 +39,10 @@ class InvestAdapter(
 
     fun setInvestExtraData(holder: InvestHolder, model : InvestEntity){
         holder.setInvestProjectTitle(model.projectTitle)
-        holder.setUserName(model.userName)
         holder.setInvestBudget(model.budgetInvest)
         holder.setInvestStatus(model.status)
+        val ownEmail = FirebaseAuth.getInstance().currentUser?.email ?: ""
+        holder.setUserName(model.userName, model.creatorEmail == ownEmail)
 
         holder.getCardLayout().setOnClickListener {
             if (model.status == InvestStatus.PENDING) {

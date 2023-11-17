@@ -295,7 +295,7 @@ class ProjectDetailCreatorFragment : Fragment() {
                             alertDialogBuilder.setTitle(resources.getString(R.string.project_detail_delete_title))
 
                             if(ProjectDetailCreatorFragmentArgs.fromBundle(requireArguments()).project.hasFollowers())
-                                alertDialogBuilder.setMessage(resources.getString(R.string.project_detail_noDeletable_message_investors))
+                                alertDialogBuilder.setMessage(resources.getString(R.string.project_detail_noDeletable_message_followers))
                             else {
                                 alertDialogBuilder.setMessage(resources.getString(R.string.project_detail_delete_message))
                                 alertDialogBuilder.setPositiveButton(resources.getString(R.string.project_detail_delete_accept)) { _, _ ->
@@ -328,10 +328,12 @@ class ProjectDetailCreatorFragment : Fragment() {
         val currentUser = FirebaseAuth.getInstance().currentUser
         val db = FirebaseFirestore.getInstance()
 
+        val project = ProjectDetailCreatorFragmentArgs.fromBundle(requireArguments()).project
+
         currentUser?.let {
             db.collection("ideas")
                 .whereEqualTo("creatorEmail", currentUser?.email)
-                .whereEqualTo("creationDate", ProjectDetailCreatorFragmentArgs.fromBundle(requireArguments()).project.creationDate)
+                .whereEqualTo("creationDate", project.creationDate)
                 .get()
                 .addOnSuccessListener { querySnapshot ->
                     for (document in querySnapshot.documents) {
@@ -339,9 +341,9 @@ class ProjectDetailCreatorFragment : Fragment() {
                             .delete()
                             .addOnSuccessListener {
                                 deleteProjectImage(currentUser.email.toString(), ProjectDetailCreatorFragmentArgs.fromBundle(requireArguments()).project.image)
+                                deleteInvestments(project.uuid)
                                 safeAccessBinding {
                                     v.findNavController().navigateUp()
-
                                 }
                             }
                             .addOnFailureListener {
@@ -352,6 +354,24 @@ class ProjectDetailCreatorFragment : Fragment() {
                     }
                 }
         }
+    }
+
+    private fun deleteInvestments(projectID: String) {
+        val db = FirebaseFirestore.getInstance()
+        db.collection("inversiones")
+            .whereEqualTo("projectID", projectID)
+            .get()
+            .addOnSuccessListener { querySnapshot ->
+                for (document in querySnapshot.documents) {
+                    db.collection("inversiones").document(document.id)
+                        .delete()
+                        .addOnFailureListener {
+                            safeAccessBinding {
+                                handleDeleteFailure()
+                            }
+                        }
+                }
+            }
     }
 
     private fun deleteProjectImage(mail: String, imgName: String) {

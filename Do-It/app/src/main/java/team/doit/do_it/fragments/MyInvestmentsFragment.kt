@@ -17,6 +17,7 @@ import com.google.firebase.database.ktx.database
 import com.google.firebase.firestore.Filter
 import com.google.firebase.firestore.Filter.or
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.Query
 import com.google.firebase.ktx.Firebase
 import team.doit.do_it.R
 import team.doit.do_it.adapters.InvestAdapter
@@ -121,6 +122,7 @@ class MyInvestmentsFragment
                     Filter.equalTo("investorEmail", userEmail)
                 )
             )
+            .orderBy("date", Query.Direction.DESCENDING)
 
         val config = PagingConfig(20, 10, false)
 

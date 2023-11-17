@@ -10,4 +10,6 @@
     <string name="my_investments_not_creator">No puedes modificar este ticket</string>
     <string name="my_investments_user_name">Nombre usuario</string>
     <string name="my_investments_no_data">Actualmente no tienes inversiones</string>
+    <string name="my_investments_owner">%s invirtió en tu idea</string>
+    <string name="my_investments_investor">Idea de %s</string>
 </resources>

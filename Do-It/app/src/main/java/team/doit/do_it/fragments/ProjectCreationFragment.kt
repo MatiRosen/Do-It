@@ -104,7 +104,7 @@ class ProjectCreationFragment : Fragment() {
     }
 
     private fun showSuccessMessage(project: ProjectEntity){
-        val successMessage = resources.getString(R.string.project_creation_succeed) + project.title
+        val successMessage = resources.getString(R.string.project_creation_succeed) + " " + project.title
         Toast.makeText(v.context, successMessage, Toast.LENGTH_LONG).show()
     }
 
