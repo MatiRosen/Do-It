@@ -158,15 +158,6 @@ class RegisterDataFragment : Fragment() {
 
     private fun validateEmail(email: String) {
         FirebaseAuth.getInstance().currentUser?.sendEmailVerification()
-        //TODO: Cambiar el toast por un dialogo
-            /*?.addOnCompleteListener {
-                if(it.isSuccessful) {
-                    Toast.makeText(v.context, resources.getString(R.string.register_email_sent), Toast.LENGTH_SHORT).show()
-                }
-                else {
-                    Toast.makeText(v.context, resources.getString(R.string.register_email_sent_error), Toast.LENGTH_SHORT).show()
-                }
-            }*/
     }
 
     private fun startSpinner() {

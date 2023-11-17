@@ -94,7 +94,7 @@ class LoginFragment : Fragment() {
             .addOnCompleteListener {
                 if (it.isSuccessful) {
                     if(mAuth.currentUser?.isEmailVerified == true) {
-                        goHome(email, "email")
+                        goHome(email)
                         requireActivity().finish()
                     }
                     else {
@@ -111,7 +111,7 @@ class LoginFragment : Fragment() {
     }
 
     private fun resetPassword() {
-        var email = binding.editTxtLoginEmail.text.toString()
+        val email = binding.editTxtLoginEmail.text.toString()
         if(!TextUtils.isEmpty(email)) {
             mAuth.sendPasswordResetEmail(email)
                 .addOnCompleteListener {
@@ -128,9 +128,9 @@ class LoginFragment : Fragment() {
         }
     }
 
-    private fun goHome(email: String, provider: String) {
+    private fun goHome(email: String) {
         userEmail = email
-        providerSession = provider
+        providerSession = "email"
 
         val intent = Intent(activity, MainActivity::class.java)
         startActivity(intent)
