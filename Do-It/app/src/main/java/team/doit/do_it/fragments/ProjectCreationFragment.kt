@@ -21,8 +21,12 @@ import com.google.firebase.storage.FirebaseStorage
 import team.doit.do_it.R
 import team.doit.do_it.databinding.FragmentProjectCreationBinding
 import team.doit.do_it.entities.ProjectEntity
+import team.doit.do_it.extensions.formatAsMoney
 import java.io.File
+import java.text.DecimalFormat
+import java.text.DecimalFormatSymbols
 import java.util.Date
+import java.util.Locale
 
 
 class ProjectCreationFragment : Fragment() {
@@ -63,6 +67,9 @@ class ProjectCreationFragment : Fragment() {
         binding.btnProjectCreationSave.setOnClickListener {
             createProject()
         }
+
+        binding.editTxtProjectCreationMinBudget.formatAsMoney()
+        binding.editTxtProjectCreationGoal.formatAsMoney()
     }
 
     private fun pickImage() {
@@ -115,8 +122,14 @@ class ProjectCreationFragment : Fragment() {
             val projectSubtitle = binding.editTxtProjectCreationSubtitle.text.toString().trim()
             val projectCategory = binding.spinnerProjectCreationCategory.selectedItem.toString().trim()
             val projectDescription = binding.editTxtProjectCreationDescription.text.toString().trim()
-            val projectMinBudget = binding.editTxtProjectCreationMinBudget.text.toString().toDoubleOrNull() ?: 0.0
-            val projectGoal = binding.editTxtProjectCreationGoal.text.toString().toDoubleOrNull() ?: 0.0
+
+            val decFormat: DecimalFormat = DecimalFormat.getInstance(Locale.getDefault()) as DecimalFormat
+            val symbols: DecimalFormatSymbols = decFormat.decimalFormatSymbols
+            val decimalSeparator = symbols.decimalSeparator.toString()
+            val thousandSeparator = symbols.groupingSeparator.toString()
+
+            val projectMinBudget = binding.editTxtProjectCreationMinBudget.text.toString().replace(thousandSeparator, "").replace(decimalSeparator, ".").toDoubleOrNull() ?: 0.0
+            val projectGoal = binding.editTxtProjectCreationGoal.text.toString().replace(thousandSeparator, "").replace(decimalSeparator, ".").toDoubleOrNull() ?: 0.0
 
             val project = ProjectEntity(projectCreatorEmail, projectTitle, projectSubtitle, projectDescription,
                 projectCategory, image, projectMinBudget, projectGoal, 0, 0, Date(),

@@ -18,9 +18,11 @@ import team.doit.do_it.activities.MainActivity
 import team.doit.do_it.databinding.FragmentProjectTicketInvestBinding
 import team.doit.do_it.entities.InvestEntity
 import team.doit.do_it.enums.InvestStatus
+import team.doit.do_it.extensions.formatAsMoney
 import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
 import java.util.Date
+import java.util.Locale
 
 class ProjectTicketInvestFragment: Fragment() {
 
@@ -70,6 +72,8 @@ class ProjectTicketInvestFragment: Fragment() {
         binding.imgBtnProjectDetailInvestBack.setOnClickListener {
             this.findNavController().navigateUp()
         }
+
+        binding.txtProjectInvestMountMoney.formatAsMoney()
     }
 
     private fun safeAccessBinding(action: () -> Unit) {
@@ -104,7 +108,13 @@ class ProjectTicketInvestFragment: Fragment() {
             val investorEmail = FirebaseAuth.getInstance().currentUser?.email.toString()
             val creatorEmail = project.creatorEmail
             val projectID = project.uuid
-            val budget = binding.txtProjectInvestMountMoney.text.toString().toDoubleOrNull() ?: 0.0
+
+            val decFormat: DecimalFormat = DecimalFormat.getInstance(Locale.getDefault()) as DecimalFormat
+            val symbols: DecimalFormatSymbols = decFormat.decimalFormatSymbols
+            val decimalSeparator = symbols.decimalSeparator.toString()
+            val thousandSeparator = symbols.groupingSeparator.toString()
+
+            val budget = binding.txtProjectInvestMountMoney.text.toString().replace(thousandSeparator, "").replace(decimalSeparator, ".").toDoubleOrNull() ?: 0.0
             val status = InvestStatus.from(resources.getString(R.string.project_ticket_invest_state))
 
             val invest = InvestEntity("", creatorEmail, investorEmail, budget, projectID, status, "", "", Date())

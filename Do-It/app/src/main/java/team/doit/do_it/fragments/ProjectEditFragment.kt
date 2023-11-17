@@ -22,8 +22,12 @@ import com.google.firebase.storage.FirebaseStorage
 import team.doit.do_it.R
 import team.doit.do_it.activities.MainActivity
 import team.doit.do_it.databinding.FragmentProjectEditBinding
+import team.doit.do_it.extensions.formatAsMoney
 import java.io.File
+import java.text.DecimalFormat
+import java.text.DecimalFormatSymbols
 import java.util.Date
+import java.util.Locale
 
 class ProjectEditFragment : Fragment() {
 
@@ -33,6 +37,11 @@ class ProjectEditFragment : Fragment() {
     private var photoFile: File? = null
     private var lastImage: String = ""
     private val binding get() = _binding!!
+
+    private val decFormat: DecimalFormat = DecimalFormat.getInstance(Locale.getDefault()) as DecimalFormat
+    private val symbols: DecimalFormatSymbols = decFormat.decimalFormatSymbols
+    private val decimalSeparator = symbols.decimalSeparator.toString()
+    private val thousandSeparator = symbols.groupingSeparator.toString()
 
     private lateinit var v : View
 
@@ -84,6 +93,9 @@ class ProjectEditFragment : Fragment() {
                 }
             })
         }
+
+        binding.editTxtProjectEditGoal.formatAsMoney()
+        binding.editTxtProjectEditMinBudget.formatAsMoney()
     }
 
 
@@ -149,12 +161,14 @@ class ProjectEditFragment : Fragment() {
 
     private fun replaceData() {
         safeAccessBinding {
-            binding.editTxtProjectEditTitle.setText(ProjectEditFragmentArgs.fromBundle(requireArguments()).project.title)
-            binding.editTxtProjectEditDescription.setText(ProjectEditFragmentArgs.fromBundle(requireArguments()).project.description)
-            binding.editTxtProjectEditSubtitle.setText(ProjectEditFragmentArgs.fromBundle(requireArguments()).project.subtitle)
-            binding.editTxtProjectEditGoal.setText(ProjectEditFragmentArgs.fromBundle(requireArguments()).project.goal.toString())
-            binding.editTxtProjectEditMinBudget.setText(ProjectEditFragmentArgs.fromBundle(requireArguments()).project.minBudget.toString())
-            setImage(ProjectEditFragmentArgs.fromBundle(requireArguments()).project.creatorEmail, ProjectEditFragmentArgs.fromBundle(requireArguments()).project.image)
+            val project = ProjectEditFragmentArgs.fromBundle(requireArguments()).project
+
+            binding.editTxtProjectEditTitle.setText(project.title)
+            binding.editTxtProjectEditDescription.setText(project.description)
+            binding.editTxtProjectEditSubtitle.setText(project.subtitle)
+            binding.editTxtProjectEditGoal.setText(project.goal.toString().replace(".", decimalSeparator))
+            binding.editTxtProjectEditMinBudget.setText(project.minBudget.toString().replace(".", decimalSeparator))
+            setImage(project.creatorEmail, project.image)
         }
     }
 
@@ -163,13 +177,15 @@ class ProjectEditFragment : Fragment() {
         val currentUser = FirebaseAuth.getInstance().currentUser
 
         currentUser?.let {
+            val goal = binding.editTxtProjectEditGoal.text.toString().replace(thousandSeparator, "").replace(decimalSeparator, ".").toDoubleOrNull() ?: 0.0
+            val minBudget = binding.editTxtProjectEditMinBudget.text.toString().replace(thousandSeparator, "").replace(decimalSeparator, ".").toDoubleOrNull() ?: 0.0
 
             val project = hashMapOf<String, Any>(
                 "title" to binding.editTxtProjectEditTitle.text.toString(),
                 "description" to binding.editTxtProjectEditDescription.text.toString(),
                 "subtitle" to binding.editTxtProjectEditSubtitle.text.toString(),
-                "goal" to binding.editTxtProjectEditGoal.text.toString().toDouble().toInt(),
-                "minBudget" to binding.editTxtProjectEditMinBudget.text.toString().toDouble().toInt(),
+                "goal" to goal,
+                "minBudget" to minBudget,
                 "category" to binding.spinnerProjectEditCategory.selectedItem.toString(),
                 "image" to if(selectedImage != null) uploadImage(currentUser.email.toString(), binding.editTxtProjectEditTitle.text.toString()) else ProjectEditFragmentArgs.fromBundle(requireArguments()).project.image
             )
@@ -230,17 +246,17 @@ class ProjectEditFragment : Fragment() {
             }
         }
 
-        if (project["minBudget"].toString().toInt() < 0.0){
+        if (project["minBudget"].toString().toDouble() < 0.0){
             Snackbar.make(v, resources.getString(R.string.project_creation_min_budget_error), Snackbar.LENGTH_LONG).show()
             return false
         }
 
-        if (project["goal"].toString().toInt() <= 0.0){
+        if (project["goal"].toString().toDouble() <= 0.0){
             Snackbar.make(v, resources.getString(R.string.project_creation_goal_error), Snackbar.LENGTH_LONG).show()
             return false
         }
 
-        if (project["goal"].toString().toInt() < project["minBudget"].toString().toInt()){
+        if (project["goal"].toString().toDouble() < project["minBudget"].toString().toDouble()){
             Snackbar.make(v, resources.getString(R.string.project_creation_min_budget_higher_than_goal_error), Snackbar.LENGTH_LONG).show()
             return false
         }
