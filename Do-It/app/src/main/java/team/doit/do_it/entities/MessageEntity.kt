@@ -14,6 +14,7 @@ data class MessageEntity(
         parcel.readLong(),
     )
 
+    // Este constructor es usado internamente por Firebase. No se debe eliminar.
     constructor() : this("", "", 0)
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {

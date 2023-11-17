@@ -60,7 +60,6 @@
             android:textSize="@dimen/txt_mini_size" />
     </com.google.android.flexbox.FlexboxLayout>
 
-    <!-- TODO: Arreglar lo de la hora y poner también en el otro layout. -->
     <com.google.android.flexbox.FlexboxLayout
         android:id="@+id/linearLayoutItemMessageRight"
         android:layout_width="wrap_content"

@@ -8,8 +8,6 @@ import team.doit.do_it.R
 import team.doit.do_it.entities.ChatEntity
 import team.doit.do_it.holders.ChatHolder
 import team.doit.do_it.listeners.OnViewItemClickedListener
-import java.util.Calendar
-import java.util.Date
 
 class ChatListAdapter(
     options: FirebaseRecyclerOptions<ChatEntity>,

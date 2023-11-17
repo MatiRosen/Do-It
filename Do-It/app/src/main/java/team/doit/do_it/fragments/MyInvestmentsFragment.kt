@@ -29,7 +29,9 @@ import team.doit.do_it.listeners.OnBindViewHolderListener
 import team.doit.do_it.listeners.OnItemViewClickListener
 import team.doit.do_it.listeners.OnViewItemClickedListener
 
-class MyInvestmentsFragment : Fragment(), OnViewItemClickedListener<InvestEntity>, OnBindViewHolderListener<InvestHolder, InvestEntity>, OnItemViewClickListener<InvestEntity> {
+class MyInvestmentsFragment
+    : Fragment(), OnViewItemClickedListener<InvestEntity>,
+    OnBindViewHolderListener<InvestHolder, InvestEntity>, OnItemViewClickListener<InvestEntity> {
 
     private var _binding : FragmentMyInvestmentsBinding? = null
     private val binding get() = _binding!!
@@ -109,8 +111,6 @@ class MyInvestmentsFragment : Fragment(), OnViewItemClickedListener<InvestEntity
         goToChat(item)
     }
 
-    // TODO preguntar si está bien lo que hice o si mejor uso el adapter normal pasandole la lista
-    // de inversiones ya creada
     private fun setupRecyclerView() {
         val userEmail = FirebaseAuth.getInstance().currentUser?.email?: return
 

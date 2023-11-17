@@ -20,7 +20,6 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import team.doit.do_it.R
 import team.doit.do_it.databinding.FragmentProjectCreationBinding
-import team.doit.do_it.entities.CommentEntity
 import team.doit.do_it.entities.ProjectEntity
 import java.io.File
 import java.util.Date
@@ -91,20 +90,6 @@ class ProjectCreationFragment : Fragment() {
         val project = createProject() ?: return
 
         saveProjectToDatabase(project)
-        /*db.collection("ideas")
-            .whereEqualTo("title", project.getTitle())
-            .get()
-            .addOnSuccessListener { result ->
-                if (result.isEmpty){
-                    saveProjectToDatabase(project)
-                } else {
-                    Snackbar.make(v, resources.getString(R.string.project_creation_failed_title_exists), Snackbar.LENGTH_LONG).show()
-                }
-            }
-            .addOnFailureListener {
-                Snackbar.make(v, resources.getString(R.string.project_creation_failed), Snackbar.LENGTH_LONG).show()
-            }
-        */
     }
 
     private fun saveProjectToDatabase(project: ProjectEntity){

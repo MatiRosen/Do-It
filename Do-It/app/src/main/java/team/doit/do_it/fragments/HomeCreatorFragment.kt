@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.constraintlayout.widget.ConstraintSet
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
@@ -34,10 +35,6 @@ class HomeCreatorFragment : Fragment(), OnViewItemClickedListener<ProjectEntity>
     private val db = FirebaseFirestore.getInstance()
 
     private lateinit var projectListAdapter: ProjectListAdapter
-
-    interface OnUserFetchedListener {
-        fun onUserFetched(user: DocumentSnapshot?)
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -129,7 +126,7 @@ class HomeCreatorFragment : Fragment(), OnViewItemClickedListener<ProjectEntity>
         val query = db.collection("ideas")
             .whereEqualTo("creatorEmail", FirebaseAuth.getInstance().currentUser?.email)
 
-        val config = PagingConfig(20, 10, false)
+        val config = PagingConfig(3, 1, false)
 
         val options = FirestorePagingOptions.Builder<ProjectEntity>()
             .setLifecycleOwner(this)
@@ -186,14 +183,28 @@ class HomeCreatorFragment : Fragment(), OnViewItemClickedListener<ProjectEntity>
         }
     }
 
-    // TODO rehacer este metodo y hacer que el boton de invertir se esconda al hacer scroll.
     private fun changeBottomProgressBarVisibility(visibility: Int) {
         binding.progressBarHomeCreatorBottom.visibility = visibility
-        val startPadding = binding.recyclerHomeCreatorProjects.paddingStart
-        val topPadding = binding.recyclerHomeCreatorProjects.paddingTop
-        val endPadding = binding.recyclerHomeCreatorProjects.paddingEnd
-        val bottomPadding = if (visibility == View.VISIBLE) 100 else 0
-        binding.recyclerHomeCreatorProjects.setPadding(startPadding, topPadding, endPadding, bottomPadding)
+        val constraintSet = ConstraintSet()
+        constraintSet.clone(binding.constraintLayoutHomeCreator)
+
+        if (visibility == View.VISIBLE) {
+            constraintSet.connect(
+                R.id.recyclerHomeInvestorAllProjects,
+                ConstraintSet.BOTTOM,
+                R.id.progressBarHomeInvestorBottom,
+                ConstraintSet.TOP
+            )
+        } else {
+            constraintSet.connect(
+                R.id.recyclerHomeInvestorAllProjects,
+                ConstraintSet.BOTTOM,
+                ConstraintSet.PARENT_ID,
+                ConstraintSet.BOTTOM
+            )
+        }
+
+        constraintSet.applyTo(binding.constraintLayoutHomeCreator)
     }
 
     override fun onViewItemDetail(item: ProjectEntity) {

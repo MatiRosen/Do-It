@@ -28,6 +28,7 @@ data class InvestEntity (
         Date(parcel.readLong())
     )
 
+    // Este constructor es usado internamente por Firebase. No se debe eliminar.
     constructor() : this("","","",0.0,"", InvestStatus.PENDING, "", "", Date())
 
     override fun describeContents(): Int {

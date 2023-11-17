@@ -23,6 +23,7 @@ data class UserEntity(
         parcel.readString()!!
     )
 
+    // Este constructor es usado internamente por Firebase. No se debe eliminar.
     constructor() : this("", "", "", Date(), "", "", "", false, "", "", "")
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
