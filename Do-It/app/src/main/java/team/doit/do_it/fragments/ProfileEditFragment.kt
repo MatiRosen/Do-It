@@ -337,7 +337,7 @@ class ProfileEditFragment : Fragment() {
         }
     }
 
-    private fun validateIsUserHasFollowers(listener: ValidationUserIdeasListener) {
+    private fun validateIfUserHasFollowers(listener: ValidationUserIdeasListener) {
         var userFollowers = false
 
         db.collection("ideas")
@@ -442,7 +442,7 @@ class ProfileEditFragment : Fragment() {
         alertDialogBuilder.setMessage(resources.getString(R.string.profile_deleteAccount_message))
 
         alertDialogBuilder.setPositiveButton(resources.getString(R.string.profile_deleteAccount_accept)) { _, _ ->
-            validateIsUserHasFollowers(object : ValidationUserIdeasListener {
+            validateIfUserHasFollowers(object : ValidationUserIdeasListener {
                 override fun onValidationUserIdeas(result: Boolean) {
                     if (result) {
                         Toast.makeText(activity, resources.getString(R.string.profile_deleteAccount_error_hasFollowers), Toast.LENGTH_SHORT).show()
