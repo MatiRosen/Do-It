@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
@@ -114,29 +115,26 @@ class ProfileFragment : Fragment() {
                         Toast.makeText(activity, resources.getString(R.string.profile_dataUser_error), Toast.LENGTH_SHORT).show()
                     }
                 }
-
             }
         })
     }
 
     private fun setImage(creatorEmail: String, titleImg: String) {
-
-        Handler(Looper.getMainLooper()).postDelayed({
-            safeAccessBinding {
-                if (titleImg == "") {
-                    binding.imgProfileCircular.setImageResource(R.drawable.img_avatar)
-                    return@safeAccessBinding
-                }
-                val storageReference = FirebaseStorage.getInstance().reference.child("images/$creatorEmail/imgProfile/$titleImg")
-
-                Glide.with(v.context)
-                    .load(storageReference)
-                    .placeholder(R.drawable.img_avatar)
-                    .error(R.drawable.img_avatar)
-                    .into(binding.imgProfileCircular)
+        safeAccessBinding {
+            if (titleImg == "") {
+                binding.imgProfileCircular.setImageResource(R.drawable.img_avatar)
+                return@safeAccessBinding
             }
-        }, 500)
+            val storageReference = FirebaseStorage.getInstance().reference.child("images/$creatorEmail/imgProfile/$titleImg")
 
+            Glide.with(v.context)
+                .load(storageReference)
+                .placeholder(R.drawable.img_avatar)
+                .error(R.drawable.img_avatar)
+                .diskCacheStrategy(DiskCacheStrategy.NONE)
+                .skipMemoryCache(true)
+                .into(binding.imgProfileCircular)
+        }
     }
 
     private fun getUser(email: String, listener: OnUserFetchedListener) {
