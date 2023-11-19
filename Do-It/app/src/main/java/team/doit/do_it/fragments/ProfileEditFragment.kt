@@ -5,8 +5,6 @@ import android.app.AlertDialog
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.provider.MediaStore
 import android.text.Editable
 import android.view.LayoutInflater
@@ -18,7 +16,6 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
@@ -42,7 +39,6 @@ class ProfileEditFragment : Fragment() {
 
     private var selectedImage: Uri? = null
     private var photoFile: File? = null
-    private var lastImage: String = ""
     private lateinit var spinnerGender : Spinner
     private val currentUser = FirebaseAuth.getInstance().currentUser
     private val db = FirebaseFirestore.getInstance()
@@ -84,10 +80,7 @@ class ProfileEditFragment : Fragment() {
                         safeAccessBinding {
                             if (successful) {
                                 Toast.makeText(activity, resources.getString(R.string.profile_editUser_complete), Toast.LENGTH_SHORT).show()
-                                val handler = Handler(Looper.getMainLooper())
-                                handler.postDelayed({
-                                    findNavController().navigateUp()
-                                }, 500)
+                                findNavController().navigateUp()
                             } else {
                                 Toast.makeText(activity, resources.getString(R.string.profile_dataUser_error), Toast.LENGTH_SHORT).show()
                             }
@@ -135,20 +128,29 @@ class ProfileEditFragment : Fragment() {
         }
     }
 
-    private fun uploadImage(projectCreatorEmail: String): String {
-        var fileName = projectCreatorEmail + "-imgProfile-" + Date().time.toString()
+    private fun uploadImage(projectCreatorEmail: String, action: (image: String) -> Unit) {
+        if(selectedImage != null) {
+            var fileName = projectCreatorEmail + "-imgProfile-" + Date().time.toString()
 
-        val storeReference = FirebaseStorage.getInstance().getReference("images/$projectCreatorEmail/imgProfile/$fileName")
-        storeReference.putFile(selectedImage!!)
-            .addOnSuccessListener {
-                lastImage = "images/$projectCreatorEmail/imgProfile/$fileName"
-            }.addOnFailureListener {
-                safeAccessBinding {
-                    Snackbar.make(v, resources.getString(R.string.project_creation_image_upload_failed), Snackbar.LENGTH_LONG).show()
+            val storeReference = FirebaseStorage.getInstance()
+                .getReference("images/$projectCreatorEmail/imgProfile/$fileName")
+            storeReference.putFile(selectedImage!!)
+                .addOnSuccessListener {
+//                lastImage = "images/$projectCreatorEmail/imgProfile/$fileName"
+                    action(fileName)
+                }.addOnFailureListener {
+                    safeAccessBinding {
+                        Snackbar.make(
+                            v,
+                            resources.getString(R.string.project_creation_image_upload_failed),
+                            Snackbar.LENGTH_LONG
+                        ).show()
+                    }
+                    fileName = ""
                 }
-                fileName = ""
-            }
-        return fileName
+        } else {
+            action("")
+        }
     }
 
     private fun replaceData() {
@@ -277,29 +279,29 @@ class ProfileEditFragment : Fragment() {
                     userDoc?.let { userSnapshot ->
                         val userId = userSnapshot.id
                         val usersRef = db.collection("usuarios").document(userId)
-                        var imgUrl = userDoc.getString("userImage").toString()
+                        val imgUrl = userDoc.getString("userImage").toString()
 
-                        if(selectedImage != null) {
-                            deleteProfileImage(user)
-                            imgUrl = uploadImage(user.email.toString())
+                        if(selectedImage != null) deleteProfileImage(user)
+
+                        uploadImage(user.email.toString()){image ->
+                            val updatedData = hashMapOf<String, Any>(
+                                "firstName" to binding.editTextEditProfileName.text.toString(),
+                                "surname" to binding.editTextEditProfileSurname.text.toString(),
+                                "telephoneNumber" to binding.editTextEditProfilePhone.text.toString(),
+                                "gender" to spinnerGender.selectedItem.toString(),
+                                "address" to binding.editTextEditProfileAddress.text.toString(),
+                                "userImage" to if(selectedImage != null) image else imgUrl
+                            )
+
+                            usersRef.update(updatedData)
+                                .addOnSuccessListener {
+                                    listener.onUserUpdated(true)
+                                }
+                                .addOnFailureListener {
+                                    listener.onUserUpdated(false)
+                                }
                         }
 
-                        val updatedData = hashMapOf<String, Any>(
-                            "firstName" to binding.editTextEditProfileName.text.toString(),
-                            "surname" to binding.editTextEditProfileSurname.text.toString(),
-                            "telephoneNumber" to binding.editTextEditProfilePhone.text.toString(),
-                            "gender" to spinnerGender.selectedItem.toString(),
-                            "address" to binding.editTextEditProfileAddress.text.toString(),
-                            "userImage" to imgUrl
-                        )
-
-                        usersRef.update(updatedData)
-                            .addOnSuccessListener {
-                                listener.onUserUpdated(true)
-                            }
-                            .addOnFailureListener {
-                                listener.onUserUpdated(false)
-                            }
                     } ?: run {
                         safeAccessBinding {
                             Toast.makeText(activity, resources.getString(R.string.profile_dataUser_error), Toast.LENGTH_SHORT).show()
