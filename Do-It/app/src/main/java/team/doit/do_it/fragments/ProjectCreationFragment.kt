@@ -70,6 +70,8 @@ class ProjectCreationFragment : Fragment() {
 
         binding.editTxtProjectCreationMinBudget.formatAsMoney()
         binding.editTxtProjectCreationGoal.formatAsMoney()
+
+        binding.progressBarProjectCreation.visibility = View.GONE
     }
 
     private fun pickImage() {
@@ -116,6 +118,7 @@ class ProjectCreationFragment : Fragment() {
     }
 
     private fun createProject(){
+        binding.progressBarProjectCreation.visibility = View.VISIBLE
         val projectCreatorEmail = FirebaseAuth.getInstance().currentUser?.email.toString()
         val projectTitle = binding.editTxtProjectCreationTitle.text.toString().trim()
         uploadImage(projectCreatorEmail, projectTitle){image ->
@@ -135,6 +138,7 @@ class ProjectCreationFragment : Fragment() {
                 projectCategory, image, projectMinBudget, projectGoal, 0, 0, Date(),
                 mutableListOf(), mutableListOf(), "")
 
+            binding.progressBarProjectCreation.visibility = View.GONE
             if (validateFields(project)) {
                 saveProjectToDatabase(project)
             }
