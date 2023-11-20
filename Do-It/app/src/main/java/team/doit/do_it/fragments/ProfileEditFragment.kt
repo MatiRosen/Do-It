@@ -136,7 +136,6 @@ class ProfileEditFragment : Fragment() {
                 .getReference("images/$projectCreatorEmail/imgProfile/$fileName")
             storeReference.putFile(selectedImage!!)
                 .addOnSuccessListener {
-//                lastImage = "images/$projectCreatorEmail/imgProfile/$fileName"
                     action(fileName)
                 }.addOnFailureListener {
                     safeAccessBinding {
@@ -427,6 +426,9 @@ class ProfileEditFragment : Fragment() {
                         handleDeleteFailure()
                     }
                 }
+            }
+            .addOnFailureListener {
+                handleDeleteFailure()
             }
     }
 
