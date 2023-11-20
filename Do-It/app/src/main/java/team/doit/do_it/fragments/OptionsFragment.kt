@@ -94,8 +94,8 @@ class OptionsFragment : Fragment() {
 
     private fun removeFCMToken() {
         val db = FirebaseFirestore.getInstance()
-        val currentUser = FirebaseAuth.getInstance().currentUser
-
+        val currentUser = mAuth.currentUser
+        
         if (currentUser != null) {
             db.collection("usuarios").document(currentUser.email.toString())
                 .update("fcmToken", "")
