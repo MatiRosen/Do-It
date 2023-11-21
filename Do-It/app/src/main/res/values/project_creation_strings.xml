@@ -26,4 +26,8 @@
     <string name="project_creation_min_budget_higher_than_goal_error">¡El monto mínimo de inversión no puede ser mayor al monto objetivo!</string>
 
     <string name="project_creation_image_upload_failed">Error al subir imagen en la nube</string>
+
+    <string name="project_detail_addComment_message">Agregar comentario</string>
+    <string name="project_detail_addComment_btn_message">Botón para agregar comentarios</string>
+
 </resources>

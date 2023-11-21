@@ -5,8 +5,6 @@ import android.app.AlertDialog
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.provider.MediaStore
 import android.text.Editable
 import android.view.LayoutInflater
@@ -18,9 +16,9 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
@@ -41,8 +39,9 @@ class ProfileEditFragment : Fragment() {
 
     private var selectedImage: Uri? = null
     private var photoFile: File? = null
-    private var lastImage: String = ""
     private lateinit var spinnerGender : Spinner
+    private val currentUser = FirebaseAuth.getInstance().currentUser
+    private val db = FirebaseFirestore.getInstance()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -57,7 +56,7 @@ class ProfileEditFragment : Fragment() {
     }
 
     private fun safeAccessBinding(action: () -> Unit) {
-        if (_binding != null) {
+        if (_binding != null && context != null) {
             action()
         }
     }
@@ -66,19 +65,25 @@ class ProfileEditFragment : Fragment() {
         super.onStart()
 
         startSpinner()
+        setupButtons()
+    }
 
+    interface ValidationUserIdeasListener {
+        fun onValidationUserIdeas(result: Boolean)
+    }
+
+    private fun setupButtons(){
         binding.btnConfirmEditProfile.setOnClickListener {
             if(isValidUser()) {
                 updateUser(object : ProfileFragment.OnUserUpdatedListener {
                     override fun onUserUpdated(successful: Boolean) {
-                        if (successful) {
-                            safeAccessBinding {
+                        safeAccessBinding {
+                            if (successful) {
                                 Toast.makeText(activity, resources.getString(R.string.profile_editUser_complete), Toast.LENGTH_SHORT).show()
-                                v.findNavController().navigateUp()
+                                findNavController().navigateUp()
+                            } else {
+                                Toast.makeText(activity, resources.getString(R.string.profile_dataUser_error), Toast.LENGTH_SHORT).show()
                             }
-
-                        } else {
-                            Toast.makeText(activity, resources.getString(R.string.profile_dataUser_error), Toast.LENGTH_SHORT).show()
                         }
                     }
                 })
@@ -115,67 +120,76 @@ class ProfileEditFragment : Fragment() {
                 val selectedImageFromGallery: Uri? = data.data
                 selectedImage = selectedImageFromGallery
                 if (selectedImageFromGallery != null) {
-                    binding.editImgEditProfileCircular.setImageURI(selectedImageFromGallery)
+                    safeAccessBinding {
+                        binding.editImgEditProfileCircular.setImageURI(selectedImageFromGallery)
+                    }
                 }
             }
         }
     }
 
-    private fun uploadImage(projectCreatorEmail: String): String {
-        var fileName = projectCreatorEmail + "-imgProfile-" + Date().time.toString()
+    private fun uploadImage(projectCreatorEmail: String, action: (image: String) -> Unit) {
+        if(selectedImage != null) {
+            var fileName = projectCreatorEmail + "-imgProfile-" + Date().time.toString()
 
-        val storeReference = FirebaseStorage.getInstance().getReference("images/$projectCreatorEmail/imgProfile/$fileName")
-        storeReference.putFile(selectedImage!!)
-            .addOnSuccessListener {
-                lastImage = "images/$projectCreatorEmail/imgProfile/$fileName"
-            }.addOnFailureListener {
-                Snackbar.make(v, resources.getString(R.string.project_creation_image_upload_failed), Snackbar.LENGTH_LONG).show()
-                fileName = ""
-            }
-        return fileName
+            val storeReference = FirebaseStorage.getInstance()
+                .getReference("images/$projectCreatorEmail/imgProfile/$fileName")
+            storeReference.putFile(selectedImage!!)
+                .addOnSuccessListener {
+                    action(fileName)
+                }.addOnFailureListener {
+                    safeAccessBinding {
+                        Snackbar.make(
+                            v,
+                            resources.getString(R.string.project_creation_image_upload_failed),
+                            Snackbar.LENGTH_LONG
+                        ).show()
+                    }
+                    fileName = ""
+                }
+        } else {
+            action("")
+        }
     }
 
     private fun replaceData() {
-        val currentUser = FirebaseAuth.getInstance().currentUser
         val editableFactory = Editable.Factory.getInstance()
 
         getUser(currentUser?.email.toString(), object : ProfileFragment.OnUserFetchedListener {
-            override fun onUserFetched(user: DocumentSnapshot?) {
-                if (user != null) {
-                    safeAccessBinding {
-                        binding.editTextEditProfileName.text = editableFactory.newEditable(user.getString("nombre") ?: "")
-                        binding.editTextEditProfileSurname.text = editableFactory.newEditable(user.getString("apellido") ?: "")
-                        binding.editTextEditProfileEmail.text = editableFactory.newEditable(user.getString("email") ?: "")
-                        binding.editTextEditProfilePhone.text = editableFactory.newEditable(user.getString("telefono") ?: "")
-                        spinnerGender.setSelection(getGenderIndex(user.getString("genero")))
-                        binding.editTextEditProfileAddress.text = editableFactory.newEditable(user.getString("direccion") ?: "")
-                        setImage(currentUser?.email.toString(), user.getString("imgPerfil").toString())
+            override fun onUserFetched(userDoc: DocumentSnapshot?) {
+                safeAccessBinding {
+                    if (userDoc != null) {
+                        binding.editTextEditProfileName.text = editableFactory.newEditable(userDoc.getString("firstName") ?: "")
+                        binding.editTextEditProfileSurname.text = editableFactory.newEditable(userDoc.getString("surname") ?: "")
+                        binding.editTextEditProfileEmail.text = editableFactory.newEditable(userDoc.getString("email") ?: "")
+                        binding.editTextEditProfilePhone.text = editableFactory.newEditable(userDoc.getString("telephoneNumber") ?: "")
+                        spinnerGender.setSelection(getGenderIndex(userDoc.getString("gender")))
+                        binding.editTextEditProfileAddress.text = editableFactory.newEditable(userDoc.getString("address") ?: "")
+                        setImage(currentUser?.email.toString(), userDoc.getString("userImage").toString())
+                    } else {
+                        Toast.makeText(activity, resources.getString(R.string.profile_dataUser_error), Toast.LENGTH_SHORT).show()
                     }
-                } else {
-                    Toast.makeText(activity, resources.getString(R.string.profile_dataUser_error), Toast.LENGTH_SHORT).show()
                 }
             }
         })
     }
 
     private fun setImage(creatorEmail: String, titleImg: String) {
-
-        Handler(Looper.getMainLooper()).postDelayed({
-            safeAccessBinding {
-                if (titleImg == "") {
-                    binding.editImgEditProfileCircular.setImageResource(R.drawable.img_avatar)
-                    return@safeAccessBinding
-                }
-                val storageReference = FirebaseStorage.getInstance().reference.child("images/$creatorEmail/imgProfile/$titleImg")
-
-                Glide.with(v.context)
-                    .load(storageReference)
-                    .placeholder(R.drawable.img_avatar)
-                    .error(R.drawable.img_avatar)
-                    .into(binding.editImgEditProfileCircular)
+        safeAccessBinding {
+            if (titleImg == "") {
+                binding.editImgEditProfileCircular.setImageResource(R.drawable.img_avatar)
+                return@safeAccessBinding
             }
-        }, 500)
+            val storageReference = FirebaseStorage.getInstance().reference.child("images/$creatorEmail/imgProfile/$titleImg")
 
+            Glide.with(v.context)
+                .load(storageReference)
+                .placeholder(R.drawable.img_avatar)
+                .error(R.drawable.img_avatar)
+                .diskCacheStrategy(DiskCacheStrategy.NONE)
+                .skipMemoryCache(true)
+                .into(binding.editImgEditProfileCircular)
+        }
     }
 
     private fun startSpinner() {
@@ -217,7 +231,6 @@ class ProfileEditFragment : Fragment() {
     }
 
     private fun getUser(email: String, listener: ProfileFragment.OnUserFetchedListener) {
-        val db = FirebaseFirestore.getInstance()
         val usersRef = db.collection("usuarios")
 
         usersRef.whereEqualTo("email", email)
@@ -259,41 +272,39 @@ class ProfileEditFragment : Fragment() {
     }
 
     private fun updateUser(listener: ProfileFragment.OnUserUpdatedListener) {
-        val db = FirebaseFirestore.getInstance()
-        val currentUser = FirebaseAuth.getInstance().currentUser
-
         currentUser?.let { user ->
             getUser(user.email.toString(), object : ProfileFragment.OnUserFetchedListener {
                 override fun onUserFetched(userDoc: DocumentSnapshot?) {
                     userDoc?.let { userSnapshot ->
                         val userId = userSnapshot.id
                         val usersRef = db.collection("usuarios").document(userId)
-                        var imgUrl = userDoc.getString("imgPerfil").toString()
+                        val imgUrl = userDoc.getString("userImage").toString()
 
-                        if(selectedImage != null) {
-                            deleteProfileImage(user)
-                            imgUrl = uploadImage(user.email.toString())
+                        if(selectedImage != null) deleteProfileImage(user)
+
+                        uploadImage(user.email.toString()){image ->
+                            val updatedData = hashMapOf<String, Any>(
+                                "firstName" to binding.editTextEditProfileName.text.toString(),
+                                "surname" to binding.editTextEditProfileSurname.text.toString(),
+                                "telephoneNumber" to binding.editTextEditProfilePhone.text.toString(),
+                                "gender" to spinnerGender.selectedItem.toString(),
+                                "address" to binding.editTextEditProfileAddress.text.toString(),
+                                "userImage" to if(selectedImage != null) image else imgUrl
+                            )
+
+                            usersRef.update(updatedData)
+                                .addOnSuccessListener {
+                                    listener.onUserUpdated(true)
+                                }
+                                .addOnFailureListener {
+                                    listener.onUserUpdated(false)
+                                }
                         }
 
-                        val updatedData = hashMapOf<String, Any>(
-                            "nombre" to binding.editTextEditProfileName.text.toString(),
-                            "apellido" to binding.editTextEditProfileSurname.text.toString(),
-                            "telefono" to binding.editTextEditProfilePhone.text.toString(),
-                            "genero" to spinnerGender.selectedItem.toString(),
-                            "direccion" to binding.editTextEditProfileAddress.text.toString(),
-                            "imgPerfil" to imgUrl
-                        )
-                        // TODO para que se actualice la foto al volver atrás, el problema está aca!!
-
-                        usersRef.update(updatedData)
-                            .addOnSuccessListener {
-                                listener.onUserUpdated(true)
-                            }
-                            .addOnFailureListener {
-                                listener.onUserUpdated(false)
-                            }
                     } ?: run {
-                        Toast.makeText(activity, resources.getString(R.string.profile_dataUser_error), Toast.LENGTH_SHORT).show()
+                        safeAccessBinding {
+                            Toast.makeText(activity, resources.getString(R.string.profile_dataUser_error), Toast.LENGTH_SHORT).show()
+                        }
                         listener.onUserUpdated(false)
                     }
                 }
@@ -310,16 +321,15 @@ class ProfileEditFragment : Fragment() {
                 if (listResult.items.isNotEmpty()) {
                     listResult.items[0].delete()
                         .addOnFailureListener {
-                            resources.getString(R.string.profile_deleteImages_error)
+                            safeAccessBinding {
+                                resources.getString(R.string.profile_deleteImages_error)
+                            }
                         }
                 }
             }
     }
 
     private fun deleteAccount() {
-        val currentUser = FirebaseAuth.getInstance().currentUser
-        val db = FirebaseFirestore.getInstance()
-
         currentUser?.let { user ->
             deleteIdeas(db, user)
             deleteUsers(db, user)
@@ -327,6 +337,27 @@ class ProfileEditFragment : Fragment() {
             deleteProfileImage(user)
             deleteUserAccount(user)
         }
+    }
+
+    private fun validateIfUserHasFollowers(listener: ValidationUserIdeasListener) {
+        var userFollowers = false
+
+        db.collection("ideas")
+            .whereEqualTo("creatorEmail", currentUser?.email)
+            .get()
+            .addOnSuccessListener { documents ->
+                for (document in documents) {
+                    val followersCount = document.data["followersCount"] as Long
+                    if (followersCount > 0) {
+                        userFollowers = true
+                        break
+                    }
+                }
+                listener.onValidationUserIdeas(userFollowers)
+            }
+            .addOnFailureListener {
+                handleDeleteFailure()
+            }
     }
 
     private fun deleteIdeas(db: FirebaseFirestore, user: FirebaseUser) {
@@ -353,7 +384,9 @@ class ProfileEditFragment : Fragment() {
                     db.collection("usuarios").document(document.id)
                         .delete()
                         .addOnFailureListener {
-                            handleDeleteFailure()
+                            safeAccessBinding {
+                                handleDeleteFailure()
+                            }
                         }
                 }
             }
@@ -368,7 +401,9 @@ class ProfileEditFragment : Fragment() {
                 for (item in listResult.items) {
                     item.delete()
                         .addOnFailureListener {
-                            resources.getString(R.string.profile_deleteImages_error)
+                            safeAccessBinding {
+                                resources.getString(R.string.profile_deleteImages_error)
+                            }
                         }
                 }
             }
@@ -377,17 +412,23 @@ class ProfileEditFragment : Fragment() {
     private fun deleteUserAccount(user: FirebaseUser) {
         user.delete()
             .addOnCompleteListener { task ->
-                if (task.isSuccessful) {
-                    Toast.makeText(
-                        activity,
-                        resources.getString(R.string.profile_deleteAccount_complete),
-                        Toast.LENGTH_SHORT
-                    ).show()
-                    val intent = Intent(activity, LoginActivity::class.java)
-                    startActivity(intent)
-                } else {
-                    handleDeleteFailure()
+                safeAccessBinding {
+                    if (task.isSuccessful) {
+                        Toast.makeText(
+                            activity,
+                            resources.getString(R.string.profile_deleteAccount_complete),
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        val intent = Intent(activity, LoginActivity::class.java)
+                        startActivity(intent)
+                        requireActivity().finish()
+                    } else {
+                        handleDeleteFailure()
+                    }
                 }
+            }
+            .addOnFailureListener {
+                handleDeleteFailure()
             }
     }
 
@@ -406,7 +447,15 @@ class ProfileEditFragment : Fragment() {
         alertDialogBuilder.setMessage(resources.getString(R.string.profile_deleteAccount_message))
 
         alertDialogBuilder.setPositiveButton(resources.getString(R.string.profile_deleteAccount_accept)) { _, _ ->
-            deleteAccount()
+            validateIfUserHasFollowers(object : ValidationUserIdeasListener {
+                override fun onValidationUserIdeas(result: Boolean) {
+                    if (result) {
+                        Toast.makeText(activity, resources.getString(R.string.profile_deleteAccount_error_hasFollowers), Toast.LENGTH_SHORT).show()
+                    } else {
+                        deleteAccount()
+                    }
+                }
+            })
         }
 
         alertDialogBuilder.setNegativeButton(resources.getString(R.string.profile_deleteAccount_decline)) { _, _ ->

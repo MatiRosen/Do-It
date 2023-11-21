@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/fragmentLayoutProjectDetailInvest"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".fragments.ProjectTicketInvestFragment">
+
+    <FrameLayout
+        android:id="@+id/frameLayoutProjectDetailInvest"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|start"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <View
+            android:id="@+id/viewProjectDetailInvestTop"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/top_view_back_height"
+            android:layout_gravity="top|start"
+            android:background="@drawable/style_shadow_top_info" />
+
+        <ImageButton
+            android:id="@+id/imgBtnProjectDetailInvestBack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="@dimen/item_card_margin"
+            android:backgroundTint="@color/transparent"
+            android:contentDescription="@string/project_ticket_invest_back"
+            android:src="@drawable/icon_arrow_left" />
+    </FrameLayout>
+
+    <TextView
+        android:id="@+id/txtProjectInvestNewTicketTitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/project_ticket_invest_Title"
+        android:textAlignment="center"
+        android:textColor="@color/dark_pantone"
+        android:textSize="@dimen/txt_main_title_size"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/frameLayoutProjectDetailInvest" />
+
+    <ScrollView
+        android:id="@+id/scrollViewProjectDetailInvest"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/guidelineProjectDetailInvestHorizontal98"
+        app:layout_constraintEnd_toStartOf="@+id/guidelineProjectDetailInvestVertical98"
+        app:layout_constraintStart_toStartOf="@+id/guidelineProjectDetailInvestVertical2"
+        app:layout_constraintTop_toBottomOf="@+id/txtProjectInvestNewTicketTitle">
+
+        <LinearLayout
+            android:id="@+id/linearLayoutProjectDetailInvest"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="@dimen/divider_bottom_padding"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/txtAProjectInvestffidavit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/divider_bottom_padding"
+                android:textColor="@color/black"
+                android:textSize="@dimen/txt_paragraph_size"
+                android:text="@string/project_ticket_invest_affidavit_text" />
+
+            <CheckBox
+                android:id="@+id/checkProjectInvestAcceptAffidavit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/divider_bottom_padding"
+                android:text="@string/project_ticket_invest_radio_button"
+                android:textSize="@dimen/txt_mini_size"/>
+
+            <EditText
+                android:id="@+id/txtProjectInvestMountMoney"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/divider_bottom_padding"
+                android:autofillHints=""
+                android:inputType="number"
+                android:background="@drawable/style_edittext"
+                android:hint="@string/project_ticket_invest_mount_to_invest"
+                android:padding="@dimen/input_txt_padding"
+                android:textColor="@color/black"
+                android:textSize="@dimen/txt_input_size" />
+
+            <Button
+                android:id="@+id/btnProjectInvest"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/bottom_content_padding"
+                android:text="@string/project_ticket_invest_button"
+                android:background="@drawable/style_button_pantone"
+                android:textColor="@color/white"
+                android:textStyle="bold" />
+        </LinearLayout>
+    </ScrollView>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidelineProjectDetailInvestVertical2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="@dimen/guideline_2" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidelineProjectDetailInvestVertical98"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="@dimen/guideline_98" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidelineProjectDetailInvestHorizontal98"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="@dimen/guideline_98" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

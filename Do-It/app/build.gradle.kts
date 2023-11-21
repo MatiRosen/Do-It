@@ -4,6 +4,7 @@ plugins {
     id("androidx.navigation.safeargs.kotlin")
     id("com.google.gms.google-services")
     id("com.google.devtools.ksp")
+    kotlin("plugin.serialization") version "1.6.21"
 }
 
 android {
@@ -80,6 +81,7 @@ dependencies {
     implementation("com.firebaseui:firebase-ui-firestore:8.0.2")
     implementation("com.firebaseui:firebase-ui-storage:7.2.0")
     implementation("com.firebaseui:firebase-ui-database:8.0.2")
+    implementation("com.google.firebase:firebase-messaging:23.3.1")
 
     // Images
     implementation("com.github.bumptech.glide:glide:4.16.0")
@@ -95,4 +97,15 @@ dependencies {
     implementation ("com.google.android.gms:play-services-ads:22.4.0")
 
     implementation("androidx.paging:paging-runtime:3.2.1")
+
+    //algolia
+    implementation("com.algolia:instantsearch-android:3.3.0")
+    implementation("com.algolia:instantsearch-android-paging3:3.3.0")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.2")
+    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.6.2")
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-core-jvm:1.4.1")
+    implementation("com.algolia:algoliasearch-client-kotlin:2.1.8")
+
+
+
 }

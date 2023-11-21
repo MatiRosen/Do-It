@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="project_ticket_invest_Title">Nuevo Ticket Inversión</string>
+    <string name="project_ticket_invest_affidavit_text">1.	El Inversor ha leído y comprendido los términos y condiciones de la aplicación Do It, en adelante "La Aplicación", y acepta plenamente estar sujeto a los mismos.\n\n
+2.	El inversor, al utilizar este ticket generado, declara que ha llegado a un acuerdo con el creador y ha realizado una inversión a través del medio de pago acordado por ambas partes, por el monto correspondiente al creador. La confirmación final de la recepción del monto exacto indicado en este ticket queda pendiente de la respuesta del creador.\n\n
+3.	El Inversor reconoce y comprende que La Aplicación no se hace responsable de las sumas de dinero enviadas y/o recibidas como parte de la inversión y que cualquier disputa relacionada con la inversión debe ser resuelta entre El Inversor y El Creador, sin que La Aplicación tenga ninguna responsabilidad al respecto.\n\n
+4.	El Inversor declara bajo juramento que la información proporcionada en esta declaración es verdadera y exacta.\n\n
+5.	El Inversor acepta que esta declaración puede ser utilizada como prueba de cumplimiento o incumplimiento de los términos del acuerdo de inversión en caso de disputa entre El Inversor y El Creador.\n\n
+</string>
+    <string name="project_ticket_invest_radio_button">He leído y acepto la declaración jurada</string>
+    <string name="project_ticket_invest_mount_to_invest">Ingrese un monto</string>
+    <string name="project_ticket_invest_button">Invertir</string>
+    <string name="project_ticket_invest_state">Pendiente</string>
+    <string name="project_ticket_invest_failed">¡Error al generar el ticket de inversión!</string>
+    <string name="project_ticket_invest_budget_min_error">¡Debes ingresar un monto mínimo de inversión mayor o igual a %s!</string>
+    <string name="project_ticket_invest_budget_max_error">¡Debes ingresar un monto de inversión menor o igual a %s!</string>
+    <string name="project_ticket_invest_success">¡Inversión generada con éxito!</string>
+    <string name="project_ticket_invest_not_checked_error">¡Debe aceptar la declaración jurada!</string>
+    <string name="project_ticket_invest_back">Volver</string>
+    <string name="project_new_ticket_title">%s tiene una nueva inversión</string>
+    <string name="project_new_ticket_message">%s ha invertido en tu proyecto</string>
+</resources>

@@ -224,6 +224,20 @@
                     android:paddingVertical="@dimen/input_txt_padding"
                     android:drawablePadding="@dimen/input_txt_padding"
                     app:drawableStartCompat="@drawable/icon_cash" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:background="@color/light_gray" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerProjectDetailCreatorComments"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/divider_top_padding"
+                    android:layout_marginBottom="@dimen/divider_bottom_padding"
+                    android:scrollbars="horizontal" />
+
             </LinearLayout>
         </LinearLayout>
     </ScrollView>

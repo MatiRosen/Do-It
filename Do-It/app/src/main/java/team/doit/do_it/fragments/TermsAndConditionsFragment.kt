@@ -37,4 +37,3 @@ class TermsAndConditionsFragment : Fragment() {
         _binding = null
     }
 }
-// TODO: Resolver que al estar en Términos y Condiciones y regresar atrás a la primer pantalla de registracion, se deben mantener los datos ingresados en el mail y la contraseña

@@ -4,26 +4,23 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.constraintlayout.widget.ConstraintSet
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentContainerView
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.firebase.ui.database.FirebaseRecyclerOptions
-import com.firebase.ui.firestore.FirestoreRecyclerOptions
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ktx.snapshots
-import kotlinx.coroutines.flow.map
 import team.doit.do_it.R
 import team.doit.do_it.adapters.ChatListAdapter
 import team.doit.do_it.databinding.FragmentChatBinding
 import team.doit.do_it.entities.ChatEntity
 import team.doit.do_it.listeners.OnViewItemClickedListener
+import team.doit.do_it.repositories.UserRepository
 
-class ChatFragment : Fragment(), OnViewItemClickedListener {
+class ChatFragment : Fragment(), OnViewItemClickedListener<ChatEntity> {
 
     private var _binding : FragmentChatBinding? = null
     private val binding get() = _binding!!
@@ -47,6 +44,28 @@ class ChatFragment : Fragment(), OnViewItemClickedListener {
     override fun onStart() {
         super.onStart()
         setupRecyclerView()
+        checkMessages()
+    }
+
+    private fun checkMessages(){
+        val ownUserUUID = FirebaseAuth.getInstance().currentUser?.uid ?: return
+
+        db.getReference("messages/$ownUserUUID").get()
+            .addOnCompleteListener {
+                if (it.isSuccessful) {
+                    for (data in it.result!!.children) {
+                        val chat = data.getValue(ChatEntity::class.java)
+                        if (chat != null && chat.isWaiting) {
+                            return@addOnCompleteListener
+                        }
+                    }
+                    safeActivityCall{
+                        val mainActivity = requireActivity()
+                        val bottomMenu = mainActivity.findViewById<BottomNavigationView>(R.id.bottomNavigationView).menu
+                        bottomMenu.findItem(R.id.chat).icon = AppCompatResources.getDrawable(requireContext(), R.drawable.icon_chat)
+                    }
+                }
+            }
     }
 
     private fun setupRecyclerView() {
@@ -59,21 +78,25 @@ class ChatFragment : Fragment(), OnViewItemClickedListener {
             .setQuery(query, ChatEntity::class.java)
             .build()
 
-        chatListAdapter = ChatListAdapter(options, this)
+        chatListAdapter = ChatListAdapter(options, this, UserRepository())
         binding.recyclerChats.adapter = chatListAdapter
         setupRecyclerViewSettings(binding.recyclerChats)
         chatListAdapter.startListening()
 
         chatListAdapter.registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver() {
             override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
-                binding.progressBarChat.visibility = View.GONE
+                safeAccessBinding {
+                    binding.progressBarChat.visibility = View.GONE
+                }
             }
         })
 
         ref.get().addOnCompleteListener {
             if (it.isSuccessful) {
                 if (it.result?.children?.count() == 0) {
-                    binding.progressBarChat.visibility = View.GONE
+                    safeAccessBinding {
+                        binding.progressBarChat.visibility = View.GONE
+                    }
                 }
             }
         }
@@ -85,6 +108,21 @@ class ChatFragment : Fragment(), OnViewItemClickedListener {
         recycler.layoutManager = linearLayoutManager
     }
 
+    private fun safeActivityCall(action: () -> Unit) {
+        try{
+            if (!requireActivity().isFinishing && !requireActivity().isDestroyed ) {
+                action()
+            }
+        } catch (_: IllegalStateException) {
+        }
+    }
+
+    private fun safeAccessBinding(action: () -> Unit) {
+        if (_binding != null && context != null) {
+            action()
+        }
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
@@ -92,16 +130,16 @@ class ChatFragment : Fragment(), OnViewItemClickedListener {
 
     override fun onStop() {
         super.onStop()
-        chatListAdapter.stopListening()
+        if (::chatListAdapter.isInitialized) {
+            chatListAdapter.stopListening()
+        }
     }
 
-    override fun onViewItemDetail(item: Any) {
-        val chat = if (item is ChatEntity) item else return
-        val action = ChatFragmentDirections.actionChatToUserChat(chat)
+    override fun onViewItemDetail(item: ChatEntity) {
+        val action = ChatFragmentDirections.actionChatToUserChat(item)
         val ownUserUUID = FirebaseAuth.getInstance().currentUser?.uid ?: return
-        db.getReference("messages/$ownUserUUID/${chat.userUUID}/waiting").setValue(false)
+        db.getReference("messages/$ownUserUUID/${item.userUUID}/waiting").setValue(false)
 
-        // TODO ver FCM de firebase para resolver cambiar el icono.
         this.findNavController().navigate(action)
     }
 }

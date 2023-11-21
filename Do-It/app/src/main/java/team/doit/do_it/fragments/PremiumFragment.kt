@@ -7,21 +7,23 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AlertDialog
-import androidx.constraintlayout.widget.ConstraintSet
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentContainerView
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import com.stripe.android.paymentsheet.PaymentSheet
 import com.stripe.android.paymentsheet.PaymentSheetResult
-import okhttp3.*
+import okhttp3.Call
+import okhttp3.Callback
 import okhttp3.MediaType.Companion.toMediaType
+import okhttp3.OkHttpClient
+import okhttp3.Request
 import okhttp3.RequestBody.Companion.toRequestBody
+import okhttp3.Response
 import org.json.JSONObject
 import team.doit.do_it.R
+import team.doit.do_it.activities.MainActivity
 import team.doit.do_it.databinding.FragmentPremiumBinding
 import java.io.IOException
 
@@ -54,7 +56,6 @@ class PremiumFragment : Fragment() {
         _binding = FragmentPremiumBinding.inflate(inflater, container, false)
         v = binding.root
 
-        removeMargins()
         showProgressBar()
 
         return v
@@ -80,8 +81,16 @@ class PremiumFragment : Fragment() {
             hideProgressBar()
         }
 
+        setupButtons()
+
+        val activity = requireActivity() as MainActivity
+        activity.removeMargins()
+    }
+
+    private fun setupButtons(){
         binding.imgBtnPremiumBack.setOnClickListener {
-            v.findNavController().navigateUp()
+            val navController = findNavController()
+            navController.navigate(R.id.action_premiumFragment_to_options)
         }
 
         binding.btnPremiumBuy.setOnClickListener{
@@ -106,19 +115,23 @@ class PremiumFragment : Fragment() {
             .newCall(request)
             .enqueue(object: Callback {
                 override fun onFailure(call: Call, e: IOException) {
-                    showAlert(resources.getString(R.string.failLoadData), "Error: $e")
+                    safeAccessBinding {
+                        showAlert(resources.getString(R.string.failLoadData), "Error: $e")
+                    }
                 }
 
                 override fun onResponse(call: Call, response: Response) {
-                    if (!response.isSuccessful) {
-                        showAlert(resources.getString(R.string.failLoadPage), "Error: $response")
-                    } else {
-                        val responseData = response.body?.string()
-                        val responseJson = responseData?.let { JSONObject(it) } ?: JSONObject()
-                        paymentIntentClientSecret = responseJson.getString("clientSecret")
-                        safeAccessBinding {
-                            activity?.runOnUiThread {
-                                binding.btnPremiumBuy.isEnabled = true
+                    safeAccessBinding {
+                        if (!response.isSuccessful) {
+                            showAlert(resources.getString(R.string.failLoadPage), "Error: $response")
+                        } else {
+                            val responseData = response.body?.string()
+                            val responseJson = responseData?.let { JSONObject(it) } ?: JSONObject()
+                            paymentIntentClientSecret = responseJson.getString("clientSecret")
+                            safeAccessBinding {
+                                activity?.runOnUiThread {
+                                    binding.btnPremiumBuy.isEnabled = true
+                                }
                             }
                         }
                     }
@@ -137,7 +150,7 @@ class PremiumFragment : Fragment() {
     }
 
     private fun safeAccessBinding(action: () -> Unit) {
-        if (_binding != null) {
+        if (_binding != null && context != null) {
             action()
         }
     }
@@ -176,9 +189,11 @@ class PremiumFragment : Fragment() {
         val currentUser = FirebaseAuth.getInstance().currentUser
         getUser(currentUser?.email.toString(), object : ProfileFragment.OnUserFetchedListener {
             override fun onUserFetched(user: DocumentSnapshot?) {
-                if (user != null) {
-                    isPremium = user.getBoolean("premium")!!
-                    action(isPremium)
+                safeAccessBinding {
+                    if (user != null) {
+                        isPremium = user.getBoolean("isPremium")!!
+                        action(isPremium)
+                    }
                 }
             }
         })
@@ -205,7 +220,7 @@ class PremiumFragment : Fragment() {
         val currentUser = FirebaseAuth.getInstance().currentUser
         getUser(currentUser?.email.toString(), object : ProfileFragment.OnUserFetchedListener {
             override fun onUserFetched(user: DocumentSnapshot?) {
-                user?.reference?.update("premium", true)
+                user?.reference?.update("isPremium", true)
                 action(true)
             }
         })
@@ -229,27 +244,16 @@ class PremiumFragment : Fragment() {
             }
     }
 
+    override fun onStop() {
+        super.onStop()
+
+        val activity = requireActivity() as MainActivity
+        activity.showMargins()
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
-        showMargins()
+
         _binding = null
-    }
-
-    private fun removeMargins() {
-        requireActivity().findViewById<FragmentContainerView>(R.id.mainHost)
-            .layoutParams = ViewGroup.LayoutParams(
-            ViewGroup.LayoutParams.MATCH_PARENT,
-            ViewGroup.LayoutParams.MATCH_PARENT
-        )
-    }
-
-    private fun showMargins() {
-        val constraintSet = ConstraintSet()
-        constraintSet.connect(R.id.mainHost, ConstraintSet.TOP, R.id.guidelineMainActivityHorizontal3, ConstraintSet.BOTTOM)
-        constraintSet.connect(R.id.mainHost, ConstraintSet.BOTTOM, R.id.bottomNavigationView, ConstraintSet.TOP)
-        constraintSet.connect(R.id.mainHost, ConstraintSet.START, R.id.guidelineMainActivityVertical2, ConstraintSet.END)
-        constraintSet.connect(R.id.mainHost, ConstraintSet.END, R.id.guidelineMainActivityVertical98, ConstraintSet.START)
-
-        constraintSet.applyTo(requireActivity().findViewById(R.id.frameLayoutMainActivity))
     }
 }

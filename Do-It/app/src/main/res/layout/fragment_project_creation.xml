@@ -11,16 +11,14 @@
         android:id="@+id/txtProjectCreationTitle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:gravity="center"
         android:text="@string/project_creation_new_project"
         android:textColor="@color/dark_pantone"
         android:textSize="@dimen/txt_main_title_size"
         android:textStyle="bold"
-        android:gravity="center"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
-    <!-- We use ScrollView because we set the elements height -->
 
     <ScrollView
         android:id="@+id/scrollViewProjectCreation"
@@ -74,6 +72,7 @@
                 android:padding="@dimen/input_txt_padding"
                 android:textColor="@color/black"
                 android:textSize="@dimen/txt_input_size" />
+
             <Button
                 android:id="@+id/btnProjectCreationAddImage"
                 android:layout_width="wrap_content"
@@ -82,12 +81,12 @@
                 android:layout_marginBottom="@dimen/divider_bottom_padding"
                 android:background="@drawable/style_button_project_creation"
                 android:drawableStart="@drawable/icon_upload_file"
-                android:padding="@dimen/button_text_padding"
                 android:drawablePadding="@dimen/button_text_padding"
+                android:padding="@dimen/button_text_padding"
                 android:text="@string/project_creation_project_image"
                 android:textColor="@color/white"
                 android:textSize="@dimen/txt_button_size"
-                android:textStyle="bold"/>
+                android:textStyle="bold" />
 
             <EditText
                 android:id="@+id/editTxtProjectCreationDescription"
@@ -115,8 +114,8 @@
                     android:id="@+id/editTxtProjectCreationGoal"
                     android:layout_width="0dp"
                     android:layout_height="@dimen/input_txt_height"
-                    android:layout_marginEnd="@dimen/input_end_padding"
                     android:layout_marginTop="@dimen/divider_top_padding"
+                    android:layout_marginEnd="@dimen/input_end_padding"
                     android:layout_marginBottom="@dimen/divider_bottom_padding"
                     android:layout_weight="1"
                     android:autofillHints=""
@@ -131,8 +130,8 @@
                     android:id="@+id/editTxtProjectCreationMinBudget"
                     android:layout_width="0dp"
                     android:layout_height="@dimen/input_txt_height"
-                    android:layout_marginTop="@dimen/divider_top_padding"
                     android:layout_marginStart="@dimen/input_start_padding"
+                    android:layout_marginTop="@dimen/divider_top_padding"
                     android:layout_marginBottom="@dimen/divider_bottom_padding"
                     android:layout_weight="1"
                     android:autofillHints=""
@@ -150,16 +149,25 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/divider_top_padding"
                 android:layout_marginBottom="@dimen/divider_bottom_padding"
-                android:padding="@dimen/button_text_padding"
                 android:background="@drawable/style_button"
+                android:padding="@dimen/button_text_padding"
                 android:text="@string/project_creation_save"
                 android:textColor="@color/white"
                 android:textSize="@dimen/txt_button_size"
-                android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/guidelineProjectCreationHorizontal90" />
+                android:textStyle="bold" />
         </LinearLayout>
     </ScrollView>
+
+    <ProgressBar
+        android:id="@+id/progressBarProjectCreation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_weight="1"
+        android:indeterminateTint="@color/pantone"
+        app:layout_constraintBottom_toBottomOf="@+id/scrollViewProjectCreation"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtProjectCreationTitle" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,6 +1,6 @@
 package team.doit.do_it.listeners
 
 
-interface OnViewItemClickedListener {
-    fun onViewItemDetail(item: Any)
+interface OnViewItemClickedListener<T> {
+    fun onViewItemDetail(item: T)
 }

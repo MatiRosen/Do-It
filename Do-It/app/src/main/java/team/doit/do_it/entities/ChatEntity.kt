@@ -22,6 +22,7 @@ data class ChatEntity(
         parcel.readByte() != 0.toByte()
     )
 
+    // Este constructor es usado internamente por Firebase. No se debe eliminar.
     constructor() : this("", "", "", "", mutableListOf<MessageEntity>(), 0, false)
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {

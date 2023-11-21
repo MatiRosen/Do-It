@@ -1,6 +1,5 @@
 package team.doit.do_it.fragments
 
-import android.app.Activity
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -12,9 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
-import com.google.android.gms.ads.LoadAdError
-import com.google.android.gms.ads.interstitial.InterstitialAd
-import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
@@ -29,7 +26,7 @@ class ProfileFragment : Fragment() {
     private lateinit var v : View
 
     interface OnUserFetchedListener {
-        fun onUserFetched(user: DocumentSnapshot?)
+        fun onUserFetched(userDoc: DocumentSnapshot?)
     }
 
     interface OnUserUpdatedListener {
@@ -50,7 +47,7 @@ class ProfileFragment : Fragment() {
     }
 
     private fun safeAccessBinding(action: () -> Unit) {
-        if (_binding != null) {
+        if (_binding != null && context != null) {
             action()
         }
     }
@@ -102,43 +99,42 @@ class ProfileFragment : Fragment() {
         }
 
         getUser(userEmail, object : OnUserFetchedListener {
-            override fun onUserFetched(user: DocumentSnapshot?) {
+            override fun onUserFetched(userDoc: DocumentSnapshot?) {
                 safeAccessBinding {
-                    if (user != null) {
-                        binding.txtProfileName.text = "${user.getString("nombre")} ${user.getString("apellido")}"
-                        binding.txtProfileEmail.text = user.getString("email")
-                        binding.txtProfilePhone.text = user.getString("telefono")
-                        binding.txtProfileGender.text = user.getString("genero")
-                        binding.txtProfileAddress.text = user.getString("direccion")
-                        setImage(userEmail, user.getString("imgPerfil").toString())
+                    if (userDoc != null) {
+                        val firstName = userDoc.getString("firstName") ?: ""
+                        val surname = userDoc.getString("surname") ?: ""
+                        binding.txtProfileName.text = getString(R.string.profile_name_format, firstName, surname)
+                        binding.txtProfileEmail.text = userDoc.getString("email")
+                        binding.txtProfilePhone.text = userDoc.getString("telephoneNumber")
+                        binding.txtProfileGender.text = userDoc.getString("gender")
+                        binding.txtProfileAddress.text = userDoc.getString("address")
+                        setImage(userEmail, userDoc.getString("userImage").toString())
                         hideProgressBar(creatorEmail == " ")
                     } else {
                         Toast.makeText(activity, resources.getString(R.string.profile_dataUser_error), Toast.LENGTH_SHORT).show()
                     }
                 }
-
             }
         })
     }
 
     private fun setImage(creatorEmail: String, titleImg: String) {
-
-        Handler(Looper.getMainLooper()).postDelayed({
-            safeAccessBinding {
-                if (titleImg == "") {
-                    binding.imgProfileCircular.setImageResource(R.drawable.img_avatar)
-                    return@safeAccessBinding
-                }
-                val storageReference = FirebaseStorage.getInstance().reference.child("images/$creatorEmail/imgProfile/$titleImg")
-
-                Glide.with(v.context)
-                    .load(storageReference)
-                    .placeholder(R.drawable.img_avatar)
-                    .error(R.drawable.img_avatar)
-                    .into(binding.imgProfileCircular)
+        safeAccessBinding {
+            if (titleImg == "") {
+                binding.imgProfileCircular.setImageResource(R.drawable.img_avatar)
+                return@safeAccessBinding
             }
-        }, 500)
+            val storageReference = FirebaseStorage.getInstance().reference.child("images/$creatorEmail/imgProfile/$titleImg")
 
+            Glide.with(v.context)
+                .load(storageReference)
+                .placeholder(R.drawable.img_avatar)
+                .error(R.drawable.img_avatar)
+                .diskCacheStrategy(DiskCacheStrategy.NONE)
+                .skipMemoryCache(true)
+                .into(binding.imgProfileCircular)
+        }
     }
 
     private fun getUser(email: String, listener: OnUserFetchedListener) {

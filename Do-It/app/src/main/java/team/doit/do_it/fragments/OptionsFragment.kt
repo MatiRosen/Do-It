@@ -10,6 +10,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 import team.doit.do_it.R
 import team.doit.do_it.activities.LoginActivity
 import team.doit.do_it.databinding.FragmentOptionsBinding
@@ -54,6 +55,11 @@ class OptionsFragment : Fragment() {
             val action = OptionsFragmentDirections.actionOptionsToFollowingProjectFragment()
             findNavController().navigate(action)
         }
+
+        binding.btnOptionsInvests.setOnClickListener {
+            val action = OptionsFragmentDirections.actionOptionsToMyInvestmentsFragment()
+            findNavController().navigate(action)
+        }
     }
 
     private fun confirmLogout(){
@@ -75,15 +81,26 @@ class OptionsFragment : Fragment() {
     }
 
     private fun logout() {
-        mAuth.signOut()
+        removeFCMToken{
+            mAuth.signOut()
 
-        val intent = Intent(activity, LoginActivity::class.java)
-        startActivity(intent)
+            val intent = Intent(activity, LoginActivity::class.java)
+            startActivity(intent)
 
-        Toast.makeText(activity, resources.getString(R.string.option_logout_success), Toast.LENGTH_SHORT).show()
-        requireActivity().finish()
+            Toast.makeText(activity, resources.getString(R.string.option_logout_success), Toast.LENGTH_SHORT).show()
+            requireActivity().finish()
+        }
     }
 
+    private fun removeFCMToken(action: () -> Unit) {
+        val db = FirebaseFirestore.getInstance()
+        val currentUser = mAuth.currentUser
+
+        db.collection("usuarios").document(currentUser?.email.toString())
+            .update("fcmToken", "")
+            .addOnFailureListener { action() }
+            .addOnSuccessListener { action() }
+    }
 
     override fun onDestroyView() {
         super.onDestroyView()

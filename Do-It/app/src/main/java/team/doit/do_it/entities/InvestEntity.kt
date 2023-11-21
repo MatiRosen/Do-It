@@ -2,43 +2,51 @@ package team.doit.do_it.entities
 
 import android.os.Parcel
 import android.os.Parcelable
+import team.doit.do_it.enums.InvestStatus
+import java.util.Date
 
-class InvestEntity ( investorEmail:String,
-                     creatorEmail:String,
-                     budgetInvest:Double,
-                     projectTitle:String,
-                    estado:String): Parcelable {
-   private var investorEmail:String
-   private var creatorEmail:String
-   private var budgetInvest:Double
-   private var projectTitle:String
-   private var estado:String
-    constructor(parcel: Parcel):this(
+data class InvestEntity (
+    var uuid : String,
+    var creatorEmail : String,
+    var investorEmail : String,
+    var budgetInvest : Double,
+    var projectID : String,
+    var status : InvestStatus,
+    var userName : String,
+    var projectTitle : String,
+    var date : Date): Parcelable {
+
+    constructor(parcel: Parcel) : this(
+        parcel.readString()!!,
         parcel.readString()!!,
         parcel.readString()!!,
         parcel.readDouble(),
         parcel.readString()!!,
-        parcel.readString()!!
-    ) {
-    }
-    init {
-        this.investorEmail = investorEmail
-        this.creatorEmail = creatorEmail
-        this.budgetInvest = budgetInvest
-        this.projectTitle = projectTitle
-        this.estado = estado
-    }
+        InvestStatus.from(parcel.readString()!!),
+        parcel.readString()!!,
+        parcel.readString()!!,
+        Date(parcel.readLong())
+    )
+
+    // Este constructor es usado internamente por Firebase. No se debe eliminar.
+    constructor() : this("","","",0.0,"", InvestStatus.PENDING, "", "", Date())
+
     override fun describeContents(): Int {
         return 0
     }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
-        parcel.writeString(investorEmail)
+        parcel.writeString(uuid)
         parcel.writeString(creatorEmail)
+        parcel.writeString(investorEmail)
         parcel.writeDouble(budgetInvest)
+        parcel.writeString(projectID)
+        parcel.writeString(status.getDescription())
+        parcel.writeString(userName)
         parcel.writeString(projectTitle)
-        parcel.writeString(estado)
+        parcel.writeLong(date.time)
     }
+    
     companion object CREATOR : Parcelable.Creator<InvestEntity> {
         override fun createFromParcel(parcel: Parcel): InvestEntity {
             return InvestEntity(parcel)
@@ -47,39 +55,5 @@ class InvestEntity ( investorEmail:String,
         override fun newArray(size: Int): Array<InvestEntity?> {
             return arrayOfNulls(size)
         }
-    }
- //region Setters
-    fun setInvestorEmail(investorEmail: String) {
-     this.investorEmail = investorEmail
-    }
-    fun setCreatorEmail(creatorEmail: String) {
-     this.creatorEmail = creatorEmail
-    }
-    fun setBudgetInvest(budgetInvest: Double) {
-        this.budgetInvest = budgetInvest
-    }
-    fun setProjectTitle(projectTitle: String) {
-        this.projectTitle = projectTitle
-    }
-    fun setEstado(estado: String) {
-        this.projectTitle = estado
-    }
-    //endregion
-
-    //region Getters
-    fun getInvestorEmail(): String {
-        return this.investorEmail
-    }
-    fun getCreatorEmail(): String {
-        return this.creatorEmail
-    }
-    fun getBudgetInvest(): Double {
-        return this.budgetInvest
-    }
-    fun getProjectTitle(): String {
-        return this.projectTitle
-    }
-    fun getEstado(): String {
-        return this.estado
     }
 }

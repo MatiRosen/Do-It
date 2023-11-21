@@ -21,8 +21,12 @@ import com.google.firebase.storage.FirebaseStorage
 import team.doit.do_it.R
 import team.doit.do_it.databinding.FragmentProjectCreationBinding
 import team.doit.do_it.entities.ProjectEntity
+import team.doit.do_it.extensions.formatAsMoney
 import java.io.File
+import java.text.DecimalFormat
+import java.text.DecimalFormatSymbols
 import java.util.Date
+import java.util.Locale
 
 
 class ProjectCreationFragment : Fragment() {
@@ -34,7 +38,6 @@ class ProjectCreationFragment : Fragment() {
 
     private var selectedImage: Uri? = null
     private var photoFile: File? = null
-    private var lastImage: String = ""
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -48,6 +51,12 @@ class ProjectCreationFragment : Fragment() {
         return v
     }
 
+    private fun safeAccessBinding(action: () -> Unit) {
+        if (_binding != null && context != null) {
+            action()
+        }
+    }
+
     override fun onStart() {
         super.onStart()
 
@@ -56,8 +65,13 @@ class ProjectCreationFragment : Fragment() {
         }
 
         binding.btnProjectCreationSave.setOnClickListener {
-            saveProject()
+            createProject()
         }
+
+        binding.editTxtProjectCreationMinBudget.formatAsMoney()
+        binding.editTxtProjectCreationGoal.formatAsMoney()
+
+        binding.progressBarProjectCreation.visibility = View.GONE
     }
 
     private fun pickImage() {
@@ -80,70 +94,69 @@ class ProjectCreationFragment : Fragment() {
         }
     }
 
-    private fun saveProject(){
-        val project = createProject() ?: return
-
-        saveProjectToDatabase(project)
-        /*db.collection("ideas")
-            .whereEqualTo("title", project.getTitle())
-            .get()
-            .addOnSuccessListener { result ->
-                if (result.isEmpty){
-                    saveProjectToDatabase(project)
-                } else {
-                    Snackbar.make(v, resources.getString(R.string.project_creation_failed_title_exists), Snackbar.LENGTH_LONG).show()
-                }
-            }
-            .addOnFailureListener {
-                Snackbar.make(v, resources.getString(R.string.project_creation_failed), Snackbar.LENGTH_LONG).show()
-            }
-        */
-    }
-
     private fun saveProjectToDatabase(project: ProjectEntity){
         db.collection("ideas")
             .add(project)
             .addOnSuccessListener {
-                showSuccessMessage(project)
-                v.findNavController().popBackStack()
+                project.uuid = it.id
+                db.collection("ideas").document(it.id).set(project)
+                safeAccessBinding {
+                    showSuccessMessage(project)
+                    v.findNavController().popBackStack()
+                }
             }
             .addOnFailureListener {
-                Snackbar.make(v, resources.getString(R.string.project_creation_failed), Snackbar.LENGTH_LONG).show()
+                safeAccessBinding {
+                    Snackbar.make(v, resources.getString(R.string.project_creation_failed), Snackbar.LENGTH_LONG).show()
+                }
             }
     }
 
     private fun showSuccessMessage(project: ProjectEntity){
-        val successMessage = resources.getString(R.string.project_creation_succeed) + project.title
+        val successMessage = resources.getString(R.string.project_creation_succeed) + " " + project.title
         Toast.makeText(v.context, successMessage, Toast.LENGTH_LONG).show()
     }
 
-    private fun createProject() : ProjectEntity?{
+    private fun createProject(){
+        binding.progressBarProjectCreation.visibility = View.VISIBLE
         val projectCreatorEmail = FirebaseAuth.getInstance().currentUser?.email.toString()
-        val projectTitle = binding.editTxtProjectCreationTitle.text.toString()
-        val projectSubtitle = binding.editTxtProjectCreationSubtitle.text.toString()
-        val projectCategory = binding.spinnerProjectCreationCategory.selectedItem.toString()
-        val projectImg = if(selectedImage != null) uploadImage(projectCreatorEmail, projectTitle) else ""
-        val projectDescription = binding.editTxtProjectCreationDescription.text.toString()
-        val projectMinBudget = binding.editTxtProjectCreationMinBudget.text.toString().toDoubleOrNull() ?: 0.0
-        val projectGoal = binding.editTxtProjectCreationGoal.text.toString().toDoubleOrNull() ?: 0.0
+        val projectTitle = binding.editTxtProjectCreationTitle.text.toString().trim()
+        uploadImage(projectCreatorEmail, projectTitle){image ->
+            val projectSubtitle = binding.editTxtProjectCreationSubtitle.text.toString().trim()
+            val projectCategory = binding.spinnerProjectCreationCategory.selectedItem.toString().trim()
+            val projectDescription = binding.editTxtProjectCreationDescription.text.toString().trim()
 
-        val project = ProjectEntity(projectCreatorEmail, projectTitle, projectSubtitle, projectDescription, projectCategory, projectImg, projectMinBudget, projectGoal, 0, 0, Date(), mutableListOf<String>())
+            val decFormat: DecimalFormat = DecimalFormat.getInstance(Locale.getDefault()) as DecimalFormat
+            val symbols: DecimalFormatSymbols = decFormat.decimalFormatSymbols
+            val decimalSeparator = symbols.decimalSeparator.toString()
+            val thousandSeparator = symbols.groupingSeparator.toString()
 
-        return if (validateFields(project)) project else null
+            val projectMinBudget = binding.editTxtProjectCreationMinBudget.text.toString().replace(thousandSeparator, "").replace(decimalSeparator, ".").toDoubleOrNull() ?: 0.0
+            val projectGoal = binding.editTxtProjectCreationGoal.text.toString().replace(thousandSeparator, "").replace(decimalSeparator, ".").toDoubleOrNull() ?: 0.0
+
+            val project = ProjectEntity(projectCreatorEmail, projectTitle, projectSubtitle, projectDescription,
+                projectCategory, image, projectMinBudget, projectGoal, 0, 0, Date(),
+                mutableListOf(), mutableListOf(), "")
+
+            binding.progressBarProjectCreation.visibility = View.GONE
+            if (validateFields(project)) {
+                saveProjectToDatabase(project)
+            }
+        }
     }
 
-    private fun uploadImage(projectCreatorEmail: String, projectTitle: String): String {
-        var fileName = "$projectCreatorEmail-$projectTitle" + "-" + Date().time.toString()
+    private fun uploadImage(projectCreatorEmail: String, projectTitle: String, action: (image: String) -> Unit) {
+        val fileName = "$projectCreatorEmail-$projectTitle" + "-" + Date().time.toString()
 
         val storeReference = FirebaseStorage.getInstance().getReference("images/$projectCreatorEmail/projects/$fileName")
         storeReference.putFile(selectedImage!!)
             .addOnSuccessListener {
-                lastImage = "images/$projectCreatorEmail/projects/$fileName"
+                action(fileName)
             }.addOnFailureListener {
-                Snackbar.make(v, resources.getString(R.string.project_creation_image_upload_failed), Snackbar.LENGTH_LONG).show()
-                fileName = ""
+                safeAccessBinding {
+                    Snackbar.make(v, resources.getString(R.string.project_creation_image_upload_failed), Snackbar.LENGTH_LONG).show()
+                }
             }
-        return fileName
     }
 
     private fun validateFields(project: ProjectEntity) : Boolean{
@@ -183,7 +196,6 @@ class ProjectCreationFragment : Fragment() {
             Snackbar.make(v, resources.getString(R.string.project_creation_min_budget_higher_than_goal_error), Snackbar.LENGTH_LONG).show()
             return false
         }
-
 
         return true
     }

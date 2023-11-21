@@ -4,11 +4,10 @@ import android.os.Parcel
 import android.os.Parcelable
 import java.util.Date
 
-
-// TODO: Categoria es string o enum? Imagen es string?
 data class ProjectEntity(
     val creatorEmail: String, var title: String, var subtitle: String, var description: String, var category: String, var image: String,
-    var minBudget: Double, var goal: Double, var visitorsCount: Int, var followersCount: Int, val creationDate: Date, val followers : MutableList<String>) : Parcelable {
+    var minBudget: Double, var goal: Double, var visitorsCount: Int, var followersCount: Int, val creationDate: Date, val followers : MutableList<String>,
+    val comments: MutableList<CommentEntity>, var uuid : String ) : Parcelable {
 
     constructor(parcel: Parcel) : this(
         parcel.readString()!!,
@@ -22,10 +21,13 @@ data class ProjectEntity(
         parcel.readInt(),
         parcel.readInt(),
         Date(parcel.readLong()),
-        parcel.createStringArrayList()!!
+        parcel.createStringArrayList()!!,
+        parcel.createTypedArrayList(CommentEntity.CREATOR) ?: ArrayList<CommentEntity>(),
+        parcel.readString()!!
     )
 
-    constructor() : this("", "", "", "", "", "", 0.0, 0.0, 0, 0, Date(), mutableListOf<String>())
+    // Este constructor es usado internamente por Firebase. No se debe eliminar.
+    constructor() : this("", "", "", "", "", "", 0.0, 0.0, 0, 0, Date(), mutableListOf<String>(), mutableListOf<CommentEntity>(), "")
 
     override fun describeContents(): Int {
         return 0
@@ -44,6 +46,7 @@ data class ProjectEntity(
         parcel.writeInt(followersCount)
         parcel.writeLong(creationDate.time)
         parcel.writeStringList(followers)
+        parcel.writeString(uuid)
     }
 
     companion object CREATOR : Parcelable.Creator<ProjectEntity> {
@@ -61,10 +64,6 @@ data class ProjectEntity(
         this.followersCount = this.followersCount + 1
     }
 
-    fun addVisitor() {
-        this.visitorsCount = this.visitorsCount + 1
-    }
-
     fun hasFollowers(): Boolean {
         return this.followersCount > 0
     }
@@ -78,5 +77,8 @@ data class ProjectEntity(
         this.followersCount = this.followersCount - 1
     }
 
+    fun addComment(comment: CommentEntity) {
+        this.comments.add(comment)
+    }
 
 }

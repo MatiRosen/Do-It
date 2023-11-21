@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.Toast
+import androidx.constraintlayout.widget.ConstraintSet
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -29,9 +30,17 @@ import team.doit.do_it.adapters.ProjectListAdapter
 import team.doit.do_it.databinding.FragmentHomeInvestorBinding
 import team.doit.do_it.entities.ProjectEntity
 import team.doit.do_it.listeners.OnViewItemClickedListener
+import com.algolia.search.client.ClientSearch
+import com.algolia.search.dsl.attributesToRetrieve
+import com.algolia.search.dsl.settings
+import com.algolia.search.helper.deserialize
+import com.algolia.search.model.APIKey
+import com.algolia.search.model.ApplicationID
+import com.algolia.search.model.IndexName
+import kotlinx.serialization.Serializable
 
 
-class HomeInvestorFragment : Fragment(), OnViewItemClickedListener {
+class HomeInvestorFragment : Fragment(), OnViewItemClickedListener<ProjectEntity> {
 
     private var _binding : FragmentHomeInvestorBinding? = null
     private val binding get() = _binding!!
@@ -39,9 +48,18 @@ class HomeInvestorFragment : Fragment(), OnViewItemClickedListener {
     private val db = FirebaseFirestore.getInstance()
     private lateinit var popularProjectListAdapter: ProjectListAdapter
     private lateinit var allProjectListAdapter: ProjectListAdapter
-
     private var interstitial: InterstitialAd? = null
     private val quantityClicksToShowAds: Int = 3
+    private val applicationID = ApplicationID("6BNVZCZWQH")
+    private val apiKey = APIKey("b3dd3d1872044a4f101752fa0fd0377e")
+    private val algoliaClient = ClientSearch(applicationID, apiKey)
+    private val index = algoliaClient.initIndex(indexName = IndexName("ideas"))
+    private lateinit var results :List<SearchResult>
+    @Serializable
+    data class SearchResult(
+        val title: String,
+        val uuid: String
+    )
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -50,17 +68,30 @@ class HomeInvestorFragment : Fragment(), OnViewItemClickedListener {
         _binding = FragmentHomeInvestorBinding.inflate(inflater, container, false)
         v = binding.root
         binding.progressBarHomeInvestor.visibility = View.GONE
-        binding.progressBarHomeInvestorTop.visibility = View.GONE
         binding.progressBarHomeInvestorBottom.visibility = View.GONE
         startSpinner()
         return v
     }
 
+    private fun safeAccessBinding(action: () -> Unit) {
+        if (_binding != null && context != null) {
+            action()
+        }
+    }
+
     override fun onStart() {
         super.onStart()
-        setupPopularProjectsRecyclerView()
-        setupAllProjectsRecyclerView()
+        safeAccessBinding {
+            setupPopularProjectsRecyclerView()
+            setupAllProjectsRecyclerView()
+        }
+
         setupButtons()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        binding.switchHomeInvestorToHomeCreator.isChecked = true
     }
 
     private fun setupButtons() {
@@ -72,19 +103,29 @@ class HomeInvestorFragment : Fragment(), OnViewItemClickedListener {
         }
 
         binding.searchViewHomeInvestor.setOnClickListener{
-            binding.txtHomeInvestorTitle.visibility = View.GONE
-            binding.recyclerHomeInvestorPopularProjects.visibility = View.GONE
-            filterAllProjectsByPhoneticSearch()
+            val phoneticSearch = binding.searchViewHomeInvestor.query.toString()
+            if (phoneticSearch == ""){
+                binding.txtHomeInvestorTitle.visibility = View.VISIBLE
+                binding.recyclerHomeInvestorPopularProjects.visibility = View.VISIBLE
+                Snackbar.make(v, resources.getString(R.string.home_investor_search_error), Snackbar.LENGTH_LONG).show()
+                setupAllProjectsRecyclerView()
+            }else{
+                binding.txtHomeInvestorTitle.visibility = View.GONE
+                binding.recyclerHomeInvestorPopularProjects.visibility = View.GONE
+                filterAllProjectsByPhoneticSearch()
+            }
             binding.spinnerHomeInvestorFilterCategory.setSelection(0)
         }
+
         binding.btnHomeInvestorFilterCategory.setOnClickListener {
             binding.txtHomeInvestorTitle.visibility = View.GONE
             binding.recyclerHomeInvestorPopularProjects.visibility = View.GONE
             val categoryFilter = binding.spinnerHomeInvestorFilterCategory.selectedItem.toString()
+
             if (categoryFilter == resources.getString(R.string.project_creation_project_category_hint)){
                 binding.txtHomeInvestorTitle.visibility = View.VISIBLE
                 binding.recyclerHomeInvestorPopularProjects.visibility = View.VISIBLE
-                Snackbar.make(v, resources.getString(R.string.project_creation_category_error), Snackbar.LENGTH_LONG).show()
+                Snackbar.make(v, resources.getString(R.string.home_investor_filter_category_error), Snackbar.LENGTH_LONG).show()
                 setupAllProjectsRecyclerView()
             }else{
                 binding.searchViewHomeInvestor.setQuery("",false)
@@ -107,7 +148,6 @@ class HomeInvestorFragment : Fragment(), OnViewItemClickedListener {
 
         setupRecyclerViewSettings(binding.recyclerHomeInvestorPopularProjects, true)
         popularProjectListAdapter = ProjectListAdapter(options, this)
-        //setupPopularLoadStateSettings()
 
         popularProjectListAdapter.startListening()
         binding.recyclerHomeInvestorPopularProjects.adapter = popularProjectListAdapter
@@ -147,59 +187,62 @@ class HomeInvestorFragment : Fragment(), OnViewItemClickedListener {
     }
     private fun filterAllProjectsByPhoneticSearch(){
         allProjectListAdapter.stopListening()
-        val foneticSearch = binding.searchViewHomeInvestor.query.toString()
+        val phoneticSearch = binding.searchViewHomeInvestor.query.toString()
+        binding.progressBarHomeInvestor.visibility = View.VISIBLE
+        viewLifecycleOwner.lifecycleScope.launch {
+            searchAlgolia(phoneticSearch){
+                val titleList:List<String> = results.map { result -> result.title }
+                if(titleList.isEmpty()){
+                    Toast.makeText(context, resources.getString(R.string.home_investor_filter_no_result_error), Toast.LENGTH_SHORT).show()
+                    return@searchAlgolia
+                }
 
-        val query = db.collection("ideas") .orderBy("title")
-            .whereGreaterThanOrEqualTo("title",foneticSearch)
-            
-            .whereLessThanOrEqualTo("title",foneticSearch+'\uf8ff')
+                val query = db.collection("ideas")
+                    .whereIn("title",titleList)
+                    .orderBy("title",Query.Direction.DESCENDING)
 
-        val config = PagingConfig(20, 10, false)
-        val options = FirestorePagingOptions.Builder<ProjectEntity>()
-            .setLifecycleOwner(this)
-            .setQuery(query, config, ProjectEntity::class.java)
-            .build()
+                val config = PagingConfig(20, 10, false)
+                val options = FirestorePagingOptions.Builder<ProjectEntity>()
+                    .setLifecycleOwner(this@HomeInvestorFragment)
+                    .setQuery(query, config, ProjectEntity::class.java)
+                    .build()
 
-        allProjectListAdapter.updateOptions(options)
-        allProjectListAdapter.startListening()
-        binding.recyclerHomeInvestorAllProjects.adapter = allProjectListAdapter
+                allProjectListAdapter.updateOptions(options)
+                allProjectListAdapter.startListening()
+                binding.recyclerHomeInvestorAllProjects.adapter = allProjectListAdapter
+                binding.progressBarHomeInvestor.visibility = View.GONE
+            }
+        }
     }
+
     private fun setupRecyclerViewSettings(recycler : RecyclerView, isHorizontal : Boolean = false) {
         recycler.setHasFixedSize(true)
         val linearLayoutManager = if (isHorizontal) LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false) else LinearLayoutManager(context)
         recycler.layoutManager = linearLayoutManager
     }
 
-    // TODO rehacer los metodos de load state settings para que se vean mejor los progress bar
-    private fun setupPopularLoadStateSettings() {
-        viewLifecycleOwner.lifecycleScope.launch {
-            popularProjectListAdapter.loadStateFlow.collectLatest { loadStates ->
-                when(loadStates.refresh){
-                    is LoadState.Loading -> {
-                        binding.progressBarHomeInvestor.visibility = View.VISIBLE
-                    }
-                    is LoadState.NotLoading -> {
-                        binding.progressBarHomeInvestor.visibility = View.GONE
-                    }
-                    is LoadState.Error -> {
-                        Toast.makeText(context, resources.getString(R.string.home_investor_get_projects_failed), Toast.LENGTH_SHORT).show()
-                    }
-                }
+    private fun changeBottomProgressBarVisibility(visibility: Int) {
+        binding.progressBarHomeInvestorBottom.visibility = visibility
+        val constraintSet = ConstraintSet()
+        constraintSet.clone(binding.constraintLayoutHomeInvestor)
 
-                /*when(loadStates.append){
-                    is LoadState.Loading -> {
-                        changeTopProgressBarVisibility(View.VISIBLE)
-                    }
-                    is LoadState.Error -> {
-                        Toast.makeText(context, resources.getString(R.string.home_investor_get_projects_failed), Toast.LENGTH_SHORT).show()
-                        changeTopProgressBarVisibility(View.GONE)
-                    }
-                    is LoadState.NotLoading -> {
-                        changeTopProgressBarVisibility(View.GONE)
-                    }
-                }*/
-            }
+        if (visibility == View.VISIBLE) {
+            constraintSet.connect(
+                R.id.recyclerHomeInvestorAllProjects,
+                ConstraintSet.BOTTOM,
+                R.id.progressBarHomeInvestorBottom,
+                ConstraintSet.TOP
+            )
+        } else {
+            constraintSet.connect(
+                R.id.recyclerHomeInvestorAllProjects,
+                ConstraintSet.BOTTOM,
+                ConstraintSet.PARENT_ID,
+                ConstraintSet.BOTTOM
+            )
         }
+
+        constraintSet.applyTo(binding.constraintLayoutHomeInvestor)
     }
 
     private fun setupAllLoadStateSettings() {
@@ -217,9 +260,10 @@ class HomeInvestorFragment : Fragment(), OnViewItemClickedListener {
                     }
                 }
 
-                /*when(loadStates.append){
+                when(loadStates.append){
                     is LoadState.Loading -> {
                         changeBottomProgressBarVisibility(View.VISIBLE)
+
                     }
                     is LoadState.Error -> {
                         Toast.makeText(context, resources.getString(R.string.home_investor_get_projects_failed), Toast.LENGTH_SHORT).show()
@@ -228,37 +272,17 @@ class HomeInvestorFragment : Fragment(), OnViewItemClickedListener {
                     is LoadState.NotLoading -> {
                         changeBottomProgressBarVisibility(View.GONE)
                     }
-                }*/
+                }
             }
         }
     }
 
-    private fun changeBottomProgressBarVisibility(visibility: Int) {
-        binding.progressBarHomeInvestorBottom.visibility = visibility
-        val startPadding = binding.recyclerHomeInvestorAllProjects.paddingStart
-        val topPadding = binding.recyclerHomeInvestorAllProjects.paddingTop
-        val endPadding = binding.recyclerHomeInvestorAllProjects.paddingEnd
-        val bottomPadding = if (visibility == View.VISIBLE) binding.guidelineHomeInvestorHorizontal95.bottom else 0
-        binding.recyclerHomeInvestorAllProjects.setPadding(startPadding, topPadding, endPadding, bottomPadding)
-    }
-
-    private fun changeTopProgressBarVisibility(visibility: Int) {
-        binding.progressBarHomeInvestorTop.visibility = visibility
-        val startPadding = binding.recyclerHomeInvestorPopularProjects.paddingStart
-        val topPadding = binding.recyclerHomeInvestorPopularProjects.paddingTop
-        val endPadding = if (visibility == View.VISIBLE) binding.progressBarHomeInvestorTop.width else 0
-        val bottomPadding = binding.recyclerHomeInvestorPopularProjects.paddingBottom
-        binding.recyclerHomeInvestorPopularProjects.setPadding(startPadding, topPadding, endPadding, bottomPadding)
-    }
-
-    override fun onViewItemDetail(item: Any) {
-        val project = if (item is ProjectEntity) item else return
-
+    override fun onViewItemDetail(item: ProjectEntity) {
         val investorEmail = FirebaseAuth.getInstance().currentUser?.email.toString()
-        val action = if (project.creatorEmail == investorEmail) {
-            HomeInvestorFragmentDirections.actionGlobalProjectDetailFragment(project)
+        val action = if (item.creatorEmail == investorEmail) {
+            HomeInvestorFragmentDirections.actionGlobalProjectDetailFragment(item)
         } else {
-            HomeInvestorFragmentDirections.actionGlobalProjectDetailInvestorFragment(project)
+            HomeInvestorFragmentDirections.actionGlobalProjectDetailInvestorFragment(item)
         }
 
         isUserPremium(investorEmail, object : OnUserFetchedListener {
@@ -301,6 +325,7 @@ class HomeInvestorFragment : Fragment(), OnViewItemClickedListener {
     private fun initAds() {
         val adRequest = com.google.android.gms.ads.AdRequest.Builder().build()
 
+        // TODO meter el id en un archivo de configuracion
         InterstitialAd.load(
             v.context,
             "ca-app-pub-3940256099942544/1033173712",
@@ -341,7 +366,7 @@ class HomeInvestorFragment : Fragment(), OnViewItemClickedListener {
             .get()
             .addOnSuccessListener { documents ->
                 if (!documents.isEmpty) {
-                    val user = documents.documents[0].get("premium") as? Boolean
+                    val user = documents.documents[0].get("isPremium") as? Boolean
                     listener.onUserFetched(user)
                 } else {
                     listener.onUserFetched(null)
@@ -352,19 +377,26 @@ class HomeInvestorFragment : Fragment(), OnViewItemClickedListener {
             }
     }
 
+    private suspend fun searchAlgolia(queryText: String,action: () -> Unit) {
+        val settings = settings {
+            attributesToRetrieve {
+                +"title"
+                +"uuid"
+            }
+        }
+        index.setSettings(settings)
+        val response = index.run {
+            search(com.algolia.search.model.search.Query(queryText))
+        }
+        val resultsAlgolia: List<SearchResult> = response.hits.deserialize(SearchResult.serializer())
+        results = resultsAlgolia
+        action()
+    }
+
     interface OnUserFetchedListener {
         fun onUserFetched(user: Boolean?)
     }
 
-    private fun showBottomNav() {
-        requireActivity().findViewById<View>(R.id.bottomNavigationView).visibility = View.VISIBLE
-    }
-
-    override fun onResume() {
-        super.onResume()
-        showBottomNav()
-        binding.switchHomeInvestorToHomeCreator.isChecked = true
-    }
 
     override fun onStop() {
         super.onStop()

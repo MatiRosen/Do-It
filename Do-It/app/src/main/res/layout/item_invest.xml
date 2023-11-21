@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/card_chat_height"
+    android:id="@+id/cardViewInvestItem"
+    android:layout_marginBottom="@dimen/invest_margin_bottom"
+    app:cardElevation="0dp"
+    app:cardBackgroundColor="@color/white">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayoutInvestItem"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/txtInvestItemProjectTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:gravity="start|center_vertical"
+            android:maxLines="1"
+            android:text="@string/my_investments_project_title"
+            android:textColor="@color/black"
+            android:textSize="@dimen/txt_description_size"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toStartOf="@+id/guidelineItemInvestVertical80"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/txtInvestItemUserName"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:gravity="start|center_vertical"
+            android:maxLines="1"
+            android:text="@string/my_investments_user_name"
+            android:textColor="@color/black"
+            android:textSize="@dimen/txt_mini_size"
+            app:layout_constraintBottom_toTopOf="@+id/guidelineItemInvestHorizontal50"
+            app:layout_constraintEnd_toStartOf="@+id/guidelineItemInvestVertical80"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/guidelineItemInvestHorizontal50" />
+
+        <LinearLayout
+            android:id="@+id/linearLayoutInvestItemBudget"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/guidelineItemInvestVertical80"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txtInvestItemUserName">
+
+            <TextView
+                android:id="@+id/txtInvestItemBudget"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:text="@string/my_investments_budget"
+                android:textColor="@color/black"
+                android:textSize="@dimen/txt_paragraph_size" />
+
+            <TextView
+                android:id="@+id/txtInvestItemBudgetInfo"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:paddingStart="@dimen/divider_start_padding"
+                android:paddingEnd="@dimen/divider_end_padding"
+                android:text=""
+                android:textColor="@color/green"
+                android:textSize="@dimen/txt_paragraph_size" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/txtInvestItemStatus"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:gravity="end|center_vertical"
+            android:maxLines="1"
+            android:text="@string/my_investments_budget_status"
+            android:textColor="@color/green"
+            android:textSize="@dimen/txt_mini_size"
+            app:layout_constraintBottom_toTopOf="@+id/guidelineItemInvestHorizontal50"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/txtInvestItemProjectTitle"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/imgInvestItemChat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/divider_end_padding"
+            android:contentDescription="@string/chat_new_message"
+            android:src="@drawable/icon_chat"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/guidelineItemInvestHorizontal50" />
+
+        <View
+            android:id="@+id/divInvestItem"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:alpha="0.2"
+            android:background="@color/light_gray"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/guidelineItemInvestVertical15"
+            app:layout_constraintEnd_toStartOf="@+id/guidelineItemInvestVertical85"/>
+
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guidelineItemInvestVertical15"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="@dimen/guideline_15" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guidelineItemInvestVertical20"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="@dimen/guideline_20" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guidelineItemInvestVertical80"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="@dimen/guideline_80" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guidelineItemInvestVertical85"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="@dimen/guideline_85" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guidelineItemInvestHorizontal50"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="@dimen/guideline_50" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.cardview.widget.CardView>

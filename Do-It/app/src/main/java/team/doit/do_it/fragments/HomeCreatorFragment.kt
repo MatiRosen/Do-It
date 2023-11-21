@@ -26,7 +26,7 @@ import team.doit.do_it.databinding.FragmentHomeCreatorBinding
 import team.doit.do_it.entities.ProjectEntity
 import team.doit.do_it.listeners.OnViewItemClickedListener
 
-class HomeCreatorFragment : Fragment(), OnViewItemClickedListener {
+class HomeCreatorFragment : Fragment(), OnViewItemClickedListener<ProjectEntity> {
 
     private var _binding : FragmentHomeCreatorBinding? = null
     private val binding get() = _binding!!
@@ -35,10 +35,6 @@ class HomeCreatorFragment : Fragment(), OnViewItemClickedListener {
     private val db = FirebaseFirestore.getInstance()
 
     private lateinit var projectListAdapter: ProjectListAdapter
-
-    interface OnUserFetchedListener {
-        fun onUserFetched(user: DocumentSnapshot?)
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -53,22 +49,23 @@ class HomeCreatorFragment : Fragment(), OnViewItemClickedListener {
         return v
     }
 
+    private fun safeAccessBinding(action: () -> Unit) {
+        if (_binding != null && context != null) {
+            action()
+        }
+    }
+
     override fun onStart() {
         super.onStart()
         setupButtons()
-        setupRecyclerView()
-        showMargins()
+        safeAccessBinding {
+            setupRecyclerView()
+        }
     }
 
-    private fun showMargins() {
-        val constraintSet = ConstraintSet()
-        constraintSet.connect(R.id.mainHost, ConstraintSet.TOP, R.id.guidelineMainActivityHorizontal3, ConstraintSet.BOTTOM)
-        constraintSet.connect(R.id.mainHost, ConstraintSet.BOTTOM, R.id.bottomNavigationView, ConstraintSet.TOP)
-        constraintSet.connect(R.id.mainHost, ConstraintSet.START, R.id.guidelineMainActivityVertical2, ConstraintSet.END)
-        constraintSet.connect(R.id.mainHost, ConstraintSet.END, R.id.guidelineMainActivityVertical98, ConstraintSet.START)
-
-
-        constraintSet.applyTo(requireActivity().findViewById(R.id.frameLayoutMainActivity))
+    override fun onResume() {
+        super.onResume()
+        binding.switchHomeCreatorToHomeInvestor.isChecked = false
     }
 
     private fun setupButtons() {
@@ -99,7 +96,7 @@ class HomeCreatorFragment : Fragment(), OnViewItemClickedListener {
         getUser(currentUser?.email.toString(), object : ProfileFragment.OnUserFetchedListener {
             override fun onUserFetched(user: DocumentSnapshot?) {
                 if (user != null) {
-                    isPremium = user.getBoolean("premium")!!
+                    isPremium = user.getBoolean("isPremium")!!
                     action(isPremium)
                 }
             }
@@ -129,7 +126,7 @@ class HomeCreatorFragment : Fragment(), OnViewItemClickedListener {
         val query = db.collection("ideas")
             .whereEqualTo("creatorEmail", FirebaseAuth.getInstance().currentUser?.email)
 
-        val config = PagingConfig(20, 10, false)
+        val config = PagingConfig(3, 1, false)
 
         val options = FirestorePagingOptions.Builder<ProjectEntity>()
             .setLifecycleOwner(this)
@@ -186,31 +183,35 @@ class HomeCreatorFragment : Fragment(), OnViewItemClickedListener {
         }
     }
 
-    // TODO rehacer este metodo y hacer que el boton de invertir se esconda al hacer scroll.
     private fun changeBottomProgressBarVisibility(visibility: Int) {
         binding.progressBarHomeCreatorBottom.visibility = visibility
-        val startPadding = binding.recyclerHomeCreatorProjects.paddingStart
-        val topPadding = binding.recyclerHomeCreatorProjects.paddingTop
-        val endPadding = binding.recyclerHomeCreatorProjects.paddingEnd
-        val bottomPadding = if (visibility == View.VISIBLE) 100 else 0
-        binding.recyclerHomeCreatorProjects.setPadding(startPadding, topPadding, endPadding, bottomPadding)
+        val constraintSet = ConstraintSet()
+        constraintSet.clone(binding.constraintLayoutHomeCreator)
+
+        if (visibility == View.VISIBLE) {
+            constraintSet.connect(
+                R.id.recyclerHomeInvestorAllProjects,
+                ConstraintSet.BOTTOM,
+                R.id.progressBarHomeInvestorBottom,
+                ConstraintSet.TOP
+            )
+        } else {
+            constraintSet.connect(
+                R.id.recyclerHomeInvestorAllProjects,
+                ConstraintSet.BOTTOM,
+                ConstraintSet.PARENT_ID,
+                ConstraintSet.BOTTOM
+            )
+        }
+
+        constraintSet.applyTo(binding.constraintLayoutHomeCreator)
     }
 
-    override fun onViewItemDetail(item: Any) {
-        val project = if (item is ProjectEntity) item else return
-        val action = HomeCreatorFragmentDirections.actionGlobalProjectDetailFragment(project)
+    override fun onViewItemDetail(item: ProjectEntity) {
+        val action = HomeCreatorFragmentDirections.actionGlobalProjectDetailFragment(item)
         this.findNavController().navigate(action)
     }
 
-    private fun showBottomNav() {
-        requireActivity().findViewById<View>(R.id.bottomNavigationView).visibility = View.VISIBLE
-    }
-
-    override fun onResume() {
-        super.onResume()
-        showBottomNav()
-        binding.switchHomeCreatorToHomeInvestor.isChecked = false
-    }
 
     override fun onStop() {
         super.onStop()

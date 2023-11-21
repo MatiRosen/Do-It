@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.google.firebase.storage.FirebaseStorage
 import team.doit.do_it.R
-import team.doit.do_it.extensions.setMaxLinesForEllipsizing
+import team.doit.do_it.extensions.setMaxLinesForEllipsize
 import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
 
@@ -28,7 +28,7 @@ class ProjectHolder(view: View) : RecyclerView.ViewHolder(view){
         val txt: TextView = view.findViewById(R.id.txtItemProjectCreatorSubtitle)
         txt.text = projectSubtitle
 
-        txt.setMaxLinesForEllipsizing(true)
+        txt.setMaxLinesForEllipsize(true)
     }
 
 
