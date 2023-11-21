@@ -30,6 +30,7 @@ import team.doit.do_it.databinding.FragmentProjectDetailInvestorBinding
 import team.doit.do_it.entities.ChatEntity
 import team.doit.do_it.entities.CommentEntity
 import team.doit.do_it.entities.ProjectEntity
+import team.doit.do_it.entities.UserEntity
 import team.doit.do_it.listeners.RecyclerViewCommentsListener
 import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
@@ -139,7 +140,7 @@ class ProjectDetailInvestorFragment : Fragment() {
                                     return@addOnCompleteListener
                                 }
 
-                                openUserChat(ownUserUUID, otherUserUUID)
+                                openUserChat(ownUserUUID, user)
                             }
                         }
                     }
@@ -150,12 +151,11 @@ class ProjectDetailInvestorFragment : Fragment() {
     private fun createUserChat(ownUserUUID : String, user : DocumentSnapshot){
         val otherUserUUID = user.getString("uuid").toString()
         val ref = Firebase.database.getReference("messages/${ownUserUUID}/${otherUserUUID}")
-        ref.child("userName").setValue("${user.getString("firstName")} ${user.getString("surname")}")
-        ref.child("userImage").setValue(user.getString("userImage"))
         ref.child("userEmail").setValue(user.getString("email"))
         ref.child("userUUID").setValue(otherUserUUID)
         val currentTime = System.currentTimeMillis()
         ref.child("lastMessageDate").setValue(-currentTime)
+        ref.child("waiting").setValue(false)
 
         val chat = ChatEntity(
             "${user.getString("firstName")} ${user.getString("surname")}",
@@ -170,19 +170,19 @@ class ProjectDetailInvestorFragment : Fragment() {
         this.findNavController().navigate(action)
     }
 
-    private fun openUserChat(ownUserUUID : String, otherUserUUID : String){
-        val ref = Firebase.database.getReference("messages/$ownUserUUID/$otherUserUUID")
+    private fun openUserChat(ownUserUUID : String, user : DocumentSnapshot){
+        val ref = Firebase.database.getReference("messages/$ownUserUUID/${user.getString("uuid")}")
 
-        ref.get().addOnSuccessListener {
-            if (it.exists()) {
+        ref.get().addOnSuccessListener { chatSnapshot ->
+            if (chatSnapshot.exists()) {
                 val chat = ChatEntity(
-                    it.child("userName").value.toString(),
-                    it.child("userEmail").value.toString(),
-                    it.child("userImage").value.toString(),
-                    it.child("userUUID").value.toString(),
+                    "${user.getString("firstName")} ${user.getString("surname")}",
+                    chatSnapshot.child("userEmail").value.toString(),
+                    user.getString("userImage")!!,
+                    chatSnapshot.child("userUUID").value.toString(),
                     mutableListOf(),
-                    it.child("lastMessageDate").value.toString().toLong(),
-                    it.child("waiting").value.toString().toBoolean()
+                    chatSnapshot.child("lastMessageDate").value.toString().toLong(),
+                    chatSnapshot.child("waiting").value.toString().toBoolean()
                 )
                 safeAccessBinding {
                     val action = ProjectDetailInvestorFragmentDirections.actionProjectDetailInvestorFragmentToUserChatHome(chat)

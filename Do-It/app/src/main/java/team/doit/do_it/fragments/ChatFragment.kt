@@ -18,6 +18,7 @@ import team.doit.do_it.adapters.ChatListAdapter
 import team.doit.do_it.databinding.FragmentChatBinding
 import team.doit.do_it.entities.ChatEntity
 import team.doit.do_it.listeners.OnViewItemClickedListener
+import team.doit.do_it.repositories.UserRepository
 
 class ChatFragment : Fragment(), OnViewItemClickedListener<ChatEntity> {
 
@@ -77,21 +78,25 @@ class ChatFragment : Fragment(), OnViewItemClickedListener<ChatEntity> {
             .setQuery(query, ChatEntity::class.java)
             .build()
 
-        chatListAdapter = ChatListAdapter(options, this)
+        chatListAdapter = ChatListAdapter(options, this, UserRepository())
         binding.recyclerChats.adapter = chatListAdapter
         setupRecyclerViewSettings(binding.recyclerChats)
         chatListAdapter.startListening()
 
         chatListAdapter.registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver() {
             override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
-                binding.progressBarChat.visibility = View.GONE
+                safeAccessBinding {
+                    binding.progressBarChat.visibility = View.GONE
+                }
             }
         })
 
         ref.get().addOnCompleteListener {
             if (it.isSuccessful) {
                 if (it.result?.children?.count() == 0) {
-                    binding.progressBarChat.visibility = View.GONE
+                    safeAccessBinding {
+                        binding.progressBarChat.visibility = View.GONE
+                    }
                 }
             }
         }
@@ -112,6 +117,12 @@ class ChatFragment : Fragment(), OnViewItemClickedListener<ChatEntity> {
         }
     }
 
+    private fun safeAccessBinding(action: () -> Unit) {
+        if (_binding != null && context != null) {
+            action()
+        }
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
@@ -119,7 +130,9 @@ class ChatFragment : Fragment(), OnViewItemClickedListener<ChatEntity> {
 
     override fun onStop() {
         super.onStop()
-        chatListAdapter.stopListening()
+        if (::chatListAdapter.isInitialized) {
+            chatListAdapter.stopListening()
+        }
     }
 
     override fun onViewItemDetail(item: ChatEntity) {

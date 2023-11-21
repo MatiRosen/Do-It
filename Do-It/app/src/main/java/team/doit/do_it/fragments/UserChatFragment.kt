@@ -228,8 +228,6 @@ class UserChatFragment : Fragment() {
                 safeAccessBinding {
                     if (!documents.isEmpty) {
                         val user = documents.documents[0]
-                        ref.child("userName").setValue("${user.getString("firstName")} ${user.getString("surname")}")
-                        ref.child("userImage").setValue(user.getString("userImage"))
                         ref.child("userEmail").setValue(user.getString("email"))
                         ref.child("userUUID").setValue(otherUserUUID)
                         val currentTime = System.currentTimeMillis()
@@ -281,8 +279,6 @@ class UserChatFragment : Fragment() {
             }
         }
     }
-
-
 
     override fun onStop() {
         super.onStop()
