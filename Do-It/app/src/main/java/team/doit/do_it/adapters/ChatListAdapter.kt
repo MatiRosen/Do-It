@@ -39,15 +39,20 @@ class ChatListAdapter(
         cardLayout.visibility = ViewGroup.GONE
 
         // Para no acceder a la base de datos desde el adapter usamos el userRepository.
-        userRepository.getUser(model.userEmail).addOnSuccessListener {
-            val user = it.toObject(UserEntity::class.java)
-            if (user != null) {
-                model.userName = "${user.firstName} ${user.surname}"
-                model.userImage = user.userImage
-                holder.setUserName(model.userName)
-                holder.setUserImage(model.userImage, model.userEmail)
+        try {
+            userRepository.getUser(model.userEmail).addOnSuccessListener {
+                val user = it.toObject(UserEntity::class.java)
+                if (user != null) {
+                    model.userName = "${user.firstName} ${user.surname}"
+                    model.userImage = user.userImage
+                    holder.setUserName(model.userName)
+                    holder.setUserImage(model.userImage, model.userEmail)
+                }
+                cardLayout.visibility = ViewGroup.VISIBLE
             }
-            cardLayout.visibility = ViewGroup.VISIBLE
+        } catch (_: Exception) {
+
         }
+
     }
 }

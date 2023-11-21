@@ -8,7 +8,10 @@ class UserRepository {
 
     private val collection = FirebaseFirestore.getInstance().collection("usuarios")
 
-    fun getUser(userEmail: String): Task<DocumentSnapshot> {
+    fun getUser(userEmail: String) : Task<DocumentSnapshot> {
+        if (userEmail.isEmpty()) {
+            throw IllegalArgumentException()
+        }
         return collection.document(userEmail).get()
     }
 }
