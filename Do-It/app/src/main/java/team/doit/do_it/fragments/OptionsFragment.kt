@@ -81,8 +81,7 @@ class OptionsFragment : Fragment() {
     }
 
     private fun logout() {
-        removeFCMToken()
-
+        removeFCMToken{
         mAuth.signOut()
 
         val intent = Intent(activity, LoginActivity::class.java)
@@ -90,16 +89,17 @@ class OptionsFragment : Fragment() {
 
         Toast.makeText(activity, resources.getString(R.string.option_logout_success), Toast.LENGTH_SHORT).show()
         requireActivity().finish()
+        }
     }
 
-    private fun removeFCMToken() {
+    private fun removeFCMToken(action: () -> Unit) {
         val db = FirebaseFirestore.getInstance()
         val currentUser = mAuth.currentUser
-        
-        if (currentUser != null) {
-            db.collection("usuarios").document(currentUser.email.toString())
-                .update("fcmToken", "")
-        }
+
+        db.collection("usuarios").document(currentUser?.email.toString())
+            .update("fcmToken", "")
+            .addOnFailureListener { action() }
+            .addOnSuccessListener { action() }
     }
 
     override fun onDestroyView() {
