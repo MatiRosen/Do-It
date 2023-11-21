@@ -82,13 +82,13 @@ class OptionsFragment : Fragment() {
 
     private fun logout() {
         removeFCMToken{
-        mAuth.signOut()
+            mAuth.signOut()
 
-        val intent = Intent(activity, LoginActivity::class.java)
-        startActivity(intent)
+            val intent = Intent(activity, LoginActivity::class.java)
+            startActivity(intent)
 
-        Toast.makeText(activity, resources.getString(R.string.option_logout_success), Toast.LENGTH_SHORT).show()
-        requireActivity().finish()
+            Toast.makeText(activity, resources.getString(R.string.option_logout_success), Toast.LENGTH_SHORT).show()
+            requireActivity().finish()
         }
     }
 
