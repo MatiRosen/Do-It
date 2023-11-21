@@ -14,8 +14,8 @@
 
 
 
-    <string name="login_invalid_credentials">Credenciales invalidas</string>
+    <string name="login_invalid_credentials">Credenciales inválidas</string>
     <string name="login_empty_fields">Debe ingresar un mail y una contraseña</string>
     <string name="login_empty_email">Indica un email</string>
-    <string name="login_reset_password_error">No se encontro usuario con este correo</string>
+    <string name="login_reset_password_error">No se encontró usuario con este correo</string>
 </resources>

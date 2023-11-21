@@ -5,6 +5,6 @@
     <string name="chat_name">Nombre</string>
     <string name="chat_last_message">Último mensaje</string>
     <string name="chat_date">Fecha</string>
-    <string name="chat_new_message">Nuevo mensaje!</string>
+    <string name="chat_new_message">¡Nuevo mensaje!</string>
     <string name="chat_new_message_notif">Tienes un nuevo mensaje</string>
 </resources>

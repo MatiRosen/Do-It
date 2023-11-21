@@ -2,7 +2,7 @@
     <string name="app_name">Do-It</string>
     <string name="home">Inicio</string>
     <string name="profile">Perfil</string>
-    <string name="menu">Menu</string>
+    <string name="menu">Menú</string>
     <string name="chat">Chat</string>
     <string name="img_project_image">Imagen del Proyecto</string>
     <string name="currency">$</string>
@@ -10,8 +10,8 @@
     <string name="hours">Horas</string>
     <string name="minute">Minuto</string>
     <string name="minutes">Minutos</string>
-    <string name="day">Dia</string>
-    <string name="days">Dias</string>
+    <string name="day">Día</string>
+    <string name="days">Días</string>
     <string name="now">Ahora</string>
     <string name="today">Hoy</string>
     <string name="yesterday">Ayer</string>

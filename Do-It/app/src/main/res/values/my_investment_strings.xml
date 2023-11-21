@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="my_investments_title">Inversiones</string>
-    <string name="my_investments_project_title">Titulo del proyecto</string>
+    <string name="my_investments_project_title">Título del proyecto</string>
     <string name="my_investments_budget">Presupuesto:</string>
     <string name="my_investments_budget_symbol">$</string>
     <string name="my_investments_budget_status">Estado</string>
@@ -10,6 +10,6 @@
     <string name="my_investments_not_creator">No puedes modificar este ticket</string>
     <string name="my_investments_user_name">Nombre usuario</string>
     <string name="my_investments_no_data">Actualmente no tienes inversiones</string>
-    <string name="my_investments_owner">%s invirtió en tu idea</string>
-    <string name="my_investments_investor">Idea de %s</string>
+    <string name="my_investments_owner">%s invirtió en tu proyecto</string>
+    <string name="my_investments_investor">Proyecto de %s</string>
 </resources>

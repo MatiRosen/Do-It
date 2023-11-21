@@ -17,6 +17,6 @@
     <string name="project_ticket_invest_success">¡Inversión generada con éxito!</string>
     <string name="project_ticket_invest_not_checked_error">¡Debe aceptar la declaración jurada!</string>
     <string name="project_ticket_invest_back">Volver</string>
-    <string name="project_new_ticket_title">%s tiene una nueva inversion</string>
+    <string name="project_new_ticket_title">%s tiene una nueva inversión</string>
     <string name="project_new_ticket_message">%s ha invertido en tu proyecto</string>
 </resources>
