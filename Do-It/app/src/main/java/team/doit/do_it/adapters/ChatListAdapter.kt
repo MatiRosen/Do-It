@@ -47,6 +47,9 @@ class ChatListAdapter(
                     model.userImage = user.userImage
                     holder.setUserName(model.userName)
                     holder.setUserImage(model.userImage, model.userEmail)
+                } else {
+                    model.userName = model.userEmail
+                    holder.setUserName(model.userEmail)
                 }
                 cardLayout.visibility = ViewGroup.VISIBLE
             }
