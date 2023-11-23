@@ -332,11 +332,18 @@ class ProfileEditFragment : Fragment() {
     private fun deleteAccount() {
         currentUser?.let { user ->
             deleteIdeas(db, user)
-            deleteUsers(db, user)
             deleteIdeasImages(user)
             deleteProfileImage(user)
             deleteUserAccount(user)
+            deleteUsers(db, user)
         }
+
+        val intent = Intent(activity, LoginActivity::class.java)
+        startActivity(intent)
+
+        Toast.makeText(activity, resources.getString(R.string.profile_deleteAccount_complete), Toast.LENGTH_SHORT).show()
+        requireActivity().finish()
+
     }
 
     private fun validateIfUserHasFollowers(listener: ValidationUserIdeasListener) {
@@ -354,6 +361,26 @@ class ProfileEditFragment : Fragment() {
                     }
                 }
                 listener.onValidationUserIdeas(userFollowers)
+            }
+            .addOnFailureListener {
+                handleDeleteFailure()
+            }
+    }
+
+    private fun validateIfUserFollowSomeProject(listener: ValidationUserIdeasListener) {
+        var userFollowProjects = false
+
+        db.collection("ideas")
+            .get()
+            .addOnSuccessListener { documents ->
+                for (document in documents) {
+                    val followers = document.data["followers"] as? MutableList<*>
+                    if (followers?.contains(currentUser?.email) == true) {
+                        userFollowProjects = true
+                        break
+                    }
+                }
+                listener.onValidationUserIdeas(userFollowProjects)
             }
             .addOnFailureListener {
                 handleDeleteFailure()
@@ -384,9 +411,7 @@ class ProfileEditFragment : Fragment() {
                     db.collection("usuarios").document(document.id)
                         .delete()
                         .addOnFailureListener {
-                            safeAccessBinding {
-                                handleDeleteFailure()
-                            }
+                            handleDeleteFailure()
                         }
                 }
             }
@@ -412,19 +437,8 @@ class ProfileEditFragment : Fragment() {
     private fun deleteUserAccount(user: FirebaseUser) {
         user.delete()
             .addOnCompleteListener { task ->
-                safeAccessBinding {
-                    if (task.isSuccessful) {
-                        Toast.makeText(
-                            activity,
-                            resources.getString(R.string.profile_deleteAccount_complete),
-                            Toast.LENGTH_SHORT
-                        ).show()
-                        val intent = Intent(activity, LoginActivity::class.java)
-                        startActivity(intent)
-                        requireActivity().finish()
-                    } else {
-                        handleDeleteFailure()
-                    }
+                if (!task.isSuccessful) {
+                    handleDeleteFailure()
                 }
             }
             .addOnFailureListener {
@@ -452,7 +466,15 @@ class ProfileEditFragment : Fragment() {
                     if (result) {
                         Toast.makeText(activity, resources.getString(R.string.profile_deleteAccount_error_hasFollowers), Toast.LENGTH_SHORT).show()
                     } else {
-                        deleteAccount()
+                        validateIfUserFollowSomeProject(object : ValidationUserIdeasListener {
+                            override fun onValidationUserIdeas(result: Boolean) {
+                                if (result) {
+                                    Toast.makeText(activity, resources.getString(R.string.profile_deleteAccount_error_followProjects), Toast.LENGTH_SHORT).show()
+                                } else {
+                                   deleteAccount()
+                                }
+                            }
+                        })
                     }
                 }
             })
