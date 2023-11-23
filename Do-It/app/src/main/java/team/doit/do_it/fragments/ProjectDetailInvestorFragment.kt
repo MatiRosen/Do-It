@@ -103,6 +103,10 @@ class ProjectDetailInvestorFragment : Fragment() {
             followProject()
         }
 
+        binding.txtProjectDetailInvestorFollowers.setOnClickListener {
+            followProject()
+        }
+
         binding.imgBtnProjectDetailInvestorChat.setOnClickListener {
             goToChat()
         }
@@ -435,8 +439,12 @@ class ProjectDetailInvestorFragment : Fragment() {
         val decimalFormatSymbols = DecimalFormatSymbols()
         decimalFormatSymbols.groupingSeparator = '.'
         decimalFormatSymbols.decimalSeparator = ','
-        val decimalFormat = DecimalFormat("#,###.00", decimalFormatSymbols)
-        return decimalFormat.format(money)
+        if (money == 0.0) {
+            return "0${decimalFormatSymbols.decimalSeparator}00"
+        } else {
+            val decimalFormat = DecimalFormat("#,###.00", decimalFormatSymbols)
+            return decimalFormat.format(money)
+        }
     }
 
     private fun spannableText(text: String, index: Int): SpannableString {

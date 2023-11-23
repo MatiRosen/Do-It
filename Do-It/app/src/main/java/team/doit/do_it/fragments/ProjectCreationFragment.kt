@@ -149,6 +149,10 @@ class ProjectCreationFragment : Fragment() {
         val fileName = "$projectCreatorEmail-$projectTitle" + "-" + Date().time.toString()
 
         val storeReference = FirebaseStorage.getInstance().getReference("images/$projectCreatorEmail/projects/$fileName")
+        if (selectedImage == null){
+            action("")
+            return
+        }
         storeReference.putFile(selectedImage!!)
             .addOnSuccessListener {
                 action(fileName)

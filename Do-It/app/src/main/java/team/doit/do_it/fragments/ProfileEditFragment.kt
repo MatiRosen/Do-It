@@ -51,6 +51,7 @@ class ProfileEditFragment : Fragment() {
         v = binding.root
 
         replaceData()
+        startSpinner()
 
         return v
     }
@@ -64,7 +65,6 @@ class ProfileEditFragment : Fragment() {
     override fun onStart() {
         super.onStart()
 
-        startSpinner()
         setupButtons()
     }
 
@@ -332,11 +332,18 @@ class ProfileEditFragment : Fragment() {
     private fun deleteAccount() {
         currentUser?.let { user ->
             deleteIdeas(db, user)
-            deleteUsers(db, user)
             deleteIdeasImages(user)
             deleteProfileImage(user)
             deleteUserAccount(user)
+            deleteUsers(db, user)
         }
+
+        val intent = Intent(activity, LoginActivity::class.java)
+        startActivity(intent)
+
+        Toast.makeText(activity, resources.getString(R.string.profile_deleteAccount_complete), Toast.LENGTH_SHORT).show()
+        requireActivity().finish()
+
     }
 
     private fun validateIfUserHasFollowers(listener: ValidationUserIdeasListener) {
@@ -354,6 +361,47 @@ class ProfileEditFragment : Fragment() {
                     }
                 }
                 listener.onValidationUserIdeas(userFollowers)
+            }
+            .addOnFailureListener {
+                handleDeleteFailure()
+            }
+    }
+
+    private fun validateIfUserFollowSomeProject(listener: ValidationUserIdeasListener) {
+        var userFollowProjects = false
+
+        db.collection("ideas")
+            .get()
+            .addOnSuccessListener { documents ->
+                for (document in documents) {
+                    val followers = document.data["followers"] as? MutableList<*>
+                    if (followers?.contains(currentUser?.email) == true) {
+                        userFollowProjects = true
+                        break
+                    }
+                }
+                listener.onValidationUserIdeas(userFollowProjects)
+            }
+            .addOnFailureListener {
+                handleDeleteFailure()
+            }
+    }
+
+    private fun validateIfUserInvestSomeProject(listener: ValidationUserIdeasListener) {
+        var userInvestProjects = false
+
+        db.collection("inversiones")
+            .get()
+            .addOnSuccessListener { documents ->
+                for (document in documents) {
+                    val isInvester = document.data["investorEmail"]
+                    val hasInvestors = document.data["creatorEmail"]
+                    if (isInvester.toString() == currentUser?.email || hasInvestors.toString() == currentUser?.email) {
+                        userInvestProjects = true
+                        break
+                    }
+                }
+                listener.onValidationUserIdeas(userInvestProjects)
             }
             .addOnFailureListener {
                 handleDeleteFailure()
@@ -384,9 +432,7 @@ class ProfileEditFragment : Fragment() {
                     db.collection("usuarios").document(document.id)
                         .delete()
                         .addOnFailureListener {
-                            safeAccessBinding {
-                                handleDeleteFailure()
-                            }
+                            handleDeleteFailure()
                         }
                 }
             }
@@ -412,19 +458,8 @@ class ProfileEditFragment : Fragment() {
     private fun deleteUserAccount(user: FirebaseUser) {
         user.delete()
             .addOnCompleteListener { task ->
-                safeAccessBinding {
-                    if (task.isSuccessful) {
-                        Toast.makeText(
-                            activity,
-                            resources.getString(R.string.profile_deleteAccount_complete),
-                            Toast.LENGTH_SHORT
-                        ).show()
-                        val intent = Intent(activity, LoginActivity::class.java)
-                        startActivity(intent)
-                        requireActivity().finish()
-                    } else {
-                        handleDeleteFailure()
-                    }
+                if (!task.isSuccessful) {
+                    handleDeleteFailure()
                 }
             }
             .addOnFailureListener {
@@ -452,7 +487,24 @@ class ProfileEditFragment : Fragment() {
                     if (result) {
                         Toast.makeText(activity, resources.getString(R.string.profile_deleteAccount_error_hasFollowers), Toast.LENGTH_SHORT).show()
                     } else {
-                        deleteAccount()
+                        validateIfUserFollowSomeProject(object : ValidationUserIdeasListener {
+                            override fun onValidationUserIdeas(result: Boolean) {
+                                if (result) {
+                                    Toast.makeText(activity, resources.getString(R.string.profile_deleteAccount_error_followProjects), Toast.LENGTH_SHORT).show()
+                                } else {
+                                    validateIfUserInvestSomeProject(object:ValidationUserIdeasListener{
+                                        override fun onValidationUserIdeas(result: Boolean) {
+                                            if(result){
+                                                Snackbar.make(v, resources.getString(R.string.profile_deleteAccount_error_hasInvests), Snackbar.LENGTH_LONG).show()
+                                            }
+                                            else{
+                                                deleteAccount()
+                                            }
+                                        }
+                                    })
+                                }
+                            }
+                        })
                     }
                 }
             })

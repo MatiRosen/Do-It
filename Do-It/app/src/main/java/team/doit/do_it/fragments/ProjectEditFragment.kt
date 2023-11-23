@@ -166,8 +166,8 @@ class ProjectEditFragment : Fragment() {
             binding.editTxtProjectEditTitle.setText(project.title)
             binding.editTxtProjectEditDescription.setText(project.description)
             binding.editTxtProjectEditSubtitle.setText(project.subtitle)
-            binding.editTxtProjectEditGoal.setText(project.goal.toString().replace(".", decimalSeparator))
-            binding.editTxtProjectEditMinBudget.setText(project.minBudget.toString().replace(".", decimalSeparator))
+            binding.editTxtProjectEditGoal.setText(String.format("%.2f", project.goal).replace(".", decimalSeparator))
+            binding.editTxtProjectEditMinBudget.setText(String.format("%.2f", project.minBudget).replace(".", decimalSeparator))
             setImage(project.creatorEmail, project.image)
         }
     }
