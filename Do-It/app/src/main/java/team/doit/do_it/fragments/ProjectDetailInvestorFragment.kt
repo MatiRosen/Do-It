@@ -103,6 +103,10 @@ class ProjectDetailInvestorFragment : Fragment() {
             followProject()
         }
 
+        binding.txtProjectDetailInvestorFollowers.setOnClickListener {
+            followProject()
+        }
+        
         binding.imgBtnProjectDetailInvestorChat.setOnClickListener {
             goToChat()
         }
