@@ -387,6 +387,27 @@ class ProfileEditFragment : Fragment() {
             }
     }
 
+    private fun validateIfUserInvestSomeProject(listener: ValidationUserIdeasListener) {
+        var userInvestProjects = false
+
+        db.collection("inversiones")
+            .get()
+            .addOnSuccessListener { documents ->
+                for (document in documents) {
+                    val isInvester = document.data["investorEmail"]
+                    val hasInvestors = document.data["creatorEmail"]
+                    if (isInvester.toString() == currentUser?.email || hasInvestors.toString() == currentUser?.email) {
+                        userInvestProjects = true
+                        break
+                    }
+                }
+                listener.onValidationUserIdeas(userInvestProjects)
+            }
+            .addOnFailureListener {
+                handleDeleteFailure()
+            }
+    }
+
     private fun deleteIdeas(db: FirebaseFirestore, user: FirebaseUser) {
         db.collection("ideas")
             .whereEqualTo("creatorEmail", user.email.toString())
@@ -471,7 +492,16 @@ class ProfileEditFragment : Fragment() {
                                 if (result) {
                                     Toast.makeText(activity, resources.getString(R.string.profile_deleteAccount_error_followProjects), Toast.LENGTH_SHORT).show()
                                 } else {
-                                   deleteAccount()
+                                    validateIfUserInvestSomeProject(object:ValidationUserIdeasListener{
+                                        override fun onValidationUserIdeas(result: Boolean) {
+                                            if(result){
+                                                Snackbar.make(v, resources.getString(R.string.profile_deleteAccount_error_hasInvests), Snackbar.LENGTH_LONG).show()
+                                            }
+                                            else{
+                                                deleteAccount()
+                                            }
+                                        }
+                                    })
                                 }
                             }
                         })
