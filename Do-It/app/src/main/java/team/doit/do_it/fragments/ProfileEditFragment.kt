@@ -51,6 +51,7 @@ class ProfileEditFragment : Fragment() {
         v = binding.root
 
         replaceData()
+        startSpinner()
 
         return v
     }
@@ -64,7 +65,6 @@ class ProfileEditFragment : Fragment() {
     override fun onStart() {
         super.onStart()
 
-        startSpinner()
         setupButtons()
     }
 
